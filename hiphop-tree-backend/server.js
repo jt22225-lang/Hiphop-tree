@@ -316,6 +316,74 @@ app.get('/api/proxy-image', async (req, res) => {
   }
 });
 
+// ── Wikipedia bio fetcher ───────────────────────────────────
+async function fetchWikiBio(name) {
+  const response = await axios.get('https://en.wikipedia.org/w/api.php', {
+    params: {
+      action:      'query',
+      titles:      name,
+      prop:        'extracts',
+      exintro:     true,
+      explaintext: true,
+      format:      'json',
+      origin:      '*',
+    },
+    headers: { 'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js' },
+    timeout: 10000,
+  });
+  const pages = response.data?.query?.pages;
+  const page  = pages ? Object.values(pages)[0] : null;
+  if (!page?.extract) return null;
+  // Strip any stray section headers and tidy whitespace
+  return page.extract.replace(/==+[^=]+==/g, '').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+// ── GET /api/wiki-bio/:name ─────────────────────────────────
+// Wikipedia intro extract — replaces broken Genius bio
+app.get('/api/wiki-bio/:name', async (req, res) => {
+  const name    = decodeURIComponent(req.params.name);
+  const nameKey = name.toLowerCase();
+
+  // 1. Check cache
+  const cached = await getCached(nameKey);
+  if (cached?.bio) {
+    if (isStale(cached)) {
+      setImmediate(async () => {
+        try {
+          const bio = await fetchWikiBio(name);
+          if (bio) await setCached(nameKey, name, { bio });
+        } catch (e) { console.warn('[WIKI-BIO] Background refresh failed:', e.message); }
+      });
+    } else {
+      console.log(`[WIKI-BIO] ⚡ Cache hit for "${name}"`);
+    }
+    return res.json({
+      name,
+      about:   cached.bio,
+      wikiUrl: `https://en.wikipedia.org/wiki/${encodeURIComponent(name.replace(/ /g, '_'))}`,
+      source:  'cache',
+    });
+  }
+
+  // 2. Cache miss — fetch live
+  try {
+    const bio = await fetchWikiBio(name);
+    if (!bio) return res.status(404).json({ error: 'No Wikipedia biography found' });
+
+    console.log(`[WIKI-BIO] ✅ Fresh fetch for "${name}"`);
+    setImmediate(() => setCached(nameKey, name, { bio }));
+    res.json({
+      name,
+      about:   bio,
+      wikiUrl: `https://en.wikipedia.org/wiki/${encodeURIComponent(name.replace(/ /g, '_'))}`,
+      source:  'fresh',
+    });
+  } catch (err) {
+    console.error(`[WIKI-BIO] Error for "${name}":`, err.message);
+    res.status(500).json({ error: 'Failed to fetch Wikipedia biography' });
+  }
+});
+
 // ── GET /api/genius/artist/:name ───────────────────────────
 // Fetch artist bio from Genius, with cache fallback
 app.get('/api/genius/artist/:name', async (req, res) => {

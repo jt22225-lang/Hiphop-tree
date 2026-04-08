@@ -33,7 +33,7 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
   const [loadingGenius, setLoadingGenius] = useState(false);
   const [expanded, setExpanded]     = useState(false);
 
-  // Auto-fetch Genius bio whenever the selected artist changes
+  // Auto-fetch Wikipedia bio whenever the selected artist changes
   useEffect(() => {
     setBio(null);
     setBioError(null);
@@ -41,10 +41,10 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
     setGeniusResults(null);
     setBioLoading(true);
 
-    axios.get(`${apiUrl}/genius/artist/${encodeURIComponent(artist.name)}`)
+    axios.get(`${apiUrl}/wiki-bio/${encodeURIComponent(artist.name)}`)
       .then(res => { setBio(res.data); setBioLoading(false); })
       .catch(err => {
-        setBioError(err.response?.data?.error || 'Could not load Genius profile');
+        setBioError(err.response?.data?.error || 'No biography found');
         setBioLoading(false);
       });
   }, [artist.name, apiUrl]);
@@ -87,32 +87,15 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
     <aside className="sidebar" style={getPopupStyle(popupPos)}>
       <button className="close-btn" onClick={onClose}>✕</button>
 
-      {/* ── Genius header image ── */}
-      {bio?.headerImage && (
-        <div className="bio-header-img" style={{ backgroundImage: `url(${bio.headerImage})` }} />
-      )}
-
       {/* ── Artist info ── */}
       <div className="artist-header">
-        <div className="artist-avatar" style={{
-          backgroundImage: bio?.image ? `url(${bio.image})` : 'none',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}>
-          {!bio?.image && artist.name.charAt(0)}
+        <div className="artist-avatar">
+          {artist.name.charAt(0)}
         </div>
         <div>
-          <h2>
-            {artist.name}
-            {bio?.verified && <span className="verified-badge" title="Verified on Genius">✓</span>}
-          </h2>
+          <h2>{artist.name}</h2>
           <p className="artist-meta">{artist.era} · {artist.region}</p>
           {artist.label && <p className="artist-label">🏷️ {artist.label}</p>}
-          {bio?.followers != null && (
-            <p className="artist-followers">
-              {bio.followers.toLocaleString()} Genius followers
-            </p>
-          )}
         </div>
       </div>
 
@@ -120,9 +103,9 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
       <div className="bio-section">
         <div className="bio-title-row">
           <h4>📖 About</h4>
-          {bio?.url && (
-            <a href={bio.url} target="_blank" rel="noreferrer" className="genius-link">
-              View on Genius ↗
+          {bio?.wikiUrl && (
+            <a href={bio.wikiUrl} target="_blank" rel="noreferrer" className="genius-link">
+              Wikipedia ↗
             </a>
           )}
         </div>
@@ -130,7 +113,7 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
         {bioLoading && (
           <div className="bio-loading">
             <div className="bio-spinner" />
-            <span>Loading from Genius…</span>
+            <span>Loading…</span>
           </div>
         )}
 
@@ -157,7 +140,7 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
         })()}
 
         {!bio?.about && !bioLoading && !bioError && (
-          <p className="bio-empty">No biography available on Genius.</p>
+          <p className="bio-empty">No biography found.</p>
         )}
       </div>
 
