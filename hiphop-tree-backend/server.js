@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const graphData = require('./graph.json');
+const { getCached, setCached, isStale } = require('./cache');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -85,41 +86,64 @@ app.get('/api/verify/genius', async (req, res) => {
   }
 });
 
+// ── Wikipedia image fetcher (used by endpoint + background refresh) ─
+async function fetchWikiImage(name) {
+  const response = await axios.get('https://en.wikipedia.org/w/api.php', {
+    params: {
+      action:      'query',
+      titles:      name,
+      prop:        'pageimages|pageterms',
+      format:      'json',
+      pithumbsize: 300,
+      origin:      '*',
+    },
+    headers: {
+      'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js',
+      'Accept':     'application/json',
+    },
+    timeout: 10000,
+  });
+  const pages = response.data?.query?.pages;
+  if (!pages) return null;
+  const page = Object.values(pages)[0];
+  return page?.thumbnail?.source || null;
+}
+
 // ── GET /api/wiki-image/:name ───────────────────────────────
-// Fetch artist image from Wikipedia (no API key needed)
+// Stale-while-revalidate: serve cache instantly, refresh in background
 app.get('/api/wiki-image/:name', async (req, res) => {
-  const name = decodeURIComponent(req.params.name);
-  try {
-    const response = await axios.get('https://en.wikipedia.org/w/api.php', {
-      params: {
-        action:      'query',
-        titles:      name,
-        prop:        'pageimages|pageterms',
-        format:      'json',
-        pithumbsize: 300,
-        origin:      '*',
-      },
-      headers: {
-        'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js',
-        'Accept':     'application/json',
-      },
-      timeout: 10000,
-    });
+  const name    = decodeURIComponent(req.params.name);
+  const nameKey = name.toLowerCase();
 
-    const pages = response.data?.query?.pages;
-    if (!pages) {
-      console.log(`[WIKI] No pages in response for: ${name}`);
-      return res.status(404).json({ error: 'No Wikipedia page found' });
+  // 1. Check cache
+  const cached = await getCached(nameKey);
+  if (cached?.image_url) {
+    if (isStale(cached)) {
+      // Return instantly, refresh in background
+      console.log(`[WIKI] ♻️  Stale cache for "${name}" — refreshing in background`);
+      setImmediate(async () => {
+        try {
+          const img = await fetchWikiImage(name);
+          if (img) await setCached(nameKey, name, { image_url: img });
+        } catch (e) { console.warn('[WIKI] Background refresh failed:', e.message); }
+      });
+    } else {
+      console.log(`[WIKI] ⚡ Cache hit for "${name}"`);
     }
+    return res.json({ name, image: cached.image_url, source: 'cache' });
+  }
 
-    const page = Object.values(pages)[0];
-    if (!page || !page.thumbnail) {
-      console.log(`[WIKI] No thumbnail for: ${name} (pageId: ${page?.pageid})`);
+  // 2. Cache miss — fetch live, save, respond
+  try {
+    const img = await fetchWikiImage(name);
+    if (!img) {
+      console.log(`[WIKI] No thumbnail for: ${name}`);
       return res.status(404).json({ error: 'No image found on Wikipedia' });
     }
-
-    console.log(`[WIKI] ✅ Found image for: ${name}`);
-    res.json({ name, image: page.thumbnail.source });
+    console.log(`[WIKI] ✅ Fresh fetch for "${name}"`);
+    // Save to cache without blocking the response
+    setImmediate(() => setCached(nameKey, name, { image_url: img }));
+    res.json({ name, image: img, source: 'fresh' });
   } catch (err) {
     console.error(`[WIKI] Error for "${name}":`, err.message);
     res.status(500).json({ error: 'Failed to fetch from Wikipedia', detail: err.message });
@@ -151,65 +175,89 @@ async function sparqlQuery(query) {
   return res.data.results.bindings;
 }
 
+// ── Wikidata artist fetcher (used by endpoint + background refresh) ─
+const WD_PROPS = [
+  { claim: 'P1038', key: 'relative'     },
+  { claim: 'P40',   key: 'child'        },
+  { claim: 'P22',   key: 'father'       },
+  { claim: 'P25',   key: 'mother'       },
+  { claim: 'P26',   key: 'spouse'       },
+  { claim: 'P737',  key: 'influenced_by'},
+  { claim: 'P463',  key: 'member_of'    },
+  { claim: 'P19',   key: 'hometown'     },
+  { claim: 'P264',  key: 'record_label' },
+  { claim: 'P136',  key: 'genre'        },
+];
+
+async function fetchWikidataArtist(name) {
+  const qid = await getWikidataId(name);
+  if (!qid) return null;
+
+  const claimList = WD_PROPS.map(p => `wdt:${p.claim}`).join(' ');
+  const query = `
+    SELECT ?claim ?value ?valueLabel WHERE {
+      VALUES ?claim { ${claimList} }
+      wd:${qid} ?claim ?value .
+      SERVICE wikibase:label {
+        bd:serviceParam wikibase:language "en,en" .
+        ?value rdfs:label ?valueLabel .
+      }
+    }
+  `;
+
+  const bindings = await sparqlQuery(query);
+  const claimToKey = {};
+  WD_PROPS.forEach(p => {
+    claimToKey[`http://www.wikidata.org/prop/direct/${p.claim}`] = p.key;
+  });
+
+  const grouped = {};
+  bindings.forEach(b => {
+    const key = claimToKey[b.claim.value];
+    if (!key) return;
+    const val = b.valueLabel?.value || b.value.value;
+    const uri = b.value.value;
+    if (val.startsWith('Q') && /^Q\d+$/.test(val)) return;
+    if (!grouped[key]) grouped[key] = [];
+    if (!grouped[key].find(x => x.name === val)) grouped[key].push({ name: val, uri });
+  });
+
+  return { qid, grouped };
+}
+
 // ── GET /api/wikidata/artist/:name ──────────────────────────
 // Returns family ties, influences, collective memberships, hometown
 app.get('/api/wikidata/artist/:name', async (req, res) => {
-  const name = decodeURIComponent(req.params.name);
+  const name    = decodeURIComponent(req.params.name);
+  const nameKey = name.toLowerCase();
+
+  // 1. Check cache
+  const cached = await getCached(nameKey);
+  if (cached?.wikidata) {
+    if (isStale(cached)) {
+      console.log(`[WD] ♻️  Stale cache for "${name}" — refreshing in background`);
+      setImmediate(async () => {
+        try {
+          const result = await fetchWikidataArtist(name);
+          if (result) await setCached(nameKey, name, { wikidata: result.grouped, wikidata_id: result.qid });
+        } catch (e) { console.warn('[WD] Background refresh failed:', e.message); }
+      });
+    } else {
+      console.log(`[WD] ⚡ Cache hit for "${name}"`);
+    }
+    const qid = cached.wikidata_id || '';
+    return res.json({ name, qid, wikidataUrl: `https://www.wikidata.org/wiki/${qid}`, source: 'cache', ...cached.wikidata });
+  }
+
+  // 2. Cache miss — fetch live
   try {
-    const qid = await getWikidataId(name);
-    if (!qid) return res.status(404).json({ error: `No Wikidata entry for "${name}"` });
+    const result = await fetchWikidataArtist(name);
+    if (!result) return res.status(404).json({ error: `No Wikidata entry for "${name}"` });
 
-    // Each property queried separately so the label service works reliably
-    const PROPS = [
-      { claim: 'P1038', key: 'relative'     },
-      { claim: 'P40',   key: 'child'        },
-      { claim: 'P22',   key: 'father'       },
-      { claim: 'P25',   key: 'mother'       },
-      { claim: 'P26',   key: 'spouse'       },
-      { claim: 'P737',  key: 'influenced_by'},
-      { claim: 'P463',  key: 'member_of'    },
-      { claim: 'P19',   key: 'hometown'     },
-      { claim: 'P264',  key: 'record_label' },
-      { claim: 'P136',  key: 'genre'        },
-    ];
-
-    const claimList = PROPS.map(p => `wdt:${p.claim}`).join(' ');
-    const query = `
-      SELECT ?claim ?value ?valueLabel WHERE {
-        VALUES ?claim { ${claimList} }
-        wd:${qid} ?claim ?value .
-        SERVICE wikibase:label {
-          bd:serviceParam wikibase:language "en,en" .
-          ?value rdfs:label ?valueLabel .
-        }
-      }
-    `;
-
-    const bindings = await sparqlQuery(query);
-
-    // Build a URI → key map for grouping
-    const claimToKey = {};
-    PROPS.forEach(p => {
-      claimToKey[`http://www.wikidata.org/prop/direct/${p.claim}`] = p.key;
-    });
-
-    const grouped = {};
-    bindings.forEach(b => {
-      const claimUri = b.claim.value;
-      const key      = claimToKey[claimUri];
-      if (!key) return;
-      const val = b.valueLabel?.value || b.value.value;
-      const uri = b.value.value;
-      // Skip raw QIDs (no label found) and duplicate entries
-      if (val.startsWith('Q') && /^Q\d+$/.test(val)) return;
-      if (!grouped[key]) grouped[key] = [];
-      if (!grouped[key].find(x => x.name === val)) {
-        grouped[key].push({ name: val, uri });
-      }
-    });
-
-    console.log(`[WD] ✅ ${name} (${qid}):`, Object.keys(grouped).join(', ') || 'no data');
-    res.json({ name, qid, wikidataUrl: `https://www.wikidata.org/wiki/${qid}`, ...grouped });
+    const { qid, grouped } = result;
+    console.log(`[WD] ✅ Fresh fetch "${name}" (${qid}):`, Object.keys(grouped).join(', ') || 'no data');
+    setImmediate(() => setCached(nameKey, name, { wikidata: grouped, wikidata_id: qid }));
+    res.json({ name, qid, wikidataUrl: `https://www.wikidata.org/wiki/${qid}`, source: 'fresh', ...grouped });
 
   } catch (err) {
     console.error(`[WD] Error for "${name}":`, err.message);
@@ -269,52 +317,72 @@ app.get('/api/proxy-image', async (req, res) => {
 });
 
 // ── GET /api/genius/artist/:name ───────────────────────────
-// Fetch full artist profile + about/bio from Genius
+// Fetch artist bio from Genius, with cache fallback
 app.get('/api/genius/artist/:name', async (req, res) => {
+  const name    = decodeURIComponent(req.params.name);
+  const nameKey = name.toLowerCase();
+
+  // 1. Check cache for bio first (useful when Genius API is flaky)
+  const cached = await getCached(nameKey);
+  if (cached?.bio) {
+    if (isStale(cached)) {
+      console.log(`[GENIUS] ♻️  Stale bio for "${name}" — refreshing in background`);
+      setImmediate(() => fetchAndCacheGeniusBio(name, nameKey));
+    } else {
+      console.log(`[GENIUS] ⚡ Cache hit for "${name}"`);
+    }
+    return res.json({ name, about: cached.bio, source: 'cache' });
+  }
+
+  // 2. Cache miss — try Genius live
+  return fetchAndCacheGeniusBio(name, nameKey, res);
+});
+
+async function fetchAndCacheGeniusBio(name, nameKey, res) {
   const apiKey = process.env.GENIUS_API_KEY;
   if (!apiKey || apiKey === 'your_genius_access_token_here') {
-    return res.status(503).json({ error: 'Genius API key not configured' });
+    if (res) res.status(503).json({ error: 'Genius API key not configured' });
+    return;
   }
 
   const headers = { Authorization: `Bearer ${apiKey}` };
-  const name = decodeURIComponent(req.params.name);
-
   try {
-    // Step 1: search for the artist to get their Genius ID
     const searchRes = await axios.get('https://api.genius.com/search', {
-      params: { q: name },
-      headers,
+      params: { q: name }, headers,
     });
-
     const hit = searchRes.data.response.hits.find(
       h => h.result.primary_artist.name.toLowerCase().includes(name.toLowerCase())
     ) || searchRes.data.response.hits[0];
 
-    if (!hit) return res.status(404).json({ error: 'Artist not found on Genius' });
+    if (!hit) {
+      if (res) res.status(404).json({ error: 'Artist not found on Genius' });
+      return;
+    }
 
-    const artistId = hit.result.primary_artist.id;
+    const artistRes = await axios.get(
+      `https://api.genius.com/artists/${hit.result.primary_artist.id}`,
+      { params: { text_format: 'plain' }, headers }
+    );
+    const a    = artistRes.data.response.artist;
+    const bio  = a.description?.plain || null;
 
-    // Step 2: fetch full artist profile (includes description/about)
-    const artistRes = await axios.get(`https://api.genius.com/artists/${artistId}`, {
-      params: { text_format: 'plain' },
-      headers,
-    });
+    if (bio) setImmediate(() => setCached(nameKey, name, { bio }));
 
-    const a = artistRes.data.response.artist;
-    res.json({
+    if (res) res.json({
       name:        a.name,
       image:       a.image_url,
       headerImage: a.header_image_url,
       url:         a.url,
       followers:   a.followers_count,
-      about:       a.description?.plain || null,
+      about:       bio,
       verified:    a.is_verified,
+      source:      'fresh',
     });
   } catch (err) {
-    console.error('Genius artist fetch error:', err.message);
-    res.status(500).json({ error: 'Failed to fetch artist from Genius' });
+    console.error('[GENIUS] Fetch error:', err.message);
+    if (res) res.status(500).json({ error: 'Failed to fetch artist from Genius' });
   }
-});
+}
 
 // ── GET /api/path?from=X&to=Y ───────────────────────────────
 // Find shortest connection path between two artists (BFS)
