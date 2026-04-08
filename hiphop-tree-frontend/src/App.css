@@ -97,15 +97,23 @@ body {
     radial-gradient(circle at 75% 75%, #0a001a22 0%, transparent 50%);
 }
 
-/* ── Sidebar ───────────────────────────────────────────── */
+/* ── Sidebar (floating popup) ──────────────────────────── */
 .sidebar {
-  width: 300px;
   background: #111;
-  border-left: 1px solid #222;
+  border: 1px solid #333;
+  border-radius: 14px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255,255,255,0.04);
   overflow-y: auto;
   padding: 20px;
-  position: relative;
-  flex-shrink: 0;
+  position: relative; /* overridden by inline style when popup */
+  width: 320px;
+  /* Subtle entrance animation */
+  animation: popup-in 0.18s ease-out;
+}
+
+@keyframes popup-in {
+  from { opacity: 0; transform: translateY(calc(-100% + 10px)); }
+  to   { opacity: 1; transform: translateY(-100%); }
 }
 .close-btn {
   position: absolute;
@@ -277,6 +285,135 @@ body {
   margin-top: 2px;
 }
 
+/* ── Wikidata Panel ─────────────────────────────────────── */
+.wd-panel {
+  margin-top: 18px;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.wd-discover-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #161616;
+  border: none;
+  color: #ddd;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 14px;
+  text-align: left;
+  gap: 8px;
+}
+.wd-discover-btn:hover { background: #1e1e1e; }
+
+.wd-new-count {
+  background: #a855f7;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  margin-left: auto;
+}
+
+.wd-chevron { color: #555; font-size: 10px; }
+
+.wd-content {
+  background: #111;
+  border-top: 1px solid #222;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wd-source-link {
+  color: #a855f7;
+  font-size: 11px;
+  text-decoration: none;
+}
+.wd-source-link:hover { text-decoration: underline; }
+
+.wd-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-size: 12px;
+}
+
+.wd-error  { color: #f87171; font-size: 12px; }
+.wd-empty  { color: #555; font-size: 12px; font-style: italic; }
+
+.wd-group-title {
+  color: #666;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.wd-item {
+  align-items: center;
+  border-radius: 8px;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 5px;
+  padding: 7px 10px;
+}
+.wd-in-graph { background: #161616; }
+.wd-new      { background: #1a1228; border: 1px solid #a855f730; }
+
+.wd-emoji { font-size: 14px; flex-shrink: 0; }
+
+.wd-name {
+  font-size: 13px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.wd-prop-label {
+  color: #555;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.wd-badge {
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  flex-shrink: 0;
+}
+.wd-badge.in-graph { background: #222; color: #666; }
+.wd-badge.new      { background: #a855f7; color: #fff; }
+
+.wd-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.wd-info-item {
+  background: #161616;
+  border-radius: 8px;
+  padding: 7px 10px;
+}
+.wd-info-label {
+  color: #555;
+  display: block;
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+.wd-info-value {
+  font-size: 12px;
+  font-weight: 600;
+}
+
 /* ── Genius panel ───────────────────────────────────────── */
 .genius-panel {
   background: #1a1a1a;
@@ -301,25 +438,70 @@ body {
 .legend {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 8px 20px;
+  gap: 6px;
+  padding: 10px 20px;
   background: #111;
-  border-top: 1px solid #222;
+  border-top: 2px solid #1e1e1e;
   font-size: 12px;
-  color: #888;
+  color: #aaa;
   flex-shrink: 0;
+  flex-wrap: wrap;
 }
+
+.legend-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #555;
+  margin-right: 4px;
+}
+
+.legend-divider {
+  display: inline-block;
+  width: 1px;
+  height: 18px;
+  background: #2a2a2a;
+  margin: 0 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 20px;
+  padding: 3px 10px 3px 7px;
+  font-size: 12px;
+  color: #ccc;
+}
+
+.legend-count {
+  background: #2a2a2a;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #888;
+  padding: 1px 6px;
+  margin-left: 2px;
+}
+
 .dot {
   display: inline-block;
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  margin-right: 5px;
+  flex-shrink: 0;
 }
-.dot.collaborative { background: #f97316; }
-.dot.mentorship    { background: #22d3ee; }
-.dot.collective    { background: #a855f7; }
-.dot.familial      { background: #4ade80; }
+.dot.collaborative { background: #f97316; box-shadow: 0 0 6px #f9731680; }
+.dot.mentorship    { background: #22d3ee; box-shadow: 0 0 6px #22d3ee80; }
+.dot.collective    { background: #a855f7; box-shadow: 0 0 6px #a855f780; }
+.dot.familial      { background: #4ade80; box-shadow: 0 0 6px #4ade8080; }
+.dot.era-80s       { background: #a855f7; }
+.dot.era-90s       { background: #e11d48; }
+.dot.era-2000s     { background: #f97316; }
+.dot.era-2010s     { background: #22d3ee; }
 
 /* ── Splash / error screens ────────────────────────────── */
 .splash {

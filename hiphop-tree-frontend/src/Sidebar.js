@@ -1,7 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import WikidataPanel from './WikidataPanel';
 
-export default function Sidebar({ artist, graphData, apiUrl, onClose }) {
+const POPUP_WIDTH = 320;
+
+function getPopupStyle(popupPos) {
+  if (!popupPos) return {};
+  const gap      = 14;
+  const halfNode = (popupPos.size || 40) / 2;
+  // Center horizontally on node, clamped to viewport
+  const rawLeft = popupPos.x - POPUP_WIDTH / 2;
+  const left    = Math.max(12, Math.min(rawLeft, window.innerWidth - POPUP_WIDTH - 12));
+  // Place bottom of popup just above the node
+  const top = popupPos.y - halfNode - gap;
+  return {
+    position:  'fixed',
+    left:      `${left}px`,
+    top:       `${top}px`,
+    transform: 'translateY(-100%)',
+    width:     `${POPUP_WIDTH}px`,
+    maxHeight: '80vh',
+    overflowY: 'auto',
+    zIndex:    200,
+  };
+}
+
+export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }) {
   const [bio, setBio]               = useState(null);
   const [bioLoading, setBioLoading] = useState(false);
   const [bioError, setBioError]     = useState(null);
@@ -60,7 +84,7 @@ export default function Sidebar({ artist, graphData, apiUrl, onClose }) {
   const BIO_PREVIEW_LENGTH = 280;
 
   return (
-    <aside className="sidebar">
+    <aside className="sidebar" style={getPopupStyle(popupPos)}>
       <button className="close-btn" onClick={onClose}>✕</button>
 
       {/* ── Genius header image ── */}
@@ -169,6 +193,9 @@ export default function Sidebar({ artist, graphData, apiUrl, onClose }) {
           })}
         </div>
       ))}
+
+      {/* ── Wikidata discoveries ── */}
+      <WikidataPanel artist={artist} graphData={graphData} apiUrl={apiUrl} />
 
       {/* ── Genius collab results ── */}
       {(loadingGenius || geniusResults) && (
