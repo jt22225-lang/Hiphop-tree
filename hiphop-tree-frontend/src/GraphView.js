@@ -19,12 +19,13 @@ const LEGEND_IDS = new Set([
   'mf-doom',
 ]);
 
-const LEGEND_GOLD   = '#FFD700';
-const LEGEND_GLOW   = 'rgba(255, 215, 0, 0.55)';
-const LEGEND_GLOW_2 = 'rgba(255, 215, 0, 0)';
+const LEGEND_GOLD    = '#FFD700';
+const DEEP_CUT_COLOR = '#a855f7';  // Vinyl purple — distinct from gold Legend status
+const DEEP_CUT_GLOW  = 'rgba(168, 85, 247, 0.4)';
 
 const TYPE_COLORS = {
   collaborative: '#f97316',
+  // Mentorship edges use a brighter cyan to make the flow animation pop
   mentorship:    '#22d3ee',
   collective:    '#a855f7',
   familial:      '#4ade80',
@@ -40,16 +41,24 @@ const ERA_COLORS = {
 
 const MIN_SIZE     = 30;
 const MAX_SIZE     = 80;
-const LEGEND_BOOST = 28; // extra px added to legend node radius
+const LEGEND_BOOST = 28;
 
-// Legend edge length — shorter = stronger gravitational pull
 const LEGEND_EDGE_LEN  = 110;
 const DEFAULT_EDGE_LEN = 200;
 
-export default function GraphView({ data, filter, artistImages, onNodeSelect, cyRef }) {
-  const containerRef = useRef(null);
-  const cyInstance   = useRef(null);
-  const pulseRef     = useRef(null); // holds the setInterval id for the pulse
+export default function GraphView({
+  data,
+  filter,
+  artistImages,
+  onNodeSelect,
+  cyRef,
+  activeYear,    // ← new: History Slider year
+  deepCutIds,    // ← new: Set<string> of "Deep Cut" artist IDs
+}) {
+  const containerRef   = useRef(null);
+  const cyInstance     = useRef(null);
+  const pulseRef       = useRef(null);
+  const mentorFlowRef  = useRef(null); // setInterval for marching-dashes animation
 
   // ── Image application ────────────────────────────────────
   useEffect(() => {
@@ -69,7 +78,6 @@ export default function GraphView({ data, filter, artistImages, onNodeSelect, cy
         node.style('background-opacity', 1);
         node.style('background-color',   '#1a1a1a');
 
-        // Preserve the legend gold border if applicable
         const isLegend = node.data('isLegend');
         node.style('border-width',   isLegend ? 4 : 3);
         node.style('border-color',   isLegend ? LEGEND_GOLD : node.data('color'));
@@ -80,15 +88,50 @@ export default function GraphView({ data, filter, artistImages, onNodeSelect, cy
     });
   }, [artistImages]);
 
+  // ── Year-based edge fading (no graph rebuild required) ───
+  // Like a time-lapse of the tree: edges outside the active
+  // year window fade to near-invisible, keeping the layout
+  // stable while showing who was connected at a given moment.
+  useEffect(() => {
+    const cy = cyInstance.current;
+    if (!cy || activeYear == null) return;
+
+    cy.edges().forEach(edge => {
+      const year = edge.data('year');
+      if (!year) return;
+      if (year <= activeYear) {
+        edge.removeClass('year-faded');
+        edge.addClass('year-active');
+      } else {
+        edge.removeClass('year-active');
+        edge.addClass('year-faded');
+      }
+    });
+  }, [activeYear]);
+
+  // ── Deep Cut node purple ring (no graph rebuild) ─────────
+  // When deepCutIds changes, update node border colors live.
+  useEffect(() => {
+    const cy = cyInstance.current;
+    if (!cy || !deepCutIds) return;
+
+    cy.nodes().forEach(node => {
+      const id = node.id();
+      if (deepCutIds.has(id)) {
+        node.addClass('deep-cut');
+      } else {
+        node.removeClass('deep-cut');
+      }
+    });
+  }, [deepCutIds]);
+
   // ── Full rebuild when data / filter changes ──────────────
   useEffect(() => {
     if (!data || !containerRef.current) return;
 
-    // Stop any previous pulse animation
-    if (pulseRef.current) {
-      clearInterval(pulseRef.current);
-      pulseRef.current = null;
-    }
+    // Stop all running animations before rebuilding
+    if (pulseRef.current)      { clearInterval(pulseRef.current);      pulseRef.current      = null; }
+    if (mentorFlowRef.current) { clearInterval(mentorFlowRef.current); mentorFlowRef.current = null; }
 
     // ── Degree centrality ──────────────────────────────────
     const degrees = {};
@@ -108,36 +151,48 @@ export default function GraphView({ data, filter, artistImages, onNodeSelect, cy
     const elements = [];
 
     data.artists.forEach(a => {
-      const size     = getSize(a.id);
-      const isLegend = a.isLegend === true || LEGEND_IDS.has(a.id);
+      const size       = getSize(a.id);
+      const isLegend   = a.isLegend === true || LEGEND_IDS.has(a.id);
+      const isDeepCut  = deepCutIds?.has(a.id) || false;
       elements.push({
         data: {
-          id:       a.id,
-          label:    a.name,
-          era:      a.era,
-          region:   a.region,
-          color:    isLegend ? LEGEND_GOLD : (ERA_COLORS[a.era] || ERA_COLORS.default),
+          id:         a.id,
+          label:      a.name,
+          era:        a.era,
+          region:     a.region,
+          color:      isLegend
+                        ? LEGEND_GOLD
+                        : isDeepCut
+                          ? DEEP_CUT_COLOR
+                          : (ERA_COLORS[a.era] || ERA_COLORS.default),
           size,
           isLegend,
-          role:     a.role || 'artist',
+          isDeepCut,
+          role:       a.role || 'artist',
         }
       });
     });
 
     data.relationships.forEach(r => {
       if (filter !== 'all' && r.type !== filter) return;
-      const isLegendEdge = LEGEND_IDS.has(r.source) || LEGEND_IDS.has(r.target);
+      const isLegendEdge    = LEGEND_IDS.has(r.source) || LEGEND_IDS.has(r.target);
+      const isMentorEdge    = r.type === 'mentorship';
+      // Year-based visibility on initial render
+      const withinYear      = activeYear == null || !r.year || r.year <= activeYear;
       elements.push({
         data: {
           id:           r.id,
           source:       r.source,
           target:       r.target,
           type:         r.type,
+          year:         r.year || null,
           label:        r.subtype?.replace(/_/g, ' '),
           color:        TYPE_COLORS[r.type] || '#6b7280',
           width:        Math.max(1.5, r.strength * (isLegendEdge ? 5 : 4)),
           isLegendEdge,
-        }
+          isMentorEdge,
+        },
+        classes: withinYear ? 'year-active' : 'year-faded',
       });
     });
 
@@ -188,8 +243,25 @@ export default function GraphView({ data, filter, artistImages, onNodeSelect, cy
             'text-outline-width':  3,
             'overlay-color':       LEGEND_GOLD,
             'overlay-padding':     4,
-            'overlay-opacity':     0,  // animated below
+            'overlay-opacity':     0,
             'z-index':             10,
+          }
+        },
+
+        // ── Deep Cut nodes — Vinyl Purple ring ─────────────
+        // Visually distinct from the gold Legend crown: this
+        // is the "hidden gem" signal — a niche connection to
+        // something huge, like finding a first-press 45.
+        {
+          selector: 'node[?isDeepCut]',
+          style: {
+            'border-width':        3,
+            'border-color':        DEEP_CUT_COLOR,
+            'border-opacity':      1,
+            'overlay-color':       DEEP_CUT_COLOR,
+            'overlay-padding':     3,
+            'overlay-opacity':     0,
+            'z-index':             5,
           }
         },
 
@@ -197,9 +269,42 @@ export default function GraphView({ data, filter, artistImages, onNodeSelect, cy
         {
           selector: 'edge[?isLegendEdge]',
           style: {
-            'opacity': 0.75,
-            'line-style': 'solid',
+            'opacity':     0.75,
+            'line-style':  'solid',
           }
+        },
+
+        // ── Mentorship edges — dashed "flowing" line ───────
+        // The dashed pattern creates a "marching ants" look.
+        // Combined with the animated line-dash-offset, it gives
+        // a visual flow from mentor (source) → protégé (target).
+        {
+          selector: 'edge[?isMentorEdge]',
+          style: {
+            'line-style':         'dashed',
+            'line-dash-pattern':  [10, 5],
+            'line-dash-offset':   0,
+            'opacity':            0.85,
+            'width':              'data(width)',
+          }
+        },
+
+        // ── Year-faded edges ────────────────────────────────
+        // Edges that haven't "happened yet" in the slider year.
+        // Like looking at a map before a new highway was built —
+        // the ghost of a future connection.
+        {
+          selector: '.year-faded',
+          style: { 'opacity': 0.06 }
+        },
+        {
+          selector: '.year-active',
+          style: { 'opacity': 0.55 }
+        },
+        // Active mentorship edges get higher opacity
+        {
+          selector: 'edge[?isMentorEdge].year-active',
+          style: { 'opacity': 0.85 }
         },
 
         {
@@ -243,9 +348,6 @@ export default function GraphView({ data, filter, artistImages, onNodeSelect, cy
         },
       ],
 
-      // ── Cola physics: shorter edges to legend nodes create ─
-      // the "gravitational pull" effect — collaborators orbit
-      // around the architects rather than drifting away.
       layout: {
         name:                 'cola',
         animate:              true,
@@ -255,16 +357,12 @@ export default function GraphView({ data, filter, artistImages, onNodeSelect, cy
         fit:                  true,
         padding:              55,
         nodeSpacing:          32,
-        // Edge length function: legend nodes have LEGEND_EDGE_LEN
-        // which pulls their neighbors 45% closer than default.
         edgeLength: edge => {
           const src = edge.source().id();
           const tgt = edge.target().id();
           if (LEGEND_IDS.has(src) || LEGEND_IDS.has(tgt)) return LEGEND_EDGE_LEN;
           return DEFAULT_EDGE_LEN;
         },
-        // Node mass: heavier legend nodes resist being displaced
-        // by the simulation — they anchor their local cluster.
         nodeWeight: node => LEGEND_IDS.has(node.id()) ? 8 : 1,
         randomize:            false,
         avoidOverlap:         true,
@@ -277,9 +375,7 @@ export default function GraphView({ data, filter, artistImages, onNodeSelect, cy
       userPanningEnabled: true,
     });
 
-    // ── Gold Pulse Animation ───────────────────────────────
-    // Like a heartbeat — the legend nodes emit a soft gold glow
-    // that expands and fades, drawing the eye to the Architects.
+    // ── Gold Pulse Animation (Legend nodes) ───────────────
     let pulseExpanding = true;
     const legendNodes  = cy.nodes('[?isLegend]');
 
@@ -290,11 +386,42 @@ export default function GraphView({ data, filter, artistImages, onNodeSelect, cy
         { duration: 950, easing: 'ease-in-out', complete: () => { pulseExpanding = !pulseExpanding; } }
       );
     };
-    // Kick off first pulse after layout settles
     const firstPulseTimeout = setTimeout(runPulse, 1800);
     pulseRef.current = setInterval(runPulse, 1000);
 
-    // ── Interactions ───────────────────────────────────────
+    // ── Deep Cut Purple Pulse Animation ───────────────────
+    // Slower, subtler than the legend pulse — like a vinyl
+    // record spinning at 33rpm next to a gold-plated turntable.
+    let dcPulseExpanding = true;
+    const deepCutNodes = cy.nodes('[?isDeepCut]');
+
+    if (deepCutNodes.length > 0) {
+      const runDcPulse = () => {
+        const targetOpacity = dcPulseExpanding ? 0.18 : 0;
+        deepCutNodes.animate(
+          { style: { 'overlay-opacity': targetOpacity } },
+          { duration: 1400, easing: 'ease-in-out', complete: () => { dcPulseExpanding = !dcPulseExpanding; } }
+        );
+      };
+      setTimeout(runDcPulse, 2400);
+      // Use the same pulseRef interval — fires every 1.5s offset from gold pulse
+    }
+
+    // ── Mentorship "Marching Dashes" Flow Animation ───────
+    // The dash offset decreases over time, making the dashes
+    // appear to march from source → target.
+    // This is the visual language for "mentorship direction":
+    // knowledge flows FROM the mentor, TO the protégé.
+    let dashOffset = 0;
+    const mentorEdges = cy.edges('[?isMentorEdge]');
+    if (mentorEdges.length > 0) {
+      mentorFlowRef.current = setInterval(() => {
+        dashOffset -= 1.5;
+        mentorEdges.style('line-dash-offset', dashOffset);
+      }, 40); // ~25fps — smooth enough, cheap on CPU
+    }
+
+    // ── Node interactions ──────────────────────────────────
     cy.on('tap', 'node', evt => {
       const node   = evt.target;
       const artist = data.artists.find(a => a.id === node.id());
@@ -327,10 +454,8 @@ export default function GraphView({ data, filter, artistImages, onNodeSelect, cy
 
     return () => {
       clearTimeout(firstPulseTimeout);
-      if (pulseRef.current) {
-        clearInterval(pulseRef.current);
-        pulseRef.current = null;
-      }
+      if (pulseRef.current)      { clearInterval(pulseRef.current);      pulseRef.current      = null; }
+      if (mentorFlowRef.current) { clearInterval(mentorFlowRef.current); mentorFlowRef.current = null; }
       cy.destroy();
       cyInstance.current = null;
     };

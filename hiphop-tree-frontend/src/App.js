@@ -1,11 +1,71 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import GraphView from './GraphView';
 import Sidebar from './Sidebar';
 import SearchBar from './SearchBar';
+import HistorySlider from './HistorySlider';
 import './App.css';
 
 const API = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
+
+// ── Legend IDs (mirrored here for flagDeepCuts) ──────────────
+const LEGEND_IDS = new Set([
+  'dj-premier', 'the-alchemist', 'j-dilla', 'madlib',
+  'kanye-west', 'pharrell-williams', 'pete-rock', 'sounwave', 'mf-doom',
+]);
+
+// ── Deep Cut Detector ────────────────────────────────────────
+// Scans the full connections array and flags artists who are:
+//   1. Not a Verified Architect themselves
+//   2. In the lower half of degree centrality (less-connected = more obscure)
+//   3. Directly linked to at least one Verified Architect
+//
+// Think of it like a music journalist's "hidden gem" pick:
+// the artist nobody talks about who appears on the album everybody
+// cites as an influence. The algorithm does the crate-digging.
+function flagDeepCuts(graphData) {
+  if (!graphData) return new Set();
+
+  // Step 1 — compute degree centrality for all artists
+  const degrees = {};
+  graphData.artists.forEach(a => { degrees[a.id] = 0; });
+  graphData.relationships.forEach(r => {
+    degrees[r.source] = (degrees[r.source] || 0) + 1;
+    degrees[r.target] = (degrees[r.target] || 0) + 1;
+  });
+
+  // Step 2 — find the median degree (the "obscurity threshold")
+  const degreeValues   = Object.values(degrees).sort((a, b) => a - b);
+  const medianDegree   = degreeValues[Math.floor(degreeValues.length / 2)] ?? 3;
+
+  // Step 3 — find all non-legend artists directly connected to a legend
+  const connectedToLegend = new Set();
+  graphData.relationships.forEach(r => {
+    if (LEGEND_IDS.has(r.source) && !LEGEND_IDS.has(r.target)) {
+      connectedToLegend.add(r.target);
+    }
+    if (LEGEND_IDS.has(r.target) && !LEGEND_IDS.has(r.source)) {
+      connectedToLegend.add(r.source);
+    }
+  });
+
+  // Step 4 — a node is a "Deep Cut" if it's:
+  //   - Not a legend itself
+  //   - Below-median degree (= lower public profile)
+  //   - Connected to at least one legend
+  const deepCutIds = new Set();
+  graphData.artists.forEach(a => {
+    if (
+      !LEGEND_IDS.has(a.id) &&
+      (degrees[a.id] || 0) <= medianDegree &&
+      connectedToLegend.has(a.id)
+    ) {
+      deepCutIds.add(a.id);
+    }
+  });
+
+  return deepCutIds;
+}
 
 export default function App() {
   const [graphData, setGraphData]       = useState(null);
@@ -15,9 +75,14 @@ export default function App() {
   const [popupPos, setPopupPos]         = useState(null);
   const [filter, setFilter]             = useState('all');
   const [artistImages, setArtistImages] = useState({});
+  const [activeYear, setActiveYear]     = useState(2024);   // ← History Slider year
+  const [showSlider, setShowSlider]     = useState(false);  // ← toggle slider open/closed
   const cyRef = useRef(null);
 
-  // Fetch graph on mount
+  // ── Deep Cut detection (memoized — only recalculates when graphData loads) ──
+  const deepCutIds = useMemo(() => flagDeepCuts(graphData), [graphData]);
+
+  // ── Graph fetch ──────────────────────────────────────────────
   useEffect(() => {
     axios.get(`${API}/graph`)
       .then(res => {
@@ -31,7 +96,7 @@ export default function App() {
       });
   }, []);
 
-  // Calculate degree centrality, fetch images for top 25 most connected artists
+  // ── Image prefetch (top 25 by degree) ─────────────────────
   const prefetchImages = async (data) => {
     const degrees = {};
     data.artists.forEach(a => { degrees[a.id] = 0; });
@@ -39,26 +104,18 @@ export default function App() {
       degrees[r.source] = (degrees[r.source] || 0) + 1;
       degrees[r.target] = (degrees[r.target] || 0) + 1;
     });
-
-    const sorted = [...data.artists].sort(
-      (a, b) => (degrees[b.id] || 0) - (degrees[a.id] || 0)
-    );
-
-    const top = sorted.slice(0, 25);
-    const images = {};
+    const sorted = [...data.artists].sort((a, b) => (degrees[b.id] || 0) - (degrees[a.id] || 0));
+    const top    = sorted.slice(0, 25);
 
     for (const artist of top) {
       try {
-        const res = await axios.get(
-          `${API}/wiki-image/${encodeURIComponent(artist.name)}`
-        );
+        const res = await axios.get(`${API}/wiki-image/${encodeURIComponent(artist.name)}`);
         if (res.data.image) {
           const proxied = `${API}/proxy-image?url=${encodeURIComponent(res.data.image)}`;
-          console.log(`[IMG] ✅ ${artist.name}`);
           setArtistImages(prev => ({ ...prev, [artist.id]: proxied }));
         }
       } catch (e) {
-        console.log(`[IMG] ❌ ${artist.name} — no Wikipedia image`);
+        // No image — silently skip
       }
       await new Promise(r => setTimeout(r, 100));
     }
@@ -83,11 +140,16 @@ export default function App() {
     } catch (e) { console.error('Search failed', e); }
   }, []);
 
-  // Relationship counts for legend
+  // Relationship counts for legend bar
   const counts = graphData ? graphData.relationships.reduce((acc, r) => {
     acc[r.type] = (acc[r.type] || 0) + 1;
     return acc;
   }, {}) : {};
+
+  // Count connections visible at the active year (for slider counter)
+  const activeConnectionCount = graphData
+    ? graphData.relationships.filter(r => !r.year || r.year <= activeYear).length
+    : 0;
 
   if (loading) return (
     <div className="splash">
@@ -116,10 +178,29 @@ export default function App() {
               className={`filter-btn ${filter === f ? 'active' : ''}`}
               onClick={() => setFilter(f)}
             >
-              {f === 'all' ? `All (${graphData.relationships.length})` : `${f.charAt(0).toUpperCase() + f.slice(1)} (${counts[f] || 0})`}
+              {f === 'all'
+                ? `All (${graphData.relationships.length})`
+                : `${f.charAt(0).toUpperCase() + f.slice(1)} (${counts[f] || 0})`}
             </button>
           ))}
         </div>
+
+        {/* ── History Slider toggle button ── */}
+        <button
+          className={`slider-toggle-btn ${showSlider ? 'slider-toggle-active' : ''}`}
+          onClick={() => setShowSlider(s => !s)}
+          title="Toggle Evolution of a Legend timeline"
+        >
+          📼 {showSlider ? 'Hide' : 'Timeline'}
+          {showSlider && <span className="slider-year-chip">{activeYear}</span>}
+        </button>
+
+        {/* ── Deep Cut count indicator ── */}
+        {deepCutIds.size > 0 && (
+          <span className="deep-cut-count-chip" title={`${deepCutIds.size} Deep Cut artists detected`}>
+            💿 {deepCutIds.size} Deep Cuts
+          </span>
+        )}
       </header>
 
       <main className="main">
@@ -129,7 +210,10 @@ export default function App() {
           artistImages={artistImages}
           onNodeSelect={handleNodeSelect}
           cyRef={cyRef}
+          activeYear={showSlider ? activeYear : null}
+          deepCutIds={deepCutIds}
         />
+
         {selected && (
           <Sidebar
             artist={selected}
@@ -137,9 +221,23 @@ export default function App() {
             apiUrl={API}
             popupPos={popupPos}
             onClose={() => { setSelected(null); setPopupPos(null); }}
+            deepCutIds={deepCutIds}
+            activeYear={showSlider ? activeYear : null}
           />
         )}
       </main>
+
+      {/* ── History Slider overlay ── */}
+      {showSlider && (
+        <div className="slider-overlay">
+          <HistorySlider
+            activeYear={activeYear}
+            onChange={setActiveYear}
+            activeCount={activeConnectionCount}
+            totalCount={graphData?.relationships?.length || 0}
+          />
+        </div>
+      )}
 
       <div className="legend">
         <span className="legend-title">Relationships:</span>
@@ -155,6 +253,7 @@ export default function App() {
         <span className="legend-item"><span className="dot era-2010s" /><span>2010s</span></span>
         <span className="legend-divider" />
         <span className="legend-item"><span className="dot legend" /><span>♛ Verified Architect</span></span>
+        <span className="legend-item"><span className="dot deep-cut" /><span>💿 Deep Cut</span></span>
       </div>
     </div>
   );

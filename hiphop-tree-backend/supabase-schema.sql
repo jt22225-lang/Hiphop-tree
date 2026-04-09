@@ -118,7 +118,82 @@ CREATE TABLE IF NOT EXISTS artist_cache (
   stale_at    TIMESTAMPTZ GENERATED ALWAYS AS (fetched_at + INTERVAL '7 days') STORED
 );
 
--- ── 6. Helpful views ───────────────────────────────────────────────
+-- ── 6. New columns for temporal mentorship & Deep Cut system ──
+--
+-- "Evolution of a Legend": connection_year tracks WHEN a link
+-- was formed, enabling the History Slider to show how the tree
+-- grew over time. Think of it like a tree-ring — each year's
+-- connections form a new layer of growth.
+--
+-- "Deep Cut": impact_score + is_deep_cut let us surface obscure
+-- but high-impact artists. A low-fame node connected to a
+-- Verified Architect is the definition of a "hidden gem" — the
+-- producer who shows up on one legendary debut and disappears.
+ALTER TABLE relationships
+  ADD COLUMN IF NOT EXISTS connection_year INT
+    CHECK (connection_year BETWEEN 1970 AND 2030);
+
+-- Partial index for fast timeline queries:
+-- "Give me all connections before 1998" is a common slider query.
+CREATE INDEX IF NOT EXISTS idx_rel_year
+  ON relationships (connection_year)
+  WHERE connection_year IS NOT NULL;
+
+-- popularity_score: 1–10 scale, sourced from Wikidata/Spotify data.
+-- Lower scores = more obscure. Default 5 = average visibility.
+ALTER TABLE artists
+  ADD COLUMN IF NOT EXISTS popularity_score NUMERIC(3,1) DEFAULT 5.0
+    CHECK (popularity_score BETWEEN 0 AND 10);
+
+-- impact_score: separate from popularity — a niche producer can
+-- have low popularity but high impact (Dilla, Alchemist early career).
+ALTER TABLE artists
+  ADD COLUMN IF NOT EXISTS impact_score NUMERIC(3,1) DEFAULT 5.0
+    CHECK (impact_score BETWEEN 0 AND 10);
+
+-- is_deep_cut: computed flag. TRUE when popularity_score < 4.0
+-- AND connected to at least one is_legend=TRUE artist.
+-- Can be set manually or via the flagDeepCuts() function below.
+ALTER TABLE artists
+  ADD COLUMN IF NOT EXISTS is_deep_cut BOOLEAN DEFAULT FALSE;
+
+-- Partial index: quickly fetch all Deep Cuts for badge rendering.
+CREATE INDEX IF NOT EXISTS idx_artists_deep_cut
+  ON artists (is_deep_cut)
+  WHERE is_deep_cut = TRUE;
+
+-- Deep Cut auto-flag function:
+-- Run this periodically or after bulk imports. Flags any non-legend
+-- artist with popularity < 4 who has a direct connection to a Legend.
+--
+-- Analogy: like a record store employee who silently recommends
+-- "the B-side that influenced everything" — the algorithm does
+-- the crate-digging for you.
+CREATE OR REPLACE FUNCTION flag_deep_cuts()
+RETURNS INTEGER AS $$
+DECLARE
+  updated_count INTEGER;
+BEGIN
+  UPDATE artists a
+  SET    is_deep_cut = TRUE
+  WHERE  a.is_legend   = FALSE
+    AND  a.popularity_score < 4.0
+    AND  EXISTS (
+           SELECT 1
+           FROM   relationships r
+           JOIN   artists legend ON (
+                    (r.source_slug = a.slug      AND r.target_slug = legend.slug) OR
+                    (r.target_slug = a.slug      AND r.source_slug = legend.slug)
+                  )
+           WHERE  legend.is_legend = TRUE
+         );
+
+  GET DIAGNOSTICS updated_count = ROW_COUNT;
+  RETURN updated_count;
+END;
+$$ LANGUAGE plpgsql;
+
+-- ── 7. Helpful views ───────────────────────────────────────────────
 
 -- All Verified Architects with their era spans
 CREATE OR REPLACE VIEW v_legend_era_map AS

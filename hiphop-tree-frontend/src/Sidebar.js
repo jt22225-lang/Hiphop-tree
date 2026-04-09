@@ -37,9 +37,7 @@ function getPopupStyle(popupPos) {
 }
 
 // ── Verified Architect Badge ─────────────────────────────────
-// Displayed at the top of the Info Hub for legend producers.
-// The crown + gold glow communicates reverence immediately.
-function VerifiedArchitectBadge({ name }) {
+function VerifiedArchitectBadge() {
   return (
     <div className="verified-architect-banner">
       <span className="va-crown">♛</span>
@@ -51,8 +49,99 @@ function VerifiedArchitectBadge({ name }) {
   );
 }
 
+// ── Deep Cut Badge ───────────────────────────────────────────
+// The Vinyl purple badge — for artists obscure to mainstream
+// audiences but inextricably linked to legendary work.
+// Like finding a first-press 7" that influenced an entire genre.
+function DeepCutBadge() {
+  return (
+    <div className="deep-cut-banner">
+      <span className="dc-icon">💿</span>
+      <div className="dc-text">
+        <span className="dc-title">Deep Cut</span>
+        <span className="dc-subtitle">Obscure Node · High-Impact Connection</span>
+      </div>
+      <span className="dc-tooltip" title="This artist has a low public profile but is directly linked to a Verified Architect or a landmark album. The algorithm found the hidden gem.">
+        ⓘ
+      </span>
+    </div>
+  );
+}
+
+// ── Role Evolution Section ────────────────────────────────────
+// Derives "Protégé" vs "Mentor" from the direction of mentorship
+// edges and the year they were formed. This is how we tell the
+// story of an artist growing from student to teacher over time.
+//
+// Think of it like a river delta — each branch is a protégé
+// relationship that splits off as the mentor becomes more central.
+function RoleEvolutionCard({ artist, connections, graphData, activeYear }) {
+  const mentorConnections = connections.filter(r => r.type === 'mentorship');
+  if (mentorConnections.length === 0) return null;
+
+  const asProtege = mentorConnections.filter(r => r.target === artist.id);
+  const asMentor  = mentorConnections.filter(r => r.source === artist.id);
+
+  // Year-filtered views
+  const activeProtege = asProtege.filter(r => !activeYear || !r.year || r.year <= activeYear);
+  const activeMentor  = asMentor.filter(r  => !activeYear || !r.year || r.year <= activeYear);
+
+  if (activeProtege.length === 0 && activeMentor.length === 0) return null;
+
+  // Derive "first mentor link" year to label the journey
+  const protegeYears = asProtege.filter(r => r.year).map(r => r.year);
+  const mentorYears  = asMentor.filter(r => r.year).map(r => r.year);
+  const firstAsProtege = protegeYears.length ? Math.min(...protegeYears) : null;
+  const firstAsMentor  = mentorYears.length  ? Math.min(...mentorYears)  : null;
+
+  return (
+    <div className="role-evolution-card">
+      <div className="re-header">
+        <span className="re-icon">🧬</span>
+        <span className="re-title">Career Arc</span>
+      </div>
+
+      {/* Timeline bar — visual metaphor for the journey */}
+      <div className="re-timeline">
+        {activeProtege.length > 0 && (
+          <div className="re-stage re-stage-protege">
+            <span className="re-stage-dot" />
+            <div className="re-stage-info">
+              <span className="re-stage-label">Protégé</span>
+              {firstAsProtege && (
+                <span className="re-stage-year">since {firstAsProtege}</span>
+              )}
+              <span className="re-stage-count">
+                {activeProtege.length} mentor{activeProtege.length !== 1 ? 's' : ''}
+              </span>
+            </div>
+          </div>
+        )}
+
+        {activeProtege.length > 0 && activeMentor.length > 0 && (
+          <div className="re-arrow">→</div>
+        )}
+
+        {activeMentor.length > 0 && (
+          <div className="re-stage re-stage-mentor">
+            <span className="re-stage-dot" />
+            <div className="re-stage-info">
+              <span className="re-stage-label">Mentor</span>
+              {firstAsMentor && (
+                <span className="re-stage-year">since {firstAsMentor}</span>
+              )}
+              <span className="re-stage-count">
+                {activeMentor.length} protégé{activeMentor.length !== 1 ? 's' : ''}
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ── Personal Connection Note ─────────────────────────────────
-// Surfaces the "Met Preemo" style personal notes from metadata.
 function PersonalNoteCard({ note }) {
   if (!note) return null;
   return (
@@ -80,7 +169,15 @@ function CulturalImpactCard({ impact }) {
   );
 }
 
-export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }) {
+export default function Sidebar({
+  artist,
+  graphData,
+  apiUrl,
+  popupPos,
+  onClose,
+  deepCutIds,   // ← new: Set<string>
+  activeYear,   // ← new: current slider year
+}) {
   const [bio, setBio]               = useState(null);
   const [bioLoading, setBioLoading] = useState(false);
   const [bioError, setBioError]     = useState(null);
@@ -89,9 +186,9 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
   const [expanded, setExpanded]     = useState(false);
 
   const isLegend   = artist.isLegend === true || LEGEND_IDS.has(artist.id);
+  const isDeepCut  = deepCutIds?.has(artist.id) || false;
   const metadata   = artist.metadata || {};
 
-  // Auto-fetch Wikipedia bio whenever the selected artist changes
   useEffect(() => {
     setBio(null);
     setBioError(null);
@@ -107,8 +204,14 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
       });
   }, [artist.name, apiUrl]);
 
+  // Get ALL connections (not filtered by year — year filter is visual only)
   const connections = graphData.relationships.filter(
     r => r.source === artist.id || r.target === artist.id
+  );
+
+  // Connections active at the current slider year
+  const activeConnections = connections.filter(
+    r => !activeYear || !r.year || r.year <= activeYear
   );
 
   const getOtherArtist = (rel) => {
@@ -130,7 +233,8 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
     setLoadingGenius(false);
   };
 
-  const grouped = connections.reduce((acc, rel) => {
+  // Group connections by type, only showing those active at the slider year
+  const grouped = activeConnections.reduce((acc, rel) => {
     if (!acc[rel.type]) acc[rel.type] = [];
     acc[rel.type].push(rel);
     return acc;
@@ -141,19 +245,25 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
 
   const BIO_PREVIEW_LENGTH = 280;
 
+  // Count future connections (after active year)
+  const futureCount = connections.length - activeConnections.length;
+
   return (
     <aside
-      className={`sidebar ${isLegend ? 'sidebar-legend' : ''}`}
+      className={`sidebar ${isLegend ? 'sidebar-legend' : ''} ${isDeepCut ? 'sidebar-deep-cut' : ''}`}
       style={getPopupStyle(popupPos)}
     >
       <button className="close-btn" onClick={onClose}>✕</button>
 
       {/* ── Verified Architect Banner ── */}
-      {isLegend && <VerifiedArchitectBadge name={artist.name} />}
+      {isLegend && <VerifiedArchitectBadge />}
+
+      {/* ── Deep Cut Badge — only for non-legends ── */}
+      {isDeepCut && !isLegend && <DeepCutBadge />}
 
       {/* ── Artist info ── */}
       <div className="artist-header">
-        <div className={`artist-avatar ${isLegend ? 'artist-avatar-legend' : ''}`}>
+        <div className={`artist-avatar ${isLegend ? 'artist-avatar-legend' : ''} ${isDeepCut && !isLegend ? 'artist-avatar-deep-cut' : ''}`}>
           {artist.name.charAt(0)}
         </div>
         <div>
@@ -161,6 +271,9 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
             {artist.name}
             {isLegend && (
               <span className="legend-crown-inline" title="Verified Architect — Legend Status">♛</span>
+            )}
+            {isDeepCut && !isLegend && (
+              <span className="deep-cut-badge-inline" title="Deep Cut — Hidden Gem">💿</span>
             )}
           </h2>
           <p className="artist-meta">{artist.era} · {artist.region}</p>
@@ -170,6 +283,14 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
           )}
         </div>
       </div>
+
+      {/* ── Role Evolution (mentor/protégé arc) ── */}
+      <RoleEvolutionCard
+        artist={artist}
+        connections={connections}
+        graphData={graphData}
+        activeYear={activeYear}
+      />
 
       {/* ── Personal Connection Note (meeting-inspired) ── */}
       {isLegend && (
@@ -224,9 +345,14 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
         )}
       </div>
 
-      {/* ── Connections ── */}
+      {/* ── Connections (year-filtered) ── */}
       <div className="connections-title">
-        {connections.length} Connection{connections.length !== 1 ? 's' : ''}
+        {activeConnections.length} Connection{activeConnections.length !== 1 ? 's' : ''}
+        {activeYear && activeYear < 2024 && futureCount > 0 && (
+          <span className="connections-future-hint">
+            {' '}· {futureCount} more after {activeYear}
+          </span>
+        )}
       </div>
 
       {Object.entries(grouped).map(([type, rels]) => (
@@ -237,16 +363,35 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
           {rels.map(rel => {
             const other = getOtherArtist(rel);
             if (!other) return null;
-            const otherIsLegend = other.isLegend === true || LEGEND_IDS.has(other.id);
+            const otherIsLegend  = other.isLegend === true || LEGEND_IDS.has(other.id);
+            const otherIsDeepCut = deepCutIds?.has(other.id) || false;
+            // Direction label for mentorship edges
+            const mentorDirection = rel.type === 'mentorship'
+              ? (rel.source === artist.id ? '→ Protégé' : '← Mentor')
+              : null;
             return (
-              <div key={rel.id} className={`connection-item ${otherIsLegend ? 'connection-item-legend' : ''}`}>
+              <div
+                key={rel.id}
+                className={`connection-item
+                  ${otherIsLegend  ? 'connection-item-legend'    : ''}
+                  ${otherIsDeepCut ? 'connection-item-deep-cut'  : ''}
+                  ${rel.type === 'mentorship' ? 'connection-item-mentor' : ''}
+                `}
+              >
                 <div className="connection-info">
                   <strong>
                     {other.name}
-                    {otherIsLegend && <span className="conn-crown">♛</span>}
+                    {otherIsLegend  && <span className="conn-crown">♛</span>}
+                    {otherIsDeepCut && !otherIsLegend && <span className="conn-dc">💿</span>}
                   </strong>
                   <span className="subtype">{rel.subtype?.replace(/_/g, ' ')}</span>
-                  {rel.label && <span className="rel-label">{rel.label}</span>}
+                  {mentorDirection && (
+                    <span className="mentor-direction">{mentorDirection}</span>
+                  )}
+                  <div className="rel-meta-row">
+                    {rel.label && <span className="rel-label">{rel.label}</span>}
+                    {rel.year  && <span className="rel-year">{rel.year}</span>}
+                  </div>
                 </div>
                 <button
                   className="verify-btn"
