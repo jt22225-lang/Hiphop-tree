@@ -2,17 +2,28 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import WikidataPanel from './WikidataPanel';
 
-const POPUP_WIDTH = 320;
+const POPUP_WIDTH = 340;
+
+// The same set as GraphView — determines who gets the crown treatment
+const LEGEND_IDS = new Set([
+  'dj-premier',
+  'the-alchemist',
+  'j-dilla',
+  'madlib',
+  'kanye-west',
+  'pharrell-williams',
+  'pete-rock',
+  'sounwave',
+  'mf-doom',
+]);
 
 function getPopupStyle(popupPos) {
   if (!popupPos) return {};
   const gap      = 14;
   const halfNode = (popupPos.size || 40) / 2;
-  // Center horizontally on node, clamped to viewport
-  const rawLeft = popupPos.x - POPUP_WIDTH / 2;
-  const left    = Math.max(12, Math.min(rawLeft, window.innerWidth - POPUP_WIDTH - 12));
-  // Place bottom of popup just above the node
-  const top = popupPos.y - halfNode - gap;
+  const rawLeft  = popupPos.x - POPUP_WIDTH / 2;
+  const left     = Math.max(12, Math.min(rawLeft, window.innerWidth - POPUP_WIDTH - 12));
+  const top      = popupPos.y - halfNode - gap;
   return {
     position:  'fixed',
     left:      `${left}px`,
@@ -25,6 +36,50 @@ function getPopupStyle(popupPos) {
   };
 }
 
+// ── Verified Architect Badge ─────────────────────────────────
+// Displayed at the top of the Info Hub for legend producers.
+// The crown + gold glow communicates reverence immediately.
+function VerifiedArchitectBadge({ name }) {
+  return (
+    <div className="verified-architect-banner">
+      <span className="va-crown">♛</span>
+      <div className="va-text">
+        <span className="va-title">Verified Architect</span>
+        <span className="va-subtitle">Founding Producer · Hall of Legend</span>
+      </div>
+    </div>
+  );
+}
+
+// ── Personal Connection Note ─────────────────────────────────
+// Surfaces the "Met Preemo" style personal notes from metadata.
+function PersonalNoteCard({ note }) {
+  if (!note) return null;
+  return (
+    <div className="personal-note-card">
+      <div className="pn-header">
+        <span className="pn-icon">📍</span>
+        <span className="pn-label">Personal Connection</span>
+      </div>
+      <p className="pn-text">{note}</p>
+    </div>
+  );
+}
+
+// ── Cultural Impact Card ─────────────────────────────────────
+function CulturalImpactCard({ impact }) {
+  if (!impact) return null;
+  return (
+    <div className="cultural-impact-card">
+      <div className="pn-header">
+        <span className="pn-icon">🏛️</span>
+        <span className="pn-label">Cultural Impact</span>
+      </div>
+      <p className="pn-text">{impact}</p>
+    </div>
+  );
+}
+
 export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }) {
   const [bio, setBio]               = useState(null);
   const [bioLoading, setBioLoading] = useState(false);
@@ -32,6 +87,9 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
   const [geniusResults, setGeniusResults] = useState(null);
   const [loadingGenius, setLoadingGenius] = useState(false);
   const [expanded, setExpanded]     = useState(false);
+
+  const isLegend   = artist.isLegend === true || LEGEND_IDS.has(artist.id);
+  const metadata   = artist.metadata || {};
 
   // Auto-fetch Wikipedia bio whenever the selected artist changes
   useEffect(() => {
@@ -84,20 +142,42 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
   const BIO_PREVIEW_LENGTH = 280;
 
   return (
-    <aside className="sidebar" style={getPopupStyle(popupPos)}>
+    <aside
+      className={`sidebar ${isLegend ? 'sidebar-legend' : ''}`}
+      style={getPopupStyle(popupPos)}
+    >
       <button className="close-btn" onClick={onClose}>✕</button>
+
+      {/* ── Verified Architect Banner ── */}
+      {isLegend && <VerifiedArchitectBadge name={artist.name} />}
 
       {/* ── Artist info ── */}
       <div className="artist-header">
-        <div className="artist-avatar">
+        <div className={`artist-avatar ${isLegend ? 'artist-avatar-legend' : ''}`}>
           {artist.name.charAt(0)}
         </div>
         <div>
-          <h2>{artist.name}</h2>
+          <h2>
+            {artist.name}
+            {isLegend && (
+              <span className="legend-crown-inline" title="Verified Architect — Legend Status">♛</span>
+            )}
+          </h2>
           <p className="artist-meta">{artist.era} · {artist.region}</p>
-          {artist.label && <p className="artist-label">🏷️ {artist.label}</p>}
+          {artist.label  && <p className="artist-label">🏷️ {artist.label}</p>}
+          {artist.role === 'producer' && (
+            <p className="artist-role-badge">🎛️ Producer</p>
+          )}
         </div>
       </div>
+
+      {/* ── Personal Connection Note (meeting-inspired) ── */}
+      {isLegend && (
+        <>
+          <PersonalNoteCard note={metadata.personalNote} />
+          <CulturalImpactCard impact={metadata.culturalImpact} />
+        </>
+      )}
 
       {/* ── About / Bio section ── */}
       <div className="bio-section">
@@ -122,7 +202,7 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
         )}
 
         {bio?.about && !bioLoading && (() => {
-          const text = bio.about.trim();
+          const text   = bio.about.trim();
           const isLong = text.length > BIO_PREVIEW_LENGTH;
           const display = isLong && !expanded
             ? text.slice(0, BIO_PREVIEW_LENGTH) + '…'
@@ -157,10 +237,14 @@ export default function Sidebar({ artist, graphData, apiUrl, popupPos, onClose }
           {rels.map(rel => {
             const other = getOtherArtist(rel);
             if (!other) return null;
+            const otherIsLegend = other.isLegend === true || LEGEND_IDS.has(other.id);
             return (
-              <div key={rel.id} className="connection-item">
+              <div key={rel.id} className={`connection-item ${otherIsLegend ? 'connection-item-legend' : ''}`}>
                 <div className="connection-info">
-                  <strong>{other.name}</strong>
+                  <strong>
+                    {other.name}
+                    {otherIsLegend && <span className="conn-crown">♛</span>}
+                  </strong>
                   <span className="subtype">{rel.subtype?.replace(/_/g, ' ')}</span>
                   {rel.label && <span className="rel-label">{rel.label}</span>}
                 </div>

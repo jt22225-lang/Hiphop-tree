@@ -153,6 +153,8 @@ export default function App() {
         <span className="legend-item"><span className="dot era-90s" /><span>90s</span></span>
         <span className="legend-item"><span className="dot era-2000s" /><span>2000s</span></span>
         <span className="legend-item"><span className="dot era-2010s" /><span>2010s</span></span>
+        <span className="legend-divider" />
+        <span className="legend-item"><span className="dot legend" /><span>♛ Verified Architect</span></span>
       </div>
     </div>
   );

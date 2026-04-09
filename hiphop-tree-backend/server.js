@@ -452,6 +452,119 @@ async function fetchAndCacheGeniusBio(name, nameKey, res) {
   }
 }
 
+// ── GET /api/wikidata/producer-credits/:name ───────────────
+// SPARQL query #3 from the Legend spec:
+// Finds every artist this producer has a "producer" or
+// "executive producer" credit on via Wikidata P162 / P1040.
+// Also cross-references P175 (performer) for release nodes so
+// we can draw lines to every artist they've "breathed on".
+//
+// Think of this as a reverse-lookup: start at the producer,
+// follow the release graph, arrive at every performer orbit.
+app.get('/api/wikidata/producer-credits/:name', async (req, res) => {
+  const name    = decodeURIComponent(req.params.name);
+  const nameKey = `producer_credits_${name.toLowerCase()}`;
+
+  // Check cache
+  const cached = await getCached(nameKey);
+  if (cached?.producerCredits) {
+    if (isStale(cached)) {
+      setImmediate(async () => {
+        try {
+          const result = await fetchProducerCredits(name);
+          if (result) await setCached(nameKey, name, { producerCredits: result });
+        } catch (e) { console.warn('[WD-PRODUCER] Background refresh failed:', e.message); }
+      });
+    } else {
+      console.log(`[WD-PRODUCER] ⚡ Cache hit for "${name}"`);
+    }
+    return res.json({ name, source: 'cache', credits: cached.producerCredits });
+  }
+
+  try {
+    const result = await fetchProducerCredits(name);
+    if (!result) return res.status(404).json({ error: `No Wikidata entry for producer "${name}"` });
+    setImmediate(() => setCached(nameKey, name, { producerCredits: result }));
+    res.json({ name, source: 'fresh', credits: result });
+  } catch (err) {
+    console.error(`[WD-PRODUCER] Error for "${name}":`, err.message);
+    res.status(500).json({ error: 'Producer credits query failed', detail: err.message });
+  }
+});
+
+// ── SPARQL: producer credits lookup ─────────────────────────
+// The query has two legs:
+//   Leg A — P162 (record producer) on releases → find performers
+//   Leg B — P1040 (film/music video director, used in some entries)
+//           plus P175 (performer) link on those releases
+// Results are deduplicated and returned as { artist, release, role }.
+async function fetchProducerCredits(name) {
+  const qid = await getWikidataId(name);
+  if (!qid) return null;
+
+  const query = `
+    SELECT DISTINCT ?artistLabel ?releaseLabel ?role WHERE {
+      {
+        # Leg A: releases where this person is listed as record producer (P162)
+        ?release wdt:P162 wd:${qid} .
+        ?release wdt:P175 ?artist .
+        BIND("Producer" AS ?role)
+      }
+      UNION
+      {
+        # Leg B: releases where this person is listed as executive producer (P1071)
+        ?release wdt:P1071 wd:${qid} .
+        ?release wdt:P175 ?artist .
+        BIND("Executive Producer" AS ?role)
+      }
+      UNION
+      {
+        # Leg C: works where artist credits this producer as influenced_by (P737)
+        ?artist wdt:P737 wd:${qid} .
+        BIND("Influence" AS ?role)
+        BIND(?artist AS ?release)
+      }
+
+      # Filter to musical artists / humans only — skip compilations etc.
+      ?artist wdt:P31 wd:Q5 .
+
+      SERVICE wikibase:label {
+        bd:serviceParam wikibase:language "en".
+        ?artist  rdfs:label ?artistLabel .
+        ?release rdfs:label ?releaseLabel .
+      }
+    }
+    ORDER BY ?artistLabel
+    LIMIT 120
+  `;
+
+  const bindings = await sparqlQuery(query);
+
+  // Group by artist, collecting the releases they appear on
+  const grouped = {};
+  bindings.forEach(b => {
+    const artistName  = b.artistLabel?.value;
+    const releaseName = b.releaseLabel?.value;
+    const role        = b.role?.value || 'Producer';
+    if (!artistName || artistName.startsWith('Q')) return;
+
+    if (!grouped[artistName]) {
+      grouped[artistName] = { name: artistName, role, releases: [] };
+    }
+    if (releaseName && !releaseName.startsWith('Q')) {
+      grouped[artistName].releases.push(releaseName);
+    }
+  });
+
+  const credits = Object.values(grouped).map(a => ({
+    ...a,
+    releases: [...new Set(a.releases)].slice(0, 5), // dedupe, cap at 5
+  }));
+
+  console.log(`[WD-PRODUCER] "${name}" (${qid}): ${credits.length} credited artists`);
+  return credits;
+}
+
 // ── GET /api/path?from=X&to=Y ───────────────────────────────
 // Find shortest connection path between two artists (BFS)
 app.get('/api/path', (req, res) => {

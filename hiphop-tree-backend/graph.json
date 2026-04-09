@@ -1,7 +1,7 @@
 {
   "artists": [
     { "id": "jay-z",            "name": "Jay-Z",                  "era": "90s",   "region": "East Coast", "label": "Roc-A-Fella" },
-    { "id": "kanye-west",       "name": "Kanye West",              "era": "2000s", "region": "Chicago",    "label": "GOOD Music" },
+    { "id": "kanye-west",       "name": "Kanye West",              "era": "2000s", "region": "Chicago",    "label": "GOOD Music",    "role": "producer", "isLegend": true, "metadata": { "personalNote": "The blueprint architect — turned soul-sample chops into a sonic language that defined a generation.", "culturalImpact": "Produced The Blueprint (Jay-Z), College Dropout, Late Registration, MBDTF. Signed and elevated Pusha T, Kid Cudi, Big Sean, Common.", "wikidataId": "Q44158" } },
     { "id": "nas",              "name": "Nas",                     "era": "90s",   "region": "East Coast", "label": "Columbia" },
     { "id": "biggie",           "name": "The Notorious B.I.G.",    "era": "90s",   "region": "East Coast", "label": "Bad Boy" },
     { "id": "tupac",            "name": "Tupac Shakur",            "era": "90s",   "region": "West Coast", "label": "Death Row" },
@@ -49,7 +49,16 @@
     { "id": "21-savage",        "name": "21 Savage",               "era": "2010s", "region": "Atlanta",    "label": "Slaughter Gang" },
     { "id": "birdman",          "name": "Birdman",                 "era": "2000s", "region": "South",      "label": "Cash Money" },
     { "id": "ll-cool-j",        "name": "LL Cool J",               "era": "80s",   "region": "East Coast", "label": "Def Jam" },
-    { "id": "missy-elliott",    "name": "Missy Elliott",           "era": "2000s", "region": "South",      "label": "Elektra" }
+    { "id": "missy-elliott",    "name": "Missy Elliott",           "era": "2000s", "region": "South",      "label": "Elektra" },
+
+    { "id": "dj-premier",      "name": "DJ Premier",              "era": "90s",   "region": "East Coast", "label": "Gang Starr Foundation", "role": "producer", "isLegend": true, "metadata": { "personalNote": "Met Preemo at the meet-and-greet: The foundation of 90s boom-bap. His SP-1200 drum chops and jazz-loop science defined East Coast hard rap forever.", "culturalImpact": "Produced NY State of Mind Vol.2 (Nas), D'evils (Jay-Z), Ten Crack Commandments (Biggie), Mass Appeal (Gang Starr), Nas Is Like. Over 30 years of undeniable classics.", "wikidataId": "Q456097" } },
+    { "id": "the-alchemist",   "name": "The Alchemist",           "era": "2000s", "region": "East Coast", "label": "ALC Records",           "role": "producer", "isLegend": true, "metadata": { "personalNote": "Met Alchemist at the meet-and-greet: A true student of the music who became the teacher — every crate he opens becomes a masterpiece.", "culturalImpact": "Produced for Eminem, Nas, Mobb Deep, Kendrick Lamar, Action Bronson, Boldy James. Set the modern boom-bap standard for a new generation.", "wikidataId": "Q1321898" } },
+    { "id": "j-dilla",         "name": "J Dilla",                 "era": "2000s", "region": "Detroit",    "label": "Pay Jay Productions",   "role": "producer", "isLegend": true, "metadata": { "personalNote": "Donuts (2006), crafted from a hospital bed, changed how every producer thinks about structure, soul, and swing. Gone too soon — forever in the music.", "culturalImpact": "Produced for A Tribe Called Quest, De La Soul, Common, Busta Rhymes, Erykah Badu, Janet Jackson. The founding godfather of neo-soul rap production.", "wikidataId": "Q192024" } },
+    { "id": "madlib",          "name": "Madlib",                  "era": "2000s", "region": "West Coast", "label": "Stones Throw",          "role": "producer", "isLegend": true, "metadata": { "personalNote": "Madlib is the most adventurous crate-digger in the game — no genre, tempo, or era is safe from his imagination.", "culturalImpact": "Madvillainy (2004) with MF DOOM is one of the greatest albums ever made. Also produced Freddie Gibbs's Piñata/Bandana, and Mos Def's The Ecstatic.", "wikidataId": "Q335810" } },
+    { "id": "pharrell-williams","name": "Pharrell Williams",      "era": "2000s", "region": "East Coast", "label": "Star Trak / i am OTHER","role": "producer", "isLegend": true, "metadata": { "personalNote": "Pharrell's ear for melody and groove gave The Neptunes an empire that spanned rap, R&B, and pop simultaneously.", "culturalImpact": "Produced Drop It Like It's Hot (Snoop), Frontin' (Jay-Z), Alright (Kendrick), Grindin' (Clipse/Pusha T). Defined the entire 2000s pop-rap sonic palette.", "wikidataId": "Q216613" } },
+    { "id": "pete-rock",       "name": "Pete Rock",               "era": "90s",   "region": "East Coast", "label": "Loud Records",          "role": "producer", "isLegend": true, "metadata": { "personalNote": "Pete Rock's horn flips and soul samples set the eternal template for what East Coast hip-hop should sound and feel like.", "culturalImpact": "Half of Pete Rock & CL Smooth. Produced for Nas, Big Pun, Heavy D, A Tribe Called Quest. His remix of EPMD's 'So Whatcha Sayin' is studied in music schools.", "wikidataId": "Q962174" } },
+    { "id": "sounwave",        "name": "Sounwave",                "era": "2010s", "region": "West Coast", "label": "TDE",                   "role": "producer", "isLegend": true, "metadata": { "personalNote": "Sounwave is the sonic architect behind Kendrick's most ambitious worlds — TPAB's jazz and funk textures could not exist without his vision.", "culturalImpact": "Primary producer on GKMC, To Pimp a Butterfly, DAMN., and Mr. Morale & The Big Steppers. Shaped the entire sound of TDE across a decade.", "wikidataId": "Q7567682" } },
+    { "id": "mf-doom",         "name": "MF DOOM",                 "era": "2000s", "region": "East Coast", "label": "Metal Face Records",    "role": "producer", "isLegend": true, "metadata": { "personalNote": "DOOM built a mythology around his mask, his cartoons, and his beats. Few in the history of rap have ever merged lyrical and production genius so completely.", "culturalImpact": "Operation Doomsday (1999), Mm..Food (2004), Madvillainy (2004). Influenced virtually every alternative and underground rapper of the 2010s and beyond.", "wikidataId": "Q313602" } }
   ],
   "relationships": [
     { "id": "rel_001", "source": "jay-z",          "target": "kanye-west",       "type": "collaborative", "subtype": "produced_by",  "strength": 0.9,  "verified": true,  "label": "Watch the Throne (2011)" },
@@ -106,7 +115,48 @@
     { "id": "rel_052", "source": "scarface",       "target": "nas",              "type": "collaborative", "subtype": "featured_on",  "strength": 0.65, "verified": true,  "label": "The Fix (2002)" },
     { "id": "rel_053", "source": "ll-cool-j",      "target": "jay-z",            "type": "collaborative", "subtype": "featured_on",  "strength": 0.65, "verified": true,  "label": "Def Jam legacy" },
     { "id": "rel_054", "source": "puff-daddy",     "target": "jay-z",            "type": "collaborative", "subtype": "featured_on",  "strength": 0.7,  "verified": true,  "label": "New York hip-hop scene" },
-    { "id": "rel_055", "source": "kid-cudi",       "target": "travis-scott",     "type": "collaborative", "subtype": "featured_on",  "strength": 0.75, "verified": true,  "label": "The Scotts (2020)" }
+    { "id": "rel_055", "source": "kid-cudi",       "target": "travis-scott",     "type": "collaborative", "subtype": "featured_on",  "strength": 0.75, "verified": true,  "label": "The Scotts (2020)" },
+
+    { "id": "rel_p01", "source": "dj-premier",      "target": "nas",              "type": "collaborative", "subtype": "produced_by",  "strength": 0.98, "verified": true,  "label": "Nas Is Like / NY State of Mind Vol.2 (1996–1999)" },
+    { "id": "rel_p02", "source": "dj-premier",      "target": "jay-z",            "type": "collaborative", "subtype": "produced_by",  "strength": 0.9,  "verified": true,  "label": "D'evils / Reservoir Dogs (1996)" },
+    { "id": "rel_p03", "source": "dj-premier",      "target": "biggie",           "type": "collaborative", "subtype": "produced_by",  "strength": 0.88, "verified": true,  "label": "Ten Crack Commandments (1997)" },
+    { "id": "rel_p04", "source": "dj-premier",      "target": "rakim",            "type": "collaborative", "subtype": "produced_by",  "strength": 0.85, "verified": true,  "label": "18th Letter collab (1997)" },
+    { "id": "rel_p05", "source": "dj-premier",      "target": "busta-rhymes",     "type": "collaborative", "subtype": "produced_by",  "strength": 0.75, "verified": true,  "label": "Passed the Course (1998)" },
+    { "id": "rel_p06", "source": "dj-premier",      "target": "scarface",         "type": "collaborative", "subtype": "produced_by",  "strength": 0.8,  "verified": true,  "label": "The Fix (2002)" },
+
+    { "id": "rel_p07", "source": "the-alchemist",   "target": "eminem",           "type": "collaborative", "subtype": "produced_by",  "strength": 0.8,  "verified": true,  "label": "Relapse production (2009)" },
+    { "id": "rel_p08", "source": "the-alchemist",   "target": "nas",              "type": "collaborative", "subtype": "produced_by",  "strength": 0.87, "verified": true,  "label": "Street Miracle / Bravehearts (2002–2006)" },
+    { "id": "rel_p09", "source": "the-alchemist",   "target": "kendrick-lamar",   "type": "collaborative", "subtype": "produced_by",  "strength": 0.82, "verified": true,  "label": "Various TDE sessions (2012+)" },
+    { "id": "rel_p10", "source": "the-alchemist",   "target": "pusha-t",          "type": "collaborative", "subtype": "produced_by",  "strength": 0.78, "verified": true,  "label": "Infrared / various (2018)" },
+
+    { "id": "rel_p11", "source": "j-dilla",         "target": "common",           "type": "collaborative", "subtype": "produced_by",  "strength": 0.95, "verified": true,  "label": "Be (2005) — near-fully produced by Dilla" },
+    { "id": "rel_p12", "source": "j-dilla",         "target": "busta-rhymes",     "type": "collaborative", "subtype": "produced_by",  "strength": 0.8,  "verified": true,  "label": "Turn It Up / Fire It Up sessions (1998)" },
+    { "id": "rel_p13", "source": "j-dilla",         "target": "kanye-west",       "type": "collaborative", "subtype": "influenced_by","strength": 0.9,  "verified": true,  "label": "Late Registration (2005) — Dilla's soul-flip influence direct" },
+    { "id": "rel_p14", "source": "j-dilla",         "target": "jay-z",            "type": "collaborative", "subtype": "produced_by",  "strength": 0.7,  "verified": true,  "label": "Sunshine (2004)" },
+
+    { "id": "rel_p15", "source": "madlib",          "target": "mf-doom",          "type": "collaborative", "subtype": "co_produced",  "strength": 1.0,  "verified": true,  "label": "Madvillainy (2004) — stone-cold classic" },
+    { "id": "rel_p16", "source": "madlib",          "target": "kanye-west",       "type": "collaborative", "subtype": "produced_by",  "strength": 0.72, "verified": true,  "label": "Go! (2007) / Crack Music loop inspiration" },
+    { "id": "rel_p17", "source": "madlib",          "target": "scarface",         "type": "collaborative", "subtype": "produced_by",  "strength": 0.68, "verified": true,  "label": "Balls and My Word (2002)" },
+
+    { "id": "rel_p18", "source": "pharrell-williams","target": "jay-z",           "type": "collaborative", "subtype": "produced_by",  "strength": 0.88, "verified": true,  "label": "Frontin' / Excuse Me Miss (2003)" },
+    { "id": "rel_p19", "source": "pharrell-williams","target": "snoop-dogg",      "type": "collaborative", "subtype": "produced_by",  "strength": 0.92, "verified": true,  "label": "Drop It Like It's Hot (2004)" },
+    { "id": "rel_p20", "source": "pharrell-williams","target": "nicki-minaj",     "type": "collaborative", "subtype": "produced_by",  "strength": 0.78, "verified": true,  "label": "Marilyn Monroe (2012)" },
+    { "id": "rel_p21", "source": "pharrell-williams","target": "pusha-t",         "type": "collaborative", "subtype": "produced_by",  "strength": 0.93, "verified": true,  "label": "Grindin' / Clipse: Lord Willin' (2002)" },
+    { "id": "rel_p22", "source": "pharrell-williams","target": "kendrick-lamar",  "type": "collaborative", "subtype": "produced_by",  "strength": 0.9,  "verified": true,  "label": "Alright (2015) — Grammy-winning Neptunes production" },
+
+    { "id": "rel_p23", "source": "pete-rock",       "target": "nas",              "type": "collaborative", "subtype": "produced_by",  "strength": 0.82, "verified": true,  "label": "Street Dreams remix / NY sessions (1996)" },
+    { "id": "rel_p24", "source": "pete-rock",       "target": "big-pun",          "type": "collaborative", "subtype": "produced_by",  "strength": 0.85, "verified": true,  "label": "Capital Punishment production (1998)" },
+    { "id": "rel_p25", "source": "pete-rock",       "target": "rakim",            "type": "collaborative", "subtype": "produced_by",  "strength": 0.75, "verified": true,  "label": "8th Wonder tribute collab (1997)" },
+    { "id": "rel_p26", "source": "pete-rock",       "target": "fat-joe",          "type": "collaborative", "subtype": "produced_by",  "strength": 0.7,  "verified": true,  "label": "Jealous One's Envy sessions (1995)" },
+
+    { "id": "rel_p27", "source": "sounwave",        "target": "kendrick-lamar",   "type": "collaborative", "subtype": "produced_by",  "strength": 1.0,  "verified": true,  "label": "GKMC / TPAB / DAMN. / Mr. Morale — 4 classic albums" },
+    { "id": "rel_p28", "source": "sounwave",        "target": "schoolboy-q",      "type": "collaborative", "subtype": "produced_by",  "strength": 0.8,  "verified": true,  "label": "Oxymoron production (2014)" },
+    { "id": "rel_p29", "source": "sounwave",        "target": "jay-rock",         "type": "collaborative", "subtype": "produced_by",  "strength": 0.75, "verified": true,  "label": "TDE catalog production (2012–2018)" },
+    { "id": "rel_p30", "source": "sounwave",        "target": "ab-soul",          "type": "collaborative", "subtype": "produced_by",  "strength": 0.72, "verified": true,  "label": "These Days... production (2014)" },
+
+    { "id": "rel_p31", "source": "mf-doom",         "target": "tyler-the-creator","type": "collaborative", "subtype": "influenced_by","strength": 0.88, "verified": true,  "label": "Tyler cited DOOM as defining influence on Wolf era" },
+    { "id": "rel_p32", "source": "mf-doom",         "target": "earl-sweatshirt",  "type": "collaborative", "subtype": "influenced_by","strength": 0.9,  "verified": true,  "label": "Earl's Doris/I Don't Like Shit era directly indebted to DOOM" },
+    { "id": "rel_p33", "source": "mf-doom",         "target": "madlib",           "type": "collaborative", "subtype": "co_produced",  "strength": 1.0,  "verified": true,  "label": "Madvillainy (2004) — both architect and MC" }
   ],
   "collectives": [
     { "id": "wu-tang",    "name": "Wu-Tang Clan",          "members": ["wu-tang-clan","method-man","rza","ghostface-killah","gza"] },
