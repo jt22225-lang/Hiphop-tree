@@ -16,6 +16,8 @@ const LEGEND_IDS = new Set([
   'pete-rock',
   'sounwave',
   'mf-doom',
+  'rza',
+  'asap-yams',
 ]);
 
 function getPopupStyle(popupPos) {
