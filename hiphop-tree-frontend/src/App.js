@@ -97,28 +97,35 @@ export default function App() {
       });
   }, []);
 
-  // ── Image prefetch (top 25 by degree) ─────────────────────
+  // ── Image prefetch — all artists, chunked batch requests ──
   const prefetchImages = async (data) => {
-    const degrees = {};
-    data.artists.forEach(a => { degrees[a.id] = 0; });
-    data.relationships.forEach(r => {
-      degrees[r.source] = (degrees[r.source] || 0) + 1;
-      degrees[r.target] = (degrees[r.target] || 0) + 1;
-    });
-    const sorted = [...data.artists].sort((a, b) => (degrees[b.id] || 0) - (degrees[a.id] || 0));
-    const top    = sorted.slice(0, 25);
+    // Build payload: include wikidataId from metadata when available
+    const payload = data.artists.map(a => ({
+      id:         a.id,
+      name:       a.name,
+      wikidataId: a.metadata?.wikidataId || null,
+    }));
 
-    for (const artist of top) {
+    // Process in chunks of 20 so we don't hammer the server with one giant request
+    const CHUNK = 20;
+    for (let i = 0; i < payload.length; i += CHUNK) {
+      const chunk = payload.slice(i, i + CHUNK);
       try {
-        const res = await axios.get(`${API}/wiki-image/${encodeURIComponent(artist.name)}`);
-        if (res.data.image) {
-          const proxied = `${API}/proxy-image?url=${encodeURIComponent(res.data.image)}`;
-          setArtistImages(prev => ({ ...prev, [artist.id]: proxied }));
-        }
+        const res = await axios.post(`${API}/wiki-image-batch`, { artists: chunk });
+        const results = res.data?.results || {};
+        // Proxy every returned URL through the backend to avoid CORS issues
+        const proxied = {};
+        Object.entries(results).forEach(([id, url]) => {
+          proxied[id] = `${API}/proxy-image?url=${encodeURIComponent(url)}`;
+        });
+        setArtistImages(prev => ({ ...prev, ...proxied }));
       } catch (e) {
-        // No image — silently skip
+        console.warn('[prefetchImages] Batch chunk failed:', e.message);
       }
-      await new Promise(r => setTimeout(r, 100));
+      // Brief pause between chunks so we don't overwhelm external APIs
+      if (i + CHUNK < payload.length) {
+        await new Promise(r => setTimeout(r, 300));
+      }
     }
   };
 

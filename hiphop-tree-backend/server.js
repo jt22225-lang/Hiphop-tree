@@ -86,27 +86,105 @@ app.get('/api/verify/genius', async (req, res) => {
   }
 });
 
-// ── Wikipedia image fetcher (used by endpoint + background refresh) ─
-async function fetchWikiImage(name) {
-  const response = await axios.get('https://en.wikipedia.org/w/api.php', {
-    params: {
-      action:      'query',
-      titles:      name,
-      prop:        'pageimages|pageterms',
-      format:      'json',
-      pithumbsize: 300,
-      origin:      '*',
-    },
-    headers: {
-      'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js',
-      'Accept':     'application/json',
-    },
-    timeout: 10000,
-  });
-  const pages = response.data?.query?.pages;
-  if (!pages) return null;
-  const page = Object.values(pages)[0];
-  return page?.thumbnail?.source || null;
+// ── Wikipedia image fetcher — multi-strategy ─────────────────
+
+// Low-level: try one Wikipedia title, return thumbnail or null
+async function fetchWikiImageByTitle(title) {
+  try {
+    const response = await axios.get('https://en.wikipedia.org/w/api.php', {
+      params: {
+        action:      'query',
+        titles:      title,
+        prop:        'pageimages',
+        format:      'json',
+        pithumbsize: 300,
+        redirects:   1,
+      },
+      headers: {
+        'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js',
+        'Accept':     'application/json',
+      },
+      timeout: 8000,
+    });
+    const pages = response.data?.query?.pages;
+    if (!pages) return null;
+    const page = Object.values(pages)[0];
+    if (page?.missing !== undefined) return null;
+    return page?.thumbnail?.source || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Fetch image via Wikidata P18 property given a QID (e.g. "Q216952")
+async function fetchP18Image(wikidataId) {
+  try {
+    const res = await axios.get('https://www.wikidata.org/w/api.php', {
+      params: { action: 'wbgetclaims', entity: wikidataId, property: 'P18', format: 'json' },
+      headers: { 'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js' },
+      timeout: 8000,
+    });
+    const claims = res.data?.claims?.P18;
+    if (!claims || claims.length === 0) return null;
+    const filename = claims[0]?.mainsnak?.datavalue?.value;
+    if (!filename) return null;
+    const encoded = encodeURIComponent(filename.replace(/ /g, '_'));
+    return `https://commons.wikimedia.org/wiki/Special:FilePath/${encoded}?width=300`;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Build Wikipedia title variants to try in sequence
+function nameVariants(name) {
+  const variants = [name];
+  // Strip stage symbols: Ty Dolla $ign → Ty Dolla Sign
+  const stripped = name.replace(/\$/g, 's').replace(/[^\w\s'.-]/g, '').trim();
+  if (stripped !== name) variants.push(stripped);
+  // Disambiguation suffixes common for rappers
+  variants.push(`${name} (rapper)`);
+  variants.push(`${name} (hip hop musician)`);
+  return [...new Set(variants)];
+}
+
+// Multi-strategy image resolver (used by both single-artist endpoint and batch)
+async function fetchWikiImage(name, wikidataId = null) {
+  // Strategy 1 & 2: Wikipedia with name variants
+  for (const variant of nameVariants(name)) {
+    const img = await fetchWikiImageByTitle(variant);
+    if (img) {
+      console.log(`[WIKI] ✅ "${name}" via Wikipedia title: "${variant}"`);
+      return img;
+    }
+  }
+
+  // Strategy 3: Wikidata P18 via known QID from graph.json
+  if (wikidataId) {
+    const img = await fetchP18Image(wikidataId);
+    if (img) {
+      console.log(`[WIKI] ✅ "${name}" via Wikidata P18 (${wikidataId})`);
+      return img;
+    }
+  }
+
+  // Strategy 4: Wikidata entity search → P18
+  try {
+    const searchRes = await axios.get('https://www.wikidata.org/w/api.php', {
+      params: { action: 'wbsearchentities', search: name, language: 'en', format: 'json', limit: 3, type: 'item' },
+      headers: { 'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js' },
+      timeout: 8000,
+    });
+    for (const result of (searchRes.data?.search || []).slice(0, 2)) {
+      const img = await fetchP18Image(result.id);
+      if (img) {
+        console.log(`[WIKI] ✅ "${name}" via Wikidata search → P18 (${result.id})`);
+        return img;
+      }
+    }
+  } catch (e) { /* silent */ }
+
+  console.log(`[WIKI] ❌ No image found for "${name}"`);
+  return null;
 }
 
 // ── GET /api/wiki-image/:name ───────────────────────────────
@@ -148,6 +226,45 @@ app.get('/api/wiki-image/:name', async (req, res) => {
     console.error(`[WIKI] Error for "${name}":`, err.message);
     res.status(500).json({ error: 'Failed to fetch from Wikipedia', detail: err.message });
   }
+});
+
+// ── POST /api/wiki-image-batch ──────────────────────────────
+// Accepts { artists: [{id, name, wikidataId?}] }
+// Returns { results: { [artistId]: imageUrl }, count }
+app.post('/api/wiki-image-batch', async (req, res) => {
+  const artists = req.body?.artists;
+  if (!Array.isArray(artists)) return res.status(400).json({ error: 'Expected { artists: [...] }' });
+
+  const results = {};
+
+  for (const { id, name, wikidataId } of artists) {
+    if (!id || !name) continue;
+    const nameKey = name.toLowerCase();
+
+    // Serve from cache instantly when available
+    const cached = await getCached(nameKey);
+    if (cached?.image_url) {
+      results[id] = cached.image_url;
+      continue;
+    }
+
+    // Multi-strategy fetch
+    try {
+      const img = await fetchWikiImage(name, wikidataId || null);
+      if (img) {
+        results[id] = img;
+        setImmediate(() => setCached(nameKey, name, { image_url: img }));
+      }
+    } catch (e) {
+      console.warn(`[BATCH] Error for "${name}":`, e.message);
+    }
+
+    // Polite rate-limit between external API calls
+    await new Promise(r => setTimeout(r, 150));
+  }
+
+  console.log(`[BATCH] Resolved ${Object.keys(results).length}/${artists.length} images`);
+  res.json({ results, count: Object.keys(results).length });
 });
 
 // ── Wikidata helpers ────────────────────────────────────────
