@@ -1,0 +1,341 @@
+[
+  {
+    "id": "rza",
+    "name": "RZA",
+    "role": "producer",
+    "year": 1993,
+    "location": "Staten Island, NY",
+    "bio": "Robert Fitzgerald Diggs, known as RZA, is the de facto leader and chief producer of the Wu-Tang Clan. His genre-defining production on Enter the Wu-Tang (36 Chambers) fused lo-fi soul samples, kung-fu film dialogue, and hard-knocking drums into a blueprint every East Coast producer studied. He secured a five-year deal with every member to control all Wu-Tang solo output — one of the most ambitious power moves in hip-hop history.",
+    "connections": [
+      { "target": "gza",              "type": "collective",    "year_established": 1993 },
+      { "target": "ghostface-killah", "type": "collective",    "year_established": 1993 },
+      { "target": "ol-dirty-bastard", "type": "collective",    "year_established": 1993 },
+      { "target": "raekwon",          "type": "collective",    "year_established": 1993 },
+      { "target": "inspectah-deck",   "type": "collective",    "year_established": 1993 },
+      { "target": "method-man",       "type": "collective",    "year_established": 1993 },
+      { "target": "wu-tang-clan",     "type": "collective",    "year_established": 1993 },
+      { "target": "nas",              "type": "collaborative", "year_established": 1996 },
+      { "target": "joey-badass",      "type": "mentorship",    "year_established": 2012 }
+    ]
+  },
+  {
+    "id": "gza",
+    "name": "GZA",
+    "role": "rapper",
+    "year": 1993,
+    "location": "Brooklyn, NY",
+    "bio": "Gary Grice, known as GZA (The Genius), is Wu-Tang's philosopher king — the lyricist other rappers go to school on. His 1995 solo album Liquid Swords is widely considered the crown jewel of the Wu-Tang solo discography, a chess-match concept album produced entirely by RZA. Ol' Dirty Bastard was his cousin; he was also one of the first Wu members to record, pre-dating the Clan itself.",
+    "connections": [
+      { "target": "rza",              "type": "collective",    "year_established": 1993 },
+      { "target": "ol-dirty-bastard", "type": "familial",     "year_established": 1993 },
+      { "target": "wu-tang-clan",     "type": "collective",    "year_established": 1993 },
+      { "target": "inspectah-deck",   "type": "collective",    "year_established": 1993 }
+    ]
+  },
+  {
+    "id": "ghostface-killah",
+    "name": "Ghostface Killah",
+    "role": "rapper",
+    "year": 1993,
+    "location": "Staten Island, NY",
+    "bio": "Dennis Coles, known as Ghostface Killah, is the most prolific solo artist to emerge from the Wu-Tang Clan. His debut Ironman (1996) introduced Tony Starks — his alter ego — and his stream-of-consciousness, detail-rich street narratives. Supreme Clientele (2000) is frequently cited as one of the greatest rap albums ever made. He maintained an extraordinary solo run decades after most of his peers slowed.",
+    "connections": [
+      { "target": "rza",          "type": "collective",    "year_established": 1993 },
+      { "target": "wu-tang-clan", "type": "collective",    "year_established": 1993 },
+      { "target": "raekwon",      "type": "collaborative", "year_established": 1995 }
+    ]
+  },
+  {
+    "id": "ol-dirty-bastard",
+    "name": "Ol' Dirty Bastard",
+    "role": "rapper",
+    "year": 1993,
+    "location": "Brooklyn, NY",
+    "bio": "Russell Tyrone Jones, known as Ol' Dirty Bastard (or Big Baby Jesus, or Dirt McGirt), was the most unpredictable and iconoclastic member of Wu-Tang Clan. His voice — equal parts blues holler and rap — was unlike anyone in the genre. His debut Return to the 36 Chambers (1995) is a singular work of art. He passed in 2004, leaving behind a legacy that influenced everyone from Tyler, the Creator to the SoundCloud generation.",
+    "connections": [
+      { "target": "rza",          "type": "collective",    "year_established": 1993 },
+      { "target": "gza",          "type": "familial",      "year_established": 1993 },
+      { "target": "wu-tang-clan", "type": "collective",    "year_established": 1993 }
+    ]
+  },
+  {
+    "id": "raekwon",
+    "name": "Raekwon",
+    "role": "rapper",
+    "year": 1993,
+    "location": "Staten Island, NY",
+    "bio": "Corey Woods, known as Raekwon the Chef, elevated Wu-Tang's street mythology to cinematic heights on Only Built 4 Cuban Linx… (1995) — considered one of the greatest Mafioso rap albums of all time, produced almost entirely by RZA. His partnership with Ghostface Killah gave the Clan its most vivid street storytelling. He returned with Only Built 4 Cuban Linx… Pt. II in 2009, which was nearly as acclaimed.",
+    "connections": [
+      { "target": "rza",              "type": "collective",    "year_established": 1993 },
+      { "target": "ghostface-killah", "type": "collaborative", "year_established": 1995 },
+      { "target": "wu-tang-clan",     "type": "collective",    "year_established": 1993 },
+      { "target": "nas",              "type": "collaborative", "year_established": 1996 }
+    ]
+  },
+  {
+    "id": "inspectah-deck",
+    "name": "Inspectah Deck",
+    "role": "rapper",
+    "year": 1993,
+    "location": "Staten Island, NY",
+    "bio": "Jason Hunter, known as Inspectah Deck, is the Wu-Tang Clan member most revered by lyric purists. His verse on Protect Ya Neck — the opening salvo of 36 Chambers — is one of the most celebrated introductory rap moments in history. While often overlooked in solo success relative to peers, his contributions to Wu group albums are routinely ranked among the Clan's finest individual performances.",
+    "connections": [
+      { "target": "rza",          "type": "collective",    "year_established": 1993 },
+      { "target": "gza",          "type": "collective",    "year_established": 1993 },
+      { "target": "wu-tang-clan", "type": "collective",    "year_established": 1993 }
+    ]
+  },
+  {
+    "id": "havoc",
+    "name": "Havoc",
+    "role": "producer",
+    "year": 1995,
+    "location": "Queensbridge, NY",
+    "bio": "Kejuan Muchita, known as Havoc, is one half of Mobb Deep alongside Prodigy. As the duo's primary producer, he crafted the cold, menacing soundscapes of The Infamous (1995) and Hell on Earth (1996) — the definitive sonic documents of Queensbridge street life. His production style — hollow drums over bleak, soul-derived samples — influenced a generation of East Coast producers including The Alchemist himself.",
+    "connections": [
+      { "target": "prodigy",        "type": "collective",    "year_established": 1993 },
+      { "target": "nas",            "type": "collaborative", "year_established": 1995 },
+      { "target": "the-alchemist",  "type": "collaborative", "year_established": 2002 },
+      { "target": "big-pun",        "type": "collaborative", "year_established": 1998 }
+    ]
+  },
+  {
+    "id": "prodigy",
+    "name": "Prodigy",
+    "role": "rapper",
+    "year": 1995,
+    "location": "Queensbridge, NY",
+    "bio": "Albert Johnson, known as Prodigy, was one half of Mobb Deep and one of the most brutally honest street rappers in hip-hop history. His verse on Shook Ones Pt. II — the opening lines — is universally cited as one of the greatest sixteen bars ever recorded. His chilling specificity about Queensbridge life set a standard for unsparing realism that artists from Jay-Z to Kendrick Lamar have acknowledged. He passed in 2017.",
+    "connections": [
+      { "target": "havoc",          "type": "collective",    "year_established": 1993 },
+      { "target": "nas",            "type": "collaborative", "year_established": 1995 },
+      { "target": "jay-z",          "type": "collaborative", "year_established": 1996 },
+      { "target": "the-alchemist",  "type": "collaborative", "year_established": 2002 }
+    ]
+  },
+  {
+    "id": "q-tip",
+    "name": "Q-Tip",
+    "role": "producer",
+    "year": 1990,
+    "location": "Manhattan, NY",
+    "bio": "Jonathan Davis, known as Q-Tip (The Abstract), is a founding member of A Tribe Called Quest and one of the most influential rap-jazz fusion architects of the 1990s. His production and rapping on The Low End Theory (1991) and Midnight Marauders (1993) defined Native Tongues consciousness rap. He later produced for artists across generations, connecting the jazz-rap tradition to the neo-soul movement and beyond.",
+    "connections": [
+      { "target": "nas",           "type": "collaborative", "year_established": 1994 },
+      { "target": "biggie",        "type": "collaborative", "year_established": 1995 },
+      { "target": "j-dilla",       "type": "collaborative", "year_established": 1998 },
+      { "target": "busta-rhymes",  "type": "collective",    "year_established": 1991 },
+      { "target": "joey-badass",   "type": "mentorship",    "year_established": 2013 }
+    ]
+  },
+  {
+    "id": "big-pun",
+    "name": "Big Pun",
+    "role": "rapper",
+    "year": 1998,
+    "location": "South Bronx, NY",
+    "bio": "Christopher Rios, known as Big Pun, was the first Latino rapper to achieve a platinum debut album (Capital Punishment, 1998). His jaw-dropping technical ability — multisyllabic rhyme schemes at breakneck speed — earned him a reputation as one of the purest lyricists of his era. Fat Joe discovered and championed him. He passed in 2000, leaving behind a legacy that looms large over Latin hip-hop and New York rap alike.",
+    "connections": [
+      { "target": "fat-joe",         "type": "mentorship",    "year_established": 1995 },
+      { "target": "jadakiss",        "type": "collaborative", "year_established": 1999 },
+      { "target": "pete-rock",       "type": "collaborative", "year_established": 1998 },
+      { "target": "nas",             "type": "collaborative", "year_established": 1998 },
+      { "target": "havoc",           "type": "collaborative", "year_established": 1998 }
+    ]
+  },
+  {
+    "id": "jadakiss",
+    "name": "Jadakiss",
+    "role": "rapper",
+    "year": 1998,
+    "location": "Yonkers, NY",
+    "bio": "Jason Phillips, known as Jadakiss, is a member of The Lox alongside Styles P and Sheek Louch. Originally signed to Bad Boy Records via Puff Daddy, The Lox famously fought their way off the label and joined Ruff Ryders in 1998. Kiss is revered for his razor-sharp one-liners and consistent feature verse output — Jay-Z called him one of the top five rappers alive. His laugh — heh — is instantly recognizable in any bar.",
+    "connections": [
+      { "target": "styles-p",         "type": "collective",    "year_established": 1994 },
+      { "target": "sheek-louch",      "type": "collective",    "year_established": 1994 },
+      { "target": "puff-daddy",       "type": "mentorship",    "year_established": 1996 },
+      { "target": "big-pun",          "type": "collaborative", "year_established": 1999 },
+      { "target": "nas",              "type": "collaborative", "year_established": 2001 },
+      { "target": "french-montana",   "type": "collaborative", "year_established": 2011 }
+    ]
+  },
+  {
+    "id": "styles-p",
+    "name": "Styles P",
+    "role": "rapper",
+    "year": 1998,
+    "location": "Yonkers, NY",
+    "bio": "David Styles, known as Styles P (The Ghost), is a member of The Lox and one of the most prolific street rap voices out of Yonkers. Alongside Jadakiss and Sheek Louch, The Lox brought gritty, unmistakable New York realism through their Bad Boy era, their Ruff Ryders run, and decades of solo output. Styles P is particularly known for his mixtape work ethic — rarely a year has passed without multiple releases.",
+    "connections": [
+      { "target": "jadakiss",    "type": "collective",    "year_established": 1994 },
+      { "target": "sheek-louch", "type": "collective",    "year_established": 1994 },
+      { "target": "puff-daddy",  "type": "mentorship",    "year_established": 1996 },
+      { "target": "dmx",         "type": "collaborative", "year_established": 1999 }
+    ]
+  },
+  {
+    "id": "sheek-louch",
+    "name": "Sheek Louch",
+    "role": "rapper",
+    "year": 1998,
+    "location": "Yonkers, NY",
+    "bio": "Sean Jacobs, known as Sheek Louch, is the third member of The Lox. Though less celebrated than Jadakiss and Styles P individually, Sheek's booming delivery and consistent group chemistry have kept The Lox as one of the most respected rap trios in New York for over two decades. Their Verzuz battle against Dipset in 2020 is one of the most-watched and beloved matchups in the series' history.",
+    "connections": [
+      { "target": "jadakiss",    "type": "collective",    "year_established": 1994 },
+      { "target": "styles-p",    "type": "collective",    "year_established": 1994 },
+      { "target": "puff-daddy",  "type": "mentorship",    "year_established": 1996 }
+    ]
+  },
+  {
+    "id": "ice-cube",
+    "name": "Ice Cube",
+    "role": "rapper",
+    "year": 1988,
+    "location": "South Central, Los Angeles, CA",
+    "bio": "O'Shea Jackson, known as Ice Cube, was the primary lyricist of N.W.A and the architect of their most politically charged content. His debut AmeriKKKa's Most Wanted (1990), produced by the Bomb Squad, is one of the most important rap albums ever made. He then built a parallel empire in film. His mentorship of Dr. Dre in the early Ruthless days, combined with his later beef and reconciliation with the label, is central to West Coast hip-hop mythology.",
+    "connections": [
+      { "target": "dr-dre",    "type": "collective",    "year_established": 1987 },
+      { "target": "eazy-e",    "type": "collective",    "year_established": 1987 },
+      { "target": "mc-ren",    "type": "collective",    "year_established": 1987 },
+      { "target": "dj-quik",   "type": "collaborative", "year_established": 1996 },
+      { "target": "warren-g",  "type": "collaborative", "year_established": 1994 }
+    ]
+  },
+  {
+    "id": "eazy-e",
+    "name": "Eazy-E",
+    "role": "rapper",
+    "year": 1987,
+    "location": "Compton, CA",
+    "bio": "Eric Wright, known as Eazy-E, founded Ruthless Records and co-founded N.W.A — making him one of the most important figures in the birth of gangsta rap. Without Eazy's business acumen and street credibility, N.W.A might not have existed. He signed Dr. Dre and Ice Cube, and their eventual falling out with Jerry Heller and Suge Knight changed the entire trajectory of West Coast hip-hop. He passed in 1995. His son Lil Eazy-E continues his legacy.",
+    "connections": [
+      { "target": "dr-dre",    "type": "collective",    "year_established": 1987 },
+      { "target": "ice-cube",  "type": "collective",    "year_established": 1987 },
+      { "target": "mc-ren",    "type": "collective",    "year_established": 1987 },
+      { "target": "snoop-dogg","type": "collaborative", "year_established": 1993 }
+    ]
+  },
+  {
+    "id": "mc-ren",
+    "name": "MC Ren",
+    "role": "rapper",
+    "year": 1988,
+    "location": "Compton, CA",
+    "bio": "Lorenzo Patterson, known as MC Ren, was the most militant voice in N.W.A alongside Ice Cube. His lyrical aggression on Straight Outta Compton (1988) and EFIL4ZAGGIN (1991) was uncompromising. After the group's dissolution he launched a strong solo career with Kizz My Black Azz (1992) and Shock of the Hour (1993), influenced by Five-Percenter ideology. He is often considered the most underrated member of N.W.A.",
+    "connections": [
+      { "target": "ice-cube",  "type": "collective",    "year_established": 1987 },
+      { "target": "eazy-e",    "type": "collective",    "year_established": 1987 },
+      { "target": "dr-dre",    "type": "collective",    "year_established": 1987 }
+    ]
+  },
+  {
+    "id": "dj-quik",
+    "name": "DJ Quik",
+    "role": "producer",
+    "year": 1991,
+    "location": "Compton, CA",
+    "bio": "David Blake, known as DJ Quik, is one of Compton's greatest musical exports — a self-taught multi-instrumentalist and producer who bridged G-Funk with funk and soul. His debut Quik Is the Name (1991) went gold. He is a prolific producer for Dr. Dre, 2Pac, Snoop Dogg, and countless West Coast artists. His production work on 2Pac's Loyal to the Game and Snoop's catalog demonstrates his extraordinary range and longevity.",
+    "connections": [
+      { "target": "dr-dre",    "type": "collaborative", "year_established": 1992 },
+      { "target": "ice-cube",  "type": "collaborative", "year_established": 1996 },
+      { "target": "snoop-dogg","type": "collaborative", "year_established": 1994 },
+      { "target": "tupac",     "type": "collaborative", "year_established": 1996 }
+    ]
+  },
+  {
+    "id": "warren-g",
+    "name": "Warren G",
+    "role": "rapper",
+    "year": 1994,
+    "location": "Long Beach, CA",
+    "bio": "Warren Griffin III, known as Warren G, is Dr. Dre's stepbrother and the artist who helped introduce Snoop Dogg to Dre. His debut Regulate… G Funk Era (1994) spawned the massive hit Regulate ft. Nate Dogg, one of the defining G-Funk anthems of the decade. He is central to the Long Beach connection that bound the Death Row and Aftermath eras together, and is considered a key figure in the G-Funk movement alongside Dre.",
+    "connections": [
+      { "target": "dr-dre",    "type": "familial",      "year_established": 1986 },
+      { "target": "snoop-dogg","type": "collaborative", "year_established": 1992 },
+      { "target": "ice-cube",  "type": "collaborative", "year_established": 1994 },
+      { "target": "tupac",     "type": "collaborative", "year_established": 1996 }
+    ]
+  },
+  {
+    "id": "b-real",
+    "name": "B-Real",
+    "role": "rapper",
+    "year": 1991,
+    "location": "South Gate, CA",
+    "bio": "Louis Freese, known as B-Real, is the founding member and primary MC of Cypress Hill — the first Latino hip-hop group to go platinum. His distinctive nasal delivery became one of the most recognizable voices in hip-hop. Cypress Hill's blend of psychedelic stoner rap, Latin roots, and hard drums was unlike anything before it. B-Real also built a cannabis culture empire alongside his music, years before mainstream legalization.",
+    "connections": [
+      { "target": "sen-dog",    "type": "collective",    "year_established": 1988 },
+      { "target": "dj-muggs",   "type": "collective",    "year_established": 1988 },
+      { "target": "dr-dre",     "type": "collaborative", "year_established": 1992 },
+      { "target": "nas",        "type": "collaborative", "year_established": 1996 },
+      { "target": "tyler-the-creator", "type": "collaborative", "year_established": 2014 }
+    ]
+  },
+  {
+    "id": "sen-dog",
+    "name": "Sen Dog",
+    "role": "rapper",
+    "year": 1991,
+    "location": "Havana, Cuba (raised: South Gate, CA)",
+    "bio": "Senen Reyes, known as Sen Dog, is a founding member of Cypress Hill alongside B-Real and DJ Muggs. His aggressive, lower-pitched counterpart to B-Real's nasal flow gave Cypress Hill their call-and-response dynamic. Sen Dog's verses on How I Could Just Kill a Man and Insane in the Brain are some of the most quoted lines of 90s rap. He was also part of the Los Angeles supergroup DELINQUENT HABITS.",
+    "connections": [
+      { "target": "b-real",    "type": "collective",    "year_established": 1988 },
+      { "target": "dj-muggs",  "type": "collective",    "year_established": 1988 }
+    ]
+  },
+  {
+    "id": "dj-muggs",
+    "name": "DJ Muggs",
+    "role": "producer",
+    "year": 1991,
+    "location": "Queens, NY (raised: Los Angeles, CA)",
+    "bio": "Lawrence Muggerud, known as DJ Muggs, is the production backbone of Cypress Hill and one of the most singular beat architects of the 1990s. His sample-heavy, bass-heavy, psychedelic production introduced a Latin-tinged, marijuana-soaked West Coast aesthetic that had no precedent. Beyond Cypress Hill, he has produced for Nas, Beastie Boys, Everlast, and GZA. His solo album Dust (2017) was widely praised.",
+    "connections": [
+      { "target": "b-real",    "type": "collective",    "year_established": 1988 },
+      { "target": "sen-dog",   "type": "collective",    "year_established": 1988 },
+      { "target": "nas",       "type": "collaborative", "year_established": 1998 },
+      { "target": "gza",       "type": "collaborative", "year_established": 2005 }
+    ]
+  },
+  {
+    "id": "kurupt",
+    "name": "Kurupt",
+    "role": "rapper",
+    "year": 1992,
+    "location": "Philadelphia, PA (raised: Los Angeles, CA)",
+    "bio": "Ricardo Emmanuel Brown, known as Kurupt, is one half of Tha Dogg Pound alongside Daz Dillinger and a member of the Death Row Records family during its peak years. His rapid-fire delivery and technical precision on Dogg Food (1995) and throughout the early Snoop catalog earned him a reputation as one of the fastest and most technically gifted MCs of the G-Funk era.",
+    "connections": [
+      { "target": "daz-dillinger", "type": "collective",    "year_established": 1992 },
+      { "target": "snoop-dogg",    "type": "collective",    "year_established": 1992 },
+      { "target": "dr-dre",        "type": "mentorship",    "year_established": 1992 },
+      { "target": "tupac",         "type": "collaborative", "year_established": 1996 }
+    ]
+  },
+  {
+    "id": "daz-dillinger",
+    "name": "Daz Dillinger",
+    "role": "producer",
+    "year": 1992,
+    "location": "Long Beach, CA",
+    "bio": "Delmar Drew Arnaud, known as Daz Dillinger, is one half of Tha Dogg Pound alongside Kurupt. Beyond rapping, Daz is also a significant producer — he co-produced several tracks on Dr. Dre's The Chronic and Snoop's Doggystyle, making him a key contributor to the core G-Funk sound. He is Snoop Dogg's cousin. Their Dogg Food album (1995) is one of the defining Death Row Records releases.",
+    "connections": [
+      { "target": "kurupt",    "type": "collective",    "year_established": 1992 },
+      { "target": "snoop-dogg","type": "familial",      "year_established": 1991 },
+      { "target": "dr-dre",    "type": "collaborative", "year_established": 1992 },
+      { "target": "tupac",     "type": "collaborative", "year_established": 1996 }
+    ]
+  },
+  {
+    "id": "da-brat",
+    "name": "Da Brat",
+    "role": "rapper",
+    "year": 1994,
+    "location": "Chicago, IL (based: Atlanta, GA)",
+    "bio": "Shawntae Harris, known as Da Brat, became the first female rapper to achieve a solo platinum album with Funkdafied (1994), produced by Jermaine Dupri. Though from Chicago, she was central to the Atlanta-based So So Def empire. Her sharp, tomboy flow and self-confidence predated many of the aesthetics later championed by female rap's second wave. She was a fixture on 90s West Coast and Atlanta crossover records.",
+    "connections": [
+      { "target": "snoop-dogg",  "type": "collaborative", "year_established": 1994 },
+      { "target": "lil-kim",     "type": "collaborative", "year_established": 1997 },
+      { "target": "nicki-minaj", "type": "collaborative", "year_established": 2014 }
+    ]
+  }
+]

@@ -223,6 +223,7 @@ export default function App() {
             onClose={() => { setSelected(null); setPopupPos(null); }}
             deepCutIds={deepCutIds}
             activeYear={showSlider ? activeYear : null}
+            artistImages={artistImages}
           />
         )}
       </main>

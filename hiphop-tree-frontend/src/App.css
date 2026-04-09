@@ -132,18 +132,55 @@ body {
 
 .artist-header { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 20px; }
 .artist-avatar {
-  width: 52px;
-  height: 52px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   background: #1a1a1a;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
   color: #f97316;
   flex-shrink: 0;
   border: 2px solid #f97316;
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ── Photo mode — fills the circle ─────────────────────────── */
+.artist-avatar-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+/* ── Loading shimmer — plays while hook resolves image chain ─ */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.artist-avatar-loading {
+  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-color: #333 !important;
+}
+.avatar-shimmer {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+/* ── Role-colored fallback initials (color set inline from hook) */
+.artist-avatar[style] {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
 .artist-header h2 { font-size: 18px; line-height: 1.3; }
 .artist-meta { color: #888; font-size: 13px; margin-top: 3px; }

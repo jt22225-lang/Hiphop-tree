@@ -1,0 +1,359 @@
+[
+  {
+    "id": "asap-rocky",
+    "name": "A$AP Rocky",
+    "role": "rapper",
+    "year": 2012,
+    "location": "Harlem, NY",
+    "bio": "Rakim Athelaston Mayers, known as A$AP Rocky, is the breakout star of the A$AP Mob collective from Harlem. His debut mixtape Live. Love. A$AP (2011) was an immediate sensation, blending Houston chopped-and-screwed aesthetics, cloud rap atmosphere, and New York swagger in a way that was genuinely new. A$AP Yams, the collective's founder and creative director, was the architect of this vision before his passing in 2015. Rocky later cemented his status with LONG.LIVE.A$AP (2013) and Testing (2018).",
+    "connections": [
+      { "target": "asap-yams",    "type": "mentorship",    "year_established": 2007 },
+      { "target": "joey-badass",  "type": "collaborative", "year_established": 2012 },
+      { "target": "kendrick-lamar","type": "collaborative","year_established": 2013 },
+      { "target": "tyler-the-creator","type": "collaborative","year_established": 2015 },
+      { "target": "french-montana","type": "collective",   "year_established": 2012 },
+      { "target": "rza",          "type": "collaborative", "year_established": 2012 }
+    ]
+  },
+  {
+    "id": "asap-yams",
+    "name": "A$AP Yams",
+    "role": "producer",
+    "year": 2007,
+    "location": "Harlem, NY",
+    "bio": "Steven Rodriguez, known as A$AP Yams, was the founder and creative director of the A$AP Mob collective. Despite rarely appearing on records himself, he was the invisible hand behind A$AP Rocky's aesthetic, sound, and image — a visionary A&R who understood that Houston, New York, and Los Angeles aesthetics could fuse into something new. He passed at age 26 in January 2015. His influence on 2010s rap — from cloud rap to drill — is incalculable. A$AP Mob dedicated their debut album Cozy Tapes to his memory.",
+    "connections": [
+      { "target": "asap-rocky",   "type": "mentorship",    "year_established": 2007 },
+      { "target": "french-montana","type": "collaborative","year_established": 2010 },
+      { "target": "rza",          "type": "collaborative", "year_established": 2012 }
+    ]
+  },
+  {
+    "id": "joey-badass",
+    "name": "Joey Bada$$",
+    "role": "rapper",
+    "year": 2012,
+    "location": "Brooklyn, NY",
+    "bio": "Jo-Vaughn Virginie Scott, known as Joey Bada$$, burst onto the scene at 16 with 1999 (2012) — a mixtape so sonically committed to 90s East Coast boom-bap that it immediately drew comparisons to Nas and Biggie. Co-founder of the Pro Era collective, he bridged the Wu-Tang Clan's Staten Island energy with Brooklyn classicism. Q-Tip and RZA both publicly endorsed him early. His debut album B4.DA.$$ (2015) debuted at #5 on the Billboard 200.",
+    "connections": [
+      { "target": "rza",           "type": "mentorship",    "year_established": 2012 },
+      { "target": "q-tip",         "type": "mentorship",    "year_established": 2013 },
+      { "target": "asap-rocky",    "type": "collaborative", "year_established": 2012 },
+      { "target": "capitol-steez", "type": "collective",    "year_established": 2010 },
+      { "target": "action-bronson","type": "collaborative", "year_established": 2014 },
+      { "target": "kendrick-lamar","type": "collaborative", "year_established": 2015 }
+    ]
+  },
+  {
+    "id": "capitol-steez",
+    "name": "Capital STEEZ",
+    "role": "rapper",
+    "year": 2012,
+    "location": "Brooklyn, NY",
+    "bio": "Jamal Deion Telfort, known as Capital STEEZ, was a founding member of Pro Era alongside Joey Bada$$. His verse on Survival Tactics (2012) — released when he was 17 — displayed a lyrical and spiritual depth far beyond his years. He passed away on December 24, 2012, leaving behind a small but profound body of work. His impact on the Brooklyn rap revival and his poetic lyricism continue to influence a wave of introspective rap artists.",
+    "connections": [
+      { "target": "joey-badass", "type": "collective",    "year_established": 2010 },
+      { "target": "rza",         "type": "collaborative", "year_established": 2012 }
+    ]
+  },
+  {
+    "id": "french-montana",
+    "name": "French Montana",
+    "role": "rapper",
+    "year": 2012,
+    "location": "Bronx, NY",
+    "bio": "Karim Kharbouch, known as French Montana, is a Moroccan-born rapper who came up in the Bronx and built his career through an alliance with Max B and his own Coke Boys label. His co-signing by both Diddy (Bad Boy) and Rick Ross (Maybach Music Group) in 2012 was a landmark moment. His hit Unforgettable (2017) reached #3 on the Billboard Hot 100. He is a central connector between New York's old guard and its diaspora-inflected new wave.",
+    "connections": [
+      { "target": "asap-rocky",   "type": "collective",    "year_established": 2012 },
+      { "target": "puff-daddy",   "type": "mentorship",    "year_established": 2012 },
+      { "target": "jadakiss",     "type": "collaborative", "year_established": 2011 },
+      { "target": "drake",        "type": "collaborative", "year_established": 2013 },
+      { "target": "kanye-west",   "type": "collaborative", "year_established": 2013 }
+    ]
+  },
+  {
+    "id": "pop-smoke",
+    "name": "Pop Smoke",
+    "role": "rapper",
+    "year": 2019,
+    "location": "Canarsie, Brooklyn, NY",
+    "bio": "Bashar Barakah Jackson, known as Pop Smoke, ignited Brooklyn Drill in 2019 with Welcome to the Party and Dior — two songs that instantly made him a global star. His impossibly deep, menacing voice paired with UK Drill-influenced production was something genuinely new for New York. He passed at just 20 years old in February 2020, leaving behind a posthumous debut, Shoot for the Stars Aim for the Moon, that debuted at #1. He is widely considered the father of NYC Drill.",
+    "connections": [
+      { "target": "asap-rocky",    "type": "collaborative", "year_established": 2019 },
+      { "target": "50-cent",       "type": "mentorship",    "year_established": 2020 },
+      { "target": "french-montana","type": "collaborative", "year_established": 2019 },
+      { "target": "a-boogie-wit-da-hoodie","type": "collaborative","year_established": 2019 }
+    ]
+  },
+  {
+    "id": "cardi-b",
+    "name": "Cardi B",
+    "role": "rapper",
+    "year": 2017,
+    "location": "Washington Heights, NY",
+    "bio": "Belcalis Marlenis Almánzar, known as Cardi B, made history in 2018 when Invasion of Privacy became the first album by a female rapper to win the Grammy for Best Rap Album. Her breakout single Bodak Yellow (2017) reached #1 on the Billboard Hot 100, making her the first solo female rapper to top the chart since Lauryn Hill in 1998. Her unapologetic New York swagger and raw authenticity represent the Bronx tradition carried into a new generation.",
+    "connections": [
+      { "target": "nicki-minaj",   "type": "collaborative", "year_established": 2018 },
+      { "target": "french-montana","type": "collaborative", "year_established": 2018 },
+      { "target": "puff-daddy",    "type": "collaborative", "year_established": 2017 },
+      { "target": "travis-scott",  "type": "collaborative", "year_established": 2019 },
+      { "target": "da-brat",       "type": "collaborative", "year_established": 2019 }
+    ]
+  },
+  {
+    "id": "action-bronson",
+    "name": "Action Bronson",
+    "role": "rapper",
+    "year": 2012,
+    "location": "Flushing, Queens, NY",
+    "bio": "Ariyan Arslani, known as Action Bronson, is a Queens-born former chef whose vivid, food-and-sport-obsessed lyricism and gruff, RZA-worshipping delivery made him an immediate favorite in underground circles. His collaboration with The Alchemist — Blue Chips (2012) and Rare Chandeliers (2012) — are considered canon in the post-millennium boom-bap revival. His flow is so reminiscent of a mid-90s Ghostface Killah that some called him the reincarnation.",
+    "connections": [
+      { "target": "the-alchemist", "type": "collaborative", "year_established": 2012 },
+      { "target": "rza",           "type": "collaborative", "year_established": 2014 },
+      { "target": "joey-badass",   "type": "collaborative", "year_established": 2014 },
+      { "target": "ghostface-killah","type": "collaborative","year_established": 2013 }
+    ]
+  },
+  {
+    "id": "a-boogie-wit-da-hoodie",
+    "name": "A Boogie wit da Hoodie",
+    "role": "rapper",
+    "year": 2016,
+    "location": "Highbridge, Bronx, NY",
+    "bio": "Artist Julius Dubose, known as A Boogie wit da Hoodie, represents the melodic, emo-tinged wing of New York's 2010s rap resurgence. His debut Artist (2016) and its follow-up Hoodie SZN (2018) demonstrated his ability to blend singing and rapping into a seamless emotional continuum. He is one of the best-charting NYC artists of the streaming era, proving that melodic rap and New York street authenticity are not mutually exclusive.",
+    "connections": [
+      { "target": "pop-smoke",    "type": "collaborative", "year_established": 2019 },
+      { "target": "drake",        "type": "collaborative", "year_established": 2018 },
+      { "target": "21-savage",    "type": "collaborative", "year_established": 2018 }
+    ]
+  },
+  {
+    "id": "dave-east",
+    "name": "Dave East",
+    "role": "rapper",
+    "year": 2014,
+    "location": "East Harlem, NY",
+    "bio": "David Brewster Jr., known as Dave East, is a Nas protégé and one of the most critically praised lyricists to come out of New York in the 2010s. Signed to Nas's Mass Appeal Records label, his Kairi Chanel mixtape (2016) was one of the year's most downloaded projects. His dense, detail-rich narratives about Harlem street life owe a clear debt to the Nasty Nas tradition — which is appropriate, since Nas personally handpicked him.",
+    "connections": [
+      { "target": "nas",        "type": "mentorship",    "year_established": 2014 },
+      { "target": "asap-rocky", "type": "collaborative", "year_established": 2015 },
+      { "target": "dj-premier", "type": "collaborative", "year_established": 2016 }
+    ]
+  },
+  {
+    "id": "flatbush-zombies",
+    "name": "Flatbush Zombies",
+    "role": "rapper",
+    "year": 2012,
+    "location": "Flatbush, Brooklyn, NY",
+    "bio": "The Flatbush Zombies (Meechy Darko, Zombie Juice, and producer Erick Arc Elliott) are a Brooklyn trio whose psychedelic horrorcore rap is a direct descendant of Wu-Tang's dark mysticism and Gravediggaz's gothic rap. Their debut Better Off Dead (2016) is a cult classic that bridges the gap between 90s East Coast grime and internet-era psychedelia. They represent the underground Brooklyn scene's most consistent voices.",
+    "connections": [
+      { "target": "joey-badass",    "type": "collective",    "year_established": 2012 },
+      { "target": "asap-rocky",     "type": "collaborative", "year_established": 2014 },
+      { "target": "mf-doom",        "type": "collaborative", "year_established": 2016 },
+      { "target": "rza",            "type": "collaborative", "year_established": 2015 }
+    ]
+  },
+  {
+    "id": "young-ma",
+    "name": "Young M.A",
+    "role": "rapper",
+    "year": 2016,
+    "location": "Brooklyn, NY",
+    "bio": "Katorah Marrero, known as Young M.A, broke through with the viral hit OOOUUU (2016), which showcased her aggressive delivery and New York street confidence. She represents the continuation of Brooklyn's lyrical tradition — dense bars, no features, independent spirit — carried into the streaming era. Her openly queer identity has made her a trailblazer within hip-hop's LGBTQ+ community.",
+    "connections": [
+      { "target": "pop-smoke",    "type": "collaborative", "year_established": 2019 },
+      { "target": "50-cent",      "type": "collaborative", "year_established": 2018 }
+    ]
+  },
+  {
+    "id": "coke-boys",
+    "name": "Coke Boys (Collective)",
+    "role": "rapper",
+    "year": 2010,
+    "location": "Bronx, NY",
+    "bio": "The Coke Boys are French Montana's rap collective out of the Bronx — including Harry Fraud, Max B (the pioneer whose vocal style influenced the cloud rap movement), and various Bronx affiliates. Max B's influence on A$AP Mob's melodic, laid-back delivery is well-documented. Harry Fraud's production for French, Raekwon, and Action Bronson makes the Coke Boys an important node connecting Bronx drill-rap lineage to boom-bap.",
+    "connections": [
+      { "target": "french-montana", "type": "collective",    "year_established": 2010 },
+      { "target": "asap-yams",      "type": "collaborative", "year_established": 2011 },
+      { "target": "raekwon",        "type": "collaborative", "year_established": 2013 }
+    ]
+  },
+  {
+    "id": "kendrick-lamar",
+    "name": "Kendrick Lamar",
+    "role": "rapper",
+    "year": 2012,
+    "location": "Compton, CA",
+    "bio": "Kendrick Lamar Duckworth is the most critically acclaimed rapper of his generation — the first non-classical, non-jazz musician to win the Pulitzer Prize for Music (DAMN., 2018). Mentored directly by Dr. Dre, his major label debut good kid, m.A.A.d city (2012) is a near-perfect narrative album. To Pimp a Butterfly (2015) is widely considered one of the greatest albums ever made in any genre. His 2024 beef with Drake became the most-watched rap moment in social media history. Baby Keem is his cousin.",
+    "connections": [
+      { "target": "dr-dre",          "type": "mentorship",    "year_established": 2010 },
+      { "target": "schoolboy-q",     "type": "collective",    "year_established": 2010 },
+      { "target": "jay-rock",        "type": "collective",    "year_established": 2010 },
+      { "target": "ab-soul",         "type": "collective",    "year_established": 2010 },
+      { "target": "sounwave",        "type": "collaborative", "year_established": 2012 },
+      { "target": "the-alchemist",   "type": "collaborative", "year_established": 2012 },
+      { "target": "pharrell-williams","type":"collaborative", "year_established": 2015 },
+      { "target": "baby-keem",       "type": "familial",      "year_established": 2019 },
+      { "target": "dj-premier",      "type": "collaborative", "year_established": 2022 },
+      { "target": "nipsey-hussle",   "type": "collaborative", "year_established": 2018 }
+    ]
+  },
+  {
+    "id": "schoolboy-q",
+    "name": "ScHoolboy Q",
+    "role": "rapper",
+    "year": 2012,
+    "location": "South Central, Los Angeles, CA",
+    "bio": "Quincy Matthew Hanley, known as ScHoolboy Q, is a TDE labelmate and close collaborator of Kendrick Lamar whose own vision — darker, blunted, more overtly street — carves out a distinct space. Oxymoron (2014) is a platinum major label debut that proved TDE's dominance extended beyond Kendrick. Q's production sensibility, shaped by Sounwave and Alchemist, emphasizes heavy, dense atmospheres over clean hooks.",
+    "connections": [
+      { "target": "kendrick-lamar", "type": "collective",    "year_established": 2010 },
+      { "target": "jay-rock",       "type": "collective",    "year_established": 2010 },
+      { "target": "sounwave",       "type": "collaborative", "year_established": 2012 },
+      { "target": "the-alchemist",  "type": "collaborative", "year_established": 2014 },
+      { "target": "dr-dre",         "type": "collaborative", "year_established": 2014 }
+    ]
+  },
+  {
+    "id": "jay-rock",
+    "name": "Jay Rock",
+    "role": "rapper",
+    "year": 2011,
+    "location": "Watts, Los Angeles, CA",
+    "bio": "Johnny Reed McKinzie Jr., known as Jay Rock, was the first TDE artist to sign with a major label (Warner Bros., via Strange Music). His Watts-rooted lyricism and album Redemption (2018) — which won him a BET Hip Hop Award for Album of the Year — represent the TDE tradition at its most emotionally raw. He survived a near-fatal motorcycle accident in 2016, and his comeback is documented across Redemption's tracklist.",
+    "connections": [
+      { "target": "kendrick-lamar", "type": "collective",    "year_established": 2010 },
+      { "target": "schoolboy-q",    "type": "collective",    "year_established": 2010 },
+      { "target": "sounwave",       "type": "collaborative", "year_established": 2012 },
+      { "target": "dr-dre",         "type": "collaborative", "year_established": 2015 }
+    ]
+  },
+  {
+    "id": "tyler-the-creator",
+    "name": "Tyler, the Creator",
+    "role": "producer",
+    "year": 2011,
+    "location": "Ladera Heights, Los Angeles, CA",
+    "bio": "Tyler Gregory Okonma, known as Tyler, the Creator, co-founded Odd Future and has become one of the most creatively restless figures in modern music. His evolution from the aggressively provocative Goblin (2011) to the lush, jazzy IGOR (2019) — which won Album of the Year at the Grammys — is one of the most dramatic and intentional artistic arcs in contemporary hip-hop. He cites MF DOOM, Pharrell Williams, and Kanye West as his primary inspirations. He also runs the successful golf apparel brand Golf Wang.",
+    "connections": [
+      { "target": "earl-sweatshirt", "type": "collective",    "year_established": 2007 },
+      { "target": "frank-ocean",     "type": "collective",    "year_established": 2007 },
+      { "target": "mf-doom",         "type": "collaborative", "year_established": 2013 },
+      { "target": "pharrell-williams","type":"collaborative", "year_established": 2019 },
+      { "target": "kanye-west",      "type": "collaborative", "year_established": 2016 },
+      { "target": "kendrick-lamar",  "type": "collaborative", "year_established": 2015 },
+      { "target": "asap-rocky",      "type": "collaborative", "year_established": 2015 }
+    ]
+  },
+  {
+    "id": "nipsey-hussle",
+    "name": "Nipsey Hussle",
+    "role": "rapper",
+    "year": 2013,
+    "location": "Crenshaw, Los Angeles, CA",
+    "bio": "Ermias Joseph Asghedom, known as Nipsey Hussle, was the Marathon Collective's founder and a Crenshaw community institution. His innovation of selling mixtapes for $100 (Proud2Pay) anticipated the premium direct-to-fan model. Victory Lap (2018) earned him a Grammy nomination for Best Rap Album. He was deeply connected to Dr. Dre, Kendrick Lamar, and the Roc Nation infrastructure. His murder in March 2019 outside his own store in Crenshaw devastated the community and global hip-hop.",
+    "connections": [
+      { "target": "kendrick-lamar","type": "collaborative", "year_established": 2018 },
+      { "target": "dr-dre",        "type": "collaborative", "year_established": 2016 },
+      { "target": "dj-mustard",    "type": "collaborative", "year_established": 2013 },
+      { "target": "yg",            "type": "collaborative", "year_established": 2014 },
+      { "target": "jay-z",         "type": "collaborative", "year_established": 2014 }
+    ]
+  },
+  {
+    "id": "dj-mustard",
+    "name": "DJ Mustard",
+    "role": "producer",
+    "year": 2012,
+    "location": "Los Angeles, CA",
+    "bio": "Dijon Isaiah McFarlane, known as DJ Mustard, is the architect of the Ratchet sound that dominated West Coast hip-hop and R&B in the early 2010s. His production signature — minimal hi-hats, cowbells, and bouncy bass — is instantly recognizable across YG's My Krazy Life, Ty Dolla $ign's Beach House series, and dozens of hit singles. He also produced Kendrick Lamar's Backstreet Freestyle. His influence on party rap and the transition from G-Funk to West Coast trap is incalculable.",
+    "connections": [
+      { "target": "nipsey-hussle","type": "collaborative", "year_established": 2013 },
+      { "target": "yg",          "type": "collaborative", "year_established": 2012 },
+      { "target": "kendrick-lamar","type":"collaborative", "year_established": 2012 },
+      { "target": "drake",       "type": "collaborative", "year_established": 2015 },
+      { "target": "travis-scott","type": "collaborative", "year_established": 2016 }
+    ]
+  },
+  {
+    "id": "baby-keem",
+    "name": "Baby Keem",
+    "role": "rapper",
+    "year": 2019,
+    "location": "Las Vegas, NV (based: Los Angeles, CA)",
+    "bio": "Hykeem Darrell Carter Jr., known as Baby Keem, is Kendrick Lamar's cousin and one of the most promising voices of the post-DAMN. West Coast generation. His debut The Melodic Blue (2021) — co-produced with Kendrick under their pgLang label — demonstrates a restless, chaotic energy that recalls early Kanye West's maximalism. Their collaboration family ties (2021) won a Grammy for Best Melodic Rap Performance.",
+    "connections": [
+      { "target": "kendrick-lamar","type": "familial",     "year_established": 2019 },
+      { "target": "travis-scott", "type": "collaborative", "year_established": 2021 },
+      { "target": "dj-mustard",   "type": "collaborative", "year_established": 2021 }
+    ]
+  },
+  {
+    "id": "vince-staples",
+    "name": "Vince Staples",
+    "role": "rapper",
+    "year": 2014,
+    "location": "Long Beach, CA",
+    "bio": "Vince Staples is one of the most critically respected rappers of his generation — a Long Beach native whose sardonic, unflinching perspective on gang life and systemic inequality reads like literary fiction. His debut Summertime '06 (2015) and Big Fish Theory (2017) bridged West Coast street rap with electronic and post-punk influences. He collaborated with Clams Casino, No I.D., and Kenny Beats, demonstrating an unusually eclectic production sensibility.",
+    "connections": [
+      { "target": "kendrick-lamar", "type": "collaborative", "year_established": 2015 },
+      { "target": "dj-mustard",     "type": "collaborative", "year_established": 2014 },
+      { "target": "tyler-the-creator","type":"collaborative","year_established": 2016 }
+    ]
+  },
+  {
+    "id": "yg",
+    "name": "YG",
+    "role": "rapper",
+    "year": 2013,
+    "location": "Compton, CA",
+    "bio": "Keenon Daequan Ray Jackson, known as YG, is the primary flag-bearer of Compton's post-Kendrick rap era. My Krazy Life (2014), produced almost entirely by DJ Mustard, is a landmark concept album narrating a day in the life of a Blood gang member — praised for its cinematic structure and Nipsey Hussle guest verse. His explicit anti-Trump track FDT (2016) became an anthem. He is one of the most important political voices in West Coast hip-hop.",
+    "connections": [
+      { "target": "dj-mustard",    "type": "collaborative", "year_established": 2012 },
+      { "target": "nipsey-hussle", "type": "collaborative", "year_established": 2014 },
+      { "target": "kendrick-lamar","type": "collaborative", "year_established": 2014 },
+      { "target": "dr-dre",        "type": "collaborative", "year_established": 2016 }
+    ]
+  },
+  {
+    "id": "anderson-paak",
+    "name": "Anderson .Paak",
+    "role": "rapper",
+    "year": 2016,
+    "location": "Oxnard, CA",
+    "bio": "Brandon Paak Anderson, known as Anderson .Paak, is a multi-instrumentalist rapper-singer whose debut on Dr. Dre's Compton (2015) introduced him to the world. His albums Malibu (2016) and Oxnard (2018) are widely considered modern funk-rap masterpieces. His partnership with Bruno Mars as Silk Sonic produced Leave the Door Open (2021), a #1 hit that won four Grammy Awards. His drumming, singing, and rapping simultaneously is a rare feat.",
+    "connections": [
+      { "target": "dr-dre",        "type": "mentorship",    "year_established": 2015 },
+      { "target": "kendrick-lamar","type": "collaborative", "year_established": 2016 },
+      { "target": "dj-mustard",    "type": "collaborative", "year_established": 2018 },
+      { "target": "nipsey-hussle", "type": "collaborative", "year_established": 2018 }
+    ]
+  },
+  {
+    "id": "sza",
+    "name": "SZA",
+    "role": "rapper",
+    "year": 2017,
+    "location": "Maplewood, NJ (based: Los Angeles, CA)",
+    "bio": "Solána Imani Rowe, known as SZA, is the highest-charting female TDE artist and one of the most culturally significant women in music. Her debut CTRL (2017) redefined millennial R&B — blending introspective lyricism with Pharrell-inflected production — and has since gone 6x Platinum. SOS (2022) debuted at #1 and made her the first woman to hold the top spot on the rap albums chart for over 10 consecutive weeks. Her connection to the TDE ecosystem, Kendrick, and the Compton scene is organic.",
+    "connections": [
+      { "target": "kendrick-lamar","type": "collective",    "year_established": 2013 },
+      { "target": "schoolboy-q",   "type": "collective",    "year_established": 2013 },
+      { "target": "travis-scott",  "type": "collaborative", "year_established": 2018 },
+      { "target": "baby-keem",     "type": "collaborative", "year_established": 2021 }
+    ]
+  },
+  {
+    "id": "dom-kennedy",
+    "name": "Dom Kennedy",
+    "role": "rapper",
+    "year": 2010,
+    "location": "Leimert Park, Los Angeles, CA",
+    "bio": "Dominic Owen Wynn Thomas, known as Dom Kennedy, is one of the founding figures of the independent Los Angeles rap wave that preceded Kendrick Lamar's major label explosion. His Yellow Tape series of mixtapes and From the Westside with Love (2011) are cult classics of the laid-back, Lo-Fi LA aesthetic. He inspired artists including YG, Nipsey Hussle, and the early Odd Future generation with his self-made independent hustle.",
+    "connections": [
+      { "target": "nipsey-hussle","type": "collaborative", "year_established": 2012 },
+      { "target": "yg",          "type": "collaborative", "year_established": 2013 },
+      { "target": "vince-staples","type": "collaborative", "year_established": 2015 }
+    ]
+  }
+]

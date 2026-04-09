@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import WikidataPanel from './WikidataPanel';
+import { useArtistImage, getAvatarColors } from './useArtistImage';
 
 const POPUP_WIDTH = 340;
 
@@ -175,8 +176,9 @@ export default function Sidebar({
   apiUrl,
   popupPos,
   onClose,
-  deepCutIds,   // ← new: Set<string>
-  activeYear,   // ← new: current slider year
+  deepCutIds,    // ← Set<string>
+  activeYear,    // ← current slider year
+  artistImages,  // ← pre-cached image URLs from App.js prefetch
 }) {
   const [bio, setBio]               = useState(null);
   const [bioLoading, setBioLoading] = useState(false);
@@ -188,6 +190,13 @@ export default function Sidebar({
   const isLegend   = artist.isLegend === true || LEGEND_IDS.has(artist.id);
   const isDeepCut  = deepCutIds?.has(artist.id) || false;
   const metadata   = artist.metadata || {};
+
+  // ── Image resolution — the "Media Resilience" chain ─────────
+  // Pass the pre-fetched cached URL (may be undefined); the hook
+  // will probe it, then fall through Wikimedia → initial avatar.
+  const cachedUrl = artistImages?.[artist.id];
+  const { imageUrl, status: imgStatus } = useArtistImage(artist, cachedUrl);
+  const avatarColors = getAvatarColors(artist, isLegend, isDeepCut);
 
   useEffect(() => {
     setBio(null);
@@ -263,8 +272,37 @@ export default function Sidebar({
 
       {/* ── Artist info ── */}
       <div className="artist-header">
-        <div className={`artist-avatar ${isLegend ? 'artist-avatar-legend' : ''} ${isDeepCut && !isLegend ? 'artist-avatar-deep-cut' : ''}`}>
-          {artist.name.charAt(0)}
+        {/* ── Media Resilience Avatar ──────────────────────────
+            Chain: cached image → Wikimedia Commons → initial letter.
+            The loading shimmer plays while the chain resolves,
+            so the UI never shows a broken icon. */}
+        <div
+          className={`artist-avatar ${isLegend ? 'artist-avatar-legend' : ''} ${isDeepCut && !isLegend ? 'artist-avatar-deep-cut' : ''} ${imgStatus === 'loading' ? 'artist-avatar-loading' : ''}`}
+          style={
+            imgStatus === 'fallback'
+              ? { backgroundColor: avatarColors.bg, color: avatarColors.text }
+              : {}
+          }
+        >
+          {imgStatus === 'loaded' && imageUrl ? (
+            <img
+              src={imageUrl}
+              alt={artist.name}
+              className="artist-avatar-photo"
+              onError={(e) => {
+                // Last-resort: if the resolved image breaks mid-session, fall back inline
+                e.target.style.display = 'none';
+                e.target.parentElement.setAttribute('data-fallback', 'true');
+                e.target.parentElement.style.backgroundColor = avatarColors.bg;
+                e.target.parentElement.style.color = avatarColors.text;
+                e.target.parentElement.textContent = artist.name.charAt(0).toUpperCase();
+              }}
+            />
+          ) : imgStatus === 'loading' ? (
+            <span className="avatar-shimmer" />
+          ) : (
+            artist.name.charAt(0).toUpperCase()
+          )}
         </div>
         <div>
           <h2>
