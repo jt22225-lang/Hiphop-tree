@@ -195,8 +195,6 @@ export function useArtistImage(artist, cachedImageUrl) {
     resolve();
 
     return () => { cancelled = true; };
-  // Re-run whenever the artist or cached URL changes
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artist?.id, cachedImageUrl]);
 
   return state;
