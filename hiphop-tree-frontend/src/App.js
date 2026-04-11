@@ -73,7 +73,6 @@ export default function App() {
   const [loading, setLoading]           = useState(true);
   const [error, setError]               = useState(null);
   const [selected, setSelected]         = useState(null);
-  const [popupPos, setPopupPos]         = useState(null);
   const [filter, setFilter]             = useState('all');
   const [artistImages, setArtistImages] = useState({});
   const [activeYear, setActiveYear]     = useState(2024);   // ← History Slider year
@@ -129,9 +128,9 @@ export default function App() {
     }
   };
 
-  const handleNodeSelect = useCallback((artist, pos) => {
+  const handleNodeSelect = useCallback((artist) => {
     setSelected(artist);
-    setPopupPos(pos || null);
+    document.body.classList.add('sidebar-open');
   }, []);
 
   const handleSearch = useCallback(async (query) => {
@@ -227,8 +226,7 @@ export default function App() {
             artist={selected}
             graphData={graphData}
             apiUrl={API}
-            popupPos={popupPos}
-            onClose={() => { setSelected(null); setPopupPos(null); }}
+            onClose={() => { setSelected(null); document.body.classList.remove('sidebar-open'); }}
             deepCutIds={deepCutIds}
             activeYear={showSlider ? activeYear : null}
             artistImages={artistImages}

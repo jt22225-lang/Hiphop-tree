@@ -3,8 +3,6 @@ import axios from 'axios';
 import WikidataPanel from './WikidataPanel';
 import { useArtistImage, getAvatarColors } from './useArtistImage';
 
-const POPUP_WIDTH = 340;
-
 // The same set as GraphView — determines who gets the crown treatment
 const LEGEND_IDS = new Set([
   'dj-premier',
@@ -19,25 +17,6 @@ const LEGEND_IDS = new Set([
   'rza',
   'asap-yams',
 ]);
-
-function getPopupStyle(popupPos) {
-  if (!popupPos) return {};
-  const gap      = 14;
-  const halfNode = (popupPos.size || 40) / 2;
-  const rawLeft  = popupPos.x - POPUP_WIDTH / 2;
-  const left     = Math.max(12, Math.min(rawLeft, window.innerWidth - POPUP_WIDTH - 12));
-  const top      = popupPos.y - halfNode - gap;
-  return {
-    position:  'fixed',
-    left:      `${left}px`,
-    top:       `${top}px`,
-    transform: 'translateY(-100%)',
-    width:     `${POPUP_WIDTH}px`,
-    maxHeight: '80vh',
-    overflowY: 'auto',
-    zIndex:    200,
-  };
-}
 
 // ── Verified Architect Badge ─────────────────────────────────
 function VerifiedArchitectBadge() {
@@ -176,7 +155,6 @@ export default function Sidebar({
   artist,
   graphData,
   apiUrl,
-  popupPos,
   onClose,
   deepCutIds,    // ← Set<string>
   activeYear,    // ← current slider year
@@ -262,9 +240,8 @@ export default function Sidebar({
   return (
     <aside
       className={`sidebar ${isLegend ? 'sidebar-legend' : ''} ${isDeepCut ? 'sidebar-deep-cut' : ''}`}
-      style={getPopupStyle(popupPos)}
     >
-      <button className="close-btn" onClick={onClose}>✕</button>
+      <button className="close-btn" onClick={onClose} title="Close panel">✕</button>
 
       {/* ── Verified Architect Banner ── */}
       {isLegend && <VerifiedArchitectBadge />}
