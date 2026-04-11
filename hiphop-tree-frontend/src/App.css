@@ -1477,12 +1477,56 @@ body.sidebar-open .graph-container {
   pointer-events: none;
 }
 
+/* ── Logo wallpaper layer ────────────────────────────────────
+   Outer shell handles the dissolve fade (independent transition
+   so it can run alongside the overall landing-page blur).
+   Inner div is the rotated, repeated SVG tile with the ghost
+   filter applied — kept separate so the GPU composites the
+   rotation + parallax transform without fighting the opacity. */
+.lp-logo-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;              /* below orbs, overlay, content */
+  opacity: 1;
+  transition: opacity 1.5s ease-out;
+}
+.lp-logo-layer-dissolving {
+  opacity: 0;
+}
+
+.lp-logo-inner {
+  /* Oversized by 40% on every side so the -12deg rotation never
+     exposes the background colour at the edges, and there's still
+     ~20px of headroom for the parallax translate without clipping. */
+  position: absolute;
+  inset: -40%;
+  background-repeat: repeat;
+  background-size: 720px 480px;   /* matches the SVG tile dimensions */
+
+  /* All-over print diagonal — classic luxury streetwear angle */
+  transform: rotate(-12deg) translate(0px, 0px);
+
+  /* Ghost treatment:
+       grayscale  — drain colour, keeping it monochrome
+       brightness — compensate so white text stays visible
+       opacity    — dial the "ghost" level (0.06 = very subtle) */
+  filter: grayscale(100%) brightness(180%) opacity(0.065);
+
+  /* GPU compositing layer — parallax transform is the only
+     property that changes, so the browser paints it once and
+     just moves the layer each frame. */
+  will-change: transform;
+}
+
 /* ── Ambient orbs — background depth illusion ────────────── */
 .lp-orb {
   position: absolute;
   border-radius: 50%;
   filter: blur(120px);
   pointer-events: none;
+  z-index: 1;              /* above logo layer */
   animation: lp-float 8s ease-in-out infinite alternate;
 }
 .lp-orb-gold {
@@ -1515,13 +1559,14 @@ body.sidebar-open .graph-container {
   background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
   background-size: 32px 32px;
   pointer-events: none;
+  z-index: 2;              /* above orbs, above logo layer */
   mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
 }
 
 /* ── Content container ───────────────────────────────────── */
 .lp-content {
   position: relative;
-  z-index: 1;
+  z-index: 3;              /* above logo layer (0), orbs (1), dot-grid (2) */
   display: flex;
   flex-direction: column;
   align-items: center;
