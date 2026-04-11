@@ -475,6 +475,32 @@ body {
 /* This appears at the very top of the Info Hub popup for   */
 /* legend producers — a gold bar that immediately signals   */
 /* their elevated status before the user reads a word.      */
+/* ── Curator's Vault Badge ─────────────────────────────────── */
+.vault-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #0d1a0f, #0a1208);
+  border: 1px solid #4caf50;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.15);
+}
+
+.vault-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.vault-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #81c784;
+  text-transform: uppercase;
+}
+
 .verified-architect-banner {
   display: flex;
   align-items: center;

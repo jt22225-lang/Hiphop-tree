@@ -340,6 +340,14 @@ export default function Sidebar({
         </>
       )}
 
+      {/* ── Curator's Vault Badge ── */}
+      {artist.vault_status && (
+        <div className="vault-badge">
+          <span className="vault-icon">🖋️</span>
+          <span className="vault-label">{artist.vault_status}</span>
+        </div>
+      )}
+
       {/* ── About / Bio section ── */}
       <div className="bio-section">
         <div className="bio-title-row">
