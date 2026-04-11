@@ -1,5 +1,19 @@
 node_modules/
-.env
-.env.local
 .DS_Store
 build/
+*.lock
+
+# Environment files — never commit secrets
+.env
+.env.local
+.env.production
+.env.development
+hiphop-tree-frontend/.env.local
+hiphop-tree-frontend/.env.production
+hiphop-tree-backend/.env
+
+# Build caches
+.cache/
+*.pack
+*.pack.old
+*.eslintcache

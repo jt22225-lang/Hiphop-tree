@@ -46,8 +46,9 @@ const MIN_SIZE     = 30;
 const MAX_SIZE     = 80;
 const LEGEND_BOOST = 28;
 
-const LEGEND_EDGE_LEN  = 110;
-const DEFAULT_EDGE_LEN = 200;
+const LEGEND_EDGE_LEN      = 110;  // Legend nodes stay short — gravitational pull into orbit
+const MENTORSHIP_EDGE_LEN  = 150;  // Family/lineage links stretch for visual breathing room
+const COLLAB_EDGE_LEN      = 100;  // Collaboration edges stay tighter; repulsion handles spacing
 
 export default function GraphView({
   data,
@@ -576,26 +577,37 @@ export default function GraphView({
 
       layout: {
         name:              'cola',
-        // ── Performance tuning for 200+ nodes ───────────────
-        // At scale, the cola simulation is the biggest CPU cost.
-        // We stop it earlier (4s vs 6s) and accept a slightly looser
-        // convergence — imperceptible visually, but saves ~30% CPU
-        // on large graphs. animate:false would be faster still but
-        // loses the "galaxy forming" entrance that makes the first
-        // load feel alive.
+        // ── Galaxy Expansion tuning for 350+ nodes ───────────
+        // Goal: a spacious "hip-hop galaxy" where crews cluster
+        // visibly but never clump into an unreadable mass.
+        //
+        // The key lever is nodeSpacing (cola's repulsion analogue).
+        // Doubling it from 28 → 60 pushes nodes apart aggressively,
+        // like cranking the charge in d3-force to -150.
+        //
+        // Edge lengths are now type-aware: mentorship links get
+        // more stretch (150) so lineage flows read as directional
+        // rivers across the galaxy, while collaboration edges stay
+        // tight (100) and nodeSpacing handles the macro spread.
+        //
+        // maxSimulationTime raised back to 6000 — the larger spread
+        // means the simulation needs more ticks to fully settle.
         animate:              true,
-        animationDuration:    1200,  // was 1600 — snappier entrance
-        refresh:              4,     // was 2 — fewer DOM updates per tick
-        maxSimulationTime:    4500,  // was 6000 — stop layout sooner
-        convergenceThreshold: 0.004, // was 0.001 — bail earlier on stability
+        animationDuration:    1200,
+        refresh:              4,
+        maxSimulationTime:    6000,  // raised from 4500 — spacious layout needs more settle time
+        convergenceThreshold: 0.004,
         fit:                  true,
-        padding:              60,
-        nodeSpacing:          28,    // was 32 — slightly tighter pack at scale
+        padding:              80,    // was 60 — more breathing room at the viewport edges
+        nodeSpacing:          60,    // was 28 — doubled repulsion for the "galaxy expansion" spread
         edgeLength: edge => {
           const src = edge.source().id();
           const tgt = edge.target().id();
+          // Legend nodes act as gravity wells — keep their edges short
+          // so collaborators are pulled into tight orbit around them.
           if (LEGEND_IDS.has(src) || LEGEND_IDS.has(tgt)) return LEGEND_EDGE_LEN;
-          return DEFAULT_EDGE_LEN;
+          // Type-aware stretch for non-legend edges
+          return edge.data('type') === 'mentorship' ? MENTORSHIP_EDGE_LEN : COLLAB_EDGE_LEN;
         },
         nodeWeight:           node => LEGEND_IDS.has(node.id()) ? 8 : 1,
         randomize:            false,
@@ -603,6 +615,13 @@ export default function GraphView({
         handleDisconnected:   true,
         centerGraph:          true,
       },
+
+      // ── Zoom range for the "Galaxy" scale ─────────────────
+      // minZoom 0.05 lets users pull all the way back to see the
+      // full constellation. maxZoom 4 lets them punch in close
+      // enough to read the Vault badge detail on a single node.
+      minZoom: 0.05,
+      maxZoom: 4,
 
       userZoomingEnabled: true,
       userPanningEnabled: true,
