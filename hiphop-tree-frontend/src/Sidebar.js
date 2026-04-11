@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import WikidataPanel from './WikidataPanel';
 import { useArtistImage, getAvatarColors } from './useArtistImage';
@@ -159,6 +159,8 @@ export default function Sidebar({
   deepCutIds,    // ← Set<string>
   activeYear,    // ← current slider year
   artistImages,  // ← pre-cached image URLs from App.js prefetch
+  onNodeSelect,  // ← jump to another artist (same as clicking a graph node)
+  onCenterNode,  // ← animate camera to center on a node in the graph
 }) {
   const [bio, setBio]               = useState(null);
   const [bioLoading, setBioLoading] = useState(false);
@@ -166,6 +168,9 @@ export default function Sidebar({
   const [geniusResults, setGeniusResults] = useState(null);
   const [loadingGenius, setLoadingGenius] = useState(false);
   const [expanded, setExpanded]     = useState(false);
+
+  // Ref for scroll-to-top on artist jump
+  const sidebarRef = useRef(null);
 
   const isLegend   = artist.isLegend === true || LEGEND_IDS.has(artist.id);
   const isDeepCut  = deepCutIds?.has(artist.id) || false;
@@ -177,6 +182,16 @@ export default function Sidebar({
   const cachedUrl = artistImages?.[artist.id];
   const { imageUrl, status: imgStatus } = useArtistImage(artist, cachedUrl);
   const avatarColors = getAvatarColors(artist, isLegend, isDeepCut);
+
+  // ── Scroll to top on every artist jump ─────────────────────
+  // When the user clicks a chip or nav item, the sidebar re-renders
+  // with new content. Without this, the scroll position is inherited
+  // from the previous artist — like a browser not resetting on nav.
+  useEffect(() => {
+    if (sidebarRef.current) {
+      sidebarRef.current.scrollTop = 0;
+    }
+  }, [artist.id]);
 
   useEffect(() => {
     setBio(null);
@@ -229,6 +244,27 @@ export default function Sidebar({
     return acc;
   }, {});
 
+  // ── Top Collaborators — "Heavy Hitters" ─────────────────────
+  // Scans ALL relationships (not year-filtered) to find the 3 most
+  // connected neighbors. Think of it like Google Maps' "frequently
+  // visited destinations" — the 3 artists you've linked with most.
+  const topCollaborators = (() => {
+    const counts = {};
+    graphData.relationships.forEach(rel => {
+      if (rel.source !== artist.id && rel.target !== artist.id) return;
+      const otherId = rel.source === artist.id ? rel.target : rel.source;
+      counts[otherId] = (counts[otherId] || 0) + 1;
+    });
+    return Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([id, count]) => ({
+        collab: graphData.artists.find(a => a.id === id),
+        count,
+      }))
+      .filter(({ collab }) => collab != null);
+  })();
+
   const typeEmoji = { collaborative:'🎵', mentorship:'🤝', collective:'👥', familial:'👨‍👩‍👦' };
   const typeColor = { collaborative:'#f97316', mentorship:'#22d3ee', collective:'#a855f7', familial:'#4ade80' };
 
@@ -239,9 +275,20 @@ export default function Sidebar({
 
   return (
     <aside
+      ref={sidebarRef}
       className={`sidebar ${isLegend ? 'sidebar-legend' : ''} ${isDeepCut ? 'sidebar-deep-cut' : ''}`}
     >
       <button className="close-btn" onClick={onClose} title="Close panel">✕</button>
+
+      {/* ── Curator's Vault Badge — anchored at very top ────────
+          Placed first so it's the landmark you see on every jump.
+          Like a sticky header on a well-designed profile page. */}
+      {artist.vault_status && (
+        <div className="vault-badge vault-badge-top">
+          <span className="vault-icon">🖋️</span>
+          <span className="vault-label">{artist.vault_status}</span>
+        </div>
+      )}
 
       {/* ── Verified Architect Banner ── */}
       {isLegend && <VerifiedArchitectBadge />}
@@ -315,14 +362,6 @@ export default function Sidebar({
           <PersonalNoteCard note={metadata.personalNote} />
           <CulturalImpactCard impact={metadata.culturalImpact} />
         </>
-      )}
-
-      {/* ── Curator's Vault Badge ── */}
-      {artist.vault_status && (
-        <div className="vault-badge">
-          <span className="vault-icon">🖋️</span>
-          <span className="vault-label">{artist.vault_status}</span>
-        </div>
       )}
 
       {/* ── About / Bio section ── */}
@@ -418,13 +457,24 @@ export default function Sidebar({
                     {rel.year  && <span className="rel-year">{rel.year}</span>}
                   </div>
                 </div>
-                <button
-                  className="verify-btn"
-                  onClick={() => verifyOnGenius(other)}
-                  title="Search collaborations on Genius"
-                >
-                  🔍
-                </button>
+                <div className="connection-actions">
+                  {/* 🔍 — Center & Zoom: fly the camera to this node */}
+                  <button
+                    className="zoom-to-btn"
+                    onClick={() => onCenterNode && onCenterNode(other.id)}
+                    title={`Zoom to ${other.name} on the map`}
+                  >
+                    🔍
+                  </button>
+                  {/* 🎤 — Genius verify: search collab evidence */}
+                  <button
+                    className="verify-btn"
+                    onClick={() => verifyOnGenius(other)}
+                    title="Search collaborations on Genius"
+                  >
+                    🎤
+                  </button>
+                </div>
               </div>
             );
           })}
@@ -446,6 +496,42 @@ export default function Sidebar({
               {r.title}
             </a>
           ))}
+        </div>
+      )}
+
+      {/* ── Heavy Hitters / Top Collaborators ───────────────────
+          The 3 most-linked neighbors, ranked by total edge count
+          across ALL relationship types. Like Google Maps' "People
+          also viewed" — your fastest jump to the inner circle. */}
+      {topCollaborators.length > 0 && (
+        <div className="top-collabs-section">
+          <div className="top-collabs-header">
+            <span className="top-collabs-icon">🔗</span>
+            <span className="top-collabs-title">Heavy Hitters</span>
+            <span className="top-collabs-subtitle">Top Collaborators</span>
+          </div>
+          <div className="top-collabs-chips">
+            {topCollaborators.map(({ collab, count }) => {
+              const collabIsLegend  = collab.isLegend === true || LEGEND_IDS.has(collab.id);
+              const collabIsDeepCut = deepCutIds?.has(collab.id) || false;
+              return (
+                <button
+                  key={collab.id}
+                  className={`collab-chip
+                    ${collabIsLegend  ? 'collab-chip-legend'   : ''}
+                    ${collabIsDeepCut && !collabIsLegend ? 'collab-chip-deep-cut' : ''}
+                  `}
+                  onClick={() => onNodeSelect && onNodeSelect(collab)}
+                  title={`Jump to ${collab.name} (${count} connection${count !== 1 ? 's' : ''})`}
+                >
+                  {collabIsLegend && <span className="chip-crown">♛</span>}
+                  {collabIsDeepCut && !collabIsLegend && <span className="chip-dc">💿</span>}
+                  <span className="chip-name">{collab.name}</span>
+                  <span className="chip-count">{count}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       )}
     </aside>

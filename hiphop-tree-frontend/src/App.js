@@ -133,6 +133,34 @@ export default function App() {
     document.body.classList.add('sidebar-open');
   }, []);
 
+  // ── Center & Zoom — "Google Maps" nav from sidebar ───────
+  // Animates the Cytoscape viewport to center on a specific node,
+  // accounting for the 350px sidebar so the node lands in the
+  // visible strip (left portion of the graph), not under the panel.
+  const handleCenterNode = useCallback((artistId) => {
+    const cy = cyRef.current;
+    if (!cy) return;
+    const node = cy.$(`#${artistId}`);
+    if (!node.length) return;
+
+    const ZOOM        = 4;
+    const SIDEBAR_W   = 350;
+    const pos         = node.position();   // model-space coords
+    const viewW       = cy.width();        // full canvas pixel width
+    const viewH       = cy.height();
+
+    // Pan math: screenX = modelX * zoom + pan.x
+    // We want the node to land at the visual center of the
+    // unoccupied strip (everything left of the sidebar).
+    const targetPanX = (viewW - SIDEBAR_W) / 2 - pos.x * ZOOM;
+    const targetPanY = viewH / 2 - pos.y * ZOOM;
+
+    cy.animate(
+      { pan: { x: targetPanX, y: targetPanY }, zoom: ZOOM },
+      { duration: 2000, easing: 'ease-in-out' },
+    );
+  }, [cyRef]);
+
   const handleSearch = useCallback(async (query) => {
     if (!query) return;
     try {
@@ -230,6 +258,8 @@ export default function App() {
             deepCutIds={deepCutIds}
             activeYear={showSlider ? activeYear : null}
             artistImages={artistImages}
+            onNodeSelect={handleNodeSelect}
+            onCenterNode={handleCenterNode}
           />
         )}
       </main>

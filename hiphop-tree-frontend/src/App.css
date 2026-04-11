@@ -240,18 +240,6 @@ body.sidebar-open .graph-container {
 }
 .rel-label { font-size: 11px; color: #555; display: block; margin-top: 2px; }
 
-.verify-btn {
-  background: #222;
-  border: 1px solid #333;
-  border-radius: 6px;
-  color: #aaa;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 4px 8px;
-  flex-shrink: 0;
-}
-.verify-btn:hover { background: #333; }
-
 /* ── Bio section ───────────────────────────────────────── */
 .bio-header-img {
   width: 100%;
@@ -1260,4 +1248,166 @@ body.sidebar-open .graph-container {
   font-size: 16px;
   font-weight: 700;
   flex-shrink: 0;
+}
+
+/* ── Vault Badge — top anchor ──────────────────────────────
+   Moved to the very top so it's the first visual on every
+   "jump" navigation, acting like a sticky landmark.        */
+.vault-badge-top {
+  margin-bottom: 10px;
+  margin-top: 2px;
+}
+
+/* ── Connection action buttons (zoom + Genius) ─────────── */
+.connection-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* 🔍 Center & Zoom button — primary action */
+.zoom-to-btn {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 4px 7px;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.zoom-to-btn:hover {
+  background: #0e2a3a;
+  border-color: #22d3ee;
+  color: #22d3ee;
+}
+
+/* 🎤 Genius verify button — secondary action */
+.verify-btn {
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #888;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 4px 7px;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.verify-btn:hover { background: #333; color: #f9c642; }
+
+/* ── Heavy Hitters / Top Collaborators section ─────────── */
+/* Think: the "Frequently Visited" panel in Google Maps —
+   your fastest route to the most-connected neighbors.     */
+.top-collabs-section {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid #222;
+}
+
+.top-collabs-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.top-collabs-icon {
+  font-size: 14px;
+}
+.top-collabs-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #f97316;
+}
+.top-collabs-subtitle {
+  font-size: 11px;
+  color: #555;
+  letter-spacing: 0.5px;
+}
+
+/* Chip row — wraps naturally if names are long */
+.top-collabs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Base chip — pill shape, dark bg, subtle border */
+.collab-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #1a1a1a;
+  border: 1px solid #2e2e2e;
+  border-radius: 20px;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px 5px 10px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+  text-align: left;
+}
+.collab-chip:hover {
+  background: #222;
+  border-color: #f97316;
+  color: #f97316;
+  transform: translateY(-1px);
+}
+
+/* Legend variant — gold accent */
+.collab-chip-legend {
+  border-color: rgba(255, 215, 0, 0.35);
+  background: rgba(255, 215, 0, 0.06);
+  color: #FFD700;
+}
+.collab-chip-legend:hover {
+  background: rgba(255, 215, 0, 0.14);
+  border-color: #FFD700;
+  color: #FFD700;
+}
+
+/* Deep Cut variant — vinyl purple accent */
+.collab-chip-deep-cut {
+  border-color: rgba(168, 85, 247, 0.35);
+  background: rgba(168, 85, 247, 0.06);
+  color: #a855f7;
+}
+.collab-chip-deep-cut:hover {
+  background: rgba(168, 85, 247, 0.14);
+  border-color: #a855f7;
+  color: #a855f7;
+}
+
+.chip-crown { font-size: 10px; opacity: 0.85; }
+.chip-dc    { font-size: 10px; opacity: 0.85; }
+
+.chip-name { flex: 1; }
+
+/* Connection count badge inside the chip */
+.chip-count {
+  background: #333;
+  border-radius: 10px;
+  color: #666;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  min-width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.collab-chip:hover .chip-count {
+  background: rgba(249, 115, 22, 0.2);
+  color: #f97316;
+}
+.collab-chip-legend:hover .chip-count {
+  background: rgba(255, 215, 0, 0.18);
+  color: #FFD700;
+}
+.collab-chip-deep-cut:hover .chip-count {
+  background: rgba(168, 85, 247, 0.18);
+  color: #a855f7;
 }
