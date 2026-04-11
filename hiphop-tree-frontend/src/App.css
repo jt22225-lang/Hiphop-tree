@@ -1452,7 +1452,7 @@ body.sidebar-open .graph-container {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow-y: auto;       /* scroll rather than clip when viewport is short */
   background: #060608;
   /* Entry: page slides up from slightly below with a fade */
   animation: lp-enter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -1528,7 +1528,7 @@ body.sidebar-open .graph-container {
   text-align: center;
   max-width: 780px;
   width: 100%;
-  padding: 40px 24px 48px;
+  padding: 80px 24px 80px;  /* generous top + bottom so content is never clipped */
 }
 
 /* ── Eyebrow ─────────────────────────────────────────────── */
