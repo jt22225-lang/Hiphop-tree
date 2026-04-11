@@ -4,6 +4,7 @@ import GraphView from './GraphView';
 import Sidebar from './Sidebar';
 import SearchBar from './SearchBar';
 import HistorySlider from './HistorySlider';
+import LandingPage from './LandingPage';
 import './App.css';
 
 const API = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
@@ -78,6 +79,13 @@ export default function App() {
   const [activeYear, setActiveYear]     = useState(2024);   // ← History Slider year
   const [showSlider, setShowSlider]     = useState(false);  // ← toggle slider open/closed
   const cyRef = useRef(null);
+
+  // ── Landing page state ───────────────────────────────────────
+  // isLandingVisible: whether the LandingPage is mounted at all
+  // isDissolving: true during the 1.5s CSS exit animation
+  const [isLandingVisible, setIsLandingVisible] = useState(true);
+  const [isDissolving, setIsDissolving]         = useState(false);
+  const [isGraphVisible, setIsGraphVisible]     = useState(false);
 
   // ── Deep Cut detection (memoized — only recalculates when graphData loads) ──
   const deepCutIds = useMemo(() => flagDeepCuts(graphData), [graphData]);
@@ -161,6 +169,20 @@ export default function App() {
     );
   }, [cyRef]);
 
+  // ── "Enter the Archive" dissolve sequence ───────────────────
+  // Phase 1 (0ms)    — trigger CSS blur+fade on LandingPage
+  //                    + begin graph fade-in simultaneously
+  // Phase 2 (1500ms) — unmount LandingPage (DOM gone, perf clean)
+  const handleEnterArchive = useCallback(() => {
+    setIsDissolving(true);    // start landing page exit animation
+    setIsGraphVisible(true);  // start graph fade-in simultaneously
+
+    setTimeout(() => {
+      setIsLandingVisible(false); // fully unmount once CSS transition ends
+      setIsDissolving(false);
+    }, 1500);
+  }, []);
+
   const handleSearch = useCallback(async (query) => {
     if (!query) return;
     try {
@@ -186,23 +208,27 @@ export default function App() {
     ? graphData.relationships.filter(r => !r.year || r.year <= activeYear).length
     : 0;
 
-  if (loading) return (
-    <div className="splash">
-      <div className="spinner" />
-      <p>Loading the tree…</p>
-    </div>
-  );
-
-  if (error) return (
-    <div className="splash error">
-      <h2>⚠️ Backend offline</h2>
-      <p>{error}</p>
-      <code>cd hiphop-tree-backend && npm run dev</code>
-    </div>
-  );
+  // ── Compute live stats to pass to LandingPage ───────────────
+  // Falls back to design-spec numbers while data is still loading.
+  const liveArtistCount       = graphData?.artists?.length           ?? 123;
+  const liveRelationshipCount = graphData?.relationships?.length     ?? 238;
+  const liveDeepCutCount      = deepCutIds?.size                     ?? 26;
 
   return (
-    <div className="app">
+    <>
+      {/* ── Landing Page — rendered on top until dissolved ── */}
+      {isLandingVisible && (
+        <LandingPage
+          onEnter={handleEnterArchive}
+          isDissolving={isDissolving}
+          artistCount={liveArtistCount}
+          relationshipCount={liveRelationshipCount}
+          deepCutCount={liveDeepCutCount}
+        />
+      )}
+
+      {/* ── Main App — fades in as landing dissolves ──────── */}
+      <div className={`app app-graph-fade ${isGraphVisible ? 'app-graph-visible' : ''}`}>
       <header className="header">
         <div className="logo">🎤 <span>HipHopTree</span></div>
         <SearchBar onSearch={handleSearch} />
@@ -214,7 +240,7 @@ export default function App() {
               onClick={() => setFilter(f)}
             >
               {f === 'all'
-                ? `All (${graphData.relationships.length})`
+                ? `All (${graphData?.relationships?.length ?? '…'})`
                 : `${f.charAt(0).toUpperCase() + f.slice(1)} (${counts[f] || 0})`}
             </button>
           ))}
@@ -239,6 +265,7 @@ export default function App() {
       </header>
 
       <main className="main">
+        {graphData && (
         <GraphView
           data={graphData}
           filter={filter}
@@ -248,8 +275,9 @@ export default function App() {
           activeYear={showSlider ? activeYear : null}
           deepCutIds={deepCutIds}
         />
+        )}
 
-        {selected && (
+        {selected && graphData && (
           <Sidebar
             artist={selected}
             graphData={graphData}
@@ -292,6 +320,22 @@ export default function App() {
         <span className="legend-item"><span className="dot legend" /><span>♛ Verified Architect</span></span>
         <span className="legend-item"><span className="dot deep-cut" /><span>💿 Deep Cut</span></span>
       </div>
+
+      {/* ── Loading / error overlays (inside graph view) ── */}
+      {loading && (
+        <div className="splash splash-overlay">
+          <div className="spinner" />
+          <p>Loading the tree…</p>
+        </div>
+      )}
+      {error && (
+        <div className="splash splash-overlay error">
+          <h2>⚠️ Backend offline</h2>
+          <p>{error}</p>
+          <code>cd hiphop-tree-backend && npm run dev</code>
+        </div>
+      )}
     </div>
+    </>
   );
 }

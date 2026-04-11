@@ -1411,3 +1411,384 @@ body.sidebar-open .graph-container {
   background: rgba(168, 85, 247, 0.18);
   color: #a855f7;
 }
+
+/* ════════════════════════════════════════════════════════════
+   LANDING PAGE — "Dissolve into the Archive"
+   Dark minimalist hero with gold + purple accents, ambient orbs,
+   animated stats, feature grid, and a 1.5s dissolve exit.
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Graph fade-in wrapper ──────────────────────────────────
+   The .app sits behind the landing page at opacity:0.
+   When isGraphVisible flips, it smoothly fades up.           */
+.app-graph-fade {
+  opacity: 0;
+  transition: opacity 1.2s ease 0.3s; /* slight delay so fade-in trails the dissolve */
+}
+.app-graph-visible {
+  opacity: 1;
+}
+
+/* ── Loading / error overlays inside the app wrapper ────── */
+.splash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(4px);
+}
+
+/* ── Landing page root ──────────────────────────────────── */
+.landing-page {
+  position: fixed;
+  inset: 0;
+  z-index: 500;           /* sits above the app */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #060608;
+  /* Entry: page slides up from slightly below with a fade */
+  animation: lp-enter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  /* Dissolve transition properties */
+  opacity: 1;
+  filter: blur(0px);
+  transition:
+    opacity  1.5s cubic-bezier(0.4, 0, 1, 1),
+    filter   1.5s cubic-bezier(0.4, 0, 1, 1);
+}
+
+@keyframes lp-enter {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Dissolve exit state ─────────────────────────────────── */
+.landing-page-dissolving {
+  opacity: 0 !important;
+  filter: blur(12px) !important;
+  pointer-events: none;
+}
+
+/* ── Ambient orbs — background depth illusion ────────────── */
+.lp-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  animation: lp-float 8s ease-in-out infinite alternate;
+}
+.lp-orb-gold {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(255,215,0,0.12) 0%, transparent 70%);
+  top: -180px; right: -120px;
+  animation-delay: 0s;
+}
+.lp-orb-purple {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(168,85,247,0.10) 0%, transparent 70%);
+  bottom: -150px; left: -100px;
+  animation-delay: -3s;
+}
+.lp-orb-red {
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, rgba(225,29,72,0.07) 0%, transparent 70%);
+  top: 40%; left: 40%;
+  animation-delay: -5s;
+}
+@keyframes lp-float {
+  from { transform: translate(0, 0) scale(1);   }
+  to   { transform: translate(20px, -30px) scale(1.08); }
+}
+
+/* ── Dot-grid texture overlay ────────────────────────────── */
+.lp-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+
+/* ── Content container ───────────────────────────────────── */
+.lp-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 780px;
+  width: 100%;
+  padding: 40px 24px 48px;
+}
+
+/* ── Eyebrow ─────────────────────────────────────────────── */
+.lp-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 28px;
+}
+.lp-eyebrow-dot {
+  display: inline-block;
+  width: 4px; height: 4px;
+  background: #FFD700;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+/* ── Headline ────────────────────────────────────────────── */
+.lp-headline {
+  font-size: clamp(36px, 6vw, 68px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -1.5px;
+  color: #ffffff;
+  margin-bottom: 24px;
+}
+.lp-headline-colon { color: #FFD700; }
+
+.lp-headline-sub {
+  display: block;
+  font-size: clamp(28px, 4.5vw, 54px);
+  font-weight: 700;
+  color: #cccccc;
+  letter-spacing: -1px;
+}
+
+/* ── Sub-headline ────────────────────────────────────────── */
+.lp-subheadline {
+  font-size: clamp(14px, 1.8vw, 17px);
+  line-height: 1.7;
+  color: #777;
+  max-width: 560px;
+  margin-bottom: 40px;
+}
+
+/* ── Enter Archive button ─────────────────────────────────── */
+.lp-enter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 1.5px solid rgba(255,215,0,0.5);
+  border-radius: 4px;
+  color: #FFD700;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  position: relative;
+  margin-bottom: 52px;
+  transition:
+    background    0.25s ease,
+    border-color  0.25s ease,
+    box-shadow    0.25s ease,
+    color         0.25s ease,
+    transform     0.15s ease;
+
+  /* Legend-node style glow at rest */
+  box-shadow:
+    0 0 16px rgba(255,215,0,0.15),
+    inset 0 0 16px rgba(255,215,0,0.03);
+}
+
+.lp-enter-btn:hover {
+  background:    rgba(255,215,0,0.08);
+  border-color:  #FFD700;
+  color:         #fff;
+  box-shadow:
+    0 0 32px rgba(255,215,0,0.35),
+    0 0 64px rgba(255,215,0,0.15),
+    inset 0 0 24px rgba(255,215,0,0.08);
+  transform: translateY(-2px);
+}
+.lp-enter-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 0 16px rgba(255,215,0,0.25);
+}
+
+.lp-enter-btn-text { letter-spacing: 2px; }
+.lp-enter-btn-arrow {
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+.lp-enter-btn:hover .lp-enter-btn-arrow { transform: translateX(4px); }
+
+/* ── Stats bar ───────────────────────────────────────────── */
+.lp-stats-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  padding: 18px 40px;
+  margin-bottom: 56px;
+  width: 100%;
+  max-width: 520px;
+}
+
+.lp-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.lp-stat-number {
+  font-size: clamp(24px, 3.5vw, 38px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  /* subtle gold shimmer on the number */
+  background: linear-gradient(135deg, #FFD700 0%, #fff 60%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.lp-stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.lp-stats-divider {
+  width: 1px;
+  height: 44px;
+  background: rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+/* ── Feature grid ────────────────────────────────────────── */
+.lp-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 48px;
+}
+
+.lp-feature-card {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 22px 20px 20px;
+  text-align: left;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+/* Accent top-border glow using the CSS variable */
+.lp-feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--feature-accent, #FFD700);
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+.lp-feature-card:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.12);
+  transform: translateY(-3px);
+}
+.lp-feature-card:hover::before { opacity: 1; }
+
+.lp-feature-icon {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.lp-feature-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ddd;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.lp-feature-desc {
+  font-size: 12px;
+  line-height: 1.65;
+  color: #666;
+}
+
+/* ── Curator's Note ──────────────────────────────────────── */
+.lp-curators-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: #444;
+  max-width: 500px;
+  text-align: center;
+  justify-content: center;
+}
+.lp-curators-icon { flex-shrink: 0; }
+.lp-curators-note em { font-style: italic; }
+
+/* ════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile polish
+   ════════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .lp-content { padding: 32px 20px 40px; }
+
+  .lp-headline { letter-spacing: -0.5px; margin-bottom: 18px; }
+
+  /* Stack stats vertically on small screens */
+  .lp-stats-bar {
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px 24px;
+  }
+  .lp-stats-divider {
+    width: 40px;
+    height: 1px;
+  }
+
+  /* Single column feature grid on mobile */
+  .lp-features {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .lp-enter-btn {
+    padding: 13px 24px;
+    font-size: 13px;
+    margin-bottom: 40px;
+  }
+
+  .lp-subheadline {
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+}
+
+@media (max-width: 400px) {
+  .lp-eyebrow { font-size: 10px; letter-spacing: 1.5px; }
+  .lp-features { gap: 10px; }
+}
