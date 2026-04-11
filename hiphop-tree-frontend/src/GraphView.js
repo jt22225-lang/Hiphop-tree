@@ -17,8 +17,9 @@ const LEGEND_IDS = new Set([
   'pete-rock',
   'sounwave',
   'mf-doom',
-  'rza',       // Wu-Tang architect — produced 36 Chambers and the entire golden-era Wu catalog
-  'asap-yams', // A$AP Mob creative director — redefined what a rap collective's A&R can be
+  'rza',          // Wu-Tang architect — produced 36 Chambers and the entire golden-era Wu catalog
+  'asap-yams',    // A$AP Mob creative director — redefined what a rap collective's A&R can be
+  'mannie-fresh', // The Architect of New Orleans — built Cash Money's entire sonic identity from the ground up
 ]);
 
 const LEGEND_GOLD    = '#FFD700';

@@ -16,6 +16,7 @@ const LEGEND_IDS = new Set([
   'mf-doom',
   'rza',
   'asap-yams',
+  'mannie-fresh', // The Architect of New Orleans — built Cash Money's entire sonic identity
 ]);
 
 // ── Verified Architect Badge ─────────────────────────────────
