@@ -54,13 +54,17 @@ export default function GraphView({
   artistImages,
   onNodeSelect,
   cyRef,
-  activeYear,    // ← new: History Slider year
-  deepCutIds,    // ← new: Set<string> of "Deep Cut" artist IDs
+  activeYear,          // ← History Slider year
+  deepCutIds,          // ← Set<string> of "Deep Cut" artist IDs
+  focusedCollective,   // ← collective ID string | null  (Label Focus mode)
+  onCollectiveReset,   // ← called when user taps the background to exit focus
 }) {
-  const containerRef   = useRef(null);
-  const cyInstance     = useRef(null);
-  const pulseRef       = useRef(null);
-  const mentorFlowRef  = useRef(null); // setInterval for marching-dashes animation
+  const containerRef         = useRef(null);
+  const cyInstance           = useRef(null);
+  const pulseRef             = useRef(null);
+  const mentorFlowRef        = useRef(null);   // rAF handle for marching ants
+  const dashOffsetRef        = useRef(0);       // persists offset across restarts
+  const activeMentorEdgesRef = useRef(null);    // which mentor edges are currently animated
 
   // ── Colored-initial canvas avatar ────────────────────────
   // Like a 45rpm label with the artist initial stamped on it —
@@ -141,6 +145,28 @@ export default function GraphView({
     });
   }, [artistImages]);
 
+  // ── Marching Ants helper ─────────────────────────────────
+  // Extracted so both the main rebuild and the collective-focus
+  // effect can (re)start the animation on any subset of edges.
+  // dashOffsetRef persists offset across calls so there's no jump.
+  const startMarchingAnts = (edges) => {
+    if (mentorFlowRef.current) { cancelAnimationFrame(mentorFlowRef.current); mentorFlowRef.current = null; }
+    if (!edges || !edges.length) return;
+    activeMentorEdgesRef.current = edges;
+    let lastDashTime = 0;
+    const DASH_MS    = 1000 / 18;  // ~18fps — gentle on CPU
+    const animateDash = (timestamp) => {
+      if (!mentorFlowRef.current) return;
+      if (timestamp - lastDashTime >= DASH_MS) {
+        dashOffsetRef.current -= 2;
+        lastDashTime = timestamp;
+        activeMentorEdgesRef.current?.style('line-dash-offset', dashOffsetRef.current);
+      }
+      mentorFlowRef.current = requestAnimationFrame(animateDash);
+    };
+    mentorFlowRef.current = requestAnimationFrame(animateDash);
+  };
+
   // ── Year-based edge fading (no graph rebuild required) ───
   // Like a time-lapse of the tree: edges outside the active
   // year window fade to near-invisible, keeping the layout
@@ -177,6 +203,83 @@ export default function GraphView({
       }
     });
   }, [deepCutIds]);
+
+  // ── Collective / Label Focus ─────────────────────────────
+  // When the user clicks a collective badge in the Sidebar:
+  //   • All non-member nodes/edges → 0.07 opacity (dim)
+  //   • Member nodes → glow pulse + orange overlay
+  //   • Member edges → full opacity (incl. marching ants)
+  //   • Camera → animate-fit to frame the collective
+  // Reset: tap background or same badge again → clear all classes.
+  //
+  // Think of it like a label showcase at a record fair:
+  // the spotlight hits only the table you clicked; everything
+  // else fades to background noise.
+  useEffect(() => {
+    const cy = cyInstance.current;
+    if (!cy || !data) return;
+
+    // ── Reset ───────────────────────────────────────────────
+    if (!focusedCollective) {
+      cy.elements().removeClass('collective-dim collective-glow');
+      // Restore full mentor-edge marching ants
+      const allMentorEdges = cy.edges('[?isMentorEdge]');
+      startMarchingAnts(allMentorEdges);
+      return;
+    }
+
+    // ── Find the collective ─────────────────────────────────
+    const collective = data.collectives?.find(c => c.id === focusedCollective);
+    if (!collective) return;
+    const memberIds = new Set(collective.members || []);
+
+    // ── Apply dim / glow to nodes ───────────────────────────
+    cy.nodes().forEach(node => {
+      if (memberIds.has(node.id())) {
+        node.removeClass('collective-dim');
+        node.addClass('collective-glow');
+      } else {
+        node.removeClass('collective-glow');
+        node.addClass('collective-dim');
+      }
+    });
+
+    // ── Apply dim / glow to edges ────────────────────────────
+    // An edge is "in the collective" if both endpoints are members,
+    // OR if at least one endpoint is — so you see the label's
+    // outward connections in context (one hop beyond).
+    const collectiveMentorEdges = [];
+    cy.edges().forEach(edge => {
+      const srcIn = memberIds.has(edge.source().id());
+      const tgtIn = memberIds.has(edge.target().id());
+      if (srcIn || tgtIn) {
+        edge.removeClass('collective-dim');
+        edge.addClass('collective-glow');
+        if (edge.data('isMentorEdge')) collectiveMentorEdges.push(edge);
+      } else {
+        edge.removeClass('collective-glow');
+        edge.addClass('collective-dim');
+      }
+    });
+
+    // ── Selective marching ants — only within the collective ─
+    // Build a Cytoscape collection from the filtered mentor edges.
+    if (collectiveMentorEdges.length > 0) {
+      const filteredCollection = cy.collection(collectiveMentorEdges);
+      startMarchingAnts(filteredCollection);
+    }
+
+    // ── Frame the collective ─────────────────────────────────
+    // Zoom out just enough to see all members + a comfortable
+    // 80px margin so nothing gets clipped at the screen edge.
+    const memberNodes = cy.nodes().filter(n => memberIds.has(n.id()));
+    if (memberNodes.length > 0) {
+      cy.animate(
+        { fit: { eles: memberNodes, padding: 80 } },
+        { duration: 750, easing: 'ease-in-out' },
+      );
+    }
+  }, [focusedCollective, data]); // eslint-disable-line
 
   // ── Full rebuild when data / filter changes ──────────────
   useEffect(() => {
@@ -378,6 +481,51 @@ export default function GraphView({
           style: { 'opacity': 1, 'transition-property': 'opacity', 'transition-duration': '0.25s' }
         },
 
+        // ── Label Focus — collective dim/glow ──────────────
+        // collective-dim: everything outside the selected label
+        // collective-glow: nodes that ARE in the label
+        // Smooth 0.35s transitions so the mode feels like a
+        // spotlight slowly sweeping across a dark stage.
+        {
+          selector: '.collective-dim',
+          style: {
+            'opacity':              0.07,
+            'transition-property':  'opacity',
+            'transition-duration':  '0.35s',
+            'transition-timing-function': 'ease-out',
+          }
+        },
+        {
+          selector: '.collective-glow',
+          style: {
+            'opacity':              1,
+            'overlay-opacity':      0.18,
+            'overlay-color':        '#f97316',
+            'overlay-padding':      6,
+            'transition-property':  'opacity overlay-opacity',
+            'transition-duration':  '0.35s',
+            'transition-timing-function': 'ease-out',
+          }
+        },
+        // Nodes that are Legends AND in the collective get the gold overlay
+        {
+          selector: 'node[?isLegend].collective-glow',
+          style: {
+            'overlay-color':   LEGEND_GOLD,
+            'overlay-opacity': 0.25,
+            'overlay-padding': 8,
+          }
+        },
+        // Edges within the collective get full opacity in glow mode
+        {
+          selector: 'edge.collective-glow',
+          style: {
+            'opacity':   0.95,
+            'width':     'data(width)',
+            'overlay-opacity': 0,
+          }
+        },
+
         // ── Hover Focus — smooth fade-to-background ─────────
         // hover-faded → everything NOT in the hovered neighborhood
         // hover-highlighted → the hovered node + its 1st-degree connections
@@ -492,28 +640,10 @@ export default function GraphView({
     }
 
     // ── Mentorship "Marching Dashes" Flow Animation ───────
-    // Uses requestAnimationFrame throttled to ~18fps (55ms budget)
-    // rather than a raw setInterval. At 200+ nodes, rAF yields to
-    // the browser's paint cycle so we never block user interaction.
-    // Think of it as a smooth vinyl spin rather than a choppy GIF.
-    let dashOffset   = 0;
-    let lastDashTime = 0;
-    const DASH_FPS   = 18;   // intentionally gentle — saves ~35% vs 25fps setInterval
-    const DASH_MS    = 1000 / DASH_FPS;
-
+    // Delegated to startMarchingAnts() so the collective-focus
+    // effect can seamlessly switch the target edge set.
     const mentorEdges = cy.edges('[?isMentorEdge]');
-    if (mentorEdges.length > 0) {
-      const animateDash = (timestamp) => {
-        if (!mentorFlowRef.current) return; // cancelled on cleanup
-        if (timestamp - lastDashTime >= DASH_MS) {
-          dashOffset  -= 2;
-          lastDashTime = timestamp;
-          mentorEdges.style('line-dash-offset', dashOffset);
-        }
-        mentorFlowRef.current = requestAnimationFrame(animateDash);
-      };
-      mentorFlowRef.current = requestAnimationFrame(animateDash);
-    }
+    startMarchingAnts(mentorEdges);
 
     // ── Node interactions ──────────────────────────────────
     cy.on('tap', 'node', evt => {
@@ -537,6 +667,8 @@ export default function GraphView({
       if (evt.target === cy) {
         cy.elements().removeClass('faded highlighted');
         onNodeSelect(null);
+        // Also exit collective focus if active
+        if (onCollectiveReset) onCollectiveReset();
       }
     });
 

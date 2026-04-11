@@ -156,11 +156,13 @@ export default function Sidebar({
   graphData,
   apiUrl,
   onClose,
-  deepCutIds,    // ← Set<string>
-  activeYear,    // ← current slider year
-  artistImages,  // ← pre-cached image URLs from App.js prefetch
-  onNodeSelect,  // ← jump to another artist (same as clicking a graph node)
-  onCenterNode,  // ← animate camera to center on a node in the graph
+  deepCutIds,         // ← Set<string>
+  activeYear,         // ← current slider year
+  artistImages,       // ← pre-cached image URLs from App.js prefetch
+  onNodeSelect,       // ← jump to another artist (same as clicking a graph node)
+  onCenterNode,       // ← animate camera to center on a node in the graph
+  focusedCollective,  // ← currently focused collective ID | null
+  onCollectiveFocus,  // ← (collectiveId) => void — toggle Label Focus mode
 }) {
   const [bio, setBio]               = useState(null);
   const [bioLoading, setBioLoading] = useState(false);
@@ -236,6 +238,13 @@ export default function Sidebar({
     }
     setLoadingGenius(false);
   };
+
+  // ── Collective membership ────────────────────────────────
+  // Find every collective this artist belongs to. Each badge
+  // becomes a one-click spotlight button for Label Focus mode.
+  const memberCollectives = (graphData.collectives || []).filter(c =>
+    (c.members || []).includes(artist.id)
+  );
 
   // Group connections by type, only showing those active at the slider year
   const grouped = activeConnections.reduce((acc, rel) => {
@@ -347,6 +356,49 @@ export default function Sidebar({
           )}
         </div>
       </div>
+
+      {/* ── Collective / Label Badges ─────────────────────────
+          One badge per collective this artist belongs to.
+          Click = enter Label Focus (spotlight that label on the graph).
+          Click again = exit Label Focus. Like pressing a genre filter
+          on a streaming service, but for the whole visual universe. */}
+      {memberCollectives.length > 0 && (
+        <div className="collective-badges-section">
+          <div className="collective-badges-header">
+            <span className="cb-icon">🏷️</span>
+            <span className="cb-title">Label / Collective</span>
+            {focusedCollective && memberCollectives.some(c => c.id === focusedCollective) && (
+              <span className="cb-active-hint">Focus mode active</span>
+            )}
+          </div>
+          <div className="collective-badges-row">
+            {memberCollectives.map(collective => {
+              const isActive = focusedCollective === collective.id;
+              return (
+                <button
+                  key={collective.id}
+                  className={`collective-badge-btn ${isActive ? 'collective-badge-active' : ''}`}
+                  onClick={() => onCollectiveFocus && onCollectiveFocus(collective.id)}
+                  title={
+                    isActive
+                      ? `Exit ${collective.name} focus — click to reset`
+                      : `Spotlight ${collective.name} on the graph (${(collective.members || []).length} members)`
+                  }
+                >
+                  <span className="cb-name">{collective.name}</span>
+                  <span className="cb-count">{(collective.members || []).length}</span>
+                  {isActive && <span className="cb-active-dot" />}
+                </button>
+              );
+            })}
+          </div>
+          {focusedCollective && memberCollectives.some(c => c.id === focusedCollective) && (
+            <p className="cb-hint-text">
+              All other nodes are dimmed. Click the graph background or the badge again to reset.
+            </p>
+          )}
+        </div>
+      )}
 
       {/* ── Role Evolution (mentor/protégé arc) ── */}
       <RoleEvolutionCard

@@ -76,9 +76,17 @@ export default function App() {
   const [selected, setSelected]         = useState(null);
   const [filter, setFilter]             = useState('all');
   const [artistImages, setArtistImages] = useState({});
-  const [activeYear, setActiveYear]     = useState(2024);   // ← History Slider year
-  const [showSlider, setShowSlider]     = useState(false);  // ← toggle slider open/closed
+  const [activeYear, setActiveYear]       = useState(2024);   // ← History Slider year
+  const [showSlider, setShowSlider]       = useState(false);  // ← toggle slider open/closed
+  const [focusedCollective, setFocusedCollective] = useState(null); // ← Label Focus
   const cyRef = useRef(null);
+
+  // ── Label Focus toggle ───────────────────────────────────────
+  // Clicking the same badge twice resets the focus (it's a toggle).
+  // Clicking the background of the graph also resets (handled in GraphView).
+  const handleCollectiveFocus = useCallback((collectiveId) => {
+    setFocusedCollective(prev => prev === collectiveId ? null : collectiveId);
+  }, []);
 
   // ── Landing page state ───────────────────────────────────────
   // isLandingVisible: whether the LandingPage is mounted at all
@@ -274,6 +282,8 @@ export default function App() {
           cyRef={cyRef}
           activeYear={showSlider ? activeYear : null}
           deepCutIds={deepCutIds}
+          focusedCollective={focusedCollective}
+          onCollectiveReset={() => setFocusedCollective(null)}
         />
         )}
 
@@ -288,6 +298,8 @@ export default function App() {
             artistImages={artistImages}
             onNodeSelect={handleNodeSelect}
             onCenterNode={handleCenterNode}
+            focusedCollective={focusedCollective}
+            onCollectiveFocus={handleCollectiveFocus}
           />
         )}
       </main>

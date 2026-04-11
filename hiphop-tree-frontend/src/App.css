@@ -1413,6 +1413,144 @@ body.sidebar-open .graph-container {
 }
 
 /* ════════════════════════════════════════════════════════════
+   COLLECTIVE / LABEL BADGES — Sidebar focus mode
+   Clicking a badge spotlights all label members on the graph
+   and dims everyone else to near-invisible.
+   ════════════════════════════════════════════════════════════ */
+
+.collective-badges-section {
+  margin: 16px 0 4px;
+  padding: 14px 16px;
+  background: rgba(249, 115, 22, 0.04);
+  border: 1px solid rgba(249, 115, 22, 0.14);
+  border-radius: 10px;
+}
+
+.collective-badges-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+
+.cb-icon {
+  font-size: 13px;
+  line-height: 1;
+  opacity: 0.75;
+}
+
+.cb-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #aaa;
+  flex: 1;
+}
+
+.cb-active-hint {
+  font-size: 10px;
+  font-weight: 500;
+  color: #f97316;
+  background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  border-radius: 20px;
+  padding: 1px 8px;
+  animation: cb-hint-pulse 2s ease-in-out infinite;
+}
+
+@keyframes cb-hint-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
+.collective-badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+/* ── Individual label badge button ── */
+.collective-badge-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px 5px 11px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  cursor: pointer;
+  color: #ccc;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+}
+
+.collective-badge-btn:hover {
+  background: rgba(249, 115, 22, 0.1);
+  border-color: rgba(249, 115, 22, 0.35);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Active state — orange glow when this label is focused */
+.collective-badge-active {
+  background: rgba(249, 115, 22, 0.15) !important;
+  border-color: rgba(249, 115, 22, 0.55) !important;
+  color: #f97316 !important;
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.25);
+}
+
+.collective-badge-active:hover {
+  transform: none; /* already highlighted; no lift on hover */
+}
+
+.cb-name {
+  line-height: 1;
+}
+
+.cb-count {
+  font-size: 10px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 1px 6px;
+  color: #888;
+  transition: background 0.2s, color 0.2s;
+  line-height: 1.4;
+}
+
+.collective-badge-active .cb-count {
+  background: rgba(249, 115, 22, 0.2);
+  color: #f97316;
+}
+
+/* Pulsing orange dot shown only in active state */
+.cb-active-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f97316;
+  flex-shrink: 0;
+  animation: cb-dot-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes cb-dot-pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);    }
+  50%       { opacity: 0.5; transform: scale(0.7);  }
+}
+
+/* Instructional hint text below badges when focus is active */
+.cb-hint-text {
+  margin-top: 10px;
+  font-size: 11px;
+  color: #666;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ════════════════════════════════════════════════════════════
    LANDING PAGE — "Dissolve into the Archive"
    Dark minimalist hero with gold + purple accents, ambient orbs,
    animated stats, feature grid, and a 1.5s dissolve exit.
