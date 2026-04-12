@@ -1975,3 +1975,169 @@ body.sidebar-open .graph-container {
   .lp-eyebrow { font-size: 10px; letter-spacing: 1.5px; }
   .lp-features { gap: 10px; }
 }
+
+/* ════════════════════════════════════════════════════════════
+   SONIC LINK — Edge Audio Preview Player
+   Fixed bottom-right. Hidden until an audio-enabled edge fires.
+   Think of it as the world's smallest record player, tucked in
+   the corner of the galaxy map.
+   ════════════════════════════════════════════════════════════ */
+.sonic-player {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 280px;
+  background: rgba(10, 10, 10, 0.94);
+  border: 1px solid rgba(249, 115, 22, 0.45);
+  border-radius: 12px;
+  padding: 14px 16px 12px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 0 1px rgba(249, 115, 22, 0.12),
+    0 8px 32px rgba(0, 0, 0, 0.7),
+    0 0 24px rgba(249, 115, 22, 0.08);
+  z-index: 1200;
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition:
+    opacity 0.3s ease-out,
+    transform 0.3s ease-out;
+}
+
+.sonic-player--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.sonic-player__track {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+
+.sonic-player__label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #f97316;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.sonic-player__name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  letter-spacing: 0.2px;
+}
+
+.sonic-player__progress-track {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: height 0.15s ease;
+}
+
+.sonic-player__progress-track:hover {
+  height: 5px;
+}
+
+.sonic-player__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f97316, #fb923c);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.sonic-player__controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sonic-player__btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.15s, transform 0.1s;
+  color: #ffffff;
+}
+
+.sonic-player__btn:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.sonic-player__playpause {
+  font-size: 18px;
+  min-width: 24px;
+}
+
+.sonic-player__dismiss {
+  margin-left: auto;
+  font-size: 12px;
+  opacity: 0.5;
+  color: #9ca3af;
+}
+
+.sonic-player__dismiss:hover {
+  opacity: 1;
+  color: #ffffff;
+}
+
+.sonic-player__vol-wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+}
+
+.sonic-player__vol-icon {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.sonic-player__volume {
+  flex: 1;
+  height: 3px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  accent-color: #f97316;
+}
+
+.sonic-player__volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #f97316;
+  cursor: pointer;
+}
+
+.sonic-player__volume::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #f97316;
+  border: none;
+  cursor: pointer;
+}

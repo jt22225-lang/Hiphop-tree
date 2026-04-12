@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import SearchBar from './SearchBar';
 import HistorySlider from './HistorySlider';
 import LandingPage from './LandingPage';
+import AudioPreviewPlayer from './AudioPreviewPlayer';
 import './App.css';
 
 const API = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
@@ -79,7 +80,15 @@ export default function App() {
   const [activeYear, setActiveYear]       = useState(2024);   // ← History Slider year
   const [showSlider, setShowSlider]       = useState(false);  // ← toggle slider open/closed
   const [focusedCollective, setFocusedCollective] = useState(null); // ← Label Focus
+  const [currentAudioMeta, setCurrentAudioMeta]   = useState(null); // ← Sonic Link
   const cyRef = useRef(null);
+
+  // ── Sonic Link handler ───────────────────────────────────────
+  // Receives audio_metadata from GraphView when an audio edge is
+  // tapped, or null when a non-audio edge / empty canvas is tapped.
+  const handleLinkAudio = useCallback((audioMeta) => {
+    setCurrentAudioMeta(audioMeta || null);
+  }, []);
 
   // ── Label Focus toggle ───────────────────────────────────────
   // Clicking the same badge twice resets the focus (it's a toggle).
@@ -284,6 +293,7 @@ export default function App() {
           deepCutIds={deepCutIds}
           focusedCollective={focusedCollective}
           onCollectiveReset={() => setFocusedCollective(null)}
+          onLinkAudio={handleLinkAudio}
         />
         )}
 
@@ -315,6 +325,12 @@ export default function App() {
           />
         </div>
       )}
+
+      {/* ── Sonic Link Audio Player ── */}
+      <AudioPreviewPlayer
+        audioMeta={currentAudioMeta}
+        onDismiss={() => setCurrentAudioMeta(null)}
+      />
 
       <div className="legend">
         <span className="legend-title">Relationships:</span>

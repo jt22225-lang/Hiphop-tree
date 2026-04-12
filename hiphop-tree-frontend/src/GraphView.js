@@ -60,6 +60,7 @@ export default function GraphView({
   deepCutIds,          // ← Set<string> of "Deep Cut" artist IDs
   focusedCollective,   // ← collective ID string | null  (Label Focus mode)
   onCollectiveReset,   // ← called when user taps the background to exit focus
+  onLinkAudio,         // ← (audioMeta | null) => void — Sonic Link callback
 }) {
   const containerRef         = useRef(null);
   const cyInstance           = useRef(null);
@@ -339,16 +340,19 @@ export default function GraphView({
       const withinYear      = activeYear == null || !r.year || r.year <= activeYear;
       elements.push({
         data: {
-          id:           r.id,
-          source:       r.source,
-          target:       r.target,
-          type:         r.type,
-          year:         r.year || null,
-          label:        r.subtype?.replace(/_/g, ' '),
-          color:        TYPE_COLORS[r.type] || '#6b7280',
-          width:        Math.max(1.5, r.strength * (isLegendEdge ? 5 : 4)),
+          id:            r.id,
+          source:        r.source,
+          target:        r.target,
+          type:          r.type,
+          year:          r.year || null,
+          label:         r.subtype?.replace(/_/g, ' '),
+          color:         TYPE_COLORS[r.type] || '#6b7280',
+          width:         Math.max(1.5, r.strength * (isLegendEdge ? 5 : 4)),
           isLegendEdge,
           isMentorEdge,
+          // Sonic Link: forward audio_metadata so tap handler can read it
+          audioMeta:     r.audio_metadata || null,
+          hasAudio:      !!r.audio_metadata,
         },
         classes: withinYear ? 'year-active' : 'year-faded',
       });
@@ -573,6 +577,19 @@ export default function GraphView({
           selector: 'edge:selected',
           style: { 'opacity': 1 }
         },
+
+        // ── Sonic Link edges — audio-enabled ──────────────────
+        // A subtle pulse glow signals "this line has a song attached."
+        // Like a glowing wax seal on a record sleeve — you know there's
+        // something special inside before you even click.
+        {
+          selector: 'edge[?hasAudio]',
+          style: {
+            'overlay-color':   '#f97316',
+            'overlay-opacity': 0.22,
+            'overlay-padding': 3,
+          }
+        },
       ],
 
       layout: {
@@ -689,7 +706,35 @@ export default function GraphView({
         onNodeSelect(null);
         // Also exit collective focus if active
         if (onCollectiveReset) onCollectiveReset();
+        // Sonic Link: tapping empty canvas fades out any playing audio
+        if (onLinkAudio) onLinkAudio(null);
       }
+    });
+
+    // ── Sonic Link — edge tap handler ─────────────────────────
+    // Like finding a hidden track on a vinyl record: click a line,
+    // and if that relationship has a Spotify preview attached,
+    // the mini-player surfaces and starts spinning.
+    cy.on('tap', 'edge', evt => {
+      const edge      = evt.target;
+      const audioMeta = edge.data('audioMeta');
+
+      if (onLinkAudio) {
+        // If this edge has audio → hand it to the player.
+        // If not → send null so the player fades out (no orphaned audio).
+        onLinkAudio(audioMeta || null);
+      }
+
+      // Highlight the tapped edge + its endpoint nodes
+      cy.elements().removeClass('faded highlighted');
+      edge.addClass('highlighted');
+      edge.source().addClass('highlighted');
+      edge.target().addClass('highlighted');
+      cy.elements()
+        .not(edge)
+        .not(edge.source())
+        .not(edge.target())
+        .addClass('faded');
     });
 
     // ── Hover Focus Mode ──────────────────────────────────────

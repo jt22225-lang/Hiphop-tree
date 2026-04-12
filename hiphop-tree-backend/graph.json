@@ -1627,7 +1627,12 @@
       "strength": 0.7,
       "verified": true,
       "year": 2005,
-      "label": "Resolved rivalry (2005)"
+      "label": "Resolved rivalry (2005)",
+      "audio_metadata": {
+        "track_name": "Black Republican",
+        "spotify_preview_url": "https://p.scdn.co/mp3-preview/black_republican_jayz_nas_placeholder",
+        "isrc": "USUM70614253"
+      }
     },
     {
       "id": "rel_008",
