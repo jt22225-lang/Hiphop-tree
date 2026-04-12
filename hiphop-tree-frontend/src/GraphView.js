@@ -579,15 +579,23 @@ export default function GraphView({
         },
 
         // ── Sonic Link edges — audio-enabled ──────────────────
-        // A subtle pulse glow signals "this line has a song attached."
-        // Like a glowing wax seal on a record sleeve — you know there's
-        // something special inside before you even click.
+        // These are fiber-optic cables cutting through the spiderweb:
+        // thick, glowing, sitting on top of everything else.
+        // width:6 triples the line weight vs normal edges.
+        // shadow-blur/color creates the neon orange glow halo.
+        // z-index:999 floats them above all nodes and edges.
         {
           selector: 'edge[?hasAudio]',
           style: {
-            'overlay-color':   '#f97316',
-            'overlay-opacity': 0.22,
-            'overlay-padding': 3,
+            'width':           6,
+            'line-style':      'solid',
+            'shadow-blur':     15,
+            'shadow-color':    '#FF8C00',
+            'shadow-opacity':  1,
+            'shadow-offset-x': 0,
+            'shadow-offset-y': 0,
+            'z-index':         999,
+            'opacity':         1,
           }
         },
       ],

@@ -2141,3 +2141,20 @@ body.sidebar-open .graph-container {
   border: none;
   cursor: pointer;
 }
+
+/* ── Sonic Link error state ── */
+.sonic-player__error {
+  font-size: 12px;
+  color: #9ca3af;
+  font-style: italic;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  padding: 6px 0 8px;
+  text-align: center;
+}
+
+.sonic-player__dismiss--error {
+  margin: 0 auto;
+  font-size: 12px;
+  opacity: 0.6;
+  color: #9ca3af;
+}

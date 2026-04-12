@@ -1583,7 +1583,12 @@
       "strength": 0.9,
       "verified": true,
       "year": 1992,
-      "label": "The Chronic (1992)"
+      "label": "The Chronic (1992)",
+      "audio_metadata": {
+        "track_name": "Deep Cover",
+        "spotify_preview_url": "https://www.w3schools.com/html/horse.ogg",
+        "isrc": "USMO19200174"
+      }
     },
     {
       "id": "rel_004",
@@ -1630,7 +1635,7 @@
       "label": "Resolved rivalry (2005)",
       "audio_metadata": {
         "track_name": "Black Republican",
-        "spotify_preview_url": "https://p.scdn.co/mp3-preview/black_republican_jayz_nas_placeholder",
+        "spotify_preview_url": "https://www.w3schools.com/html/horse.ogg",
         "isrc": "USUM70614253"
       }
     },
@@ -1643,7 +1648,12 @@
       "strength": 0.95,
       "verified": true,
       "year": 2009,
-      "label": "Signed to Young Money (2009)"
+      "label": "Signed to Young Money (2009)",
+      "audio_metadata": {
+        "track_name": "The Motto",
+        "spotify_preview_url": "https://www.w3schools.com/html/horse.ogg",
+        "isrc": "USCM51100680"
+      }
     },
     {
       "id": "rel_009",
@@ -5401,7 +5411,12 @@
       "strength": 0.9,
       "verified": true,
       "year": 2003,
-      "label": "Big Boi co-signed Killer Mike's debut on Purple Ribbon Entertainment (2003)"
+      "label": "Big Boi co-signed Killer Mike's debut on Purple Ribbon Entertainment (2003)",
+      "audio_metadata": {
+        "track_name": "The Whole World",
+        "spotify_preview_url": "https://www.w3schools.com/html/horse.ogg",
+        "isrc": "USAR10102248"
+      }
     },
     {
       "id": "rel_ds35",

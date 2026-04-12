@@ -2,44 +2,42 @@ import React, { useEffect, useRef, useState } from 'react';
 
 // ── AudioPreviewPlayer ────────────────────────────────────────────────────────
 // Fixed bottom-right "Sonic Link" mini-player.
-// Stays invisible (display:none) until a relationship edge with audio_metadata
-// is clicked. Uses the native HTML5 Audio API — no library overhead.
-//
-// Think of it like a hidden radio that only turns on when you find the right
-// frequency: dead silent until the user discovers a link with sound attached.
+// Stays invisible until a relationship edge with audio_metadata is clicked.
+// Uses the native HTML5 Audio API — no library overhead.
 //
 // Props:
 //   audioMeta  — { track_name, spotify_preview_url, isrc } | null
-//                Passed from App when an audio-enabled edge is clicked.
-//   onDismiss  — callback to clear the audio state from the parent.
+//   onDismiss  — callback to clear audio state in the parent.
 
 export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
-  const audioRef  = useRef(null);
+  const audioRef     = useRef(null);
   const [isPlaying,  setIsPlaying]  = useState(false);
   const [volume,     setVolume]     = useState(0.8);
-  const [progress,   setProgress]   = useState(0);   // 0–1
+  const [progress,   setProgress]   = useState(0);     // 0–1
   const [isVisible,  setIsVisible]  = useState(false);
+  const [audioError, setAudioError] = useState(false); // ← source validation flag
   const progressRaf  = useRef(null);
 
   // ── Mount / URL change ────────────────────────────────────────
-  // Whenever a new audioMeta lands, swap the src and auto-play.
-  // If audioMeta is cleared (null), fade out and reset.
+  // New audioMeta → swap src, reset error state, auto-play.
+  // null audioMeta → fade out and hide.
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     if (!audioMeta) {
-      // Fade to silence — a slow release, like the end of a record
       fadeOut(audio, () => {
         setIsPlaying(false);
         setIsVisible(false);
         setProgress(0);
+        setAudioError(false);
         cancelAnimationFrame(progressRaf.current);
       });
       return;
     }
 
-    // New track incoming — treat it like dropping a needle on a fresh side
+    // New track — reset error state before loading fresh src
+    setAudioError(false);
     audio.src    = audioMeta.spotify_preview_url;
     audio.volume = volume;
     setProgress(0);
@@ -79,10 +77,9 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
   };
 
   // ── Soft fade-out helper ──────────────────────────────────────
-  // Ramps volume from current → 0 over ~400ms, then pauses.
   const fadeOut = (audio, onComplete) => {
     const STEPS    = 20;
-    const INTERVAL = 20; // ms — 400ms total
+    const INTERVAL = 20;
     let   step     = 0;
     const startVol = audio.volume;
 
@@ -93,22 +90,33 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
         clearInterval(fade);
         audio.pause();
         audio.currentTime = 0;
-        audio.volume      = startVol; // restore for next play
+        audio.volume      = startVol;
         if (onComplete) onComplete();
       }
     }, INTERVAL);
   };
 
+  // ── Source error handler ──────────────────────────────────────
+  // Fires when the <audio> element can't load the src —
+  // NotSupportedError, 404, CORS block, regional restriction, etc.
+  // Instead of silent failure, we surface a clear message to the user.
+  const handleAudioError = () => {
+    console.warn('[AudioPreviewPlayer] Source failed to load:', audioRef.current?.src);
+    setAudioError(true);
+    setIsPlaying(false);
+    cancelAnimationFrame(progressRaf.current);
+  };
+
   // ── Play / Pause toggle ───────────────────────────────────────
   const handlePlayPause = () => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || audioError) return;
 
     if (audio.paused) {
       audio.play().then(() => {
         setIsPlaying(true);
         startProgressTracking(audio);
-      });
+      }).catch(handleAudioError);
     } else {
       audio.pause();
       setIsPlaying(false);
@@ -131,6 +139,7 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
         setIsPlaying(false);
         setIsVisible(false);
         setProgress(0);
+        setAudioError(false);
       });
     }
     if (onDismiss) onDismiss();
@@ -139,7 +148,7 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
   // ── Progress bar click → seek ─────────────────────────────────
   const handleSeek = (e) => {
     const audio = audioRef.current;
-    if (!audio || !audio.duration) return;
+    if (!audio || !audio.duration || audioError) return;
     const rect  = e.currentTarget.getBoundingClientRect();
     const ratio = (e.clientX - rect.left) / rect.width;
     audio.currentTime = ratio * audio.duration;
@@ -148,10 +157,14 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
 
   return (
     <>
-      {/* Native HTML5 Audio element — invisible, low-overhead */}
-      <audio ref={audioRef} onEnded={handleEnded} preload="metadata" />
+      {/* Native HTML5 Audio — onError is the source validation safety net */}
+      <audio
+        ref={audioRef}
+        onEnded={handleEnded}
+        onError={handleAudioError}
+        preload="metadata"
+      />
 
-      {/* ── Player UI — only mounted in DOM while visible ── */}
       <div
         className={`sonic-player ${isVisible ? 'sonic-player--visible' : ''}`}
         role="region"
@@ -165,57 +178,76 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
           </span>
         </div>
 
-        {/* Progress bar */}
-        <div
-          className="sonic-player__progress-track"
-          onClick={handleSeek}
-          role="progressbar"
-          aria-valuenow={Math.round(progress * 100)}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          title="Click to seek"
-        >
-          <div
-            className="sonic-player__progress-fill"
-            style={{ width: `${progress * 100}%` }}
-          />
-        </div>
-
-        {/* Controls row */}
-        <div className="sonic-player__controls">
-          {/* Play / Pause */}
-          <button
-            className="sonic-player__btn sonic-player__playpause"
-            onClick={handlePlayPause}
-            title={isPlaying ? 'Pause' : 'Play'}
-          >
-            {isPlaying ? '⏸' : '▶'}
-          </button>
-
-          {/* Volume slider */}
-          <div className="sonic-player__vol-wrap">
-            <span className="sonic-player__vol-icon">🔈</span>
-            <input
-              type="range"
-              className="sonic-player__volume"
-              min={0}
-              max={1}
-              step={0.05}
-              value={volume}
-              onChange={e => setVolume(parseFloat(e.target.value))}
-              aria-label="Volume"
-            />
+        {/* ── Error state: regional / source failure ── */}
+        {audioError ? (
+          <div className="sonic-player__error">
+            🌐 Preview unavailable in your region.
           </div>
+        ) : (
+          <>
+            {/* Progress bar */}
+            <div
+              className="sonic-player__progress-track"
+              onClick={handleSeek}
+              role="progressbar"
+              aria-valuenow={Math.round(progress * 100)}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              title="Click to seek"
+            >
+              <div
+                className="sonic-player__progress-fill"
+                style={{ width: `${progress * 100}%` }}
+              />
+            </div>
 
-          {/* Dismiss */}
-          <button
-            className="sonic-player__btn sonic-player__dismiss"
-            onClick={handleDismiss}
-            title="Close player"
-          >
-            ✕
-          </button>
-        </div>
+            {/* Controls row */}
+            <div className="sonic-player__controls">
+              <button
+                className="sonic-player__btn sonic-player__playpause"
+                onClick={handlePlayPause}
+                title={isPlaying ? 'Pause' : 'Play'}
+              >
+                {isPlaying ? '⏸' : '▶'}
+              </button>
+
+              <div className="sonic-player__vol-wrap">
+                <span className="sonic-player__vol-icon">🔈</span>
+                <input
+                  type="range"
+                  className="sonic-player__volume"
+                  min={0}
+                  max={1}
+                  step={0.05}
+                  value={volume}
+                  onChange={e => setVolume(parseFloat(e.target.value))}
+                  aria-label="Volume"
+                />
+              </div>
+
+              <button
+                className="sonic-player__btn sonic-player__dismiss"
+                onClick={handleDismiss}
+                title="Close player"
+              >
+                ✕
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* Dismiss is always reachable, even in error state */}
+        {audioError && (
+          <div className="sonic-player__controls">
+            <button
+              className="sonic-player__btn sonic-player__dismiss sonic-player__dismiss--error"
+              onClick={handleDismiss}
+              title="Close player"
+            >
+              ✕ Close
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
