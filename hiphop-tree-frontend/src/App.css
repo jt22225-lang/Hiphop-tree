@@ -37,11 +37,16 @@ body {
 .logo span { color: #f97316; }
 
 /* ── Search ────────────────────────────────────────────── */
+.search-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  max-width: 280px;
+}
 .search-form {
   display: flex;
   gap: 6px;
-  flex: 1;
-  max-width: 280px;
 }
 .search-input {
   flex: 1;
@@ -64,6 +69,28 @@ body {
   font-size: 14px;
 }
 .search-btn:hover { background: #ea6c0a; }
+
+/* ── Sonic Link discovery tip ───────────────────────────── */
+.search-audio-tip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: #f97316;
+  opacity: 0.75;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  letter-spacing: 0.2px;
+  cursor: default;
+  transition: opacity 0.2s;
+  padding-left: 2px;
+}
+.search-audio-tip:hover { opacity: 1; }
+.search-audio-tip__text {
+  color: #9ca3af;
+}
+.search-audio-tip__text::before {
+  content: '';
+}
 
 /* ── Filter buttons ────────────────────────────────────── */
 .filters { display: flex; gap: 6px; flex-wrap: wrap; }
