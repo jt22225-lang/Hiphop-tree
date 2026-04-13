@@ -20,6 +20,7 @@ const LEGEND_IDS = new Set([
   'rza',          // Wu-Tang architect — produced 36 Chambers and the entire golden-era Wu catalog
   'asap-yams',    // A$AP Mob creative director — redefined what a rap collective's A&R can be
   'mannie-fresh', // The Architect of New Orleans — built Cash Money's entire sonic identity from the ground up
+  'snoop-dogg',   // G-Funk icon — co-defined the West Coast sound on The Chronic and Doggystyle
 ]);
 
 const LEGEND_GOLD    = '#FFD700';

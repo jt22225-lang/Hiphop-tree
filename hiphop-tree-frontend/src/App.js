@@ -14,7 +14,7 @@ const API = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
 const LEGEND_IDS = new Set([
   'dj-premier', 'the-alchemist', 'j-dilla', 'madlib',
   'kanye-west', 'pharrell-williams', 'pete-rock', 'sounwave', 'mf-doom',
-  'rza', 'asap-yams',
+  'rza', 'asap-yams', 'snoop-dogg',
 ]);
 
 // ── Deep Cut Detector ────────────────────────────────────────
