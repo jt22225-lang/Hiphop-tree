@@ -17,6 +17,7 @@ const LEGEND_IDS = new Set([
   'rza',
   'asap-yams',
   'mannie-fresh', // The Architect of New Orleans — built Cash Money's entire sonic identity
+  'snoop-dogg',   // G-Funk icon — co-defined the West Coast sound on The Chronic and Doggystyle
 ]);
 
 // ── Verified Architect Badge ─────────────────────────────────
@@ -164,6 +165,7 @@ export default function Sidebar({
   onCenterNode,       // ← animate camera to center on a node in the graph
   focusedCollective,  // ← currently focused collective ID | null
   onCollectiveFocus,  // ← (collectiveId) => void — toggle Label Focus mode
+  onLinkAudio,        // ← (audioMeta | null) => void — fires the Sonic Link player
 }) {
   const [bio, setBio]               = useState(null);
   const [bioLoading, setBioLoading] = useState(false);
@@ -511,6 +513,16 @@ export default function Sidebar({
                   </div>
                 </div>
                 <div className="connection-actions">
+                  {/* ▶ — Play Connection Song: fires the Sonic Link player */}
+                  {(rel.audio_metadata?.itunes_preview_url || rel.audio_metadata?.spotify_preview_url) && (
+                    <button
+                      className="play-connection-btn"
+                      onClick={() => onLinkAudio && onLinkAudio(rel.audio_metadata)}
+                      title={`Play "${rel.audio_metadata.track_name}"`}
+                    >
+                      ▶
+                    </button>
+                  )}
                   {/* 🔍 — Center & Zoom: fly the camera to this node */}
                   <button
                     className="zoom-to-btn"

@@ -1310,6 +1310,24 @@ body.sidebar-open .graph-container {
   color: #22d3ee;
 }
 
+/* ▶ Play Connection Song button */
+.play-connection-btn {
+  background: #1a1f1a;
+  border: 1px solid #2a4a2a;
+  border-radius: 6px;
+  color: #4ade80;
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.play-connection-btn:hover {
+  background: #0e2a1a;
+  border-color: #4ade80;
+  color: #86efac;
+}
+
 /* 🎤 Genius verify button — secondary action */
 .verify-btn {
   background: #222;

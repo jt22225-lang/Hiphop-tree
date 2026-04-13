@@ -310,6 +310,7 @@ export default function App() {
             onCenterNode={handleCenterNode}
             focusedCollective={focusedCollective}
             onCollectiveFocus={handleCollectiveFocus}
+            onLinkAudio={handleLinkAudio}
           />
         )}
       </main>

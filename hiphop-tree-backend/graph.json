@@ -2194,7 +2194,13 @@
       "strength": 0.9,
       "verified": true,
       "year": 2011,
-      "label": "Watch the Throne (2011)"
+      "label": "Watch the Throne (2011)",
+      "audio_metadata": {
+        "track_name": "Ni**as in Paris",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/16/05/26/1605268b-83ce-6c22-1224-e999d0006a6d/mzaf_4723869812628029401.plus.aac.p.m4a",
+        "itunes_track_id": 1440766431,
+        "release_year": 2011
+      }
     },
     {
       "id": "rel_002",
@@ -2205,7 +2211,13 @@
       "strength": 0.95,
       "verified": true,
       "year": 1998,
-      "label": "Signed to Aftermath (1998)"
+      "label": "Signed to Aftermath (1998)",
+      "audio_metadata": {
+        "track_name": "I Need a Doctor (feat. Eminem & Skylar Grey)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/5d/1b/bf/5d1bbf85-f923-955c-fd1a-362dcc281bb7/mzaf_16408217611343607386.plus.aac.p.m4a",
+        "itunes_track_id": 1445277813,
+        "release_year": 2010
+      }
     },
     {
       "id": "rel_003",
@@ -2219,8 +2231,10 @@
       "label": "The Chronic (1992)",
       "audio_metadata": {
         "track_name": "Deep Cover",
-        "spotify_preview_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-        "isrc": "USMO19200174"
+        "isrc": "USMO19200174",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/fa/98/ad/fa98ad28-5aed-ef5b-6747-f7ef9ccab1e5/mzaf_10668902108723034119.plus.aac.p.m4a",
+        "itunes_track_id": 1444157225,
+        "release_year": 1999
       }
     },
     {
@@ -2232,7 +2246,13 @@
       "strength": 0.85,
       "verified": true,
       "year": 1996,
-      "label": "All Eyez on Me (1996)"
+      "label": "All Eyez on Me (1996)",
+      "audio_metadata": {
+        "track_name": "All Eyez On Me",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/86/58/7b/86587b31-6cb3-333a-d07a-4ed5d7351d1a/mzaf_5809650602098257403.plus.aac.p.m4a",
+        "itunes_track_id": 988087294,
+        "release_year": 2005
+      }
     },
     {
       "id": "rel_005",
@@ -2243,7 +2263,13 @@
       "strength": 0.85,
       "verified": true,
       "year": 2002,
-      "label": "Signed to Aftermath (2002)"
+      "label": "Signed to Aftermath (2002)",
+      "audio_metadata": {
+        "track_name": "If I Can't",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/e9/6e/21/e96e21c7-3160-2896-ab10-8bf75bf2cbec/mzaf_11694417274233418108.plus.aac.p.m4a",
+        "itunes_track_id": 1440907557,
+        "release_year": 2003
+      }
     },
     {
       "id": "rel_006",
@@ -2254,7 +2280,13 @@
       "strength": 0.8,
       "verified": true,
       "year": 2003,
-      "label": "Get Rich or Die Tryin (2003)"
+      "label": "Get Rich or Die Tryin (2003)",
+      "audio_metadata": {
+        "track_name": "Patiently Waiting (feat. Eminem)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/ca/f3/26/caf32619-1ced-6eb0-1cd2-58e54241cf68/mzaf_12998756644595464508.plus.aac.p.m4a",
+        "itunes_track_id": 1440907546,
+        "release_year": 2003
+      }
     },
     {
       "id": "rel_007",
@@ -2284,8 +2316,10 @@
       "label": "Signed to Young Money (2009)",
       "audio_metadata": {
         "track_name": "The Motto",
-        "spotify_preview_url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-        "isrc": "USCM51100680"
+        "isrc": "USCM51100680",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f7/e7/83/f7e78318-65d9-7b8e-cbeb-f2e5ab80076c/mzaf_2797028050074940036.plus.aac.p.m4a",
+        "itunes_track_id": 1440738491,
+        "release_year": 2008
       }
     },
     {
@@ -2297,7 +2331,13 @@
       "strength": 0.9,
       "verified": true,
       "year": 2009,
-      "label": "Signed to Young Money (2009)"
+      "label": "Signed to Young Money (2009)",
+      "audio_metadata": {
+        "track_name": "Dark Side of the Moon (feat. Nicki Minaj)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/2c/f4/fe/2cf4fe2b-2ad0-8e19-b196-264749d2f19d/mzaf_984009011198945937.plus.aac.p.m4a",
+        "itunes_track_id": 1437592177,
+        "release_year": 2018
+      }
     },
     {
       "id": "rel_010",
@@ -2308,7 +2348,13 @@
       "strength": 0.75,
       "verified": true,
       "year": 2016,
-      "label": "Ultralight Beam (2016)"
+      "label": "Ultralight Beam (2016)",
+      "audio_metadata": {
+        "track_name": "Ultralight Beam",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/f0/05/bd/f005bda2-ff26-a29b-507c-f60418f205ee/mzaf_1523218353482732679.plus.aac.p.m4a",
+        "itunes_track_id": 1492874582,
+        "release_year": 2019
+      }
     },
     {
       "id": "rel_011",
@@ -2319,7 +2365,13 @@
       "strength": 1,
       "verified": true,
       "year": 1993,
-      "label": "Core member"
+      "label": "Core member",
+      "audio_metadata": {
+        "track_name": "Method Man (Skunk Mix)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/05/18/39/0518397f-410b-2b18-642b-e527a52d0354/mzaf_3411703877339768260.plus.aac.p.m4a",
+        "itunes_track_id": 269864049,
+        "release_year": 1993
+      }
     },
     {
       "id": "rel_012",
@@ -2330,7 +2382,13 @@
       "strength": 1,
       "verified": true,
       "year": 1993,
-      "label": "Co-founder & producer"
+      "label": "Co-founder & producer",
+      "audio_metadata": {
+        "track_name": "4th Chamber (feat. RZA, Ghostface Killah & Killah Priest)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/4d/41/1f/4d411f39-4da2-c7a8-e31f-041da945aa8b/mzaf_4959529457537564199.plus.aac.p.m4a",
+        "itunes_track_id": 1440835949,
+        "release_year": 1995
+      }
     },
     {
       "id": "rel_013",
@@ -2341,7 +2399,13 @@
       "strength": 0.9,
       "verified": true,
       "year": 2009,
-      "label": "Signed to Roc Nation (2009)"
+      "label": "Signed to Roc Nation (2009)",
+      "audio_metadata": {
+        "track_name": "Crazy in Love (feat. JAŸ-Z)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/b5/2a/4f/b52a4fcd-0628-cb38-c8ab-a697c11a9175/mzaf_1541321636664021445.plus.aac.p.m4a",
+        "itunes_track_id": 201274644,
+        "release_year": 2003
+      }
     },
     {
       "id": "rel_014",
@@ -2352,7 +2416,13 @@
       "strength": 0.8,
       "verified": true,
       "year": 2024,
-      "label": "Cousins (2024)"
+      "label": "Cousins (2024)",
+      "audio_metadata": {
+        "track_name": "All My Life (feat. J. Cole)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/97/7a/79/977a795c-3913-dc28-ba54-699f3da89e04/mzaf_16435038424114463200.plus.aac.p.m4a",
+        "itunes_track_id": 1688638981,
+        "release_year": 2023
+      }
     },
     {
       "id": "rel_015",
@@ -2363,7 +2433,13 @@
       "strength": 0.95,
       "verified": true,
       "year": 1993,
-      "label": "Signed to Bad Boy (1993)"
+      "label": "Signed to Bad Boy (1993)",
+      "audio_metadata": {
+        "track_name": "Juicy",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/5b/81/21/5b8121d4-1b2b-511a-1f38-0ef4346909b0/mzaf_4190278176982078552.plus.aac.p.m4a",
+        "itunes_track_id": 204669680,
+        "release_year": 1994
+      }
     },
     {
       "id": "rel_016",
@@ -2374,7 +2450,13 @@
       "strength": 0.9,
       "verified": true,
       "year": 1995,
-      "label": "Junior M.A.F.I.A."
+      "label": "Junior M.A.F.I.A.",
+      "audio_metadata": {
+        "track_name": "One More Chance / Stay With Me (Radio Edit)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/7f/93/4d/7f934df3-85d3-e1dc-22be-0f650b4d6d1f/mzaf_6412257208518066460.plus.aac.p.m4a",
+        "itunes_track_id": 898124994,
+        "release_year": 1995
+      }
     },
     {
       "id": "rel_017",
@@ -2385,7 +2467,13 @@
       "strength": 0.65,
       "verified": true,
       "year": 1996,
-      "label": "East Coast legends"
+      "label": "East Coast legends",
+      "audio_metadata": {
+        "track_name": "You're Nobody (Til Somebody Kills You) [Amended]",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/64/f1/23/64f12354-1c3e-985b-3813-62d0f3f33cbe/mzaf_304677170787340422.plus.aac.p.m4a",
+        "itunes_track_id": 906586728,
+        "release_year": 1997
+      }
     },
     {
       "id": "rel_018",
@@ -2396,7 +2484,13 @@
       "strength": 0.95,
       "verified": true,
       "year": 1987,
-      "label": "N.W.A"
+      "label": "N.W.A",
+      "audio_metadata": {
+        "track_name": "Express Yourself",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/c6/d9/67/c6d96705-db12-498b-1352-901e48fc5807/mzaf_14959111065086430688.plus.aac.p.m4a",
+        "itunes_track_id": 1478946370,
+        "release_year": 1988
+      }
     },
     {
       "id": "rel_019",
@@ -2407,7 +2501,13 @@
       "strength": 0.95,
       "verified": true,
       "year": 1987,
-      "label": "N.W.A co-founders"
+      "label": "N.W.A co-founders",
+      "audio_metadata": {
+        "track_name": "Gangsta Gangsta",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/34/31/8e/34318e9b-e6a6-7740-75fb-2d5e3af5e2f5/mzaf_9333666701043317917.plus.aac.p.m4a",
+        "itunes_track_id": 1440835805,
+        "release_year": 1988
+      }
     },
     {
       "id": "rel_020",
@@ -2418,7 +2518,13 @@
       "strength": 0.9,
       "verified": true,
       "year": 1987,
-      "label": "N.W.A"
+      "label": "N.W.A",
+      "audio_metadata": {
+        "track_name": "Express Yourself",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/c6/d9/67/c6d96705-db12-498b-1352-901e48fc5807/mzaf_14959111065086430688.plus.aac.p.m4a",
+        "itunes_track_id": 1478946370,
+        "release_year": 1988
+      }
     },
     {
       "id": "rel_021",
@@ -2429,7 +2535,13 @@
       "strength": 1,
       "verified": true,
       "year": 1993,
-      "label": "Core member"
+      "label": "Core member",
+      "audio_metadata": {
+        "track_name": "4th Chamber (feat. RZA, Ghostface Killah & Killah Priest)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/4d/41/1f/4d411f39-4da2-c7a8-e31f-041da945aa8b/mzaf_4959529457537564199.plus.aac.p.m4a",
+        "itunes_track_id": 1440835949,
+        "release_year": 1995
+      }
     },
     {
       "id": "rel_022",
@@ -2440,7 +2552,13 @@
       "strength": 1,
       "verified": true,
       "year": 1993,
-      "label": "Core member"
+      "label": "Core member",
+      "audio_metadata": {
+        "track_name": "Living In the World Today",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/33/9d/7b/339d7bb3-6cb9-a10d-34f7-6e79a4266339/mzaf_17080825539305596336.plus.aac.p.m4a",
+        "itunes_track_id": 1440835708,
+        "release_year": 1995
+      }
     },
     {
       "id": "rel_023",
@@ -2462,7 +2580,13 @@
       "strength": 0.7,
       "verified": true,
       "year": 1987,
-      "label": "Def Jam 80s era"
+      "label": "Def Jam 80s era",
+      "audio_metadata": {
+        "track_name": "You Better Watch Me",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/64/02/e9/6402e98b-fa2f-a2eb-3ea0-be3fa3ea49e8/mzaf_16574232865262425586.plus.aac.p.m4a",
+        "itunes_track_id": 1443288516,
+        "release_year": 2008
+      }
     },
     {
       "id": "rel_025",
@@ -2473,7 +2597,13 @@
       "strength": 0.65,
       "verified": true,
       "year": 1991,
-      "label": "Leaders of the New School influence"
+      "label": "Leaders of the New School influence",
+      "audio_metadata": {
+        "track_name": "East Coast REMIX (feat. Busta Rhymes, A$AP Rocky, Dave East, French Montana, Rick Ross & Snoop Dogg)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/15/52/f5/1552f58d-836e-e27a-64fd-dcbca2478d88/mzaf_7161897162100255670.plus.aac.p.m4a",
+        "itunes_track_id": 1266697049,
+        "release_year": 2017
+      }
     },
     {
       "id": "rel_026",
@@ -2484,7 +2614,13 @@
       "strength": 0.9,
       "verified": true,
       "year": 1998,
-      "label": "Terror Squad (1998)"
+      "label": "Terror Squad (1998)",
+      "audio_metadata": {
+        "track_name": "Feelin' So Good (feat. Big Pun & Fat Joe) [Remix]",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ba/7f/b5/ba7fb5d2-fde1-aaa7-d617-da93a61e1304/mzaf_10195334753647605275.plus.aac.p.m4a",
+        "itunes_track_id": 265144023,
+        "release_year": 1999
+      }
     },
     {
       "id": "rel_027",
@@ -2495,7 +2631,13 @@
       "strength": 0.65,
       "verified": true,
       "year": 2000,
-      "label": "New York collabs"
+      "label": "New York collabs",
+      "audio_metadata": {
+        "track_name": "That's How You Like It (feat. JAŸ-Z)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/11/d1/c7/11d1c7f0-0b77-a0c6-2bce-c815aa965a5a/mzaf_10705144974414490307.plus.aac.p.m4a",
+        "itunes_track_id": 201277522,
+        "release_year": 2003
+      }
     },
     {
       "id": "rel_028",
@@ -2506,7 +2648,13 @@
       "strength": 0.9,
       "verified": true,
       "year": 2010,
-      "label": "Signed to GOOD Music (2010)"
+      "label": "Signed to GOOD Music (2010)",
+      "audio_metadata": {
+        "track_name": "Heartless",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/c9/24/96/c9249688-ffdc-40c1-d56e-d84ee8537ed7/mzaf_15473080214798193650.plus.aac.p.m4a",
+        "itunes_track_id": 1441410309,
+        "release_year": 2008
+      }
     },
     {
       "id": "rel_029",
@@ -2517,7 +2665,13 @@
       "strength": 0.9,
       "verified": true,
       "year": 2008,
-      "label": "Signed to GOOD Music (2008)"
+      "label": "Signed to GOOD Music (2008)",
+      "audio_metadata": {
+        "track_name": "Hurricane",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/f2/6e/1a/f26e1a9d-05c2-3e08-7e8a-120d2548a9a2/mzaf_7958854607137187447.plus.aac.p.m4a",
+        "itunes_track_id": 1587795284,
+        "release_year": 2021
+      }
     },
     {
       "id": "rel_030",
@@ -2528,7 +2682,13 @@
       "strength": 0.85,
       "verified": true,
       "year": 2007,
-      "label": "Signed to GOOD Music (2007)"
+      "label": "Signed to GOOD Music (2007)",
+      "audio_metadata": {
+        "track_name": "Mercy",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/3b/e7/11/3be71187-3ad2-cf61-dfed-aafc381fd3f3/mzaf_9072581490573010426.plus.aac.p.m4a",
+        "itunes_track_id": 1443478650,
+        "release_year": 2012
+      }
     },
     {
       "id": "rel_031",
@@ -2539,7 +2699,13 @@
       "strength": 0.85,
       "verified": true,
       "year": 2000,
-      "label": "Like Water for Chocolate (2000)"
+      "label": "Like Water for Chocolate (2000)",
+      "audio_metadata": {
+        "track_name": "Funky For You",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/51/9e/39/519e3923-9f3c-bead-e4ae-7447ab3754af/mzaf_8091477153285185856.plus.aac.p.m4a",
+        "itunes_track_id": 1443734446,
+        "release_year": 2000
+      }
     },
     {
       "id": "rel_032",
@@ -2550,7 +2716,13 @@
       "strength": 0.75,
       "verified": true,
       "year": 2013,
-      "label": "Chicago connection"
+      "label": "Chicago connection",
+      "audio_metadata": {
+        "track_name": "8 Track",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview71/v4/e4/34/d3/e434d33a-cc35-619e-9114-87ab6aff5561/mzaf_6743190864036234125.plus.aac.p.m4a",
+        "itunes_track_id": 389062469,
+        "release_year": 2010
+      }
     },
     {
       "id": "rel_033",
@@ -2594,7 +2766,13 @@
       "strength": 1,
       "verified": true,
       "year": 1992,
-      "label": "Outkast"
+      "label": "Outkast",
+      "audio_metadata": {
+        "track_name": "Hey Ya!",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ce/98/c0/ce98c0e5-afa5-f746-032a-fa56ad057762/mzaf_8802440392972724196.plus.aac.p.m4a",
+        "itunes_track_id": 1032178989,
+        "release_year": 2003
+      }
     },
     {
       "id": "rel_037",
@@ -2605,7 +2783,13 @@
       "strength": 0.75,
       "verified": true,
       "year": 2006,
-      "label": "The New Atlanta"
+      "label": "The New Atlanta",
+      "audio_metadata": {
+        "track_name": "The Real Her (feat. Lil Wayne & Andre 3000)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/f0/1d/39/f01d3965-d645-975c-3447-b3dbe4b7d7ef/mzaf_5597780850202291423.plus.aac.p.m4a",
+        "itunes_track_id": 1440746681,
+        "release_year": 2011
+      }
     },
     {
       "id": "rel_038",
@@ -2616,7 +2800,13 @@
       "strength": 0.7,
       "verified": true,
       "year": 2005,
-      "label": "Atlanta trap era"
+      "label": "Atlanta trap era",
+      "audio_metadata": {
+        "track_name": "Like That (feat. Gucci Mane)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/be/81/89/be8189e8-39cd-9b58-d8a1-74bd528a7ceb/mzaf_9782960954183831742.plus.aac.p.m4a",
+        "itunes_track_id": 1486465102,
+        "release_year": 2019
+      }
     },
     {
       "id": "rel_039",
@@ -2627,7 +2817,13 @@
       "strength": 0.8,
       "verified": true,
       "year": 2011,
-      "label": "Freebandz (2011)"
+      "label": "Freebandz (2011)",
+      "audio_metadata": {
+        "track_name": "Gucci Bucket Hat (feat. Herion Young)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/8e/39/cf/8e39cfd9-38e4-91b9-6584-2740acb0d482/mzaf_13069713065210939386.plus.aac.p.m4a",
+        "itunes_track_id": 1536337948,
+        "release_year": 2020
+      }
     },
     {
       "id": "rel_040",
@@ -2638,7 +2834,13 @@
       "strength": 0.9,
       "verified": true,
       "year": 2015,
-      "label": "What a Time to Be Alive (2015)"
+      "label": "What a Time to Be Alive (2015)",
+      "audio_metadata": {
+        "track_name": "What a Time To Be Alive",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7a/66/c6/7a66c609-f935-0a5f-c085-5dbbf2b349b7/mzaf_16023974714074365575.plus.aac.p.m4a",
+        "itunes_track_id": 1697586048,
+        "release_year": 2023
+      }
     },
     {
       "id": "rel_041",
@@ -2649,7 +2851,13 @@
       "strength": 0.8,
       "verified": true,
       "year": 2018,
-      "label": "Sicko Mode (2018)"
+      "label": "Sicko Mode (2018)",
+      "audio_metadata": {
+        "track_name": "SICKO MODE",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/85/49/e2/8549e207-7ecf-21a9-7b2f-b414175c6a74/mzaf_10189975321658500285.plus.aac.p.m4a",
+        "itunes_track_id": 1421658123,
+        "release_year": 2018
+      }
     },
     {
       "id": "rel_042",
@@ -2660,7 +2868,13 @@
       "strength": 0.75,
       "verified": true,
       "year": 2012,
-      "label": "Kanye creative influence"
+      "label": "Kanye creative influence",
+      "audio_metadata": {
+        "track_name": "Wash Us in the Blood (feat. Travis Scott)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/89/c9/f5/89c9f5b4-fb06-2c2f-49f7-329aa0312b15/mzaf_1569652869880950416.plus.aac.p.m4a",
+        "itunes_track_id": 1521391170,
+        "release_year": 2020
+      }
     },
     {
       "id": "rel_043",
@@ -2671,7 +2885,13 @@
       "strength": 1,
       "verified": true,
       "year": 2007,
-      "label": "Odd Future"
+      "label": "Odd Future",
+      "audio_metadata": {
+        "track_name": "Whoa (feat. Tyler, The Creator) [Instrumental]",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/1a/93/ba/1a93ba30-e75f-be77-450d-734640e4f06b/mzaf_906293572822165705.plus.aac.p.m4a",
+        "itunes_track_id": 1702939995,
+        "release_year": 2013
+      }
     },
     {
       "id": "rel_044",
@@ -2682,7 +2902,13 @@
       "strength": 0.95,
       "verified": true,
       "year": 2007,
-      "label": "Odd Future"
+      "label": "Odd Future",
+      "audio_metadata": {
+        "track_name": "After The Storm (feat. Tyler, The Creator & Bootsy Collins)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ea/a6/99/eaa699af-33dc-3f58-5ebd-e4b830707647/mzaf_11136703388258616116.plus.aac.p.m4a",
+        "itunes_track_id": 1444323011,
+        "release_year": 2018
+      }
     },
     {
       "id": "rel_045",
@@ -2693,7 +2919,13 @@
       "strength": 0.65,
       "verified": true,
       "year": 2012,
-      "label": "Niggaz in Paris remix era"
+      "label": "Niggaz in Paris remix era",
+      "audio_metadata": {
+        "track_name": "Ni**as in Paris",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/16/05/26/1605268b-83ce-6c22-1224-e999d0006a6d/mzaf_4723869812628029401.plus.aac.p.m4a",
+        "itunes_track_id": 1440766431,
+        "release_year": 2011
+      }
     },
     {
       "id": "rel_046",
@@ -2704,7 +2936,13 @@
       "strength": 0.85,
       "verified": true,
       "year": 2022,
-      "label": "Her Loss (2022)"
+      "label": "Her Loss (2022)",
+      "audio_metadata": {
+        "track_name": "More M’s",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/d4/0a/3e/d40a3e47-fef3-94ee-904c-8c67ac4abbc4/mzaf_18435213560633158850.plus.aac.p.m4a",
+        "itunes_track_id": 1653012720,
+        "release_year": 2022
+      }
     },
     {
       "id": "rel_047",
@@ -2715,7 +2953,13 @@
       "strength": 0.95,
       "verified": true,
       "year": 1995,
-      "label": "Cash Money (1995)"
+      "label": "Cash Money (1995)",
+      "audio_metadata": {
+        "track_name": "Motivation (feat. Lil Wayne)",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e8/1e/7b/e81e7bb4-729e-f383-624d-33e35e52a51e/mzaf_10484634117818182648.plus.aac.p.m4a",
+        "itunes_track_id": 1443125346,
+        "release_year": 2011
+      }
     },
     {
       "id": "rel_048",
@@ -2770,7 +3014,13 @@
       "strength": 0.65,
       "verified": true,
       "year": 2002,
-      "label": "The Fix (2002)"
+      "label": "The Fix (2002)",
+      "audio_metadata": {
+        "track_name": "The Fix",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c8/68/ae/c868ae42-34bd-f356-c6a7-c8e8de485ff1/mzaf_12613526694041240688.plus.aac.p.m4a",
+        "itunes_track_id": 1452863021,
+        "release_year": 2002
+      }
     },
     {
       "id": "rel_053",
@@ -2781,7 +3031,13 @@
       "strength": 0.65,
       "verified": true,
       "year": 1996,
-      "label": "Def Jam legacy"
+      "label": "Def Jam legacy",
+      "audio_metadata": {
+        "track_name": "I Need Love",
+        "itunes_preview_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/a7/3b/10/a73b10f7-248b-ac05-27b0-95a751bf0a3f/mzaf_14161369812853794091.plus.aac.p.m4a",
+        "itunes_track_id": 1443931203,
+        "release_year": 1987
+      }
     },
     {
       "id": "rel_054",

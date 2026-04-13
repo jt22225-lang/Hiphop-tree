@@ -38,7 +38,7 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
 
     // New track — reset error state before loading fresh src
     setAudioError(false);
-    audio.src    = audioMeta.spotify_preview_url;
+    audio.src    = audioMeta.spotify_preview_url || audioMeta.itunes_preview_url;
     audio.volume = volume;
     setProgress(0);
     setIsVisible(true);
