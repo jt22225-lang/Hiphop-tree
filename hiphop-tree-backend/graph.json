@@ -5,7 +5,12 @@
       "name": "Jay-Z",
       "era": "90s",
       "region": "East Coast",
-      "label": "Roc-A-Fella"
+      "label": "Roc-A-Fella",
+      "metadata": {
+        "wikidataId": "Q62766",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Jay-Z"
+      },
+      "bio": "Shawn Corey Carter (born December 4, 1969), known professionally as Jay-Z, is an American rapper, businessman, and record executive. He was named the greatest rapper of all time by Billboard and Vibe in 2023. Rooted in East Coast hip-hop, Jay-Z is known for his complex lyricism that often uses double entendres, wordplay, and braggadocio. His music is built on a rags to riches narrative."
     },
     {
       "id": "kanye-west",
@@ -19,119 +24,200 @@
         "personalNote": "The blueprint architect — turned soul-sample chops into a sonic language that defined a generation.",
         "culturalImpact": "Produced The Blueprint (Jay-Z), College Dropout, Late Registration, MBDTF. Signed and elevated Pusha T, Kid Cudi, Big Sean, Common.",
         "wikidataId": "Q44158"
-      }
+      },
+      "bio": "Ye ( YAY; born Kanye Omari West  KAHN-yay oh-MAH-ree, June 8, 1977) is an American rapper, songwriter, and record producer. He has been listed among the greatest rappers of all time and referred to as one of the most prominent figures in hip-hop."
     },
     {
       "id": "nas",
       "name": "Nas",
       "era": "90s",
       "region": "East Coast",
-      "label": "Columbia"
+      "label": "Columbia",
+      "metadata": {
+        "wikidataId": "Q194220",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Nas"
+      },
+      "bio": "Nasir bin Olu Dara Jones ( nah-SEER; born September 14, 1973), known mononymously as Nas ( NAHZ), is an American rapper, entrepreneur, and record producer. Rooted in East Coast hip-hop, he is regarded as one of the greatest rappers of all time."
     },
     {
       "id": "biggie",
       "name": "The Notorious B.I.G.",
       "era": "90s",
       "region": "East Coast",
-      "label": "Bad Boy"
+      "label": "Bad Boy",
+      "metadata": {
+        "wikidataId": "Q179157",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/The_Notorious_B.I.G."
+      },
+      "bio": "Christopher George Latore Wallace (May 21, 1972 – March 9, 1997), better known by his stage names the Notorious B.I.G. or Biggie Smalls, was an American rapper and songwriter. Rooted in the East Coast hip-hop and gangsta rap traditions, he is widely considered one of the greatest rappers of all time."
     },
     {
       "id": "tupac",
       "name": "Tupac Shakur",
       "era": "90s",
       "region": "West Coast",
-      "label": "Death Row"
+      "label": "Death Row",
+      "metadata": {
+        "wikidataId": "Q6107",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Tupac_Shakur"
+      },
+      "bio": "Tupac Amaru Shakur (  TOO-pahk shə-KOOR; born Lesane Parish Crooks; June 16, 1971 – September 13, 1996), also known by his stage names 2Pac and Makaveli, was an American rapper and actor. He was one of the most influential musical artists of the 20th century, and a prominent political activist for Black America."
     },
     {
       "id": "dr-dre",
       "name": "Dr. Dre",
       "era": "90s",
       "region": "West Coast",
-      "label": "Aftermath"
+      "label": "Aftermath",
+      "metadata": {
+        "wikidataId": "Q6078",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Dr._Dre"
+      },
+      "bio": "Andre Romell  Young (born February 18, 1965), known professionally as Dr. Dre, is an American rapper, record producer, record executive, and actor. He is the founder and CEO of Aftermath Entertainment and Beats Electronics, and co-founder of Death Row Records."
     },
     {
       "id": "eminem",
       "name": "Eminem",
       "era": "2000s",
       "region": "Detroit",
-      "label": "Aftermath"
+      "label": "Aftermath",
+      "metadata": {
+        "wikidataId": "Q5608",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Eminem"
+      },
+      "bio": "Marshall Bruce Mathers III (born October 17, 1972), known professionally as Eminem (stylized as EMINƎM), is an American rapper, songwriter, record producer, and record executive. Widely regarded as one of the greatest and most influential rappers of all time, he is often credited with popularizing hip-hop in Middle America and the acceptance of white rappers."
     },
     {
       "id": "50-cent",
       "name": "50 Cent",
       "era": "2000s",
       "region": "East Coast",
-      "label": "G-Unit"
+      "label": "G-Unit",
+      "metadata": {
+        "wikidataId": "Q6060",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/50_Cent"
+      },
+      "bio": "Curtis James Jackson III (born July 6, 1975), known professionally as 50 Cent, is an American rapper, actor, television producer, record executive, and businessman. Born in Queens, a borough of New York City, Jackson began pursuing a musical career in 1996. In 1999–2000, he recorded his debut album, Power of the Dollar, for Columbia Records."
     },
     {
       "id": "kendrick-lamar",
       "name": "Kendrick Lamar",
       "era": "2010s",
       "region": "West Coast",
-      "label": "TDE"
+      "label": "TDE",
+      "metadata": {
+        "wikidataId": "Q130798",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Kendrick_Lamar"
+      },
+      "bio": "Kendrick Lamar Duckworth (born June 17, 1987) is an American rapper, songwriter, and record producer. Rooted in West Coast hip-hop, Lamar's music features conscious, introspective lyrics, with political criticism and social commentary concerning African-American culture. Journalists have referred to Lamar as one of the greatest rappers of all time."
     },
     {
       "id": "drake",
       "name": "Drake",
       "era": "2010s",
       "region": "Toronto",
-      "label": "OVO"
+      "label": "OVO",
+      "metadata": {
+        "wikidataId": "Q218812",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Drake"
+      },
+      "bio": "Drake may refer to:"
     },
     {
       "id": "lil-wayne",
       "name": "Lil Wayne",
       "era": "2000s",
       "region": "South",
-      "label": "Cash Money"
+      "label": "Cash Money",
+      "metadata": {
+        "wikidataId": "Q15615",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Lil_Wayne"
+      },
+      "bio": "Dwayne Michael Carter Jr. (born September 27, 1982), known professionally as Lil Wayne, is an American rapper, singer and record producer. He is often regarded as one of the most influential hip-hop artists of his generation, as well as one of the greatest rappers of all time."
     },
     {
       "id": "nicki-minaj",
       "name": "Nicki Minaj",
       "era": "2010s",
       "region": "South",
-      "label": "Young Money"
+      "label": "Young Money",
+      "metadata": {
+        "wikidataId": "Q162202",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Nicki_Minaj"
+      },
+      "bio": "Onika Tanya Maraj-Petty (born December 8, 1982), known professionally as Nicki Minaj (  NIK-ee min-AHZH), is a Trinidadian rapper, singer, and songwriter."
     },
     {
       "id": "j-cole",
       "name": "J. Cole",
       "era": "2010s",
       "region": "East Coast",
-      "label": "Dreamville"
+      "label": "Dreamville",
+      "metadata": {
+        "wikidataId": "Q204018",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/J._Cole"
+      },
+      "bio": "Jermaine Lamarr Cole (born January 28, 1985) is an American rapper and record producer. Born on a military base in Germany and raised in Fayetteville, North Carolina, Cole initially gained attention as a rapper following the release of his debut mixtape, The Come Up, in early 2007."
     },
     {
       "id": "chance-the-rapper",
       "name": "Chance The Rapper",
       "era": "2010s",
       "region": "Chicago",
-      "label": "Independent"
+      "label": "Independent",
+      "metadata": {
+        "wikidataId": "Q12470060",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Chance_the_Rapper"
+      },
+      "bio": "Chancelor Johnathan Bennett (born April 16, 1993), known professionally as Chance the Rapper, is an American rapper."
     },
     {
       "id": "rakim",
       "name": "Rakim",
       "era": "80s",
       "region": "East Coast",
-      "label": "4th & Broadway"
+      "label": "4th & Broadway",
+      "metadata": {
+        "wikidataId": "Q364214",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Rakim"
+      },
+      "bio": "William Michael Griffin Jr. (born January 28, 1968), better known by his stage name Rakim (), is an American rapper. He is one half of golden age hip-hop duo Eric B. & Rakim, with whom he released four albums: Paid in Full (1987), Follow the Leader (1988), Let the Rhythm Hit 'Em (1990), and Don't Sweat the Technique (1992)."
     },
     {
       "id": "snoop-dogg",
       "name": "Snoop Dogg",
       "era": "90s",
       "region": "West Coast",
-      "label": "Death Row"
+      "label": "Death Row",
+      "metadata": {
+        "wikidataId": "Q6096",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Snoop_Dogg"
+      },
+      "bio": "Calvin Cordozar Broadus Jr. ( BROH-dis; born October 20, 1971), known professionally as Snoop Dogg, is an American rapper, singer, record producer, songwriter, and actor. A key figure in West Coast hip-hop, he helped define G-funk and gangsta rap, and is often regarded as one of the greatest rappers of all time."
     },
     {
       "id": "wu-tang-clan",
       "name": "Wu-Tang Clan",
       "era": "90s",
       "region": "East Coast",
-      "label": "Loud"
+      "label": "Loud",
+      "metadata": {
+        "wikidataId": "Q52463",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Wu-Tang_Clan"
+      },
+      "bio": "Wu-Tang Clan is an American hip hop collective formed in Staten Island, New York City, in 1992. Its members include RZA, GZA, Method Man, Raekwon, Ghostface Killah, Inspectah Deck, U-God, Masta Killa, and, until his death in 2004, Ol' Dirty Bastard. Close affiliate Cappadonna later became an official member."
     },
     {
       "id": "method-man",
       "name": "Method Man",
       "era": "90s",
       "region": "East Coast",
-      "label": "Loud"
+      "label": "Loud",
+      "metadata": {
+        "wikidataId": "Q298694",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Method_Man"
+      },
+      "bio": "Clifford Smith Jr. (born March 2, 1971), known professionally as Method Man, is an American rapper, record producer, and actor. He is a member of the East Coast hip-hop collective Wu-Tang Clan, and is half of the hip-hop duo Method Man & Redman."
     },
     {
       "id": "rza",
@@ -145,28 +231,44 @@
         "personalNote": "The Wu-Tang architect — produced 36 Chambers from a single Ensoniq ASR-10 and changed what a hip-hop producer could build.",
         "culturalImpact": "Enter the Wu-Tang (36 Chambers, 1993), all Wu solo debuts, GZA's Liquid Swords, Raekwon's Only Built 4 Cuban Linx. Signed every member to a five-year deal — the most ambitious power move in hip-hop history.",
         "wikidataId": "Q216952"
-      }
+      },
+      "bio": "Robert Fitzgerald Diggs (born July 5, 1968), better known by his stage name RZA ( RIZ-ə) or the RZA, is an American rapper, record producer, composer, actor, and filmmaker. He is the de facto leader of the hip-hop group Wu-Tang Clan, having produced most of the group's albums and those of its members."
     },
     {
       "id": "scarface",
       "name": "Scarface",
       "era": "90s",
       "region": "South",
-      "label": "Rap-A-Lot"
+      "label": "Rap-A-Lot",
+      "metadata": {
+        "wikidataId": "Q227639",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Scarface"
+      },
+      "bio": "Scarface may refer to:"
     },
     {
       "id": "puff-daddy",
       "name": "Puff Daddy",
       "era": "90s",
       "region": "East Coast",
-      "label": "Bad Boy"
+      "label": "Bad Boy",
+      "metadata": {
+        "wikidataId": "Q216936",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Sean_Combs"
+      },
+      "bio": "Sean John Combs (born November 4, 1969), also known professionally as Diddy (formerly Puff Daddy and P. Diddy), is an American former rapper, record producer, record executive, and actor. Born in Harlem, Combs worked as a talent director at Uptown Records before founding his own record label, Bad Boy Records, in 1993."
     },
     {
       "id": "lil-kim",
       "name": "Lil' Kim",
       "era": "90s",
       "region": "East Coast",
-      "label": "Bad Boy"
+      "label": "Bad Boy",
+      "metadata": {
+        "wikidataId": "Q229379",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Lil'_Kim"
+      },
+      "bio": "Kimberly Denise Jones (born July 11, 1974), better known by her stage name Lil' Kim, is an American rapper, singer, songwriter, and model. Referred to as the \"Queen of Rap\", Lil' Kim is known for her sexually charged lyrics and presence, which influenced women in contemporary hip-hop."
     },
     {
       "id": "ice-cube",
@@ -174,56 +276,96 @@
       "era": "90s",
       "region": "West Coast",
       "label": "Priority",
-      "vault_status": "Signed Physical Copy"
+      "vault_status": "Signed Physical Copy",
+      "metadata": {
+        "wikidataId": "Q173637",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Ice_Cube"
+      },
+      "bio": "O'Shea Jackson (born June 15, 1969), known professionally as Ice Cube, is an American rapper, songwriter, actor, and film producer. His efforts on N.W.A's 1989 album Straight Outta Compton contributed to gangsta rap's popularity, and his political rap solo albums AmeriKKKa's Most Wanted (1990), Death Certificate (1991), and The Predator (1992) were all critically and commercially successful."
     },
     {
       "id": "eazy-e",
       "name": "Eazy-E",
       "era": "90s",
       "region": "West Coast",
-      "label": "Ruthless"
+      "label": "Ruthless",
+      "metadata": {
+        "wikidataId": "Q36804",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Eazy-E"
+      },
+      "bio": "Eric Lynn Wright (September 7, 1964 – March 26, 1995), known professionally as Eazy-E, was an American rapper who propelled West Coast rap and gangsta rap by leading the group N.W.A and its label, Ruthless Records. Wright  is often referred to as the \"Godfather of Gangsta Rap\".\nBorn in Compton, California, Wright had several legal troubles before founding Ruthless in 1987."
     },
     {
       "id": "ghostface-killah",
       "name": "Ghostface Killah",
       "era": "90s",
       "region": "East Coast",
-      "label": "Loud"
+      "label": "Loud",
+      "metadata": {
+        "wikidataId": "Q323463",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Ghostface_Killah"
+      },
+      "bio": "Dennis David Coles (born May 9, 1970), better known by his stage name Ghostface Killah, is an American rapper and a member of the hip-hop group Wu-Tang Clan. After the group achieved breakthrough success in the aftermath of Enter the Wu-Tang (36 Chambers), the members went on to pursue solo careers to varying levels of success."
     },
     {
       "id": "gza",
       "name": "GZA",
       "era": "90s",
       "region": "East Coast",
-      "label": "Loud"
+      "label": "Loud",
+      "metadata": {
+        "wikidataId": "Q361657",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/GZA"
+      },
+      "bio": "Gary Eldridge Grice (born August 22, 1966), better known by his stage names GZA ( JIZ-ə) and the Genius, is an American rapper. A founding member of the hip-hop group Wu-Tang Clan, GZA is the group's \"spiritual head\", being both the first member in the group to receive a record deal and being the oldest member."
     },
     {
       "id": "busta-rhymes",
       "name": "Busta Rhymes",
       "era": "90s",
       "region": "East Coast",
-      "label": "Flipmode"
+      "label": "Flipmode",
+      "metadata": {
+        "wikidataId": "Q59185",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Busta_Rhymes"
+      },
+      "bio": "Trevor George Smith Jr. (born May 20, 1972), known professionally as Busta Rhymes, is an American rapper, record producer, and actor. He has received 12 Grammy Award nominations, making him one of the most-nominated artists without a win."
     },
     {
       "id": "dmx",
       "name": "DMX",
       "era": "2000s",
       "region": "East Coast",
-      "label": "Ruff Ryders"
+      "label": "Ruff Ryders",
+      "metadata": {
+        "wikidataId": "Q223769",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/DMX"
+      },
+      "bio": "Earl Simmons (December 18, 1970 – April 9, 2021), known professionally as DMX, was an American rapper, songwriter, and actor. His accolades included an American Music Award, a Billboard Music Award, and six Grammy Award nominations."
     },
     {
       "id": "fat-joe",
       "name": "Fat Joe",
       "era": "90s",
       "region": "East Coast",
-      "label": "Terror Squad"
+      "label": "Terror Squad",
+      "metadata": {
+        "wikidataId": "Q309888",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Fat_Joe"
+      },
+      "bio": "Joseph Antonio Cartagena (born August 19, 1970), better known by his stage name Fat Joe, is an American rapper. He began recording as a member of hip hop group Diggin' in the Crates Crew (D.I.T.C.) in 1992, and pursued a solo career with the release of his debut studio album, Represent (1993) the following year."
     },
     {
       "id": "big-pun",
       "name": "Big Pun",
       "era": "90s",
       "region": "East Coast",
-      "label": "Terror Squad"
+      "label": "Terror Squad",
+      "metadata": {
+        "wikidataId": "Q380656",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Big_Pun"
+      },
+      "bio": "Christopher Lee Rios (November 10, 1971 – February 7, 2000), better known by his stage name Big Pun (short for Big Punisher), was an American rapper."
     },
     {
       "id": "pusha-t",
@@ -231,140 +373,240 @@
       "era": "2000s",
       "region": "East Coast",
       "label": "GOOD Music",
-      "vault_status": "Signed Physical Copy"
+      "vault_status": "Signed Physical Copy",
+      "metadata": {
+        "wikidataId": "Q2329709",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Pusha_T"
+      },
+      "bio": "Terrence LeVarr Thornton (born May 13, 1977), better known by his stage name Pusha T, is an American rapper. He rose to prominence as one half of the Virginia-based hip hop duo Clipse, which he formed with his older brother Malice. Established in 1994, the duo were discovered by Pharrell Williams and signed with his record label Star Trak Entertainment, an imprint of Arista Records, in 2001."
     },
     {
       "id": "kid-cudi",
       "name": "Kid Cudi",
       "era": "2010s",
       "region": "Cleveland",
-      "label": "GOOD Music"
+      "label": "GOOD Music",
+      "metadata": {
+        "wikidataId": "Q299138",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Kid_Cudi"
+      },
+      "bio": "Scott Ramon Seguro Mescudi ( MES-kuh-dee; born January 30, 1984), also known by his stage name Kid Cudi ( KUHD-ee; formerly stylized as KiD CuDi), is an American rapper, singer, songwriter, record producer, actor, and fashion designer. Born and raised in Cleveland, Cudi moved to New York City in pursuit of a musical career, where he first gained recognition for his song \"Day 'n' Nite\"."
     },
     {
       "id": "big-sean",
       "name": "Big Sean",
       "era": "2010s",
       "region": "Detroit",
-      "label": "GOOD Music"
+      "label": "GOOD Music",
+      "metadata": {
+        "wikidataId": "Q367634",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Big_Sean"
+      },
+      "bio": "Sean Michael Leonard Anderson (born March 25, 1988), known professionally as Big Sean, is an American rapper. He met Kanye West as a teenager, and signed with his record label GOOD Music, an imprint of Def Jam Recordings in 2007. He gained popularity following the release of his third mixtape, Finally Famous Vol. 3: Big (2010)."
     },
     {
       "id": "common",
       "name": "Common",
       "era": "2000s",
       "region": "Chicago",
-      "label": "GOOD Music"
+      "label": "GOOD Music",
+      "metadata": {
+        "wikidataId": "Q1208568",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Common"
+      },
+      "bio": "Common may refer to:\nAs an Irish surname, it is anglicised from Irish Gaelic surname Ó Comáin."
     },
     {
       "id": "schoolboy-q",
       "name": "Schoolboy Q",
       "era": "2010s",
       "region": "West Coast",
-      "label": "TDE"
+      "label": "TDE",
+      "metadata": {
+        "wikidataId": "Q168633",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Schoolboy_Q"
+      },
+      "bio": "Quincy Matthew Hanley (born October 26, 1986), better known by his stage name Schoolboy Q (stylized as ScHoolboy Q), is an American rapper who began recording in 2007, and released his first two mixtapes, ScHoolboy Turned Hustla (2008) and Gangsta & Soul (2009) to local success."
     },
     {
       "id": "ab-soul",
       "name": "Ab-Soul",
       "era": "2010s",
       "region": "West Coast",
-      "label": "TDE"
+      "label": "TDE",
+      "metadata": {
+        "wikidataId": "Q3449364",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Ab-Soul"
+      },
+      "bio": "Herbert Anthony Stevens IV (born February 23, 1987), better known by his stage name Ab-Soul, is an American rapper. Raised in Carson, California, he signed with the indie record label Top Dawg Entertainment (TDE) in 2007, where he formed the West Coast hip-hop group Black Hippy alongside fellow California-based rappers Jay Rock, Kendrick Lamar and Schoolboy Q. His third album, These Days..."
     },
     {
       "id": "jay-rock",
       "name": "Jay Rock",
       "era": "2010s",
       "region": "West Coast",
-      "label": "TDE"
+      "label": "TDE",
+      "metadata": {
+        "wikidataId": "Q152632",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Jay_Rock"
+      },
+      "bio": "Johnny Reed McKinzie Jr. (born March 31, 1985), better known by his stage name Jay Rock, is an American rapper. Born and raised in Southern California, Rock signed with the Carson-based independent label Top Dawg Entertainment (TDE) in 2005. He secured a major label joint venture deal with Warner Bros."
     },
     {
       "id": "andre-3000",
       "name": "André 3000",
       "era": "2000s",
       "region": "Atlanta",
-      "label": "Outkast"
+      "label": "Outkast",
+      "metadata": {
+        "wikidataId": "Q448837",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Andr%C3%A9_3000"
+      },
+      "bio": "André Lauren Benjamin (born May 27, 1975), known professionally as André 3000, is an American rapper, singer, record producer and actor. Born and raised in Atlanta, Georgia, he is one half of the hip-hop duo Outkast along with rapper Big Boi, which they formed in 1992. Often recognized for his early use of rap-singing, he is widely regarded as one of the greatest rappers of all time."
     },
     {
       "id": "big-boi",
       "name": "Big Boi",
       "era": "2000s",
       "region": "Atlanta",
-      "label": "Outkast"
+      "label": "Outkast",
+      "metadata": {
+        "wikidataId": "Q371202",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Big_Boi"
+      },
+      "bio": "Antwan André Patton (born February 1, 1975), known professionally as Big Boi, is an American rapper and record producer."
     },
     {
       "id": "ti",
       "name": "T.I.",
       "era": "2000s",
       "region": "Atlanta",
-      "label": "Grand Hustle"
+      "label": "Grand Hustle",
+      "metadata": {
+        "wikidataId": "Q214227",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/T.I."
+      },
+      "bio": "Clifford Joseph Harris Jr. (born September 25, 1980), known professionally as T.I. or Tip, is an American rapper and actor. Born and raised in Atlanta, Georgia, Harris is credited as a pioneer of the hip-hop subgenre trap music, along with fellow Georgia-based rappers Jeezy and Gucci Mane."
     },
     {
       "id": "future",
       "name": "Future",
       "era": "2010s",
       "region": "Atlanta",
-      "label": "Freebandz"
+      "label": "Freebandz",
+      "metadata": {
+        "wikidataId": "Q344",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Future"
+      },
+      "bio": "The future is the time after the past and present. Its arrival is considered inevitable due to the existence of time and the laws of physics. Due to the apparent nature of reality and the unavoidability of the future, everything that currently exists and will exist can be categorized as either permanent, meaning that it will exist forever, or temporary, meaning that it will end."
     },
     {
       "id": "gucci-mane",
       "name": "Gucci Mane",
       "era": "2000s",
       "region": "Atlanta",
-      "label": "1017"
+      "label": "1017",
+      "metadata": {
+        "wikidataId": "Q206032",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Gucci_Mane"
+      },
+      "bio": "Radric Delantic Davis (born February 12, 1980), known professionally as Gucci Mane, is an American rapper and music executive. He is credited, along with fellow Atlanta-based rappers T.I. and Jeezy, with pioneering the hip-hop subgenre trap music for mainstream audiences during the 2000s."
     },
     {
       "id": "tyler-the-creator",
       "name": "Tyler, the Creator",
       "era": "2010s",
       "region": "West Coast",
-      "label": "Odd Future"
+      "label": "Odd Future",
+      "metadata": {
+        "wikidataId": "Q167635",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Tyler%2C_the_Creator"
+      },
+      "bio": "Tyler Gregory Okonma (born March 6, 1991), known professionally as Tyler, the Creator, is an American rapper and record producer. Best known for his eclectic and experimental music, raw rhymes and extensive use of alter-egos and alternate personas in his albums, he has been described as an influential figure in alternative hip-hop during the 2010s and 2020s."
     },
     {
       "id": "earl-sweatshirt",
       "name": "Earl Sweatshirt",
       "era": "2010s",
       "region": "West Coast",
-      "label": "Odd Future"
+      "label": "Odd Future",
+      "metadata": {
+        "wikidataId": "Q1033188",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Earl_Sweatshirt"
+      },
+      "bio": "Thebe Neruda Kgositsile (born February 24, 1994), known professionally as Earl Sweatshirt, is an American rapper and record producer. Kgositsile was originally known by the moniker Sly Tendencies when he began rapping in 2008, but changed his name when Tyler, the Creator invited him to join his alternative hip-hop collective Odd Future in late 2009."
     },
     {
       "id": "frank-ocean",
       "name": "Frank Ocean",
       "era": "2010s",
       "region": "West Coast",
-      "label": "Odd Future"
+      "label": "Odd Future",
+      "metadata": {
+        "wikidataId": "Q357645",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Frank_Ocean"
+      },
+      "bio": "Frank Ocean (born Christopher Edwin Breaux; October 28, 1987) is an American singer-songwriter and rapper. His accolades include two Grammy Awards and a Brit Award. He has been credited by several music critics as a pioneer of the alternative R&B genre.\nOcean began his musical career as a ghostwriter before joining the Los Angeles-based hip hop collective Odd Future in 2010."
     },
     {
       "id": "travis-scott",
       "name": "Travis Scott",
       "era": "2010s",
       "region": "Houston",
-      "label": "Cactus Jack"
+      "label": "Cactus Jack",
+      "metadata": {
+        "wikidataId": "Q13605596",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Travis_Scott"
+      },
+      "bio": "Jacques Bermon Webster II (born April 30, 1991), known professionally as Travis Scott (formerly stylized as Travi$ Scott), is an American rapper, singer, songwriter, and record producer. Scott has had five number-one hits on the U.S. Billboard Hot 100 chart, along with a total of over one hundred charting songs."
     },
     {
       "id": "21-savage",
       "name": "21 Savage",
       "era": "2010s",
       "region": "Atlanta",
-      "label": "Slaughter Gang"
+      "label": "Slaughter Gang",
+      "metadata": {
+        "wikidataId": "Q25095399",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/21_Savage"
+      },
+      "bio": "Shéyaa Bin Abraham-Joseph (born October 22, 1992), known professionally as 21 Savage, is a British-born rapper based in Atlanta, Georgia. Born in London and raised in the US, he began his recording career in 2013 and released three independent mixtapes to regional acclaim."
     },
     {
       "id": "birdman",
       "name": "Birdman",
       "era": "2000s",
       "region": "South",
-      "label": "Cash Money"
+      "label": "Cash Money",
+      "metadata": {
+        "wikidataId": "Q361661",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Birdman_(rapper)"
+      },
+      "bio": "Bryan Christopher Williams (né  Brooks; February 15, 1969), better known by his stage names Birdman and Baby, is an American rapper and record executive. He is the public face of Cash Money Records, a record label he co-founded with his older brother, Ronald \"Slim\" Williams, in 1991."
     },
     {
       "id": "ll-cool-j",
       "name": "LL Cool J",
       "era": "80s",
       "region": "East Coast",
-      "label": "Def Jam"
+      "label": "Def Jam",
+      "metadata": {
+        "wikidataId": "Q52440",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/LL_Cool_J"
+      },
+      "bio": "James Todd Smith (born January 14, 1968), known professionally as LL Cool J (short for Ladies Love Cool James), is an American rapper and actor."
     },
     {
       "id": "missy-elliott",
       "name": "Missy Elliott",
       "era": "2000s",
       "region": "South",
-      "label": "Elektra"
+      "label": "Elektra",
+      "metadata": {
+        "wikidataId": "Q155079",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Missy_Elliott"
+      },
+      "bio": "Melissa Arnette \"Missy\" Elliott (born July 1, 1971), also known as Misdemeanor, is an American rapper, singer, songwriter, and record producer. She began her musical career as a member of the R&B girl group Sista during the 1990s, who were part of the larger musical collective Swing Mob, led by DeVante Swing of Jodeci."
     },
     {
       "id": "dj-premier",
@@ -379,7 +621,8 @@
         "culturalImpact": "Produced NY State of Mind Vol.2 (Nas), D'evils (Jay-Z), Ten Crack Commandments (Biggie), Mass Appeal (Gang Starr), Nas Is Like. Over 30 years of undeniable classics.",
         "wikidataId": "Q456097"
       },
-      "vault_status": "Signed Physical Copy"
+      "vault_status": "Signed Physical Copy",
+      "bio": "Christopher Edward Martin (born March 21, 1966), known professionally as DJ Premier (also known as Preemo), is an American record producer and DJ. He has been frequently lauded as one of hip hop's greatest producers by publications such as Vibe. He formed the hip hop duo Gang Starr alongside American rapper Guru, with whom he has released seven albums."
     },
     {
       "id": "the-alchemist",
@@ -394,7 +637,8 @@
         "culturalImpact": "Produced for Eminem, Nas, Mobb Deep, Kendrick Lamar, Action Bronson, Boldy James. Set the modern boom-bap standard for a new generation.",
         "wikidataId": "Q1321898"
       },
-      "vault_status": "Signed Physical Copy"
+      "vault_status": "Signed Physical Copy",
+      "bio": "Alan Daniel Maman (born October 25, 1977), known professionally as the Alchemist, is an American record producer, DJ and rapper. Critically acclaimed for his sample-heavy production style, he is regarded as one of the most influential producers in modern hip-hop and underground rap."
     },
     {
       "id": "j-dilla",
@@ -408,7 +652,8 @@
         "personalNote": "Donuts (2006), crafted from a hospital bed, changed how every producer thinks about structure, soul, and swing. Gone too soon — forever in the music.",
         "culturalImpact": "Produced for A Tribe Called Quest, De La Soul, Common, Busta Rhymes, Erykah Badu, Janet Jackson. The founding godfather of neo-soul rap production.",
         "wikidataId": "Q192024"
-      }
+      },
+      "bio": "James Dewitt Yancey (February 7, 1974 – February 10, 2006), better known by the stage names J Dilla and Jay Dee, was an American record producer, rapper, and composer. He emerged from the mid-1990s underground hip-hop scene in Detroit, Michigan, as a member of the group Slum Village. He was a founding member of the Soulquarians, a musical collective active during the late 1990s and early 2000s."
     },
     {
       "id": "madlib",
@@ -422,7 +667,8 @@
         "personalNote": "Madlib is the most adventurous crate-digger in the game — no genre, tempo, or era is safe from his imagination.",
         "culturalImpact": "Madvillainy (2004) with MF DOOM is one of the greatest albums ever made. Also produced Freddie Gibbs's Piñata/Bandana, and Mos Def's The Ecstatic.",
         "wikidataId": "Q335810"
-      }
+      },
+      "bio": "Otis Lee Jackson Jr. (born October 24, 1973), known professionally as Madlib, is an American DJ, record producer, and rapper. Critically acclaimed for his eclectic, sample-heavy production style, he is regarded as one of the most influential producers in modern hip-hop."
     },
     {
       "id": "pharrell-williams",
@@ -436,7 +682,8 @@
         "personalNote": "Pharrell's ear for melody and groove gave The Neptunes an empire that spanned rap, R&B, and pop simultaneously.",
         "culturalImpact": "Produced Drop It Like It's Hot (Snoop), Frontin' (Jay-Z), Alright (Kendrick), Grindin' (Clipse/Pusha T). Defined the entire 2000s pop-rap sonic palette.",
         "wikidataId": "Q216613"
-      }
+      },
+      "bio": "Pharrell Lanscilo Williams ( fə-REL; born April 5, 1973), is an American musician, record producer and fashion designer. He initially became known as one half of the music production duo the Neptunes, which he established alongside Chad Hugo in 1992. Fifteen of their productions have peaked within the top ten of the Billboard Hot 100, which includes four songs that peaked atop the chart."
     },
     {
       "id": "pete-rock",
@@ -450,7 +697,8 @@
         "personalNote": "Pete Rock's horn flips and soul samples set the eternal template for what East Coast hip-hop should sound and feel like.",
         "culturalImpact": "Half of Pete Rock & CL Smooth. Produced for Nas, Big Pun, Heavy D, A Tribe Called Quest. His remix of EPMD's 'So Whatcha Sayin' is studied in music schools.",
         "wikidataId": "Q962174"
-      }
+      },
+      "bio": "Peter O. Phillips (born June 21, 1970),  better known by his stage name Pete Rock, is an American record producer, DJ and rapper. He is widely recognized as one of the greatest hip hop producers of all time, and is often mentioned alongside DJ Premier, RZA, and Q-Tip as one of the mainstays of 1990s East Coast hip hop production."
     },
     {
       "id": "sounwave",
@@ -464,7 +712,8 @@
         "personalNote": "Sounwave is the sonic architect behind Kendrick's most ambitious worlds — TPAB's jazz and funk textures could not exist without his vision.",
         "culturalImpact": "Primary producer on GKMC, To Pimp a Butterfly, DAMN., and Mr. Morale & The Big Steppers. Shaped the entire sound of TDE across a decade.",
         "wikidataId": "Q7567682"
-      }
+      },
+      "bio": "Mark Anthony Spears (born February 28, 1986), known professionally as Sounwave, is an American record producer and songwriter. He is a frequent collaborator of rapper Kendrick Lamar, having worked on each of his projects since his 2009 self-titled extended play. Sounwave has also worked with artists such as Beyoncé, Taylor Swift, Kali Uchis, Schoolboy Q, Mac Miller, Chloe x Halle, and Bleachers."
     },
     {
       "id": "mf-doom",
@@ -478,7 +727,8 @@
         "personalNote": "DOOM built a mythology around his mask, his cartoons, and his beats. Few in the history of rap have ever merged lyrical and production genius so completely.",
         "culturalImpact": "Operation Doomsday (1999), Mm..Food (2004), Madvillainy (2004). Influenced virtually every alternative and underground rapper of the 2010s and beyond.",
         "wikidataId": "Q313602"
-      }
+      },
+      "bio": "Daniel Dumile ( DOO-mə-lay; born Dumile Daniel Thompson; July 13, 1971 – October 31, 2020), also known by his stage name MF Doom or simply Doom (both mostly stylized in all caps), was a British and American rapper, songwriter, and record producer."
     },
     {
       "id": "ol-dirty-bastard",
@@ -486,7 +736,11 @@
       "era": "90s",
       "region": "East Coast",
       "label": "Loud",
-      "bio": "Russell Tyrone Jones — the most unpredictable voice in Wu-Tang Clan, equal parts blues holler and rap maximalism. Return to the 36 Chambers (1995). Passed 2004."
+      "bio": "Russell Tyrone Jones — the most unpredictable voice in Wu-Tang Clan, equal parts blues holler and rap maximalism. Return to the 36 Chambers (1995). Passed 2004.",
+      "metadata": {
+        "wikidataId": "Q336924",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Ol'_Dirty_Bastard"
+      }
     },
     {
       "id": "raekwon",
@@ -494,7 +748,11 @@
       "era": "90s",
       "region": "East Coast",
       "label": "Loud",
-      "bio": "Corey Woods — cinematic Mafioso rap elevated to art on Only Built 4 Cuban Linx… (1995). His partnership with Ghostface is the Clan's finest storytelling."
+      "bio": "Corey Woods — cinematic Mafioso rap elevated to art on Only Built 4 Cuban Linx… (1995). His partnership with Ghostface is the Clan's finest storytelling.",
+      "metadata": {
+        "wikidataId": "Q320167",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Raekwon"
+      }
     },
     {
       "id": "inspectah-deck",
@@ -502,7 +760,11 @@
       "era": "90s",
       "region": "East Coast",
       "label": "Loud",
-      "bio": "Jason Hunter — the lyricism purist's favorite Wu-Tang member. His verse on Protect Ya Neck opened 36 Chambers and remains one of the most studied bars in rap."
+      "bio": "Jason Hunter — the lyricism purist's favorite Wu-Tang member. His verse on Protect Ya Neck opened 36 Chambers and remains one of the most studied bars in rap.",
+      "metadata": {
+        "wikidataId": "Q470619",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Inspectah_Deck"
+      }
     },
     {
       "id": "havoc",
@@ -511,7 +773,11 @@
       "region": "East Coast",
       "label": "Loud / Jive",
       "role": "producer",
-      "bio": "Kejuan Muchita — one half of Mobb Deep; primary producer of The Infamous (1995) and Hell on Earth (1996). His hollow-drum, bleak-sample palette influenced The Alchemist directly."
+      "bio": "Kejuan Muchita — one half of Mobb Deep; primary producer of The Infamous (1995) and Hell on Earth (1996). His hollow-drum, bleak-sample palette influenced The Alchemist directly.",
+      "metadata": {
+        "wikidataId": "Q400402",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Havoc"
+      }
     },
     {
       "id": "prodigy",
@@ -519,7 +785,11 @@
       "era": "90s",
       "region": "East Coast",
       "label": "Loud / Jive",
-      "bio": "Albert Johnson — one half of Mobb Deep. His opening lines on Shook Ones Pt. II are universally cited as one of the greatest sixteen bars ever recorded. Passed 2017."
+      "bio": "Albert Johnson — one half of Mobb Deep. His opening lines on Shook Ones Pt. II are universally cited as one of the greatest sixteen bars ever recorded. Passed 2017.",
+      "metadata": {
+        "wikidataId": "Q175474",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Prodigy"
+      }
     },
     {
       "id": "q-tip",
@@ -528,7 +798,11 @@
       "region": "East Coast",
       "label": "Jive",
       "role": "producer",
-      "bio": "Jonathan Davis — founding member of A Tribe Called Quest and jazz-rap fusion architect. The Low End Theory (1991) and Midnight Marauders (1993) defined Native Tongues consciousness."
+      "bio": "Jonathan Davis — founding member of A Tribe Called Quest and jazz-rap fusion architect. The Low End Theory (1991) and Midnight Marauders (1993) defined Native Tongues consciousness.",
+      "metadata": {
+        "wikidataId": "Q42025",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Q-Tip_(musician)"
+      }
     },
     {
       "id": "jadakiss",
@@ -536,7 +810,11 @@
       "era": "90s",
       "region": "East Coast",
       "label": "Bad Boy / Ruff Ryders",
-      "bio": "Jason Phillips — member of The Lox, razor-sharp one-liner king from Yonkers. Jay-Z called him one of the top five rappers alive. His heh laugh is instantly recognizable."
+      "bio": "Jason Phillips — member of The Lox, razor-sharp one-liner king from Yonkers. Jay-Z called him one of the top five rappers alive. His heh laugh is instantly recognizable.",
+      "metadata": {
+        "wikidataId": "Q451958",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Jadakiss"
+      }
     },
     {
       "id": "styles-p",
@@ -544,7 +822,11 @@
       "era": "90s",
       "region": "East Coast",
       "label": "Bad Boy / Ruff Ryders",
-      "bio": "David Styles — The Ghost, member of The Lox. One of the most prolific street rap voices in Yonkers. Unmatched mixtape work ethic over three decades."
+      "bio": "David Styles — The Ghost, member of The Lox. One of the most prolific street rap voices in Yonkers. Unmatched mixtape work ethic over three decades.",
+      "metadata": {
+        "wikidataId": "Q728494",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Styles_P"
+      }
     },
     {
       "id": "sheek-louch",
@@ -552,7 +834,11 @@
       "era": "90s",
       "region": "East Coast",
       "label": "Bad Boy / Ruff Ryders",
-      "bio": "Sean Jacobs — third member of The Lox. Booming delivery and group chemistry kept The Lox as one of the most respected NYC trios for 25+ years."
+      "bio": "Sean Jacobs — third member of The Lox. Booming delivery and group chemistry kept The Lox as one of the most respected NYC trios for 25+ years.",
+      "metadata": {
+        "wikidataId": "Q720622",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Sheek_Louch"
+      }
     },
     {
       "id": "mc-ren",
@@ -560,7 +846,11 @@
       "era": "90s",
       "region": "West Coast",
       "label": "Ruthless",
-      "bio": "Lorenzo Patterson — the most militant voice in N.W.A alongside Ice Cube. His aggression on Straight Outta Compton (1988) is often overlooked but essential."
+      "bio": "Lorenzo Patterson — the most militant voice in N.W.A alongside Ice Cube. His aggression on Straight Outta Compton (1988) is often overlooked but essential.",
+      "metadata": {
+        "wikidataId": "Q348615",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/MC_Ren"
+      }
     },
     {
       "id": "dj-quik",
@@ -569,7 +859,11 @@
       "region": "West Coast",
       "label": "Profile",
       "role": "producer",
-      "bio": "David Blake — Compton producer and multi-instrumentalist who bridged G-Funk with soul. Quik Is the Name (1991) went gold. Producer for Dre, 2Pac, Snoop across three decades."
+      "bio": "David Blake — Compton producer and multi-instrumentalist who bridged G-Funk with soul. Quik Is the Name (1991) went gold. Producer for Dre, 2Pac, Snoop across three decades.",
+      "metadata": {
+        "wikidataId": "Q1154246",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/DJ_Quik"
+      }
     },
     {
       "id": "warren-g",
@@ -577,7 +871,11 @@
       "era": "90s",
       "region": "West Coast",
       "label": "Violator / Rush Associated Labels",
-      "bio": "Warren Griffin III — Dr. Dre's stepbrother. Helped introduce Snoop to Dre. Regulate (1994) is a defining G-Funk anthem. Long Beach connector between Death Row and Aftermath eras."
+      "bio": "Warren Griffin III — Dr. Dre's stepbrother. Helped introduce Snoop to Dre. Regulate (1994) is a defining G-Funk anthem. Long Beach connector between Death Row and Aftermath eras.",
+      "metadata": {
+        "wikidataId": "Q319585",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Warren_G"
+      }
     },
     {
       "id": "b-real",
@@ -585,7 +883,11 @@
       "era": "90s",
       "region": "West Coast",
       "label": "Ruffhouse / Columbia",
-      "bio": "Louis Freese — founding MC of Cypress Hill, the first Latino rap group to go platinum. His nasal delivery is one of hip-hop's most recognizable voices. Cannabis culture icon."
+      "bio": "Louis Freese — founding MC of Cypress Hill, the first Latino rap group to go platinum. His nasal delivery is one of hip-hop's most recognizable voices. Cannabis culture icon.",
+      "metadata": {
+        "wikidataId": "Q352246",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/B-Real"
+      }
     },
     {
       "id": "sen-dog",
@@ -593,7 +895,11 @@
       "era": "90s",
       "region": "West Coast",
       "label": "Ruffhouse / Columbia",
-      "bio": "Senen Reyes — founding member of Cypress Hill. His aggressive lower-pitch counterpart to B-Real's flow gave Cypress Hill their call-and-response chemistry."
+      "bio": "Senen Reyes — founding member of Cypress Hill. His aggressive lower-pitch counterpart to B-Real's flow gave Cypress Hill their call-and-response chemistry.",
+      "metadata": {
+        "wikidataId": "Q1336275",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Sen_Dog"
+      }
     },
     {
       "id": "dj-muggs",
@@ -602,7 +908,11 @@
       "region": "West Coast",
       "label": "Ruffhouse / Columbia",
       "role": "producer",
-      "bio": "Lawrence Muggerud — production backbone of Cypress Hill. Psychedelic, bass-heavy beats introduced a Latin-tinged West Coast aesthetic with no precedent. Also produced for Nas and GZA."
+      "bio": "Lawrence Muggerud — production backbone of Cypress Hill. Psychedelic, bass-heavy beats introduced a Latin-tinged West Coast aesthetic with no precedent. Also produced for Nas and GZA.",
+      "metadata": {
+        "wikidataId": "Q955323",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/DJ_Muggs"
+      }
     },
     {
       "id": "kurupt",
@@ -610,7 +920,11 @@
       "era": "90s",
       "region": "West Coast",
       "label": "Death Row / Dogg Pound Gangsta Records",
-      "bio": "Ricardo Brown — one half of Tha Dogg Pound with Daz Dillinger. His rapid-fire precision on Dogg Food (1995) made him one of the fastest and most technical MCs of the G-Funk era."
+      "bio": "Ricardo Brown — one half of Tha Dogg Pound with Daz Dillinger. His rapid-fire precision on Dogg Food (1995) made him one of the fastest and most technical MCs of the G-Funk era.",
+      "metadata": {
+        "wikidataId": "Q448930",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Kurupt"
+      }
     },
     {
       "id": "daz-dillinger",
@@ -619,7 +933,11 @@
       "region": "West Coast",
       "label": "Death Row / Dogg Pound Gangsta Records",
       "role": "producer",
-      "bio": "Delmar Arnaud — one half of Tha Dogg Pound and a co-producer on The Chronic and Doggystyle. Snoop Dogg's cousin. Central to the G-Funk core sound."
+      "bio": "Delmar Arnaud — one half of Tha Dogg Pound and a co-producer on The Chronic and Doggystyle. Snoop Dogg's cousin. Central to the G-Funk core sound.",
+      "metadata": {
+        "wikidataId": "Q551154",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Daz_Dillinger"
+      }
     },
     {
       "id": "da-brat",
@@ -627,7 +945,11 @@
       "era": "90s",
       "region": "South",
       "label": "So So Def / Columbia",
-      "bio": "Shawntae Harris — the first female rapper to achieve a solo platinum album (Funkdafied, 1994). Chicago via Atlanta, produced by Jermaine Dupri. Paved the road for female rap's second wave."
+      "bio": "Shawntae Harris — the first female rapper to achieve a solo platinum album (Funkdafied, 1994). Chicago via Atlanta, produced by Jermaine Dupri. Paved the road for female rap's second wave.",
+      "metadata": {
+        "wikidataId": "Q449634",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Da_Brat"
+      }
     },
     {
       "id": "asap-rocky",
@@ -636,7 +958,11 @@
       "region": "East Coast",
       "label": "A$AP Mob / RCA",
       "bio": "Rakim Mayers — breakout star of A$AP Mob from Harlem. LONG.LIVE.A$AP (2013) blended Houston aesthetics, cloud rap, and NYC swagger into something genuinely new. Mentored by A$AP Yams.",
-      "vault_status": "Signed Physical Copy"
+      "vault_status": "Signed Physical Copy",
+      "metadata": {
+        "wikidataId": "Q129910",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/ASAP_Rocky"
+      }
     },
     {
       "id": "asap-yams",
@@ -650,7 +976,8 @@
         "personalNote": "The invisible architect of A$AP Mob — proved that an A&R's vision can shape a generation of rap aesthetics as profoundly as any beatmaker.",
         "culturalImpact": "Fused Houston chopped-and-screwed with New York swagger and built A$AP Rocky's entire visual and sonic identity. Passed at 26 in January 2015. Every cloud rap artist that followed owes him a debt.",
         "wikidataId": "Q20650048"
-      }
+      },
+      "bio": "ASAP Mob (stylized as A$AP Mob) is an American hip-hop collective formed in 2006 in Harlem, New York City, that consists of rappers (most of whom carry the \"ASAP\" moniker, except Dash and Playboi Carti), record producers, music video directors, and fashion designers.\nIn August 2012, the collective released the mixtape Lords Never Worry."
     },
     {
       "id": "joey-badass",
@@ -658,7 +985,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Pro Era / Cinematic Music Group",
-      "bio": "Jo-Vaughn Scott — co-founder of Pro Era. Burst onto the scene at 16 with 1999 (2012), so committed to 90s boom-bap it drew immediate Nas comparisons. Q-Tip and RZA both publicly endorsed him."
+      "bio": "Jo-Vaughn Scott — co-founder of Pro Era. Burst onto the scene at 16 with 1999 (2012), so committed to 90s boom-bap it drew immediate Nas comparisons. Q-Tip and RZA both publicly endorsed him.",
+      "metadata": {
+        "wikidataId": "Q3201552",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Joey_Badass"
+      }
     },
     {
       "id": "capitol-steez",
@@ -666,7 +997,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Pro Era",
-      "bio": "Jamal Telfort — founding Pro Era member whose verse on Survival Tactics (2012) displayed extraordinary lyrical depth at 17. Passed December 24, 2012. A cult classic voice in Brooklyn's rap revival."
+      "bio": "Jamal Telfort — founding Pro Era member whose verse on Survival Tactics (2012) displayed extraordinary lyrical depth at 17. Passed December 24, 2012. A cult classic voice in Brooklyn's rap revival.",
+      "metadata": {
+        "wikidataId": "Q15122641",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Capital_Steez"
+      }
     },
     {
       "id": "french-montana",
@@ -674,7 +1009,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Bad Boy / Epic",
-      "bio": "Karim Kharbouch — Moroccan-born Bronx rapper who came up through Coke Boys and Max B, then crossed over via Bad Boy and Maybach Music. Unforgettable (2017) reached #3 on the Hot 100."
+      "bio": "Karim Kharbouch — Moroccan-born Bronx rapper who came up through Coke Boys and Max B, then crossed over via Bad Boy and Maybach Music. Unforgettable (2017) reached #3 on the Hot 100.",
+      "metadata": {
+        "wikidataId": "Q1455261",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/French_Montana"
+      }
     },
     {
       "id": "pop-smoke",
@@ -682,7 +1021,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Victor Victor / Republic",
-      "bio": "Bashar Jackson — ignited Brooklyn Drill in 2019 with Welcome to the Party and Dior. His impossibly deep voice was something genuinely new for New York. Passed at 20 in February 2020. Considered the father of NYC Drill."
+      "bio": "Bashar Jackson — ignited Brooklyn Drill in 2019 with Welcome to the Party and Dior. His impossibly deep voice was something genuinely new for New York. Passed at 20 in February 2020. Considered the father of NYC Drill.",
+      "metadata": {
+        "wikidataId": "Q81698554",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Pop_Smoke"
+      }
     },
     {
       "id": "cardi-b",
@@ -690,7 +1033,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Atlantic",
-      "bio": "Belcalis Almánzar — first female rapper to win the Grammy for Best Rap Album (Invasion of Privacy, 2018). Bodak Yellow (2017) made her the first solo female rapper to top the Hot 100 since Lauryn Hill in 1998."
+      "bio": "Belcalis Almánzar — first female rapper to win the Grammy for Best Rap Album (Invasion of Privacy, 2018). Bodak Yellow (2017) made her the first solo female rapper to top the Hot 100 since Lauryn Hill in 1998.",
+      "metadata": {
+        "wikidataId": "Q29033668",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Cardi_B"
+      }
     },
     {
       "id": "action-bronson",
@@ -698,7 +1045,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Vice / Atlantic",
-      "bio": "Ariyan Arslani — Queens-born former chef whose vivid lyricism and Alchemist collaborations (Blue Chips, 2012) are canon in the post-millennium boom-bap revival. Flow so reminiscent of 90s Ghostface it became a talking point."
+      "bio": "Ariyan Arslani — Queens-born former chef whose vivid lyricism and Alchemist collaborations (Blue Chips, 2012) are canon in the post-millennium boom-bap revival. Flow so reminiscent of 90s Ghostface it became a talking point.",
+      "metadata": {
+        "wikidataId": "Q2823641",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Action_Bronson"
+      }
     },
     {
       "id": "a-boogie-wit-da-hoodie",
@@ -706,7 +1057,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Highbridge / Atlantic",
-      "bio": "Artist Dubose — Bronx rapper who blends singing and rapping into seamless emotional rap. Hoodie SZN (2018) went #1. Proves melodic rap and NYC street authenticity can coexist."
+      "bio": "Artist Dubose — Bronx rapper who blends singing and rapping into seamless emotional rap. Hoodie SZN (2018) went #1. Proves melodic rap and NYC street authenticity can coexist.",
+      "metadata": {
+        "wikidataId": "Q27927826",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/A_Boogie_wit_da_Hoodie"
+      }
     },
     {
       "id": "dave-east",
@@ -714,7 +1069,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Mass Appeal / Def Jam",
-      "bio": "David Brewster Jr. — a Nas protégé signed to Mass Appeal Records. Kairi Chanel (2016) was one of the year's most-downloaded mixtapes. Dense Harlem narratives in the direct lineage of Nasty Nas."
+      "bio": "David Brewster Jr. — a Nas protégé signed to Mass Appeal Records. Kairi Chanel (2016) was one of the year's most-downloaded mixtapes. Dense Harlem narratives in the direct lineage of Nasty Nas.",
+      "metadata": {
+        "wikidataId": "Q21260700",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Dave_East"
+      }
     },
     {
       "id": "flatbush-zombies",
@@ -722,7 +1081,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Glorious Dead",
-      "bio": "Meechy Darko, Zombie Juice, Erick Arc Elliott — Brooklyn trio whose psychedelic horrorcore descends from Wu-Tang darkness and Gravediggaz mysticism. Better Off Dead (2016) is a cult classic."
+      "bio": "Meechy Darko, Zombie Juice, Erick Arc Elliott — Brooklyn trio whose psychedelic horrorcore descends from Wu-Tang darkness and Gravediggaz mysticism. Better Off Dead (2016) is a cult classic.",
+      "metadata": {
+        "wikidataId": "Q14921341",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Flatbush_Zombies"
+      }
     },
     {
       "id": "young-ma",
@@ -730,7 +1093,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "M.A Music / 3D",
-      "bio": "Katorah Marrero — Brooklyn rapper who broke through with viral OOOUUU (2016). Dense bars, independent spirit, and openly queer identity make her a trailblazer in the NYC tradition."
+      "bio": "Katorah Marrero — Brooklyn rapper who broke through with viral OOOUUU (2016). Dense bars, independent spirit, and openly queer identity make her a trailblazer in the NYC tradition.",
+      "metadata": {
+        "wikidataId": "Q27458833",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Young_M.A"
+      }
     },
     {
       "id": "nipsey-hussle",
@@ -738,7 +1105,11 @@
       "era": "2010s",
       "region": "West Coast",
       "label": "All Money In / Atlantic",
-      "bio": "Ermias Asghedom — founder of Marathon Collective and a Crenshaw institution. Victory Lap (2018) earned a Grammy nomination. Murdered outside his Crenshaw store in March 2019."
+      "bio": "Ermias Asghedom — founder of Marathon Collective and a Crenshaw institution. Victory Lap (2018) earned a Grammy nomination. Murdered outside his Crenshaw store in March 2019.",
+      "metadata": {
+        "wikidataId": "Q2073970",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Nipsey_Hussle"
+      }
     },
     {
       "id": "dj-mustard",
@@ -747,7 +1118,11 @@
       "region": "West Coast",
       "label": "Mustard on the Beat / Interscope",
       "role": "producer",
-      "bio": "Dijon McFarlane — architect of the Ratchet sound. His minimal hi-hats and cowbell-driven beats defined early 2010s West Coast party rap. Produced for YG, Kendrick, Drake, Travis Scott."
+      "bio": "Dijon McFarlane — architect of the Ratchet sound. His minimal hi-hats and cowbell-driven beats defined early 2010s West Coast party rap. Produced for YG, Kendrick, Drake, Travis Scott.",
+      "metadata": {
+        "wikidataId": "Q15941115",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Mustard_(music_producer)"
+      }
     },
     {
       "id": "baby-keem",
@@ -755,7 +1130,11 @@
       "era": "2010s",
       "region": "West Coast",
       "label": "pgLang / Columbia",
-      "bio": "Hykeem Carter Jr. — Kendrick Lamar's cousin and pgLang signee. The Melodic Blue (2021) showcases chaotic maximalism reminiscent of early Kanye. family ties Grammy win for Best Melodic Rap Performance."
+      "bio": "Hykeem Carter Jr. — Kendrick Lamar's cousin and pgLang signee. The Melodic Blue (2021) showcases chaotic maximalism reminiscent of early Kanye. family ties Grammy win for Best Melodic Rap Performance.",
+      "metadata": {
+        "wikidataId": "Q70063212",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Baby_Keem"
+      }
     },
     {
       "id": "vince-staples",
@@ -763,7 +1142,11 @@
       "era": "2010s",
       "region": "West Coast",
       "label": "Def Jam",
-      "bio": "Long Beach rapper whose sardonic, literary perspective on street life and systemic inequality earned universal critical respect. Summertime '06 (2015) and Big Fish Theory (2017) are modern classics."
+      "bio": "Long Beach rapper whose sardonic, literary perspective on street life and systemic inequality earned universal critical respect. Summertime '06 (2015) and Big Fish Theory (2017) are modern classics.",
+      "metadata": {
+        "wikidataId": "Q16235863",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Vince_Staples"
+      }
     },
     {
       "id": "yg",
@@ -771,7 +1154,11 @@
       "era": "2010s",
       "region": "West Coast",
       "label": "Def Jam",
-      "bio": "Keenon Jackson — Compton's post-Kendrick flag-bearer. My Krazy Life (2014), produced by DJ Mustard, is a landmark gang-life concept album. Political voice of West Coast rap via FDT (2016)."
+      "bio": "Keenon Jackson — Compton's post-Kendrick flag-bearer. My Krazy Life (2014), produced by DJ Mustard, is a landmark gang-life concept album. Political voice of West Coast rap via FDT (2016).",
+      "metadata": {
+        "wikidataId": "Q406882",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/YG"
+      }
     },
     {
       "id": "anderson-paak",
@@ -779,7 +1166,11 @@
       "era": "2010s",
       "region": "West Coast",
       "label": "Steel Wool / Aftermath",
-      "bio": "Brandon Anderson — Dr. Dre-mentored multi-instrumentalist. Malibu (2016) is a modern funk-rap masterpiece. As Silk Sonic with Bruno Mars, won four Grammys for Leave the Door Open (2021)."
+      "bio": "Brandon Anderson — Dr. Dre-mentored multi-instrumentalist. Malibu (2016) is a modern funk-rap masterpiece. As Silk Sonic with Bruno Mars, won four Grammys for Leave the Door Open (2021).",
+      "metadata": {
+        "wikidataId": "Q20810369",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Anderson_.Paak"
+      }
     },
     {
       "id": "sza",
@@ -787,7 +1178,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "TDE / RCA",
-      "bio": "Solána Rowe — highest-charting female TDE artist. CTRL (2017) redefined millennial R&B. SOS (2022) held the #1 rap album chart for 10+ consecutive weeks — first woman to do so."
+      "bio": "Solána Rowe — highest-charting female TDE artist. CTRL (2017) redefined millennial R&B. SOS (2022) held the #1 rap album chart for 10+ consecutive weeks — first woman to do so.",
+      "metadata": {
+        "wikidataId": "Q16210722",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/SZA"
+      }
     },
     {
       "id": "dom-kennedy",
@@ -795,7 +1190,11 @@
       "era": "2010s",
       "region": "West Coast",
       "label": "OPM Records",
-      "bio": "Dominic Thomas — a founding figure of the independent Los Angeles rap wave. Yellow Tape series and From the Westside with Love (2011) inspired Nipsey Hussle and YG's independent hustles."
+      "bio": "Dominic Thomas — a founding figure of the independent Los Angeles rap wave. Yellow Tape series and From the Westside with Love (2011) inspired Nipsey Hussle and YG's independent hustles.",
+      "metadata": {
+        "wikidataId": "Q5289737",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Dom_Kennedy"
+      }
     },
     {
       "id": "mos-def",
@@ -869,7 +1268,11 @@
       "era": "2000s",
       "region": "East Coast",
       "label": "Loud Records",
-      "bio": "stic.man and M1 — the most politically direct hip-hop duo since Public Enemy. Let's Get Free (2000) is a Marxist hip-hop manifesto. Hip Hop (the title track's opening — 'It's bigger than hip hop') has been sampled and quoted universally. A cross-coast connector: based in NYC but deeply connected to Southern Black political tradition."
+      "bio": "stic.man and M1 — the most politically direct hip-hop duo since Public Enemy. Let's Get Free (2000) is a Marxist hip-hop manifesto. Hip Hop (the title track's opening — 'It's bigger than hip hop') has been sampled and quoted universally. A cross-coast connector: based in NYC but deeply connected to Southern Black political tradition.",
+      "metadata": {
+        "wikidataId": "Q1180841",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Dead_Prez"
+      }
     },
     {
       "id": "wale",
@@ -955,7 +1358,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "ALC Records",
-      "bio": "Boldy James Lamb — Detroit rapper and The Alchemist's most consistent collaborator of the 2020s. My 1st Chemistry Set (2013) with Alchemist set the template. His Versace Tape (2020) and Bo Jackson (2020) are considered among the finest boom-bap albums of the streaming era. Lives at the intersection of Detroit grit and New York production science."
+      "bio": "Boldy James Lamb — Detroit rapper and The Alchemist's most consistent collaborator of the 2020s. My 1st Chemistry Set (2013) with Alchemist set the template. His Versace Tape (2020) and Bo Jackson (2020) are considered among the finest boom-bap albums of the streaming era. Lives at the intersection of Detroit grit and New York production science.",
+      "metadata": {
+        "wikidataId": "Q16199628",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Boldy_James"
+      }
     },
     {
       "id": "hit-boy",
@@ -975,7 +1382,11 @@
       "era": "2010s",
       "region": "West Coast",
       "label": "Cash Money West",
-      "bio": "Jonathan Michael Porter — LA rapper whose deliberately off-beat flow and Thotiana (2018) viral moment made him one of the most divisive and discussed figures in recent hip-hop. He represents the social-media-native generation of LA rap — viral before polished, aesthetic before technical. A modern LA data point in the city's long tradition of distinctive street voices."
+      "bio": "Jonathan Michael Porter — LA rapper whose deliberately off-beat flow and Thotiana (2018) viral moment made him one of the most divisive and discussed figures in recent hip-hop. He represents the social-media-native generation of LA rap — viral before polished, aesthetic before technical. A modern LA data point in the city's long tradition of distinctive street voices.",
+      "metadata": {
+        "wikidataId": "Q60463134",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Blueface"
+      }
     },
     {
       "id": "problem",
@@ -983,7 +1394,11 @@
       "era": "2010s",
       "region": "West Coast",
       "label": "Penalties / Atlantic",
-      "bio": "Jason Martin — Compton rapper and songwriter who has quietly contributed to some of the biggest West Coast records of the 2010s. Produced for and with YG, Iamsu!, Kendrick Lamar, and DJ Mustard. His independent work ethic mirrors the Marathon Collective ethos — a Compton connector who rarely gets the credit his pen deserves."
+      "bio": "Jason Martin — Compton rapper and songwriter who has quietly contributed to some of the biggest West Coast records of the 2010s. Produced for and with YG, Iamsu!, Kendrick Lamar, and DJ Mustard. His independent work ethic mirrors the Marathon Collective ethos — a Compton connector who rarely gets the credit his pen deserves.",
+      "metadata": {
+        "wikidataId": "Q16223891",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/JasonMartin"
+      }
     },
     {
       "id": "larry-june",
@@ -991,7 +1406,11 @@
       "era": "2010s",
       "region": "West Coast",
       "label": "Cali Fever",
-      "bio": "Larry McDaniel — Bay Area rapper whose laid-back, health-conscious, luxury-obsessed rap is the modern evolution of Bay Area hyphy into something more introspective. His collaborations with The Alchemist (The Great Escape, 2022) brought him national attention. A coastal connector between Northern and Southern California's rap traditions."
+      "bio": "Larry McDaniel — Bay Area rapper whose laid-back, health-conscious, luxury-obsessed rap is the modern evolution of Bay Area hyphy into something more introspective. His collaborations with The Alchemist (The Great Escape, 2022) brought him national attention. A coastal connector between Northern and Southern California's rap traditions.",
+      "metadata": {
+        "wikidataId": "Q27975347",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Larry_June"
+      }
     },
     {
       "id": "lupe-fiasco",
@@ -1011,7 +1430,11 @@
       "year": 2012,
       "location": "London, UK",
       "bio": "North London rapper known for his ice-cold delivery and street narratives. A cornerstone of UK rap's independent movement.",
-      "vault_status": "Signed Physical Copy"
+      "vault_status": "Signed Physical Copy",
+      "metadata": {
+        "wikidataId": "Q28835138",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Nines_(rapper)"
+      }
     },
     {
       "id": "protoje",
@@ -1020,7 +1443,11 @@
       "year": 2011,
       "location": "Kingston, Jamaica",
       "bio": "Jamaican reggae-rap artist who bridges Rastafarian roots with modern hip-hop consciousness. A leading voice in the reggae revival.",
-      "vault_status": "Signed Physical Copy"
+      "vault_status": "Signed Physical Copy",
+      "metadata": {
+        "wikidataId": "Q2113673",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Protoje"
+      }
     },
     {
       "id": "malice",
@@ -1029,7 +1456,11 @@
       "year": 1992,
       "location": "Virginia Beach, VA",
       "bio": "One half of Clipse alongside his brother Pusha T. Known for razor-sharp coke rap lyricism before a religious transformation led to his No Malice persona.",
-      "vault_status": "Signed Physical Copy"
+      "vault_status": "Signed Physical Copy",
+      "metadata": {
+        "wikidataId": "Q16214109",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Malice_(rapper)"
+      }
     },
     {
       "id": "isaiah-rashad",
@@ -1038,7 +1469,11 @@
       "year": 2013,
       "location": "Chattanooga, TN",
       "bio": "TDE's most introspective voice — known for hazy, jazz-inflected rap with deeply personal storytelling. Cult favourite on the strength of Cilvia Demo and The Sun's Tirade.",
-      "vault_status": "Signed Physical Copy"
+      "vault_status": "Signed Physical Copy",
+      "metadata": {
+        "wikidataId": "Q16199520",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Isaiah_Rashad"
+      }
     },
     {
       "id": "knucks",
@@ -1047,7 +1482,11 @@
       "year": 2017,
       "location": "London, UK",
       "bio": "North West London rapper who fuses gritty UK street rap with classic boom-bap. His Alpha Place project is regarded as a landmark in British hip-hop.",
-      "vault_status": "Signed Physical Copy"
+      "vault_status": "Signed Physical Copy",
+      "metadata": {
+        "wikidataId": "Q459414",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Brass_knuckles"
+      }
     },
     {
       "id": "westside-gunn",
@@ -1056,7 +1495,11 @@
       "year": 2014,
       "location": "Buffalo, NY",
       "bio": "Co-founder of Griselda Records alongside Conway the Machine and Benny the Butcher. His baroque visual aesthetic and streetwear-meets-boom-bap sound redefined New York underground rap.",
-      "vault_status": "Signed Physical Copy"
+      "vault_status": "Signed Physical Copy",
+      "metadata": {
+        "wikidataId": "Q27733794",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Westside_Gunn"
+      }
     },
     {
       "id": "jid",
@@ -1065,7 +1508,11 @@
       "year": 2017,
       "location": "Atlanta, GA",
       "bio": "Dreamville's most technically gifted rapper — a rapid-fire polymath whose intricate rhyme schemes and storytelling put him in the upper echelon of the new generation.",
-      "vault_status": "Signed Physical Copy"
+      "vault_status": "Signed Physical Copy",
+      "metadata": {
+        "wikidataId": "Q29588830",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/JID"
+      }
     },
     {
       "id": "top-dawg",
@@ -1074,7 +1521,11 @@
       "region": "West Coast",
       "label": "TDE",
       "role": "executive",
-      "bio": "Anthony Tiffith — founder and CEO of Top Dawg Entertainment (TDE), established in Watts, CA in 1991. Signed Jay Rock as the label's first artist, then built one of the most critically acclaimed rosters in hip-hop history, anchored by Kendrick Lamar's Pulitzer-winning pen. TDE's artist-first model — keeping masters in-house and building creative ecosystems over quick commercial wins — became a blueprint for independent label success in the streaming era."
+      "bio": "Anthony Tiffith — founder and CEO of Top Dawg Entertainment (TDE), established in Watts, CA in 1991. Signed Jay Rock as the label's first artist, then built one of the most critically acclaimed rosters in hip-hop history, anchored by Kendrick Lamar's Pulitzer-winning pen. TDE's artist-first model — keeping masters in-house and building creative ecosystems over quick commercial wins — became a blueprint for independent label success in the streaming era.",
+      "metadata": {
+        "wikidataId": "Q16957703",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Top_Dawg_Entertainment"
+      }
     },
     {
       "id": "sir",
@@ -1082,7 +1533,11 @@
       "era": "2010s",
       "region": "West Coast",
       "label": "TDE / Warner",
-      "bio": "Elijah Melvin Christian — Inglewood R&B singer-songwriter and TDE signee. His 2017 breakthrough Her Too and the critically lauded Chasing Summer (2019) cemented him as the smoothest voice on the label. Collaborations with Kendrick, J. Cole, and Mac Miller reveal an artist equally fluent in West Coast soul and introspective rap crossover territory."
+      "bio": "Elijah Melvin Christian — Inglewood R&B singer-songwriter and TDE signee. His 2017 breakthrough Her Too and the critically lauded Chasing Summer (2019) cemented him as the smoothest voice on the label. Collaborations with Kendrick, J. Cole, and Mac Miller reveal an artist equally fluent in West Coast soul and introspective rap crossover territory.",
+      "metadata": {
+        "wikidataId": "Q48700345",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Sir_(singer)"
+      }
     },
     {
       "id": "doechii",
@@ -1090,7 +1545,11 @@
       "era": "2010s",
       "region": "South",
       "label": "TDE / Capitol",
-      "bio": "Jaylah Ji'mya Hickmon — Tampa rapper who signed to TDE/Capitol in 2022 and became the label's most volatile new energy. Her Grammy win for Alligator Bites Never Heal (2024) — Best Rap Album — made her the third woman to win the award. Fluid genre-blending, theatrical live performances, and aggressive pen game make Doechii the clearest sign that TDE's next era has arrived."
+      "bio": "Jaylah Ji'mya Hickmon — Tampa rapper who signed to TDE/Capitol in 2022 and became the label's most volatile new energy. Her Grammy win for Alligator Bites Never Heal (2024) — Best Rap Album — made her the third woman to win the award. Fluid genre-blending, theatrical live performances, and aggressive pen game make Doechii the clearest sign that TDE's next era has arrived.",
+      "metadata": {
+        "wikidataId": "Q106629186",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Doechii"
+      }
     },
     {
       "id": "reason",
@@ -1098,7 +1557,11 @@
       "era": "2010s",
       "region": "West Coast",
       "label": "TDE",
-      "bio": "Johnathan Kristopher Taylor — Carson, CA rapper signed to TDE in 2017. New Faces (2014) announced him; There You Have It (2019) delivered on the promise. A storyteller in the Kendrick mold — Carson-centric narratives, social conscience, and cinematic production sensibilities. Often called TDE's most underrated voice."
+      "bio": "Johnathan Kristopher Taylor — Carson, CA rapper signed to TDE in 2017. New Faces (2014) announced him; There You Have It (2019) delivered on the promise. A storyteller in the Kendrick mold — Carson-centric narratives, social conscience, and cinematic production sensibilities. Often called TDE's most underrated voice.",
+      "metadata": {
+        "wikidataId": "Q298903",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Reason_(disambiguation)"
+      }
     },
     {
       "id": "kal-banx",
@@ -1115,7 +1578,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Dreamville / Interscope",
-      "bio": "Achille Bassirou Ba — Paris-born, Queens-raised rapper who became one of Dreamville's earliest signings (2014). Too High to Riot (2016) and Milky Way (2018) established his cosmopolitan street perspective — world-traveled bars with boom-bap roots and jazz-soul texture. Bridges J. Cole's introspective North Carolina sound with a genuinely international lens."
+      "bio": "Achille Bassirou Ba — Paris-born, Queens-raised rapper who became one of Dreamville's earliest signings (2014). Too High to Riot (2016) and Milky Way (2018) established his cosmopolitan street perspective — world-traveled bars with boom-bap roots and jazz-soul texture. Bridges J. Cole's introspective North Carolina sound with a genuinely international lens.",
+      "metadata": {
+        "wikidataId": "Q17515138",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Bas_(rapper)"
+      }
     },
     {
       "id": "earthgang",
@@ -1123,7 +1590,11 @@
       "era": "2010s",
       "region": "Atlanta",
       "label": "Dreamville / Interscope",
-      "bio": "Olu (Johnny 'Olu' Venus) and WowGr8 (Doctur Dot) — Atlanta rap duo signed to Dreamville in 2019. Mirrorland (2019) introduced their psychedelic Atlanta trap-meets-soul-jazz aesthetic to a major audience. Their irreverent energy and genre elasticity make them Dreamville's most sonically adventurous act and a key bridge between the Atlanta and North Carolina scenes."
+      "bio": "Olu (Johnny 'Olu' Venus) and WowGr8 (Doctur Dot) — Atlanta rap duo signed to Dreamville in 2019. Mirrorland (2019) introduced their psychedelic Atlanta trap-meets-soul-jazz aesthetic to a major audience. Their irreverent energy and genre elasticity make them Dreamville's most sonically adventurous act and a key bridge between the Atlanta and North Carolina scenes.",
+      "metadata": {
+        "wikidataId": "Q18206566",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/EarthGang"
+      }
     },
     {
       "id": "ari-lennox",
@@ -1131,7 +1602,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Dreamville / Interscope",
-      "bio": "Courtney Shanade Salter — Washington D.C. R&B vocalist and the first woman signed to Dreamville (2015). Shea Butter Baby (2019) made her the label's commercial R&B anchor, blending neo-soul warmth with frank intimacy in the Erykah Badu lineage. Her Grammy nominations and cross-genre appeal expanded Dreamville beyond pure hip-hop into the broader Black music tradition."
+      "bio": "Courtney Shanade Salter — Washington D.C. R&B vocalist and the first woman signed to Dreamville (2015). Shea Butter Baby (2019) made her the label's commercial R&B anchor, blending neo-soul warmth with frank intimacy in the Erykah Badu lineage. Her Grammy nominations and cross-genre appeal expanded Dreamville beyond pure hip-hop into the broader Black music tradition.",
+      "metadata": {
+        "wikidataId": "Q27671029",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Ari_Lennox"
+      }
     },
     {
       "id": "cozz",
@@ -1139,7 +1614,11 @@
       "era": "2010s",
       "region": "West Coast",
       "label": "Dreamville / Interscope",
-      "bio": "Jordan Cousins — Los Angeles rapper signed to Dreamville in 2014, making him one of the label's original West Coast representatives. Cozz & Effect (2014) earned instant underground respect. Effected (2018) matured his storytelling, connecting South Central street narratives with J. Cole's confessional production aesthetic. A quiet pillar of the Dreamville foundation."
+      "bio": "Jordan Cousins — Los Angeles rapper signed to Dreamville in 2014, making him one of the label's original West Coast representatives. Cozz & Effect (2014) earned instant underground respect. Effected (2018) matured his storytelling, connecting South Central street narratives with J. Cole's confessional production aesthetic. A quiet pillar of the Dreamville foundation.",
+      "metadata": {
+        "wikidataId": "Q21898076",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Cozz"
+      }
     },
     {
       "id": "lute",
@@ -1147,7 +1626,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Dreamville / Interscope",
-      "bio": "Lute Howze — Charlotte, NC rapper signed to Dreamville in 2017. West 1996 (2016) introduced his blend of Southern rap geography and introspective pen; Gold Mouf (2021) delivered on every promise. Represents Dreamville's deep roots in the Carolinas alongside J. Cole himself, carrying the region's tradition of observational, life-as-text lyricism."
+      "bio": "Lute Howze — Charlotte, NC rapper signed to Dreamville in 2017. West 1996 (2016) introduced his blend of Southern rap geography and introspective pen; Gold Mouf (2021) delivered on every promise. Represents Dreamville's deep roots in the Carolinas alongside J. Cole himself, carrying the region's tradition of observational, life-as-text lyricism.",
+      "metadata": {
+        "wikidataId": "Q180733",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Lute"
+      }
     },
     {
       "id": "omen",
@@ -1155,7 +1638,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Dreamville / Interscope",
-      "bio": "Sam Okyere — one of Dreamville's founding members, alongside J. Cole from the label's earliest days circa 2010. Elephant Eyes (2013) and Afraid of Heights (2015) showed a lyricist in the boom-bap tradition with a surgeon's pen. Often cited as the most 'hip-hop purist' voice on a label that bridges rap, R&B, and soul."
+      "bio": "Sam Okyere — one of Dreamville's founding members, alongside J. Cole from the label's earliest days circa 2010. Elephant Eyes (2013) and Afraid of Heights (2015) showed a lyricist in the boom-bap tradition with a surgeon's pen. Often cited as the most 'hip-hop purist' voice on a label that bridges rap, R&B, and soul.",
+      "metadata": {
+        "wikidataId": "Q20685031",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Omen_(musician)"
+      }
     },
     {
       "id": "conway-the-machine",
@@ -1163,7 +1650,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Griselda / Shady Records",
-      "bio": "Damon Lamar Worthy Jr. — Buffalo rapper and Westside Gunn's younger brother, co-founder of Griselda Records. His left-side facial paralysis — the result of a 2012 shooting — became inseparable from his mythos. God Don't Make Mistakes (2022) on Shady Records debuted at #3 on the Billboard 200. Eminem personally signing Conway to Shady was the ultimate East Coast lyricist co-sign. His delivery is cold, methodical, and constructed for maximum impact."
+      "bio": "Damon Lamar Worthy Jr. — Buffalo rapper and Westside Gunn's younger brother, co-founder of Griselda Records. His left-side facial paralysis — the result of a 2012 shooting — became inseparable from his mythos. God Don't Make Mistakes (2022) on Shady Records debuted at #3 on the Billboard 200. Eminem personally signing Conway to Shady was the ultimate East Coast lyricist co-sign. His delivery is cold, methodical, and constructed for maximum impact.",
+      "metadata": {
+        "wikidataId": "Q32836087",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Conway_the_Machine"
+      }
     },
     {
       "id": "benny-the-butcher",
@@ -1171,7 +1662,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Griselda / Black Soprano Family",
-      "bio": "Jeremie Pennick — Buffalo rapper, Griselda co-founder, and cousin of Westside Gunn and Conway the Machine. Tana Talk 3 (2018) is widely considered the definitive Griselda solo statement. His pen is a precision instrument: pharmaceutical-grade street reporting delivered with the controlled fury of a man who has survived what he describes. Signed his own Black Soprano Family imprint, extending the Buffalo boom-bap empire to the next generation."
+      "bio": "Jeremie Pennick — Buffalo rapper, Griselda co-founder, and cousin of Westside Gunn and Conway the Machine. Tana Talk 3 (2018) is widely considered the definitive Griselda solo statement. His pen is a precision instrument: pharmaceutical-grade street reporting delivered with the controlled fury of a man who has survived what he describes. Signed his own Black Soprano Family imprint, extending the Buffalo boom-bap empire to the next generation.",
+      "metadata": {
+        "wikidataId": "Q66584231",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Benny_the_Butcher"
+      }
     },
     {
       "id": "mach-hommy",
@@ -1179,7 +1674,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Griselda",
-      "bio": "Griselda-affiliated rapper of Haitian descent whose deliberately limited releases, cryptic persona, and baroque lyricism built one of underground rap's most devoted cult followings. Pray for Haiti (2021) — released via Griselda — is his masterwork: immaculately produced, spiritually dense, and historically rooted in Haitian culture. Madlib and The Alchemist are among his most prominent production collaborators."
+      "bio": "Griselda-affiliated rapper of Haitian descent whose deliberately limited releases, cryptic persona, and baroque lyricism built one of underground rap's most devoted cult followings. Pray for Haiti (2021) — released via Griselda — is his masterwork: immaculately produced, spiritually dense, and historically rooted in Haitian culture. Madlib and The Alchemist are among his most prominent production collaborators.",
+      "metadata": {
+        "wikidataId": "Q111337749",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Mach-Hommy"
+      }
     },
     {
       "id": "armani-caesar",
@@ -1187,7 +1686,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Griselda",
-      "bio": "Buffalo rapper and the first woman signed to Griselda Records (circa 2020-2021). The Liz (2020) announced her fully formed: her delivery is assured, her bars dense with Buffalo-specific street imagery, and her aesthetic perfectly calibrated to Griselda's baroque visual language. A genuine scene-builder in the Buffalo underground, not merely an extension of the label's brand."
+      "bio": "Buffalo rapper and the first woman signed to Griselda Records (circa 2020-2021). The Liz (2020) announced her fully formed: her delivery is assured, her bars dense with Buffalo-specific street imagery, and her aesthetic perfectly calibrated to Griselda's baroque visual language. A genuine scene-builder in the Buffalo underground, not merely an extension of the label's brand.",
+      "metadata": {
+        "wikidataId": "Q126988095",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Armani_Caesar"
+      }
     },
     {
       "id": "rome-streetz",
@@ -1195,7 +1698,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Griselda",
-      "bio": "Bronx rapper and Griselda affiliate whose gravel-voiced street reportage sits comfortably in the label's boom-bap architecture. Kiss the Ring (2022) — produced entirely by Ransom — earned widespread critical acclaim. His Bronx perspective adds a crucial New York City dimension to Griselda's predominantly Buffalo story, connecting the label's sound to the East Coast tradition."
+      "bio": "Bronx rapper and Griselda affiliate whose gravel-voiced street reportage sits comfortably in the label's boom-bap architecture. Kiss the Ring (2022) — produced entirely by Ransom — earned widespread critical acclaim. His Bronx perspective adds a crucial New York City dimension to Griselda's predominantly Buffalo story, connecting the label's sound to the East Coast tradition.",
+      "metadata": {
+        "wikidataId": "Q125962418",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Rome_Streetz"
+      }
     },
     {
       "id": "stove-god-cooks",
@@ -1203,7 +1710,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Griselda",
-      "bio": "Yonkers rapper signed to Griselda circa 2020. Reasonable Drought (2020) — executive produced by Westside Gunn — became one of the year's most celebrated underground projects. His ultra-smooth delivery over hard boom-bap production creates a counterintuitive tension that defines his best work. Extends Griselda's New York City reach from Buffalo into Westchester."
+      "bio": "Yonkers rapper signed to Griselda circa 2020. Reasonable Drought (2020) — executive produced by Westside Gunn — became one of the year's most celebrated underground projects. His ultra-smooth delivery over hard boom-bap production creates a counterintuitive tension that defines his best work. Extends Griselda's New York City reach from Buffalo into Westchester.",
+      "metadata": {
+        "wikidataId": "Q135070865",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Stove_God_Cooks"
+      }
     },
     {
       "id": "daringer",
@@ -1212,7 +1723,11 @@
       "region": "East Coast",
       "label": "Griselda",
       "role": "producer",
-      "bio": "Benjamin Giordano — Buffalo-born producer and the sonic architect of Griselda's in-house sound. His stripped-down, crate-dug aesthetic — minimal drums, dusty loops, maximum claustrophobia — is the foundation on which Westside Gunn's baroque world was built. Every Griselda core release features his fingerprints. His approach is the anti-trend: deliberately lo-fi, historically rooted in 1990s East Coast boom-bap, and entirely unconcerned with mainstream palatability."
+      "bio": "Benjamin Giordano — Buffalo-born producer and the sonic architect of Griselda's in-house sound. His stripped-down, crate-dug aesthetic — minimal drums, dusty loops, maximum claustrophobia — is the foundation on which Westside Gunn's baroque world was built. Every Griselda core release features his fingerprints. His approach is the anti-trend: deliberately lo-fi, historically rooted in 1990s East Coast boom-bap, and entirely unconcerned with mainstream palatability.",
+      "metadata": {
+        "wikidataId": "Q477207",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Derringer"
+      }
     },
     {
       "id": "beat-butcha",
@@ -1221,7 +1736,11 @@
       "region": "East Coast",
       "label": "Griselda / GOAT Crew",
       "role": "producer",
-      "bio": "Cleveland-born producer and Griselda collaborator whose cinematic, hard-hitting beats complement Daringer's more stripped-down work. Credits span Conway the Machine, Benny the Butcher, Westside Gunn, and Lloyd Banks. His production sits at the intersection of classic East Coast boom-bap and modern underground rap — a cleaner, more expansive palette than Daringer's, but equally rooted in the sample-flipping tradition."
+      "bio": "Cleveland-born producer and Griselda collaborator whose cinematic, hard-hitting beats complement Daringer's more stripped-down work. Credits span Conway the Machine, Benny the Butcher, Westside Gunn, and Lloyd Banks. His production sits at the intersection of classic East Coast boom-bap and modern underground rap — a cleaner, more expansive palette than Daringer's, but equally rooted in the sample-flipping tradition.",
+      "metadata": {
+        "wikidataId": "Q117247514",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Beat_Butcha"
+      }
     },
     {
       "id": "lloyd-banks",
@@ -1229,7 +1748,11 @@
       "era": "2000s",
       "region": "East Coast",
       "label": "G-Unit / Interscope",
-      "bio": "Christopher Lloyd — Jamaica, Queens rapper and G-Unit co-founder. The Hunger for More (2004) debuted at #1, driven by On Fire. His wordplay and multi-syllabic rhyme schemes made him the MC's MC of the G-Unit roster — a writer's writer who could out-rap almost everyone in the game while moving platinum. Consistently cited by peers as one of the most technically gifted lyricists of his era."
+      "bio": "Christopher Lloyd — Jamaica, Queens rapper and G-Unit co-founder. The Hunger for More (2004) debuted at #1, driven by On Fire. His wordplay and multi-syllabic rhyme schemes made him the MC's MC of the G-Unit roster — a writer's writer who could out-rap almost everyone in the game while moving platinum. Consistently cited by peers as one of the most technically gifted lyricists of his era.",
+      "metadata": {
+        "wikidataId": "Q298668",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Lloyd_Banks"
+      }
     },
     {
       "id": "tony-yayo",
@@ -1237,7 +1760,11 @@
       "era": "2000s",
       "region": "East Coast",
       "label": "G-Unit / Interscope",
-      "bio": "Marvin Bernard — South Jamaica, Queens rapper and founding G-Unit member, 50 Cent's longest-running Day 1 affiliate. Thoughts of a Predicate Felon (2005) debuted at #1. His Southside Queens storytelling is inseparable from G-Unit's identity — the raw street voice that grounded the unit's more polished star power."
+      "bio": "Marvin Bernard — South Jamaica, Queens rapper and founding G-Unit member, 50 Cent's longest-running Day 1 affiliate. Thoughts of a Predicate Felon (2005) debuted at #1. His Southside Queens storytelling is inseparable from G-Unit's identity — the raw street voice that grounded the unit's more polished star power.",
+      "metadata": {
+        "wikidataId": "Q301515",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Tony_Yayo"
+      }
     },
     {
       "id": "young-buck",
@@ -1245,7 +1772,11 @@
       "era": "2000s",
       "region": "South",
       "label": "G-Unit / Interscope",
-      "bio": "David Darnell Brown — Nashville rapper and G-Unit's Southern pivot. Straight Outta Cashville (2004) went platinum and proved G-Unit could recruit elite talent across regions. His Nashville grit and aggressive Southern delivery balanced 50's New York core. Later parted ways with G-Unit — one of the defining business dramas of mid-2000s rap."
+      "bio": "David Darnell Brown — Nashville rapper and G-Unit's Southern pivot. Straight Outta Cashville (2004) went platinum and proved G-Unit could recruit elite talent across regions. His Nashville grit and aggressive Southern delivery balanced 50's New York core. Later parted ways with G-Unit — one of the defining business dramas of mid-2000s rap.",
+      "metadata": {
+        "wikidataId": "Q311244",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Young_Buck"
+      }
     },
     {
       "id": "the-game",
@@ -1253,7 +1784,11 @@
       "era": "2000s",
       "region": "West Coast",
       "label": "Black Wall Street / Aftermath",
-      "bio": "Jayceon Taylor — Compton rapper whose debut The Documentary (2005) is widely considered one of the greatest West Coast albums ever made. Dr. Dre and 50 Cent co-signed his ascent; his high-profile G-Unit departure and ensuing beef with 50 became one of the defining storylines of mid-2000s rap politics. His encyclopedic hip-hop knowledge — namedropping legends across every bar — made him a living museum of the culture."
+      "bio": "Jayceon Taylor — Compton rapper whose debut The Documentary (2005) is widely considered one of the greatest West Coast albums ever made. Dr. Dre and 50 Cent co-signed his ascent; his high-profile G-Unit departure and ensuing beef with 50 became one of the defining storylines of mid-2000s rap politics. His encyclopedic hip-hop knowledge — namedropping legends across every bar — made him a living museum of the culture.",
+      "metadata": {
+        "wikidataId": "Q395641",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/The_Game"
+      }
     },
     {
       "id": "rick-rubin",
@@ -1262,7 +1797,11 @@
       "region": "East Coast",
       "label": "Def Jam / American Recordings",
       "role": "producer",
-      "bio": "Frederick Jay Rubin — co-founder of Def Jam Records with Russell Simmons (1984) and one of the most consequential producers in music history. Produced LL Cool J's Radio (1985), Beastie Boys' Licensed to Ill (1986), and Run-DMC's Raising Hell. Left Def Jam to found American Recordings, going on to work with Johnny Cash, Red Hot Chili Peppers, Jay-Z, Kanye, and Kendrick Lamar. The universal producer — strips songs to their essence and makes them undeniable."
+      "bio": "Frederick Jay Rubin — co-founder of Def Jam Records with Russell Simmons (1984) and one of the most consequential producers in music history. Produced LL Cool J's Radio (1985), Beastie Boys' Licensed to Ill (1986), and Run-DMC's Raising Hell. Left Def Jam to found American Recordings, going on to work with Johnny Cash, Red Hot Chili Peppers, Jay-Z, Kanye, and Kendrick Lamar. The universal producer — strips songs to their essence and makes them undeniable.",
+      "metadata": {
+        "wikidataId": "Q587361",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Rick_Rubin"
+      }
     },
     {
       "id": "russell-simmons",
@@ -1271,7 +1810,11 @@
       "region": "East Coast",
       "label": "Def Jam / Rush Communications",
       "role": "executive",
-      "bio": "Russell Wendell Simmons — co-founder of Def Jam Recordings with Rick Rubin (1984) and the first major hip-hop businessman. His vision gave hip-hop a corporate architecture before it had mainstream acceptance. Managed LL Cool J, Run-DMC (his brother Run's group), and the Beastie Boys during the genre's foundational years. Built Rush Communications into a media empire spanning music, film, fashion (Phat Farm), and activism."
+      "bio": "Russell Wendell Simmons — co-founder of Def Jam Recordings with Rick Rubin (1984) and the first major hip-hop businessman. His vision gave hip-hop a corporate architecture before it had mainstream acceptance. Managed LL Cool J, Run-DMC (his brother Run's group), and the Beastie Boys during the genre's foundational years. Built Rush Communications into a media empire spanning music, film, fashion (Phat Farm), and activism.",
+      "metadata": {
+        "wikidataId": "Q962378",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Russell_Simmons"
+      }
     },
     {
       "id": "public-enemy",
@@ -1279,7 +1822,11 @@
       "era": "80s",
       "region": "East Coast",
       "label": "Def Jam",
-      "bio": "Chuck D, Flavor Flav, Professor Griff, Terminator X — Long Island group that redefined what hip-hop could say. It Takes a Nation of Millions to Hold Us Back (1988) and Fear of a Black Planet (1990) are cornerstones of politically conscious rap. Their sonic assault — produced by The Bomb Squad — stacked samples and noise into walls of sound unlike anything before or since. Every activist rapper of the last 35 years owes them a debt."
+      "bio": "Chuck D, Flavor Flav, Professor Griff, Terminator X — Long Island group that redefined what hip-hop could say. It Takes a Nation of Millions to Hold Us Back (1988) and Fear of a Black Planet (1990) are cornerstones of politically conscious rap. Their sonic assault — produced by The Bomb Squad — stacked samples and noise into walls of sound unlike anything before or since. Every activist rapper of the last 35 years owes them a debt.",
+      "metadata": {
+        "wikidataId": "Q209182",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Public_Enemy"
+      }
     },
     {
       "id": "beastie-boys",
@@ -1287,7 +1834,11 @@
       "era": "80s",
       "region": "East Coast",
       "label": "Def Jam / Capitol",
-      "bio": "Mike D, Ad-Rock, MCA — Brooklyn trio that brought hip-hop to rock audiences and vice versa. Licensed to Ill (1986), produced by Rick Rubin, was the first rap album to reach #1 on the Billboard 200. Paul's Boutique (1989) is a landmark of sample-based composition, decades ahead of its time. Their evolution from party rap to serious art — and their eventual friendship with the very communities they once parodied — is one of rap's most remarkable cultural journeys."
+      "bio": "Mike D, Ad-Rock, MCA — Brooklyn trio that brought hip-hop to rock audiences and vice versa. Licensed to Ill (1986), produced by Rick Rubin, was the first rap album to reach #1 on the Billboard 200. Paul's Boutique (1989) is a landmark of sample-based composition, decades ahead of its time. Their evolution from party rap to serious art — and their eventual friendship with the very communities they once parodied — is one of rap's most remarkable cultural journeys.",
+      "metadata": {
+        "wikidataId": "Q214039",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Beastie_Boys"
+      }
     },
     {
       "id": "cj-fly",
@@ -1295,7 +1846,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Pro Era",
-      "bio": "Trevis Joel Martin — Brooklyn rapper and Pro Era co-founder alongside Joey Bada$$. Thee Way Eye See It (2013) established his introspective take on boom-bap alongside the rest of the collective. His melodic sensibility within the group's hard-knock aesthetic makes him one of Pro Era's most sonically distinct voices — bridging conscious rap and R&B-influenced delivery."
+      "bio": "Trevis Joel Martin — Brooklyn rapper and Pro Era co-founder alongside Joey Bada$$. Thee Way Eye See It (2013) established his introspective take on boom-bap alongside the rest of the collective. His melodic sensibility within the group's hard-knock aesthetic makes him one of Pro Era's most sonically distinct voices — bridging conscious rap and R&B-influenced delivery.",
+      "metadata": {
+        "wikidataId": "Q20090712",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/CJ_Fly"
+      }
     },
     {
       "id": "kirk-knight",
@@ -1304,7 +1859,11 @@
       "region": "East Coast",
       "label": "Pro Era",
       "role": "producer",
-      "bio": "Pro Era producer and Brooklyn rapper whose Late Knight Special (2015) remains the collective's deepest production statement. His beats — dusty, jazz-inflected boom-bap rooted squarely in the 90s Bronx and Brooklyn tradition — form the sonic backbone of much of Pro Era's catalog. The in-house sound architect who kept the collective's beatmaking philosophy intact."
+      "bio": "Pro Era producer and Brooklyn rapper whose Late Knight Special (2015) remains the collective's deepest production statement. His beats — dusty, jazz-inflected boom-bap rooted squarely in the 90s Bronx and Brooklyn tradition — form the sonic backbone of much of Pro Era's catalog. The in-house sound architect who kept the collective's beatmaking philosophy intact.",
+      "metadata": {
+        "wikidataId": "Q21062562",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Kirk_Knight"
+      }
     },
     {
       "id": "nyck-caution",
@@ -1312,7 +1871,11 @@
       "era": "2010s",
       "region": "East Coast",
       "label": "Pro Era",
-      "bio": "Nicholas Caution — Brooklyn rapper and Pro Era member whose versatile pen bridges the collective's boom-bap core with introspective, emotionally intelligent rap. His collaborations with Joey Bada$$ and the group's extended network (including Flatbush Zombies) make him one of Brooklyn's most quietly indispensable voices in the New York rap renaissance."
+      "bio": "Nicholas Caution — Brooklyn rapper and Pro Era member whose versatile pen bridges the collective's boom-bap core with introspective, emotionally intelligent rap. His collaborations with Joey Bada$$ and the group's extended network (including Flatbush Zombies) make him one of Brooklyn's most quietly indispensable voices in the New York rap renaissance.",
+      "metadata": {
+        "wikidataId": "Q16967770",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Pro_Era"
+      }
     },
     {
       "id": "statik-selektah",
@@ -1321,7 +1884,11 @@
       "region": "East Coast",
       "label": "Showoff Records",
       "role": "producer",
-      "bio": "William Brill — Boston-born, New York-based DJ and producer who became the East Coast boom-bap revival's most in-demand craftsman. His sample-flip science and deep crate knowledge connect every generation of NYC lyricists: from Nas and Raekwon to Joey Bada$$, Action Bronson, and Benny the Butcher. Statik is a living bridge between 90s purist hip-hop and the streaming era underground."
+      "bio": "William Brill — Boston-born, New York-based DJ and producer who became the East Coast boom-bap revival's most in-demand craftsman. His sample-flip science and deep crate knowledge connect every generation of NYC lyricists: from Nas and Raekwon to Joey Bada$$, Action Bronson, and Benny the Butcher. Statik is a living bridge between 90s purist hip-hop and the streaming era underground.",
+      "metadata": {
+        "wikidataId": "Q2333768",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Statik_Selektah"
+      }
     },
     {
       "id": "slim-williams",
@@ -1333,7 +1900,8 @@
       "metadata": {
         "culturalImpact": "Co-founded Cash Money Records with brother Birdman out of New Orleans. The business brain behind the dynasty that birthed Lil Wayne, Drake, and Nicki Minaj.",
         "wikidataId": "Q2313568"
-      }
+      },
+      "bio": "Clyde Charles \"Slim\" Williams (January 14, 1881 – October 9, 1974) was a promoter of the Alaska Highway in the 1930s.\nBorn in California, Willams had first arrived in Alaska in 1900 at the age of 19, looking for adventure. He spent the next three decades trapping, hunting, breeding dogs, and blazing trails throughout the frontier."
     },
     {
       "id": "juvenile",
@@ -1344,7 +1912,8 @@
       "metadata": {
         "culturalImpact": "Hot Boys anchor and the voice of the 17th Ward. '400 Degreez' (1998) went 4x platinum and brought New Orleans rap to the mainstream.",
         "wikidataId": "Q360804"
-      }
+      },
+      "bio": "Juvenile may refer to:"
     },
     {
       "id": "bg",
@@ -1355,7 +1924,8 @@
       "metadata": {
         "culturalImpact": "One of the originators of the Hot Boys, B.G.'s 'Bling Bling' (1999) coined the term that defined an era of hip-hop aesthetics.",
         "wikidataId": "Q447613"
-      }
+      },
+      "bio": "BG or bg may refer to:"
     },
     {
       "id": "turk",
@@ -1366,7 +1936,8 @@
       "metadata": {
         "culturalImpact": "The youngest Hot Boy, Turk's raw New Orleans street energy was a key thread in Cash Money's early 2000s fabric.",
         "wikidataId": "Q7848802"
-      }
+      },
+      "bio": "Tab Virgil Jr. (born February 8, 1981) better known by his stage name Turk (sometimes \"Young Turk\" or \"Hot Boy Turk\" or \"CFOTAB\"), is an American rapper from New Orleans, Louisiana. He is best known for his late 1990s run at Birdman's Cash Money Records with the group the Hot Boys."
     },
     {
       "id": "mannie-fresh",
@@ -1380,7 +1951,8 @@
         "personalNote": "The Architect of New Orleans bounce rap — built the sonic identity of an entire city with nothing but a drum machine and a vision.",
         "culturalImpact": "In-house producer for Cash Money Records throughout the label's entire golden era. Produced '400 Degreez', 'Tha Block Is Hot', 'Bling Bling', and the entire Hot Boys catalog. The gravitational force behind the Cash Money sound.",
         "wikidataId": "Q1356064"
-      }
+      },
+      "bio": "Byron Otto Thomas (born March 20, 1969), better known by his stage name Mannie Fresh, is an American rapper and record producer. He is best known for his production work for Cash Money Records releases, as well as being half of the hip hop duo Big Tymers with the label's co-founder, Birdman."
     },
     {
       "id": "tyga",
@@ -1391,7 +1963,8 @@
       "metadata": {
         "culturalImpact": "Signed to Young Money by Lil Wayne, Tyga bridged the Cash Money empire to the West Coast with 'Rack City' (2011).",
         "wikidataId": "Q237908"
-      }
+      },
+      "bio": "Micheal Ray Stevenson (born November 19, 1989), known professionally as Tyga (; a backronym for Thank You God Always), is an American rapper, singer, and actor. After several independent releases, he signed a recording contract with Lil Wayne's Young Money Entertainment, an imprint of Cash Money Records and Republic Records in 2008."
     },
     {
       "id": "master-p",
@@ -1402,7 +1975,8 @@
       "metadata": {
         "culturalImpact": "Founded No Limit Records in Richmond, CA and relocated it to New Orleans. Built the most independently successful rap label of the late 90s — the blueprint for hip-hop entrepreneurship before streaming.",
         "wikidataId": "Q360799"
-      }
+      },
+      "bio": "Percy Robert Miller (born April 29, 1970), better known by his stage name Master P, is an American rapper, actor, and entrepreneur. He founded No Limit Records in 1991, which was relaunched into the spin-off labels New No Limit Records and No Limit Forever Records."
     },
     {
       "id": "silkk-the-shocker",
@@ -1413,7 +1987,8 @@
       "metadata": {
         "culturalImpact": "Master P's younger brother and one of No Limit's core artists. His 'Charge It 2 Da Game' (1998) debuted at #1.",
         "wikidataId": "Q1278278"
-      }
+      },
+      "bio": "Vyshonn King Miller (born June 18, 1975), better known by his stage name Silkk the Shocker (formerly Silkk), is an American gangsta rapper from New Orleans, Louisiana. The brother of Master P, Miller signed with his record label No Limit Records, an imprint of Priority Records to release his debut album, The Shocker (1996)."
     },
     {
       "id": "c-murder",
@@ -1424,7 +1999,8 @@
       "metadata": {
         "culturalImpact": "Master P's youngest brother and one of No Limit's most visceral voices. His 'Life or Death' (1998) captured the dangers of the streets that fueled the No Limit narrative.",
         "wikidataId": "Q1065754"
-      }
+      },
+      "bio": "Corey Miller (born March 9, 1971), better known by his stage name C-Murder, is an American rapper. He initially gained fame in the mid-1990s as a part of his brother Master P's label No Limit Records, primarily as a member of the label's supergroup, TRU. Miller went on to release several solo albums of his own through the label, including 1998's platinum Life or Death."
     },
     {
       "id": "mystikal",
@@ -1435,7 +2011,8 @@
       "metadata": {
         "culturalImpact": "The kinetic New Orleans MC who brought military-drill energy to No Limit. 'Unpredictable' (1997) and 'Ghetto Fabulous' (1998) are Southern rap cornerstones.",
         "wikidataId": "Q439090"
-      }
+      },
+      "bio": "Michael Lawrence Tyler, better known by his stage name Mystikal, is an American rapper and actor from New Orleans, Louisiana. He is noted for his brash, obstreperous vocal delivery, characterized by a Southern rasp."
     },
     {
       "id": "mia-x",
@@ -1446,7 +2023,8 @@
       "metadata": {
         "culturalImpact": "The First Lady of No Limit Records — one of the most prominent female voices in Southern rap history and a foundational figure in New Orleans hip-hop.",
         "wikidataId": "Q2423001"
-      }
+      },
+      "bio": "Mia Young (born January 9, 1970), better known by her stage name Mia X, is an American rapper and songwriter from New Orleans. She enjoyed success in the local \"bounce\" scene of the early 1990s. She was the first female emcee to get a contract with rapper and entertainment magnate, Master P on his successful record label No Limit Records."
     },
     {
       "id": "la-reid",
@@ -1458,7 +2036,8 @@
       "metadata": {
         "culturalImpact": "Co-founded LaFace Records with Babyface in Atlanta (1989) through a deal with Arista. LaFace became the launchpad for Outkast, TLC, Goodie Mob, and Usher — redefining Atlanta as the capital of Black American music.",
         "wikidataId": "Q311284"
-      }
+      },
+      "bio": "Antonio Marquis \"L.A.\" Reid (born June 7, 1956) is an American record executive, A&R representative, and record producer who served as president and CEO of Arista Records from 2000 to 2004, as well as chairman and CEO of the Island Def Jam Music Group from 2004 to 2011 and Epic Records from 2011 to 2017."
     },
     {
       "id": "babyface",
@@ -1470,7 +2049,8 @@
       "metadata": {
         "culturalImpact": "Co-founded LaFace Records and is one of the most decorated R&B songwriters and producers in history. His partnership with L.A. Reid built the infrastructure that housed Outkast and Goodie Mob.",
         "wikidataId": "Q310296"
-      }
+      },
+      "bio": "Kenneth Brian Edmonds (born April 10, 1959), better known by his stage name Babyface, is an American singer, songwriter, and record producer. He has written and produced 26 number-one R&B hit songs and \nwon 13 Grammy Awards. He was ranked number 20 on NME's 50 of The Greatest Producers Ever list."
     },
     {
       "id": "goodie-mob",
@@ -1481,7 +2061,8 @@
       "metadata": {
         "culturalImpact": "Atlanta's philosophical conscience — 'Soul Food' (1995) and 'Still Standing' (1998) laid the spiritual and political groundwork for what ATL rap would become. CeeLo Green, Big Gipp, T-Mo, and Khujo.",
         "wikidataId": "Q627474"
-      }
+      },
+      "bio": "Goodie Mob is an American hip-hop group based in Atlanta, Georgia, consisting of CeeLo Green, Khujo, T-Mo, and Big Gipp."
     },
     {
       "id": "ceeloo-green",
@@ -1492,7 +2073,8 @@
       "metadata": {
         "culturalImpact": "Goodie Mob co-founder and one of the most distinctive voices in hip-hop history. His journey from the Dungeon Family to 'Forget You' showed the full range of the Atlanta sound.",
         "wikidataId": "Q186830"
-      }
+      },
+      "bio": "Thomas DeCarlo Callaway-Burton (born May 30, 1975), known professionally as CeeLo Green (or Cee Lo Green or simply Cee-Lo), is an American singer, songwriter, rapper, record producer, and actor. Born in Atlanta, Georgia, he came to initial prominence as a member of the Southern hip-hop group Goodie Mob in 1991."
     },
     {
       "id": "killer-mike",
@@ -1503,7 +2085,8 @@
       "metadata": {
         "culturalImpact": "Dungeon Family extended member mentored by Big Boi. His political fury and boom-bap precision made him the conscience of a generation — amplified by his Run The Jewels partnership with El-P.",
         "wikidataId": "Q514966"
-      }
+      },
+      "bio": "Michael Santiago Render (born April 20, 1975), known professionally as Killer Mike, is an American rapper, singer, actor, and activist. He made his recording debut on Outkast's fourth album Stankonia (2000), and guest appeared on the duo's Grammy Award-winning single \"The Whole World\" from their greatest hits album Big Boi and Dre Present... Outkast (2001)."
     },
     {
       "id": "el-p",
@@ -1514,7 +2097,8 @@
       "metadata": {
         "culturalImpact": "Brooklyn underground MC and producer whose Company Flow and Def Jux era reshaped what independent hip-hop could sound like. Produced every Run The Jewels album — his dystopian sonics gave Killer Mike's voice the perfect backdrop.",
         "wikidataId": "Q521014"
-      }
+      },
+      "bio": "Jaime Stuart Meline (born March 2, 1975), better known by the stage name El-P (shortened from his previous stage name El Producto), is an American rapper, songwriter, and record producer. He began his career as a member of the widely acclaimed Company Flow, and has been a driving force in alternative hip-hop since the 1990s. He is now most widely-known as one half of Run the Jewels."
     },
     {
       "id": "2-chainz",
@@ -1525,7 +2109,8 @@
       "metadata": {
         "culturalImpact": "Formerly Tity Boi of Playaz Circle. Lil Wayne's belief in 2 Chainz helped launch one of Atlanta's most beloved solo careers. 'Collegrove' (2016) and 'Collegrove 2' (2024) cement their brotherhood.",
         "wikidataId": "Q178948"
-      }
+      },
+      "bio": "Tauheed Epps (born September 12, 1977), known professionally as 2 Chainz, is an American rapper, songwriter, and actor. Born and raised in College Park, Georgia, he gained recognition as one-half of the Southern hip-hop duo Playaz Circle, alongside hometown rapper Earl \"Dolla Boy\" Conyers."
     },
     {
       "id": "rico-wade",
@@ -1537,7 +2122,8 @@
       "metadata": {
         "culturalImpact": "Co-founder of Organized Noize and the Dungeon Family collective. Produced Outkast's debut 'Southernplayalisticadillacmuzik' (1994) and Goodie Mob's 'Soul Food' (1995) — the two records that invented the Atlanta sound.",
         "wikidataId": "Q7330022"
-      }
+      },
+      "bio": "Organized Noize is an American production duo from Atlanta, Georgia, currently composed of Ray Murray and Sleepy Brown. Initially a trio, the team included Dungeon Family co-founder Rico Wade until his death in 2024."
     },
     {
       "id": "dungeon-family",
@@ -1548,7 +2134,8 @@
       "metadata": {
         "culturalImpact": "Atlanta's underground creative collective born in Rico Wade's basement studio ('The Dungeon'). Outkast, Goodie Mob, Organized Noize, and their extended circle collectively invented the sound that made Atlanta the capital of hip-hop.",
         "wikidataId": "Q1253921"
-      }
+      },
+      "bio": "The Dungeon Family were a musical collective based in Atlanta that specialized in Southern hip-hop with heavy funk and soul influences. Members of this collective recorded music, and had their career emerge, from Rico Wade's basement recording studio in East Point, Georgia, which was known as the \"Dungeon.\""
     }
   ],
   "relationships": [
@@ -1683,7 +2270,7 @@
       "target": "method-man",
       "type": "collective",
       "subtype": "member_of",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1993,
       "label": "Core member"
@@ -1694,7 +2281,7 @@
       "target": "rza",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1993,
       "label": "Co-founder & producer"
@@ -1793,7 +2380,7 @@
       "target": "ghostface-killah",
       "type": "collective",
       "subtype": "member_of",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1993,
       "label": "Core member"
@@ -1804,7 +2391,7 @@
       "target": "gza",
       "type": "collective",
       "subtype": "member_of",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1993,
       "label": "Core member"
@@ -1958,7 +2545,7 @@
       "target": "big-boi",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1992,
       "label": "Outkast"
@@ -2035,7 +2622,7 @@
       "target": "earl-sweatshirt",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 2007,
       "label": "Odd Future"
@@ -2332,7 +2919,7 @@
       "target": "mf-doom",
       "type": "collaborative",
       "subtype": "co_produced",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 2004,
       "label": "Madvillainy (2004) — stone-cold classic"
@@ -2464,7 +3051,7 @@
       "target": "kendrick-lamar",
       "type": "collaborative",
       "subtype": "produced_by",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 2012,
       "label": "GKMC / TPAB / DAMN. / Mr. Morale — 4 classic albums"
@@ -2530,7 +3117,7 @@
       "target": "madlib",
       "type": "collaborative",
       "subtype": "co_produced",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 2004,
       "label": "Madvillainy (2004) — both architect and MC"
@@ -2541,7 +3128,7 @@
       "target": "ol-dirty-bastard",
       "type": "collective",
       "subtype": "member_of",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1993,
       "label": "Wu-Tang Clan core member"
@@ -2552,7 +3139,7 @@
       "target": "raekwon",
       "type": "collective",
       "subtype": "member_of",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1993,
       "label": "Wu-Tang Clan core member"
@@ -2563,7 +3150,7 @@
       "target": "inspectah-deck",
       "type": "collective",
       "subtype": "member_of",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1993,
       "label": "Wu-Tang Clan core member"
@@ -2596,7 +3183,7 @@
       "target": "ol-dirty-bastard",
       "type": "collective",
       "subtype": "member_of",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1993,
       "label": "Core member"
@@ -2607,7 +3194,7 @@
       "target": "raekwon",
       "type": "collective",
       "subtype": "member_of",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1993,
       "label": "Core member"
@@ -2618,7 +3205,7 @@
       "target": "inspectah-deck",
       "type": "collective",
       "subtype": "member_of",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1993,
       "label": "Core member"
@@ -2629,7 +3216,7 @@
       "target": "prodigy",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1993,
       "label": "Mobb Deep co-founders"
@@ -2750,7 +3337,7 @@
       "target": "styles-p",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1994,
       "label": "The Lox co-founders"
@@ -2761,7 +3348,7 @@
       "target": "sheek-louch",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1994,
       "label": "The Lox co-founders"
@@ -2772,7 +3359,7 @@
       "target": "sheek-louch",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1994,
       "label": "The Lox co-founders"
@@ -2915,7 +3502,7 @@
       "target": "kurupt",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1992,
       "label": "Tha Dogg Pound"
@@ -2959,7 +3546,7 @@
       "target": "sen-dog",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1988,
       "label": "Cypress Hill co-founders"
@@ -2970,7 +3557,7 @@
       "target": "dj-muggs",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1988,
       "label": "Cypress Hill co-founders"
@@ -2981,7 +3568,7 @@
       "target": "dj-muggs",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1988,
       "label": "Cypress Hill co-founders"
@@ -3080,7 +3667,7 @@
       "target": "capitol-steez",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 2010,
       "label": "Pro Era co-founders"
@@ -3410,7 +3997,7 @@
       "target": "talib-kweli",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1998,
       "label": "Black Star (1998) — definitive NYC underground album"
@@ -3477,7 +4064,7 @@
       "target": "mos-def",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1998,
       "label": "Black Star — Rawkus Records"
@@ -3554,7 +4141,7 @@
       "target": "cam-ron",
       "type": "collective",
       "subtype": "member_of",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 2002,
       "label": "Diplomats / Dipset"
@@ -4495,7 +5082,7 @@
       "target": "conway-the-machine",
       "type": "familial",
       "subtype": "sibling",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 2014,
       "label": "Brothers (Alvin & Damon Lamar Worthy) — co-founded Griselda Records"
@@ -4572,7 +5159,7 @@
       "target": "westside-gunn",
       "type": "collaborative",
       "subtype": "produced_by",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 2014,
       "label": "Daringer is the sonic foundation of Griselda — every WG album bears his touch"
@@ -4792,7 +5379,7 @@
       "target": "russell-simmons",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1984,
       "label": "Def Jam Records co-founders (1984) — the architecture of hip-hop's business"
@@ -4814,7 +5401,7 @@
       "target": "beastie-boys",
       "type": "collaborative",
       "subtype": "produced_by",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1986,
       "label": "Licensed to Ill (1986) — first rap album to hit #1 on Billboard 200"
@@ -5045,7 +5632,7 @@
       "target": "birdman",
       "type": "familial",
       "subtype": "sibling",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1991,
       "label": "Brothers — co-founded Cash Money Records (1991)"
@@ -5188,7 +5775,7 @@
       "target": "silkk-the-shocker",
       "type": "familial",
       "subtype": "sibling",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1993,
       "label": "Brothers — Calliope Projects, New Orleans"
@@ -5199,7 +5786,7 @@
       "target": "c-murder",
       "type": "familial",
       "subtype": "sibling",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1993,
       "label": "Brothers — Calliope Projects, New Orleans"
@@ -5210,7 +5797,7 @@
       "target": "c-murder",
       "type": "familial",
       "subtype": "sibling",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1993,
       "label": "Brothers — the Miller family of the Calliope Projects"
@@ -5276,7 +5863,7 @@
       "target": "babyface",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1989,
       "label": "LaFace Records co-founders (1989) — the infrastructure that housed Atlanta's golden era"
@@ -5320,7 +5907,7 @@
       "target": "dungeon-family",
       "type": "collective",
       "subtype": "member_of",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1992,
       "label": "Dungeon Family — born in Rico Wade's basement studio"
@@ -5331,7 +5918,7 @@
       "target": "dungeon-family",
       "type": "collective",
       "subtype": "member_of",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1992,
       "label": "Dungeon Family — Outkast as the collective's most celebrated branch"
@@ -5353,7 +5940,7 @@
       "target": "goodie-mob",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1991,
       "label": "Goodie Mob co-founder — the voice of Soul Food"
@@ -5364,7 +5951,7 @@
       "target": "dungeon-family",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1992,
       "label": "Organized Noize producer — built The Dungeon and the collective's entire sonic architecture"
@@ -5375,7 +5962,7 @@
       "target": "andre-3000",
       "type": "collaborative",
       "subtype": "produced_by",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1994,
       "label": "Southernplayalisticadillacmuzik (1994) — produced Outkast's debut"
@@ -5386,7 +5973,7 @@
       "target": "big-boi",
       "type": "collaborative",
       "subtype": "produced_by",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 1994,
       "label": "Organized Noize — foundational production across Outkast's entire LaFace catalog"
@@ -5435,7 +6022,7 @@
       "target": "el-p",
       "type": "collective",
       "subtype": "co_founded",
-      "strength": 1.0,
+      "strength": 1,
       "verified": true,
       "year": 2013,
       "label": "Run The Jewels (2013) — the most vital hip-hop duo of the 2010s"
