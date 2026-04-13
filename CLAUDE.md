@@ -106,3 +106,14 @@ REACT_APP_API_URL=http://localhost:5001/api
 To add artists or relationships, edit **`hiphop-tree-backend/graph.json`** directly, then restart the backend (`npm run dev`). Relationship IDs follow the pattern `rel_NNN` (increment the last used number). Artist IDs are kebab-case names (e.g., `kendrick-lamar`).
 
 To add a new "Verified Architect" (Legend), add the artist ID to `LEGEND_IDS` in both `hiphop-tree-frontend/src/App.js` and `hiphop-tree-frontend/src/GraphView.js`.
+
+## Hip Hop Tree Quality Standards & Health Checks
+- **Data Integrity:** Every artist node in `graph.json` must have a valid `wikidataId`, `bio`, and `wikipediaUrl`.
+- **Mentorship Logic:** A 'mentorship' or 'discovered_by' relationship must point from a chronologically older/established artist to a younger/newer one.
+- **Sonic Link Validation:** Any edge with `has_audio: true` must contain a valid `preview_url` and `song_title\`.
+- **Legend Sync:** Any artist added to `LEGEND_IDS` in `App.js` must also exist in `GraphView.js` and have a node in `graph.json`.
+- **Performance:** If the total node count in `graph.json` exceeds 200, flag for "Cluster View" implementation.
+
+## Maintenance Commands
+- **Check Health:** `node scripts/audit-graph.js` (or ask Claude to scan manually)
+- **Fix Data:** Use `fill-missing-data.js` to resolve integrity issues.
