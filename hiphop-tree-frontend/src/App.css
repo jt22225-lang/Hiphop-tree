@@ -1328,6 +1328,21 @@ body.sidebar-open .graph-container {
   color: #86efac;
 }
 
+/* 🖼 Album art thumbnail in connection rows */
+.connection-artwork {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.connection-artwork:hover {
+  transform: scale(1.12);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+}
+
 /* 🎤 Genius verify button — secondary action */
 .verify-btn {
   background: #222;

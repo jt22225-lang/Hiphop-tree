@@ -9,22 +9,24 @@
 // Safety: edges with audio_metadata.manual_audio = true are never overwritten.
 //
 // Usage:
-//   node scripts/fetch-audio.js            — dual-pass (US + GB)
-//   node scripts/fetch-audio.js --us-only  — US pass only
-//   node scripts/fetch-audio.js --gb-only  — GB pass only
-//   node scripts/fetch-audio.js --dry-run  — print matches without writing
+//   node scripts/fetch-audio.js                — dual-pass (US + GB)
+//   node scripts/fetch-audio.js --us-only      — US pass only
+//   node scripts/fetch-audio.js --gb-only      — GB pass only
+//   node scripts/fetch-audio.js --artwork-only — backfill artwork_url for edges that already have audio
+//   node scripts/fetch-audio.js --dry-run      — print matches without writing
 
 const fs   = require('fs');
 const path = require('path');
 const https = require('https');
 
-const GRAPH_PATH  = path.join(__dirname, '../hiphop-tree-backend/graph.json');
-const DRY_RUN     = process.argv.includes('--dry-run');
-const US_ONLY     = process.argv.includes('--us-only');
-const GB_ONLY     = process.argv.includes('--gb-only');
+const GRAPH_PATH    = path.join(__dirname, '../hiphop-tree-backend/graph.json');
+const DRY_RUN       = process.argv.includes('--dry-run');
+const US_ONLY       = process.argv.includes('--us-only');
+const GB_ONLY       = process.argv.includes('--gb-only');
+const ARTWORK_ONLY  = process.argv.includes('--artwork-only');
 
-const RUN_US = !GB_ONLY;
-const RUN_GB = !US_ONLY;
+const RUN_US = !GB_ONLY && !ARTWORK_ONLY;
+const RUN_GB = !US_ONLY && !ARTWORK_ONLY;
 
 const BASE_DELAY_MS = 900;
 const MAX_RETRIES   = 3;
@@ -110,6 +112,7 @@ async function searchItunes(songTitle, queryArtist, srcName, tgtName, country) {
       track_name:    best.trackName,
       artist:        best.artistName,
       preview_url:   best.previewUrl,
+      artwork_url:   best.artworkUrl100 ?? null,
       track_id:      best.trackId,
       release_year:  best.releaseDate ? new Date(best.releaseDate).getFullYear() : null,
     }
@@ -167,6 +170,7 @@ async function runPass(graph, artistMap, country, targetField, label) {
         if (!rel.audio_metadata) rel.audio_metadata = {};
         rel.audio_metadata.track_name  = rel.audio_metadata.track_name || result.track_name;
         rel.audio_metadata[targetField] = result.preview_url;
+        if (!rel.audio_metadata.artwork_url)     rel.audio_metadata.artwork_url     = result.artwork_url;
         if (!rel.audio_metadata.itunes_track_id) rel.audio_metadata.itunes_track_id = result.track_id;
         if (!rel.audio_metadata.release_year)    rel.audio_metadata.release_year    = result.release_year;
       }
@@ -180,6 +184,63 @@ async function runPass(graph, artistMap, country, targetField, label) {
   return { found, restricted, notFound };
 }
 
+// ── Artwork-only backfill ─────────────────────────────────────────────────────
+// For edges that already have a preview URL but are missing artwork_url.
+// Uses itunes_track_id for a direct lookup first; falls back to title search.
+async function runArtworkPass(graph) {
+  const targets = graph.relationships.filter(r => {
+    if (!r.audio_metadata) return false;
+    if (r.audio_metadata.manual_audio) return false;
+    if (r.audio_metadata.artwork_url) return false;   // already done
+    return r.audio_metadata.preview_url_us || r.audio_metadata.preview_url_gb;
+  });
+
+  console.log(`\n── Artwork backfill ────────────────────────────────`);
+  console.log(`   Edges to process: ${targets.length}`);
+
+  let found = 0, notFound = 0;
+
+  for (const rel of targets) {
+    const m = rel.audio_metadata;
+    process.stdout.write(`  [${rel.id}] "${m.track_name}"... `);
+    await sleep(BASE_DELAY_MS);
+
+    try {
+      let artworkUrl = null;
+
+      // Direct lookup by track ID is fastest and most reliable
+      if (m.itunes_track_id) {
+        const url  = `https://itunes.apple.com/lookup?id=${m.itunes_track_id}`;
+        const data = await getWithRetry(url);
+        artworkUrl = data.results?.[0]?.artworkUrl100 ?? null;
+      }
+
+      // Fallback: re-search by track name in US store
+      if (!artworkUrl && m.track_name) {
+        const term = encodeURIComponent(m.track_name);
+        const url  = `https://itunes.apple.com/search?term=${term}&media=music&entity=song&limit=4&country=US`;
+        const data = await getWithRetry(url);
+        artworkUrl = data.results?.find(r => r.previewUrl)?.artworkUrl100 ?? null;
+      }
+
+      if (artworkUrl) {
+        console.log(`✅ got artwork`);
+        found++;
+        if (!DRY_RUN) m.artwork_url = artworkUrl;
+      } else {
+        console.log(`❌ no artwork`);
+        notFound++;
+      }
+    } catch (err) {
+      console.log(`❌ error: ${err.message}`);
+      notFound++;
+    }
+  }
+
+  console.log(`   ✅ ${found} artworks found  ❌ ${notFound} not found`);
+  return { found, notFound };
+}
+
 async function main() {
   const graph     = JSON.parse(fs.readFileSync(GRAPH_PATH, 'utf8'));
   const artistMap = {};
@@ -191,6 +252,15 @@ async function main() {
   if (DRY_RUN) console.log('DRY RUN — no writes');
 
   const totals = { found: 0, restricted: 0, notFound: 0 };
+
+  if (ARTWORK_ONLY) {
+    await runArtworkPass(graph);
+    if (!DRY_RUN) {
+      fs.writeFileSync(GRAPH_PATH, JSON.stringify(graph, null, 2), 'utf8');
+      console.log('\n✅ graph.json saved.');
+    }
+    return;
+  }
 
   if (RUN_US) {
     const r = await runPass(graph, artistMap, 'US', 'preview_url_us', 'US');

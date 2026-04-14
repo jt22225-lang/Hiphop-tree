@@ -515,13 +515,24 @@ export default function Sidebar({
                 <div className="connection-actions">
                   {/* ▶ — Play Connection Song: fires the Sonic Link player */}
                   {(rel.audio_metadata?.preview_url_us || rel.audio_metadata?.preview_url_gb) && (
-                    <button
-                      className="play-connection-btn"
-                      onClick={() => onLinkAudio && onLinkAudio(rel.audio_metadata)}
-                      title={`Play "${rel.audio_metadata.track_name}"`}
-                    >
-                      ▶
-                    </button>
+                    <>
+                      {rel.audio_metadata.artwork_url && (
+                        <img
+                          src={rel.audio_metadata.artwork_url}
+                          alt={rel.audio_metadata.track_name}
+                          className="connection-artwork"
+                          onClick={() => onLinkAudio && onLinkAudio(rel.audio_metadata)}
+                          title={`Play "${rel.audio_metadata.track_name}"`}
+                        />
+                      )}
+                      <button
+                        className="play-connection-btn"
+                        onClick={() => onLinkAudio && onLinkAudio(rel.audio_metadata)}
+                        title={`Play "${rel.audio_metadata.track_name}"`}
+                      >
+                        ▶
+                      </button>
+                    </>
                   )}
                   {/* 🔍 — Center & Zoom: fly the camera to this node */}
                   <button
