@@ -514,7 +514,7 @@ export default function Sidebar({
                 </div>
                 <div className="connection-actions">
                   {/* ▶ — Play Connection Song: fires the Sonic Link player */}
-                  {(rel.audio_metadata?.itunes_preview_url || rel.audio_metadata?.spotify_preview_url) && (
+                  {(rel.audio_metadata?.preview_url_us || rel.audio_metadata?.preview_url_gb) && (
                     <button
                       className="play-connection-btn"
                       onClick={() => onLinkAudio && onLinkAudio(rel.audio_metadata)}

@@ -1,41 +1,41 @@
 #!/usr/bin/env node
 // scripts/fetch-audio.js
-// Finds preview URLs for relationship edges that have a `label` (song/album title)
-// but are missing a valid `itunes_preview_url`.
+// Dual-pass iTunes audio fetch for all relationship edges that have a label
+// but are missing preview_url_us or preview_url_gb.
 //
-// Uses the free iTunes Search API — no key required.
+// Pass 1: iTunes US storefront  → saves to audio_metadata.preview_url_us
+// Pass 2: iTunes GB storefront  → saves to audio_metadata.preview_url_gb
+//
+// Safety: edges with audio_metadata.manual_audio = true are never overwritten.
 //
 // Usage:
-//   node scripts/fetch-audio.js                  — fills all missing (default: country=GB)
-//   node scripts/fetch-audio.js --country=US      — use US storefront
-//   node scripts/fetch-audio.js --dry-run         — print matches without writing
-//
-// Rate limiting: exponential backoff on 429/403 (up to 3 retries per request).
-// Region restricted: tracks found but with no previewUrl are logged as such —
-//   not counted as failures so you know they exist but are locked by storefront.
+//   node scripts/fetch-audio.js            — dual-pass (US + GB)
+//   node scripts/fetch-audio.js --us-only  — US pass only
+//   node scripts/fetch-audio.js --gb-only  — GB pass only
+//   node scripts/fetch-audio.js --dry-run  — print matches without writing
 
 const fs   = require('fs');
 const path = require('path');
 const https = require('https');
 
-const GRAPH_PATH = path.join(__dirname, '../hiphop-tree-backend/graph.json');
-const DRY_RUN    = process.argv.includes('--dry-run');
+const GRAPH_PATH  = path.join(__dirname, '../hiphop-tree-backend/graph.json');
+const DRY_RUN     = process.argv.includes('--dry-run');
+const US_ONLY     = process.argv.includes('--us-only');
+const GB_ONLY     = process.argv.includes('--gb-only');
 
-// --country=XX from CLI, default GB
-const countryArg = process.argv.find(a => a.startsWith('--country='));
-const COUNTRY    = countryArg ? countryArg.split('=')[1].toUpperCase() : 'GB';
+const RUN_US = !GB_ONLY;
+const RUN_GB = !US_ONLY;
 
-const BASE_DELAY_MS = 800;   // base delay between requests
-const MAX_RETRIES   = 3;     // max retries on 429/403 before giving up
-const BACKOFF_BASE  = 2000;  // initial backoff on rate-limit error (doubles each retry)
+const BASE_DELAY_MS = 900;
+const MAX_RETRIES   = 3;
+const BACKOFF_BASE  = 2000;
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-// Raw HTTP GET — resolves with { data, status } or rejects on network error.
 function getRaw(url) {
   return new Promise((resolve, reject) => {
     const req = https.get(url, {
-      headers: { 'User-Agent': 'HipHopTree/1.0 (fetch-audio script) Node.js' }
+      headers: { 'User-Agent': 'HipHopTree/1.0 (fetch-audio) Node.js' }
     }, res => {
       let body = '';
       res.on('data', d => body += d);
@@ -46,35 +46,26 @@ function getRaw(url) {
   });
 }
 
-// GET with exponential backoff on 429 / 403 rate-limit responses.
-// Returns parsed JSON or throws after MAX_RETRIES.
 async function getWithRetry(url, attempt = 0) {
   const { body, status } = await getRaw(url);
 
   if (status === 429 || status === 403) {
-    if (attempt >= MAX_RETRIES) {
-      throw new Error(`Rate limited (${status}) after ${MAX_RETRIES} retries`);
-    }
+    if (attempt >= MAX_RETRIES) throw new Error(`Rate limited (${status}) after ${MAX_RETRIES} retries`);
     const wait = BACKOFF_BASE * Math.pow(2, attempt);
-    console.log(`\n    ⏳ Rate limited (${status}) — waiting ${wait / 1000}s before retry ${attempt + 1}/${MAX_RETRIES}...`);
+    process.stdout.write(`\n    ⏳ Rate limited (${status}) — waiting ${wait / 1000}s (retry ${attempt + 1}/${MAX_RETRIES})... `);
     await sleep(wait);
     return getWithRetry(url, attempt + 1);
   }
 
-  if (status !== 200) {
-    throw new Error(`HTTP ${status}`);
-  }
+  if (status !== 200) throw new Error(`HTTP ${status}`);
 
   try {
     return JSON.parse(body);
-  } catch (e) {
+  } catch {
     throw new Error(`Parse error (status ${status})`);
   }
 }
 
-// Strip year, bracket annotations, and em-dash suffixes from label:
-//   "All Eyez on Me (1996)" → "All Eyez on Me"
-//   "Madvillainy (2004) — stone-cold classic" → "Madvillainy"
 function extractSongTitle(label) {
   if (!label) return null;
   return label
@@ -84,86 +75,58 @@ function extractSongTitle(label) {
     .trim();
 }
 
-// Returns true if the iTunes artistName contains at least one token from either artist.
-// Handles aliases: "JAŸ-Z" matches "Jay-Z", "ScHoolboy Q" matches "Schoolboy Q".
 function artistMatches(itunesArtist, srcName, tgtName) {
   const lower = itunesArtist.toLowerCase();
-  const tokenise = (name) =>
-    name.toLowerCase()
-        .replace(/[^a-z0-9\s]/g, ' ')
-        .split(/\s+/)
-        .filter(t => t.length > 2);
+  const tokenise = name =>
+    name.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(t => t.length > 2);
 
-  for (const name of [srcName, tgtName]) {
-    if (tokenise(name).some(t => lower.includes(t))) return true;
-  }
-  return false;
+  return [srcName, tgtName].some(name => tokenise(name).some(t => lower.includes(t)));
 }
 
-// Search iTunes for a matching track.
-// Returns:
-//   { match: {...} }          — found a valid result with a preview URL
-//   { regionRestricted: true } — found an artist-matched result but no previewUrl (storefront lock)
-//   null                       — no artist-matched results at all
-async function searchItunes(songTitle, queryArtist, srcName, tgtName) {
-  const query = `${songTitle} ${queryArtist}`;
-  const term  = encodeURIComponent(query);
-  const url   = `https://itunes.apple.com/search?term=${term}&media=music&entity=song&limit=8&country=${COUNTRY}`;
+// Returns { match } | { regionRestricted: true } | null
+async function searchItunes(songTitle, queryArtist, srcName, tgtName, country) {
+  const term = encodeURIComponent(`${songTitle} ${queryArtist}`);
+  const url  = `https://itunes.apple.com/search?term=${term}&media=music&entity=song&limit=8&country=${country}`;
 
   const data = await getWithRetry(url);
-  if (!data.results || data.results.length === 0) return null;
+  if (!data.results?.length) return null;
 
-  const titleLower = songTitle.toLowerCase();
+  const titleLower   = songTitle.toLowerCase();
+  const artistHits   = data.results.filter(r => artistMatches(r.artistName || '', srcName, tgtName));
 
-  // Split results into: artist matches with preview, artist matches without preview
-  const artistMatched = data.results.filter(r =>
-    artistMatches(r.artistName || '', srcName, tgtName)
-  );
+  if (!artistHits.length) return null;
 
-  if (artistMatched.length === 0) return null;
+  const withPreview  = artistHits.filter(r => r.previewUrl);
+  if (!withPreview.length) return { regionRestricted: true };
 
-  const withPreview = artistMatched.filter(r => r.previewUrl);
-
-  // Artist found but no previews available in this storefront → region restricted
-  if (withPreview.length === 0) return { regionRestricted: true };
-
-  // Rank by title similarity
   withPreview.sort((a, b) => {
-    const aMatch = a.trackName?.toLowerCase().includes(titleLower) ? 1 : 0;
-    const bMatch = b.trackName?.toLowerCase().includes(titleLower) ? 1 : 0;
-    return bMatch - aMatch;
+    const score = r => r.trackName?.toLowerCase().includes(titleLower) ? 1 : 0;
+    return score(b) - score(a);
   });
 
   const best = withPreview[0];
   return {
     match: {
-      track_name:         best.trackName,
-      artist:             best.artistName,
-      itunes_preview_url: best.previewUrl,
-      itunes_track_id:    best.trackId,
-      release_year:       best.releaseDate ? new Date(best.releaseDate).getFullYear() : null,
+      track_name:    best.trackName,
+      artist:        best.artistName,
+      preview_url:   best.previewUrl,
+      track_id:      best.trackId,
+      release_year:  best.releaseDate ? new Date(best.releaseDate).getFullYear() : null,
     }
   };
 }
 
-async function main() {
-  const graph     = JSON.parse(fs.readFileSync(GRAPH_PATH, 'utf8'));
-  const artistMap = {};
-  graph.artists.forEach(a => { artistMap[a.id] = a; });
-
+async function runPass(graph, artistMap, country, targetField, label) {
   const targets = graph.relationships.filter(r => {
     if (!r.label) return false;
-    const preview = r.audio_metadata?.itunes_preview_url;
-    if (!preview) return true;
-    if (preview.includes('soundhelix.com')) return true; // placeholder — replace
-    return false;
+    if (r.audio_metadata?.manual_audio) return false;      // never overwrite hand-picked
+    return !r.audio_metadata?.[targetField];               // skip if already populated
   });
 
-  console.log(`Country storefront : ${COUNTRY}`);
-  console.log(`Relationships to process: ${targets.length} / ${graph.relationships.length}`);
-  if (DRY_RUN) console.log('DRY RUN — no writes\n');
+  console.log(`\n── ${label} pass (${country}) ──────────────────────────`);
+  console.log(`   Edges to process: ${targets.length}`);
 
-  let found = 0, notFound = 0, regionRestricted = 0;
+  let found = 0, restricted = 0, notFound = 0;
 
   for (const rel of targets) {
     const src = artistMap[rel.source];
@@ -177,13 +140,11 @@ async function main() {
     await sleep(BASE_DELAY_MS);
 
     try {
-      // Primary: song title + target artist name
-      let response = await searchItunes(songTitle, tgt.name, src.name, tgt.name);
+      let response = await searchItunes(songTitle, tgt.name, src.name, tgt.name, country);
 
-      // Fallback: song title + source artist name
       if (!response) {
         await sleep(BASE_DELAY_MS);
-        response = await searchItunes(songTitle, src.name, src.name, tgt.name);
+        response = await searchItunes(songTitle, src.name, src.name, tgt.name, country);
       }
 
       if (!response) {
@@ -193,8 +154,8 @@ async function main() {
       }
 
       if (response.regionRestricted) {
-        console.log(`🌐 Region Restricted (${COUNTRY} storefront has no preview — try --country=US)`);
-        regionRestricted++;
+        console.log(`🌐 Region Restricted in ${country}`);
+        restricted++;
         continue;
       }
 
@@ -204,13 +165,10 @@ async function main() {
 
       if (!DRY_RUN) {
         if (!rel.audio_metadata) rel.audio_metadata = {};
-        rel.audio_metadata.track_name         = rel.audio_metadata.track_name || result.track_name;
-        rel.audio_metadata.itunes_preview_url = result.itunes_preview_url;
-        rel.audio_metadata.itunes_track_id    = result.itunes_track_id;
-        rel.audio_metadata.release_year       = rel.audio_metadata.release_year || result.release_year;
-        if (rel.audio_metadata.spotify_preview_url?.includes('soundhelix.com')) {
-          delete rel.audio_metadata.spotify_preview_url;
-        }
+        rel.audio_metadata.track_name  = rel.audio_metadata.track_name || result.track_name;
+        rel.audio_metadata[targetField] = result.preview_url;
+        if (!rel.audio_metadata.itunes_track_id) rel.audio_metadata.itunes_track_id = result.track_id;
+        if (!rel.audio_metadata.release_year)    rel.audio_metadata.release_year    = result.release_year;
       }
     } catch (err) {
       console.log(`❌ error: ${err.message}`);
@@ -218,17 +176,38 @@ async function main() {
     }
   }
 
-  if (!DRY_RUN) {
-    fs.writeFileSync(GRAPH_PATH, JSON.stringify(graph, null, 2), 'utf8');
-  }
-
-  console.log(`\n${DRY_RUN ? '[DRY RUN] ' : ''}Done.`);
-  console.log(`  ✅ Found:             ${found}`);
-  console.log(`  🌐 Region restricted: ${regionRestricted}`);
-  console.log(`  ❌ Not found:         ${notFound}`);
+  console.log(`   ✅ ${found}  🌐 ${restricted} restricted  ❌ ${notFound} not found`);
+  return { found, restricted, notFound };
 }
 
-main().catch(err => {
-  console.error('Fatal:', err.message);
-  process.exit(1);
-});
+async function main() {
+  const graph     = JSON.parse(fs.readFileSync(GRAPH_PATH, 'utf8'));
+  const artistMap = {};
+  graph.artists.forEach(a => { artistMap[a.id] = a; });
+
+  const manualCount = graph.relationships.filter(r => r.audio_metadata?.manual_audio).length;
+  console.log(`Loaded ${graph.relationships.length} relationships`);
+  console.log(`Protected (manual_audio=true): ${manualCount}`);
+  if (DRY_RUN) console.log('DRY RUN — no writes');
+
+  const totals = { found: 0, restricted: 0, notFound: 0 };
+
+  if (RUN_US) {
+    const r = await runPass(graph, artistMap, 'US', 'preview_url_us', 'US');
+    totals.found += r.found; totals.restricted += r.restricted; totals.notFound += r.notFound;
+  }
+
+  if (RUN_GB) {
+    const r = await runPass(graph, artistMap, 'GB', 'preview_url_gb', 'GB');
+    totals.found += r.found; totals.restricted += r.restricted; totals.notFound += r.notFound;
+  }
+
+  if (!DRY_RUN) {
+    fs.writeFileSync(GRAPH_PATH, JSON.stringify(graph, null, 2), 'utf8');
+    console.log('\n✅ graph.json saved.');
+  }
+
+  console.log(`\nTotal — ✅ ${totals.found} found  🌐 ${totals.restricted} restricted  ❌ ${totals.notFound} not found`);
+}
+
+main().catch(err => { console.error('Fatal:', err.message); process.exit(1); });

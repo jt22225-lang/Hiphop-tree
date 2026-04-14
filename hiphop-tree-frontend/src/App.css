@@ -2187,7 +2187,70 @@ body.sidebar-open .graph-container {
   cursor: pointer;
 }
 
-/* ── Sonic Link error state ── */
+/* ── Sonic Link region badge ── */
+.sonic-player__region-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  background: #1e3a2e;
+  color: #4ade80;
+  border: 1px solid #2a5a3e;
+  vertical-align: middle;
+}
+
+/* ── Sonic Link fallback state (all URLs failed) ── */
+.sonic-player__fallback {
+  padding: 4px 0 2px;
+}
+.sonic-player__fallback-msg {
+  font-size: 11px;
+  color: #9ca3af;
+  font-style: italic;
+  margin: 0 0 8px;
+  text-align: center;
+}
+.sonic-player__fallback-btns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+}
+.sonic-player__fallback-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.sonic-player__fallback-btn--yt {
+  background: #1a0a0a;
+  border: 1px solid #7f1d1d;
+  color: #fca5a5;
+}
+.sonic-player__fallback-btn--yt:hover {
+  background: #3b0f0f;
+  color: #fecaca;
+}
+.sonic-player__fallback-btn--sp {
+  background: #0a1a10;
+  border: 1px solid #14532d;
+  color: #86efac;
+}
+.sonic-player__fallback-btn--sp:hover {
+  background: #052e16;
+  color: #bbf7d0;
+}
+
+/* ── Sonic Link legacy error state (kept for compat) ── */
 .sonic-player__error {
   font-size: 12px;
   color: #9ca3af;

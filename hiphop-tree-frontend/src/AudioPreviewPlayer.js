@@ -1,47 +1,76 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 
 // ── AudioPreviewPlayer ────────────────────────────────────────────────────────
-// Fixed bottom-right "Sonic Link" mini-player.
-// Stays invisible until a relationship edge with audio_metadata is clicked.
-// Uses the native HTML5 Audio API — no library overhead.
+// Fixed bottom-right Sonic Link mini-player.
+//
+// Regional failover:
+//   1. Tries preview_url_us first (primary)
+//   2. On error → switches to preview_url_gb automatically
+//   3. Both fail → shows YouTube / Spotify search fallback buttons
 //
 // Props:
-//   audioMeta  — { track_name, spotify_preview_url, isrc } | null
-//   onDismiss  — callback to clear audio state in the parent.
+//   audioMeta  — { track_name, preview_url_us?, preview_url_gb?,
+//                  spotify_preview_url? [legacy] } | null
+//   onDismiss  — callback to clear audio state in the parent
 
 export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
-  const audioRef     = useRef(null);
+  const audioRef    = useRef(null);
   const [isPlaying,  setIsPlaying]  = useState(false);
   const [volume,     setVolume]     = useState(0.8);
-  const [progress,   setProgress]   = useState(0);     // 0–1
+  const [progress,   setProgress]   = useState(0);
   const [isVisible,  setIsVisible]  = useState(false);
-  const [audioError, setAudioError] = useState(false); // ← source validation flag
+  const [urlIndex,   setUrlIndex]   = useState(0);  // which URL we're currently trying
+  const [allFailed,  setAllFailed]  = useState(false);
   const progressRaf  = useRef(null);
 
-  // ── Mount / URL change ────────────────────────────────────────
-  // New audioMeta → swap src, reset error state, auto-play.
-  // null audioMeta → fade out and hide.
+  // Build ordered preview URL list from audioMeta.
+  // US is primary (larger catalog), GB is fallback.
+  // Legacy field names are also handled so old edges still work.
+  const previewUrls = useMemo(() => {
+    if (!audioMeta) return [];
+    return [
+      audioMeta.preview_url_us,
+      audioMeta.preview_url_gb,
+      audioMeta.spotify_preview_url,  // legacy — treated as US-equivalent
+      audioMeta.itunes_preview_url,   // legacy — treated as GB-equivalent
+    ].filter(Boolean);
+  }, [audioMeta]);
+
+  const currentUrl = previewUrls[urlIndex] ?? null;
+
+  // ── Mount / track change ─────────────────────────────────────
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (!audioMeta) {
+    if (!audioMeta || previewUrls.length === 0) {
       fadeOut(audio, () => {
         setIsPlaying(false);
         setIsVisible(false);
         setProgress(0);
-        setAudioError(false);
+        setAllFailed(false);
+        setUrlIndex(0);
         cancelAnimationFrame(progressRaf.current);
       });
       return;
     }
 
-    // New track — reset error state before loading fresh src
-    setAudioError(false);
-    audio.src    = audioMeta.spotify_preview_url || audioMeta.itunes_preview_url;
-    audio.volume = volume;
+    // New track — reset failover state
+    setUrlIndex(0);
+    setAllFailed(false);
     setProgress(0);
     setIsVisible(true);
+
+    return () => cancelAnimationFrame(progressRaf.current);
+  }, [audioMeta]); // eslint-disable-line
+
+  // ── Load & play whenever currentUrl changes ──────────────────
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !currentUrl) return;
+
+    audio.src    = currentUrl;
+    audio.volume = volume;
 
     audio.play()
       .then(() => {
@@ -49,22 +78,16 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
         startProgressTracking(audio);
       })
       .catch(err => {
-        // Autoplay blocked by browser policy — show player in paused state
         console.warn('[AudioPreviewPlayer] Autoplay blocked:', err.message);
         setIsPlaying(false);
       });
-
-    return () => {
-      cancelAnimationFrame(progressRaf.current);
-    };
-  }, [audioMeta]); // eslint-disable-line
+  }, [currentUrl]); // eslint-disable-line
 
   // ── Volume sync ───────────────────────────────────────────────
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = volume;
   }, [volume]);
 
-  // ── Progress tracking (rAF) ───────────────────────────────────
   const startProgressTracking = (audio) => {
     cancelAnimationFrame(progressRaf.current);
     const tick = () => {
@@ -76,13 +99,10 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
     progressRaf.current = requestAnimationFrame(tick);
   };
 
-  // ── Soft fade-out helper ──────────────────────────────────────
   const fadeOut = (audio, onComplete) => {
-    const STEPS    = 20;
-    const INTERVAL = 20;
-    let   step     = 0;
+    const STEPS = 20, INTERVAL = 20;
+    let step = 0;
     const startVol = audio.volume;
-
     const fade = setInterval(() => {
       step++;
       audio.volume = Math.max(0, startVol * (1 - step / STEPS));
@@ -90,27 +110,36 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
         clearInterval(fade);
         audio.pause();
         audio.currentTime = 0;
-        audio.volume      = startVol;
+        audio.volume = startVol;
         if (onComplete) onComplete();
       }
     }, INTERVAL);
   };
 
-  // ── Source error handler ──────────────────────────────────────
-  // Fires when the <audio> element can't load the src —
-  // NotSupportedError, 404, CORS block, regional restriction, etc.
-  // Instead of silent failure, we surface a clear message to the user.
+  // ── Regional failover ─────────────────────────────────────────
+  // Called by the <audio> onError event. Tries the next URL in the
+  // previewUrls list. If we've exhausted all options, shows fallbacks.
   const handleAudioError = () => {
-    console.warn('[AudioPreviewPlayer] Source failed to load:', audioRef.current?.src);
-    setAudioError(true);
-    setIsPlaying(false);
-    cancelAnimationFrame(progressRaf.current);
+    const nextIndex = urlIndex + 1;
+    if (nextIndex < previewUrls.length) {
+      const regionLabels = ['US', 'GB', 'legacy'];
+      console.warn(
+        `[AudioPreviewPlayer] URL[${urlIndex}] (${regionLabels[urlIndex] ?? 'fallback'}) failed — trying URL[${nextIndex}]`
+      );
+      setIsPlaying(false);
+      cancelAnimationFrame(progressRaf.current);
+      setUrlIndex(nextIndex);  // triggers the useEffect above
+    } else {
+      console.warn('[AudioPreviewPlayer] All preview URLs failed — showing fallback buttons');
+      setIsPlaying(false);
+      setAllFailed(true);
+      cancelAnimationFrame(progressRaf.current);
+    }
   };
 
-  // ── Play / Pause toggle ───────────────────────────────────────
   const handlePlayPause = () => {
     const audio = audioRef.current;
-    if (!audio || audioError) return;
+    if (!audio || allFailed) return;
 
     if (audio.paused) {
       audio.play().then(() => {
@@ -124,14 +153,12 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
     }
   };
 
-  // ── Track ended ────────────────────────────────────────────────
   const handleEnded = () => {
     setIsPlaying(false);
     setProgress(1);
     cancelAnimationFrame(progressRaf.current);
   };
 
-  // ── Dismiss (X button) ─────────────────────────────────────────
   const handleDismiss = () => {
     const audio = audioRef.current;
     if (audio) {
@@ -139,25 +166,36 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
         setIsPlaying(false);
         setIsVisible(false);
         setProgress(0);
-        setAudioError(false);
+        setAllFailed(false);
+        setUrlIndex(0);
       });
     }
     if (onDismiss) onDismiss();
   };
 
-  // ── Progress bar click → seek ─────────────────────────────────
   const handleSeek = (e) => {
     const audio = audioRef.current;
-    if (!audio || !audio.duration || audioError) return;
-    const rect  = e.currentTarget.getBoundingClientRect();
-    const ratio = (e.clientX - rect.left) / rect.width;
+    if (!audio || !audio.duration || allFailed) return;
+    const ratio = (e.clientX - e.currentTarget.getBoundingClientRect().left) / e.currentTarget.offsetWidth;
     audio.currentTime = ratio * audio.duration;
     setProgress(ratio);
   };
 
+  // ── Fallback search URLs ──────────────────────────────────────
+  const trackName    = audioMeta?.track_name ?? '';
+  const ytSearchUrl  = `https://www.youtube.com/results?search_query=${encodeURIComponent(trackName)}`;
+  const spotifyUrl   = `https://open.spotify.com/search/${encodeURIComponent(trackName)}`;
+
+  // ── Which region label is active ─────────────────────────────
+  const regionLabel = (() => {
+    if (!currentUrl) return null;
+    if (currentUrl === audioMeta?.preview_url_us) return 'US';
+    if (currentUrl === audioMeta?.preview_url_gb) return 'GB';
+    return null;
+  })();
+
   return (
     <>
-      {/* Native HTML5 Audio — onError is the source validation safety net */}
       <audio
         ref={audioRef}
         onEnded={handleEnded}
@@ -170,18 +208,46 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
         role="region"
         aria-label="Sonic Link audio preview"
       >
-        {/* Now Playing label */}
+        {/* Track name + region badge */}
         <div className="sonic-player__track">
           <span className="sonic-player__label">NOW PLAYING</span>
-          <span className="sonic-player__name">
-            {audioMeta?.track_name ?? '—'}
-          </span>
+          <span className="sonic-player__name">{trackName || '—'}</span>
+          {regionLabel && !allFailed && (
+            <span className="sonic-player__region-badge">{regionLabel}</span>
+          )}
         </div>
 
-        {/* ── Error state: regional / source failure ── */}
-        {audioError ? (
-          <div className="sonic-player__error">
-            🌐 Preview unavailable in your region.
+        {allFailed ? (
+          /* ── All URLs failed: show search fallback buttons ── */
+          <div className="sonic-player__fallback">
+            <p className="sonic-player__fallback-msg">Preview unavailable in your region.</p>
+            <div className="sonic-player__fallback-btns">
+              <a
+                href={ytSearchUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="sonic-player__fallback-btn sonic-player__fallback-btn--yt"
+                title={`Search "${trackName}" on YouTube`}
+              >
+                ▶ YouTube
+              </a>
+              <a
+                href={spotifyUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="sonic-player__fallback-btn sonic-player__fallback-btn--sp"
+                title={`Search "${trackName}" on Spotify`}
+              >
+                ♪ Spotify
+              </a>
+              <button
+                className="sonic-player__btn sonic-player__dismiss"
+                onClick={handleDismiss}
+                title="Close player"
+              >
+                ✕
+              </button>
+            </div>
           </div>
         ) : (
           <>
@@ -201,7 +267,7 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
               />
             </div>
 
-            {/* Controls row */}
+            {/* Controls */}
             <div className="sonic-player__controls">
               <button
                 className="sonic-player__btn sonic-player__playpause"
@@ -216,9 +282,7 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
                 <input
                   type="range"
                   className="sonic-player__volume"
-                  min={0}
-                  max={1}
-                  step={0.05}
+                  min={0} max={1} step={0.05}
                   value={volume}
                   onChange={e => setVolume(parseFloat(e.target.value))}
                   aria-label="Volume"
@@ -234,19 +298,6 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
               </button>
             </div>
           </>
-        )}
-
-        {/* Dismiss is always reachable, even in error state */}
-        {audioError && (
-          <div className="sonic-player__controls">
-            <button
-              className="sonic-player__btn sonic-player__dismiss sonic-player__dismiss--error"
-              onClick={handleDismiss}
-              title="Close player"
-            >
-              ✕ Close
-            </button>
-          </div>
         )}
       </div>
     </>
