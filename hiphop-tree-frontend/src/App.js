@@ -15,6 +15,7 @@ const LEGEND_IDS = new Set([
   'dj-premier', 'the-alchemist', 'j-dilla', 'madlib',
   'kanye-west', 'pharrell-williams', 'pete-rock', 'sounwave', 'mf-doom',
   'rza', 'asap-yams', 'snoop-dogg',
+  'punch',       // TDE President — architect of the entire TDE catalog
 ]);
 
 // ── Deep Cut Detector ────────────────────────────────────────

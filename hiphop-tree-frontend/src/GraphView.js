@@ -21,6 +21,7 @@ const LEGEND_IDS = new Set([
   'asap-yams',    // A$AP Mob creative director — redefined what a rap collective's A&R can be
   'mannie-fresh', // The Architect of New Orleans — built Cash Money's entire sonic identity from the ground up
   'snoop-dogg',   // G-Funk icon — co-defined the West Coast sound on The Chronic and Doggystyle
+  'punch',        // TDE President — A&R architect of Kendrick, SZA, Schoolboy Q, Isaiah Rashad, Doechii
 ]);
 
 const LEGEND_GOLD    = '#FFD700';
@@ -56,6 +57,7 @@ const PRODUCER_PERIMETER_IDS = new Set([
   // Additional producers in graph (non-legend but role=producer)
   'havoc', 'q-tip', 'dj-quik', 'dj-muggs', 'daz-dillinger',
   'dj-mustard', 'swizz-beatz', 'hit-boy', 'kal-banx', 'dj-paul',
+  // punch is already in LEGEND_IDS — listed here for clarity
 ]);
 
 const LEGEND_EDGE_LEN      = 110;  // Legend nodes stay short — gravitational pull into orbit

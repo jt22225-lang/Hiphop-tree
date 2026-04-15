@@ -2487,6 +2487,110 @@
         "wikipediaUrl": "https://en.wikipedia.org/wiki/Eve_(rapper)"
       },
       "bio": "Eve Jihan Jeffers-Cooper (born November 10, 1978) is a Philadelphia rapper and the first female artist signed to Death Row Records and then Ruff Ryders Entertainment. Her debut album Let There Be Eve... Ruff Ryders' First Lady (1999) debuted at #1 on the Billboard 200, making her the third female rapper ever to do so. Her razor-sharp delivery and unflinching NYC/Philly grit established a template for the independent, bars-first female MC \u2014 a lineage that flows directly into Young M.A's OOOUUU era."
+    },
+    {
+      "id": "punch",
+      "name": "Punch",
+      "era": "2000s",
+      "region": "West Coast",
+      "role": "producer",
+      "weight": 10,
+      "metadata": {
+        "wikidataId": "Q21070327",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Punch_(rapper)"
+      },
+      "bio": "Terrence Henderson, known as Punch, is the President of Top Dawg Entertainment and one of hip-hop's most important behind-the-scenes architects. He co-founded TDE with Anthony 'Top Dawg' Tiffith and is the A&R mind responsible for signing and developing Kendrick Lamar, Ab-Soul, Schoolboy Q, Jay Rock, Isaiah Rashad, SZA, SiR, and Doechii. His creative fingerprints are on every major TDE project \u2014 from Section.80 to To Pimp a Butterfly to Mr. Morale & The Big Steppers. As both an executive and an MC in his own right, Punch represents the rare Label Architect who shapes culture rather than chasing it."
+    },
+    {
+      "id": "ray-vaughn",
+      "name": "Ray Vaughn",
+      "era": "2010s",
+      "region": "West Coast",
+      "role": "rapper",
+      "weight": 2,
+      "metadata": {
+        "wikidataId": "Q120338506",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Ray_Vaughn"
+      },
+      "bio": "Reuben Lawson, known as Ray Vaughn, is an Inglewood, California rapper signed to Top Dawg Entertainment. His debut TDE project On My Way (2022) introduced an urgent, percussive delivery that drew comparisons to early Kendrick Lamar and Isaiah Rashad. As one of TDE's newest wave of signings, he represents the label's continued investment in West Coast lyrical rap."
+    },
+    {
+      "id": "zacari",
+      "name": "Zacari",
+      "era": "2010s",
+      "region": "West Coast",
+      "role": "rapper",
+      "weight": 2,
+      "metadata": {
+        "wikidataId": "Q59591703",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Zacari"
+      },
+      "bio": "Zacari Pacaldo is a San Diego singer and rapper signed to Top Dawg Entertainment. His soulful falsetto and genre-blending sound \u2014 hip-hop filtered through R&B and alternative soul \u2014 earned him a feature on Kendrick Lamar's 'Love' (DAMN., 2017), which introduced him to a global audience. His debut album LOOP (2018) further established his identity as one of TDE's more melodic voices."
+    },
+    {
+      "id": "rick-ross",
+      "name": "Rick Ross",
+      "era": "2000s",
+      "region": "South",
+      "role": "rapper",
+      "weight": 5,
+      "metadata": {
+        "wikidataId": "Q313791",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Rick_Ross"
+      },
+      "bio": "William Leonard Roberts II (born January 28, 1976), known as Rick Ross, is a Miami rapper and CEO of Maybach Music Group. His debut Port of Miami (2006) established his persona as rap's foremost luxury-crime narrator. A prolific collaborator, his Teflon Don (2010) \u2014 featuring 'Aston Martin Music' with Drake and 'Live Fast Die Young' with Kanye West \u2014 is widely considered his magnum opus. His husky baritone and cinematic rap storytelling made him one of the defining voices of 2000s and 2010s hip-hop."
+    },
+    {
+      "id": "ludacris",
+      "name": "Ludacris",
+      "era": "2000s",
+      "region": "South",
+      "role": "rapper",
+      "weight": 5,
+      "metadata": {
+        "wikidataId": "Q191804",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Ludacris"
+      },
+      "bio": "Christopher Brian Bridges (born September 11, 1977), known as Ludacris, is an Atlanta rapper and actor who became one of Def Jam South's biggest stars. His albums Word of Mouf (2001) and Chicken-N-Beer (2003) produced era-defining singles and established his split-personality flow \u2014 half party-starter, half lyrical assassin. His collaborations with Missy Elliott ('Gossip Folks'), Pharrell ('Money Maker'), and Timbaland cemented his place in the 2000s hip-hop canon."
+    },
+    {
+      "id": "mac-miller",
+      "name": "Mac Miller",
+      "era": "2010s",
+      "region": "East Coast",
+      "role": "rapper",
+      "weight": 5,
+      "metadata": {
+        "wikidataId": "Q1151744",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Mac_Miller"
+      },
+      "bio": "Malcolm James McCormick (January 19, 1992 \u2013 September 7, 2018), known as Mac Miller, was a Pittsburgh rapper, producer, and multi-instrumentalist whose artistry evolved dramatically across six studio albums. From the frat-rap breakthrough of Blue Slide Park (2011) through the jazz-infused Swimming (2018), he chronicled his inner life with uncommon candour. His creative friendships with Kendrick Lamar, Schoolboy Q, Ab-Soul, and Thundercat placed him at the crossroads of TDE's West Coast introspection and Pittsburgh's indie hustle. His death at 26 cut short one of hip-hop's most promising late-career arcs."
+    },
+    {
+      "id": "asap-ferg",
+      "name": "A$AP Ferg",
+      "era": "2010s",
+      "region": "East Coast",
+      "role": "rapper",
+      "weight": 4,
+      "metadata": {
+        "wikidataId": "Q15975596",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/A$AP_Ferg"
+      },
+      "bio": "Darold Ferguson Jr. (born October 20, 1988), known as A$AP Ferg, is a Harlem rapper and co-founder of A$AP Mob. His debut Trap Lord (2013) introduced a harder, more industrial sound to the Mob's atmospheric template \u2014 raw Harlem aggression over chest-rattling beats. 'Plain Jane' (2017) became his biggest solo hit and confirmed his standing as the Mob's most commercially consistent member after A$AP Rocky. His relationship with A$AP Yams was foundational to the Mob's aesthetic before Yams' death in 2015."
+    },
+    {
+      "id": "young-thug",
+      "name": "Young Thug",
+      "era": "2010s",
+      "region": "South",
+      "role": "rapper",
+      "weight": 5,
+      "metadata": {
+        "wikidataId": "Q16227669",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Young_Thug"
+      },
+      "bio": "Jeffery Lamar Williams (born August 16, 1991), known as Young Thug, is an Atlanta rapper whose melodic, idiosyncratic approach to flow \u2014 inspired by Lil Wayne's pitch experimentation but taken further into abstraction \u2014 redefined what an Atlanta MC could sound like. Gucci Mane's early co-sign launched him; Barter 6 (2015) and Beautiful Thugger Girls (2017) proved his range. He founded Young Stoner Life Records and signed Gunna, Lil Baby, and others, making him one of the most influential A&Rs of the 2010s. His stylistic DNA is audible in virtually every post-2014 Atlanta rapper."
     }
   ],
   "relationships": [
@@ -8050,6 +8154,271 @@
       "verified": true,
       "year": 2016,
       "label": "Bars-first female MC lineage \u2014 Eve's Ruff Ryders grit is the direct blueprint for Young M.A's Brooklyn style"
+    },
+    {
+      "id": "rel_058",
+      "source": "punch",
+      "target": "kendrick-lamar",
+      "type": "mentorship",
+      "subtype": "signed_to",
+      "strength": 0.95,
+      "verified": true,
+      "year": 2009,
+      "label": "TDE President \u2014 co-architect of Kendrick's entire label career from Overly Dedicated to Mr. Morale"
+    },
+    {
+      "id": "rel_059",
+      "source": "punch",
+      "target": "isaiah-rashad",
+      "type": "mentorship",
+      "subtype": "signed_to",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2013,
+      "label": "TDE signing \u2014 Punch A&R'd Rashad's Cilvia Demo, one of TDE's most celebrated debut projects"
+    },
+    {
+      "id": "rel_060",
+      "source": "punch",
+      "target": "ray-vaughn",
+      "type": "mentorship",
+      "subtype": "signed_to",
+      "strength": 0.88,
+      "verified": true,
+      "year": 2021,
+      "label": "TDE signing \u2014 Punch brought Ray Vaughn in as part of TDE's new West Coast wave"
+    },
+    {
+      "id": "rel_061",
+      "source": "punch",
+      "target": "zacari",
+      "type": "mentorship",
+      "subtype": "signed_to",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2017,
+      "label": "TDE signing \u2014 Zacari's Love feature on DAMN. debuted under Punch's A&R vision"
+    },
+    {
+      "id": "rel_062",
+      "source": "zacari",
+      "target": "kendrick-lamar",
+      "type": "collaborative",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2017,
+      "label": "Love (DAMN., 2017) \u2014 Zacari's breakthrough TDE feature",
+      "audio_metadata": {
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/72/71/89/72718957-3475-8f6f-3685-aedd470ddc20/mzaf_4044691450436775386.plus.aac.p.m4a",
+        "track_name": "LOVE. (feat. Zacari)",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/86/c9/bb/86c9bb30-fe3d-442e-33c1-c106c4d23705/17UMGIM88776.rgb.jpg/100x100bb.jpg",
+        "itunes_track_id": 1440881708,
+        "release_year": 2017,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3d/5e/02/3d5e02a9-7801-4a64-e1cf-5e9d3b2fb564/mzaf_18389264934706920426.plus.aac.p.m4a"
+      }
+    },
+    {
+      "id": "rel_063",
+      "source": "ray-vaughn",
+      "target": "kendrick-lamar",
+      "type": "collaborative",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2022,
+      "label": "TDE labelmates \u2014 Ray Vaughn's On My Way (2022) follows Kendrick's TDE legacy"
+    },
+    {
+      "id": "rel_064",
+      "source": "rick-ross",
+      "target": "jay-z",
+      "type": "collaborative",
+      "strength": 0.82,
+      "verified": true,
+      "year": 2009,
+      "label": "Maybach Music era \u2014 Free Mason (2010) and cross-label collab at the pinnacle of both careers"
+    },
+    {
+      "id": "rel_065",
+      "source": "rick-ross",
+      "target": "drake",
+      "type": "collaborative",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2010,
+      "label": "Aston Martin Music (feat. Chrisette Michele) \u2014 Teflon Don (2010), peak MMG/OVO era crossover",
+      "audio_metadata": {
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ff/b7/7a/ffb77a6b-9df4-f8b3-18eb-e9c88b1f8f3e/mzaf_8760030840717341667.plus.aac.p.m4a",
+        "track_name": "Aston Martin Music (feat. Drake & Chrisette Michele)",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/80/e4/69/80e4699a-7a0c-485c-281a-a73d57e0f9f5/10UMGIM17553.rgb.jpg/100x100bb.jpg",
+        "itunes_track_id": 1445837672,
+        "release_year": 2010,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/00/6d/30/006d30f1-183f-f4b2-8af2-c2ab7b502ce1/mzaf_4995512439409000531.plus.aac.p.m4a"
+      }
+    },
+    {
+      "id": "rel_066",
+      "source": "rick-ross",
+      "target": "lil-wayne",
+      "type": "collaborative",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2009,
+      "label": "Maybach Music (Remix) \u2014 defining South crossover, MMG x Cash Money power move"
+    },
+    {
+      "id": "rel_067",
+      "source": "ludacris",
+      "target": "missy-elliott",
+      "type": "collaborative",
+      "strength": 0.82,
+      "verified": true,
+      "year": 2003,
+      "label": "Gossip Folks (Under Construction, 2002) \u2014 Atlanta meets Timbaland-era Virginia, peak 2000s collab",
+      "audio_metadata": {
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b9/5c/7e/b95c7ec2-ea0d-c746-d077-d6d8491e388d/mzaf_7707773400443980847.plus.aac.p.m4a",
+        "track_name": "Gossip Folks (feat. Ludacris)",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Features124/v4/67/63/8e/67638ee7-4bf1-5bcd-75af-0c7868c23478/dj.mzvpzeqc.jpg/100x100bb.jpg",
+        "itunes_track_id": 1264511,
+        "release_year": 2002,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/b9/5c/7e/b95c7ec2-ea0d-c746-d077-d6d8491e388d/mzaf_7707773400443980847.plus.aac.p.m4a"
+      }
+    },
+    {
+      "id": "rel_068",
+      "source": "ludacris",
+      "target": "big-boi",
+      "type": "collaborative",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2003,
+      "label": "Atlanta contemporaries \u2014 both anchored Def Jam South's commercial peak; shared stages and sessions"
+    },
+    {
+      "id": "rel_069",
+      "source": "ludacris",
+      "target": "pharrell-williams",
+      "type": "collaborative",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2006,
+      "label": "Money Maker (Release Therapy, 2006) \u2014 Grammy-winning Pharrell-produced single, peak Neptunes era",
+      "audio_metadata": {
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/29/0f/0d/290f0d42-6d3d-0c4c-fdfb-e39aa3f6bd8d/mzaf_8214819548644429980.plus.aac.p.m4a",
+        "track_name": "Money Maker (feat. Pharrell Williams)",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/91/e1/95/91e195e9-b965-cefa-beed-6746852b0908/00602517029170.rgb.jpg/100x100bb.jpg",
+        "itunes_track_id": 1444005911,
+        "release_year": 2006,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/1a/fb/d1/1afbd1e7-d232-05be-c66a-87a2d766f1e5/mzaf_17236377689554737720.plus.aac.p.m4a"
+      }
+    },
+    {
+      "id": "rel_070",
+      "source": "mac-miller",
+      "target": "schoolboy-q",
+      "type": "collaborative",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2013,
+      "label": "Objects in the Mirror (Watching Movies, 2013) \u2014 Q on Mac's introspective TDE crossover"
+    },
+    {
+      "id": "rel_071",
+      "source": "mac-miller",
+      "target": "ab-soul",
+      "type": "collaborative",
+      "strength": 0.82,
+      "verified": true,
+      "year": 2013,
+      "label": "Aquarium (Watching Movies, 2013) \u2014 Ab-Soul's philosophical bars meet Mac's Pittsburgh psychedelia"
+    },
+    {
+      "id": "rel_072",
+      "source": "mac-miller",
+      "target": "thundercat",
+      "type": "collaborative",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2016,
+      "label": "Dang! (The Divine Feminine, 2016) \u2014 Thundercat's bass anchors one of Mac's warmest productions",
+      "audio_metadata": {
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/0d/e9/54/0de95471-2b28-5824-c013-cc0f14e2af7e/mzaf_13122068776309954636.plus.aac.p.m4a",
+        "track_name": "Dang! (feat. Anderson .Paak)",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/1e/5c/ad/1e5cadeb-6f0c-86a0-9e85-6487a848d866/093624917168.jpg/100x100bb.jpg",
+        "itunes_track_id": 1147227702,
+        "release_year": 2016
+      }
+    },
+    {
+      "id": "rel_073",
+      "source": "asap-ferg",
+      "target": "asap-rocky",
+      "type": "collective",
+      "subtype": "co_founder",
+      "strength": 0.92,
+      "verified": true,
+      "year": 2011,
+      "label": "A$AP Mob co-founders \u2014 complementary styles: Rocky's atmospheric cool vs Ferg's Trap Lord aggression"
+    },
+    {
+      "id": "rel_074",
+      "source": "asap-yams",
+      "target": "asap-ferg",
+      "type": "mentorship",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2011,
+      "label": "A$AP Mob architect \u2014 Yams shaped Ferg's sound and helped develop Trap Lord's aggressive identity"
+    },
+    {
+      "id": "rel_075",
+      "source": "gucci-mane",
+      "target": "young-thug",
+      "type": "mentorship",
+      "strength": 0.88,
+      "verified": true,
+      "year": 2013,
+      "label": "Brick Squad co-sign \u2014 Gucci's early 1017 Records platform launched Young Thug before YSL"
+    },
+    {
+      "id": "rel_076",
+      "source": "lil-wayne",
+      "target": "young-thug",
+      "type": "mentorship",
+      "subtype": "influenced",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2013,
+      "label": "The melodic blueprint \u2014 Wayne's pitch-warped delivery on Dedication mixtapes is Young Thug's direct origin"
+    },
+    {
+      "id": "rel_077",
+      "source": "killer-mike",
+      "target": "el-p",
+      "type": "collaborative",
+      "subtype": "co_founder",
+      "strength": 0.97,
+      "verified": true,
+      "year": 2012,
+      "label": "Run The Jewels (2013) \u2014 the most critically acclaimed hip-hop duo of the 2010s",
+      "audio_metadata": {
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/22/b9/d2/22b9d20e-7a4d-dcf2-1bee-098dc3c8f0c8/mzaf_17704367826533409681.plus.aac.p.m4a",
+        "track_name": "Run The Jewels",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7b/44/c2/7b44c2aa-12c4-4617-9fec-8942664e640f/198704918407_Cover.jpg/100x100bb.jpg",
+        "itunes_track_id": 1863305830,
+        "release_year": 2013,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/7d/d1/63/7dd163b6-ef05-7cb0-e143-60aac123e837/mzaf_16146264962543621303.plus.aac.p.m4a"
+      }
+    },
+    {
+      "id": "rel_078",
+      "source": "mos-def",
+      "target": "talib-kweli",
+      "type": "collaborative",
+      "subtype": "co_founder",
+      "strength": 0.97,
+      "verified": true,
+      "year": 1998,
+      "label": "Black Star (1998) \u2014 Mos Def & Talib Kweli Are Black Star, a cornerstone of conscious hip-hop"
     }
   ],
   "collectives": [
@@ -8134,7 +8503,10 @@
         "sir",
         "reason",
         "doechii",
-        "kal-banx"
+        "kal-banx",
+        "ray-vaughn",
+        "zacari",
+        "punch"
       ]
     },
     {
@@ -8201,7 +8573,8 @@
       "name": "A$AP Mob",
       "members": [
         "asap-rocky",
-        "asap-yams"
+        "asap-yams",
+        "asap-ferg"
       ]
     },
     {
@@ -8328,6 +8701,29 @@
       "name": "Boogie Down Productions",
       "members": [
         "krs-one"
+      ]
+    },
+    {
+      "id": "black-star",
+      "name": "Black Star",
+      "members": [
+        "mos-def",
+        "talib-kweli"
+      ]
+    },
+    {
+      "id": "run-the-jewels",
+      "name": "Run The Jewels",
+      "members": [
+        "killer-mike",
+        "el-p"
+      ]
+    },
+    {
+      "id": "young-stoner-life",
+      "name": "Young Stoner Life",
+      "members": [
+        "young-thug"
       ]
     }
   ]
