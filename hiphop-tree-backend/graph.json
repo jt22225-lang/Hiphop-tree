@@ -3071,6 +3071,19 @@
       },
       "bio": "Bill Kahan Kapri (born June 11, 1997), known as Kodak Black, is an American rapper from Pompano Beach, Florida. He rose through Florida's regional trap scene with 'No Flockin' (2014) and 'Tunnel Vision' (2017), representing the same South Florida SoundCloud corridor as XXXTentacion and Ski Mask.",
       "weight": 5
+    },
+    {
+      "id": "spaceghostpurrp",
+      "name": "SpaceGhostPurrp",
+      "era": "2010s",
+      "region": "Florida",
+      "label": "Raider Klan",
+      "metadata": {
+        "wikidataId": "Q7574002",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/SpaceGhostPurrp"
+      },
+      "bio": "Rocc Batmon (born March 20, 1991), known as SpaceGhostPurrp, is an American rapper and producer from Carol City, Florida. He founded Raider Klan (RVIDXR KLVN), the underground collective that launched Denzel Curry and bridged the gap between chopped-and-screwed Southern rap, lo-fi cloud rap, and the early SoundCloud underground. His dark, occult-influenced aesthetic was a direct precursor to the SoundCloud rap explosion.",
+      "weight": 5
     }
   ],
   "relationships": [
@@ -10069,7 +10082,8 @@
       "year": 2017,
       "sources": [
         "https://en.wikipedia.org/wiki/Trippie_Redd"
-      ]
+      ],
+      "label": "Fuck Love (2017)"
     },
     {
       "id": "rel_152",
@@ -10402,6 +10416,81 @@
       "sources": [
         "https://en.wikipedia.org/wiki/Denzel_Curry"
       ]
+    },
+    {
+      "id": "rel_176",
+      "source": "spaceghostpurrp",
+      "target": "raider-klan",
+      "type": "collective",
+      "subtype": "co_founded",
+      "strength": 0.95,
+      "verified": true,
+      "year": 2011,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Raider_Klan"
+      ]
+    },
+    {
+      "id": "rel_177",
+      "source": "raider-klan",
+      "target": "spaceghostpurrp",
+      "type": "collective",
+      "subtype": "co_founded",
+      "strength": 0.95,
+      "verified": true,
+      "year": 2011,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Raider_Klan"
+      ]
+    },
+    {
+      "id": "rel_178",
+      "source": "spaceghostpurrp",
+      "target": "denzel-curry",
+      "type": "mentorship",
+      "subtype": "discovered_by",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Denzel_Curry"
+      ]
+    },
+    {
+      "id": "rel_179",
+      "source": "spaceghostpurrp",
+      "target": "asap-rocky",
+      "type": "mentorship",
+      "subtype": "influenced",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2012,
+      "sources": [
+        "https://en.wikipedia.org/wiki/SpaceGhostPurrp"
+      ]
+    },
+    {
+      "id": "rel_180",
+      "source": "post-malone",
+      "target": "quavo",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2016,
+      "label": "Congratulations (2016)",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Congratulations_(Post_Malone_song)"
+      ],
+      "audio_metadata": {
+        "track_name": "Congratulations (feat. Quavo) [Mixed]",
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/5a/d1/3f/5ad13fa7-348e-642b-7dbb-8415810e96b0/mzaf_17745491357360250248.plus.aac.p.m4a",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/31/57/de/3157dec9-5e26-40d1-d61c-bce30558752d/16UMGIM76041.rgb.jpg/100x100bb.jpg",
+        "itunes_track_id": 1440889023,
+        "release_year": 2016,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/01/ac/2b/01ac2b38-2827-73cc-d723-56737e3e822d/mzaf_14438747186719391954.plus.aac.p.m4a"
+      },
+      "has_audio": true
     }
   ],
   "collectives": [
