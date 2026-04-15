@@ -62,8 +62,8 @@ const PRODUCER_PERIMETER_IDS = new Set([
 ]);
 
 const LEGEND_EDGE_LEN      = 110;  // Legend nodes stay short — gravitational pull into orbit
-const MENTORSHIP_EDGE_LEN  = 150;  // Family/lineage links stretch for visual breathing room
-const COLLAB_EDGE_LEN      = 100;  // Collaboration edges stay tighter; repulsion handles spacing
+const MENTORSHIP_EDGE_LEN  = 220;  // Family/lineage links — increased for wider dynasty spread
+const COLLAB_EDGE_LEN      = 180;  // Collaboration edges — increased to push clusters toward edges
 
 export default function GraphView({
   data,
@@ -714,10 +714,9 @@ export default function GraphView({
       convergenceThreshold: 0.003,
       fit:                  false,   // we call fit() manually on layoutstop
       padding:              60,
-      nodeSpacing:          55,
-      // Strong centre-gravity keeps the artist cluster in the middle
-      // while the locked producers hold the outer ring. Default is 40.
-      gravity:              160,
+      nodeSpacing:          110,  // 2× repulsion — pushes clusters toward canvas edges
+      // Reduced gravity lets the longer edge lengths actually spread dynasties apart.
+      gravity:              80,
       edgeLength: edge => {
         const src = edge.source().id();
         const tgt = edge.target().id();
@@ -751,7 +750,7 @@ export default function GraphView({
         });
       }
       // Fit the whole graph
-      cy.fit(undefined, 80);
+      cy.fit(undefined, 40);
 
       // Expose a TDE cluster-fit helper on the window so you can
       // call window.fitTDE() in the browser console to zoom in and
