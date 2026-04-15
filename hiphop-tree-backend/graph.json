@@ -2682,6 +2682,45 @@
         "wikipediaUrl": "https://en.wikipedia.org/wiki/Organized_Noize"
       },
       "bio": "Organized Noize \u2014 Rico Wade, Ray Murray, and Sleepy Brown \u2014 are an Atlanta production trio who invented the sonic template of the Dungeon Family and Southern hip-hop's soul-influenced strain. Their production on Outkast's Southernplayalisticadillacmuzik (1994) and Goodie Mob's Soul Food (1995) established Atlanta as a creative capital years before it became the commercial centre of rap. Rico Wade's mentorship of his cousin Future in the Dungeon studio directly links the golden-era Dungeon Family sound to 2010s Atlanta trap."
+    },
+    {
+      "id": "lord-finesse",
+      "name": "Lord Finesse",
+      "era": "90s",
+      "region": "East Coast",
+      "role": "rapper",
+      "weight": 4,
+      "metadata": {
+        "wikidataId": "Q1368649",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Lord_Finesse"
+      },
+      "bio": "Robert Lamont Hall (born August 18, 1969), known as Lord Finesse, is a Bronx rapper and producer whose technical MCing and crate-digging production made him a cornerstone of the D.I.T.C. (Diggin' in the Crates) crew. He discovered and mentored a teenage Big L, inviting him to D.I.T.C. sessions and co-signing his raw Harlem talent to the wider New York rap world. His influence on the lyrical density of mid-90s East Coast boom-bap \u2014 especially via his work alongside Fat Joe, Diamond D, and Show and AG \u2014 is foundational."
+    },
+    {
+      "id": "knxwledge",
+      "name": "Knxwledge",
+      "era": "2010s",
+      "region": "West Coast",
+      "role": "producer",
+      "weight": 5,
+      "metadata": {
+        "wikidataId": "Q22070773",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Knxwledge"
+      },
+      "bio": "Glenn 'Knxwledge' Boothe is a Compton-raised producer signed to Stones Throw Records whose chopped, dusty soul samples and lo-fi drum programming became a cornerstone of the 'beat scene' movement. His full-length collaboration with Anderson .Paak as NxWorries \u2014 Yes Lawd! (2016) \u2014 is one of the most celebrated neo-soul/hip-hop fusion albums of the decade. His production on Kendrick Lamar's untitled unmastered (2016) further cemented him as a key figure in West Coast's experimental production world."
+    },
+    {
+      "id": "young-jeezy",
+      "name": "Young Jeezy",
+      "era": "2000s",
+      "region": "South",
+      "role": "rapper",
+      "weight": 5,
+      "metadata": {
+        "wikidataId": "Q183503",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Young_Jeezy"
+      },
+      "bio": "Jay Wayne Jenkins (born September 28, 1977), known as Young Jeezy or Jeezy, is an Atlanta rapper whose gravelly baritone and trap-narrative lyrics on Let's Get It: Thug Motivation 101 (2005) made him one of the architects of mainstream trap music. His high-profile rivalry with Gucci Mane defined Atlanta's mid-2000s rap politics, while his collaboration with Jay-Z on 'Go Crazy' (2005) announced him as a national crossover force. He founded CTE World and has mentored a generation of Atlanta artists."
     }
   ],
   "relationships": [
@@ -8725,6 +8764,226 @@
       "verified": true,
       "year": 2017,
       "label": "TDE labelmates \u2014 both on the same label through the DAMN. era creative peak"
+    },
+    {
+      "id": "rel_tde_m97",
+      "source": "isaiah-rashad",
+      "target": "top-dawg",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "label": "TDE member"
+    },
+    {
+      "id": "rel_tde_m98",
+      "source": "doechii",
+      "target": "top-dawg",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "label": "TDE member"
+    },
+    {
+      "id": "rel_tde_m99",
+      "source": "sir",
+      "target": "top-dawg",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "label": "TDE member"
+    },
+    {
+      "id": "rel_tde_m100",
+      "source": "zacari",
+      "target": "top-dawg",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "label": "TDE member"
+    },
+    {
+      "id": "rel_tde_m101",
+      "source": "ray-vaughn",
+      "target": "top-dawg",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "label": "TDE member"
+    },
+    {
+      "id": "rel_tde_m102",
+      "source": "lance-skiiiwalker",
+      "target": "top-dawg",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "label": "TDE member"
+    },
+    {
+      "id": "rel_tde_m103",
+      "source": "devin-malik",
+      "target": "top-dawg",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "label": "TDE member"
+    },
+    {
+      "id": "rel_tde_m104",
+      "source": "reason",
+      "target": "top-dawg",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "label": "TDE member"
+    },
+    {
+      "id": "rel_tde_m105",
+      "source": "sza",
+      "target": "top-dawg",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "label": "TDE member"
+    },
+    {
+      "id": "rel_tde_m106",
+      "source": "schoolboy-q",
+      "target": "top-dawg",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "label": "TDE member"
+    },
+    {
+      "id": "rel_tde_m107",
+      "source": "ab-soul",
+      "target": "top-dawg",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "label": "TDE member"
+    },
+    {
+      "id": "rel_tde_m108",
+      "source": "jay-rock",
+      "target": "top-dawg",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "label": "TDE member"
+    },
+    {
+      "id": "rel_97",
+      "source": "lord-finesse",
+      "target": "big-l",
+      "type": "mentorship",
+      "subtype": "influenced",
+      "strength": 0.9,
+      "verified": true,
+      "year": 1992,
+      "label": "D.I.T.C. mentor \u2014 Finesse discovered Big L as a teenager and co-signed him to the Bronx boom-bap scene",
+      "audio_metadata": {
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/Music/9a/2f/a9/mzm.gvtxpurx.aac.p.m4a",
+        "track_name": "Jay-Z freestyle",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music/aa/9b/e2/mzi.ubpptfah.tif/100x100bb.jpg",
+        "itunes_track_id": 154061910,
+        "release_year": 2006,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/Music/9a/2f/a9/mzm.gvtxpurx.aac.p.m4a"
+      }
+    },
+    {
+      "id": "rel_98",
+      "source": "nas",
+      "target": "joey-badass",
+      "type": "mentorship",
+      "subtype": "influenced",
+      "strength": 0.88,
+      "verified": true,
+      "year": 2012,
+      "label": "Illmatic DNA \u2014 Joey's lyricism and Brooklyn storytelling are rooted in Nas's mid-90s blueprint"
+    },
+    {
+      "id": "rel_99",
+      "source": "mf-doom",
+      "target": "joey-badass",
+      "type": "collaborative",
+      "strength": 0.82,
+      "verified": true,
+      "year": 2013,
+      "label": "DOOM's mask-wearing villain aesthetic directly shaped Joey's alter-ego work on B4.DA.$$"
+    },
+    {
+      "id": "rel_100",
+      "source": "anderson-paak",
+      "target": "knxwledge",
+      "type": "collective",
+      "subtype": "co_founder",
+      "strength": 0.92,
+      "verified": true,
+      "year": 2014,
+      "label": "NxWorries \u2014 Yes Lawd! (2016) is a landmark neo-soul/hip-hop fusion album on Stones Throw"
+    },
+    {
+      "id": "rel_101",
+      "source": "gucci-mane",
+      "target": "young-jeezy",
+      "type": "collaborative",
+      "subtype": "rivalry",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2005,
+      "label": "Atlanta's defining mid-2000s rivalry \u2014 Jeezy vs Gucci shaped the street politics of trap's emergence",
+      "audio_metadata": {
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/14/73/db/1473db92-ee57-8bed-e334-c77888eeb7ec/mzaf_2227586655951875180.plus.aac.p.m4a",
+        "track_name": "Icy (feat. Young Jeezy) [Radio Mix]",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/5d/c4/95/5dc49576-c9ff-1fd4-0b65-d8fa4e15b876/Cover.jpg/100x100bb.jpg",
+        "itunes_track_id": 577634178,
+        "release_year": 2005,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/14/73/db/1473db92-ee57-8bed-e334-c77888eeb7ec/mzaf_2227586655951875180.plus.aac.p.m4a"
+      }
+    },
+    {
+      "id": "rel_102",
+      "source": "young-jeezy",
+      "target": "jay-z",
+      "type": "collaborative",
+      "strength": 0.83,
+      "verified": true,
+      "year": 2005,
+      "label": "Go Crazy (feat. Jay-Z, 2005) \u2014 Jeezy's crossover moment; Jay's verse validated Atlanta trap nationally",
+      "audio_metadata": {
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/69/30/c6/6930c649-c8d1-4732-09e2-e20cd8b4e357/mzaf_11300502846140618405.plus.aac.p.m4a",
+        "track_name": "Go Crazy (Remix) [feat. JA\u0178-Z]",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/90/e6/b7/90e6b79c-4577-6504-139b-a8deb48d7f82/12UMGIM36597.rgb.jpg/100x100bb.jpg",
+        "itunes_track_id": 1443865102,
+        "release_year": 2005,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/69/30/c6/6930c649-c8d1-4732-09e2-e20cd8b4e357/mzaf_11300502846140618405.plus.aac.p.m4a"
+      }
     }
   ],
   "collectives": [
@@ -9041,6 +9300,14 @@
         "quavo",
         "offset",
         "takeoff"
+      ]
+    },
+    {
+      "id": "nxworries",
+      "name": "NxWorries",
+      "members": [
+        "anderson-paak",
+        "knxwledge"
       ]
     }
   ]

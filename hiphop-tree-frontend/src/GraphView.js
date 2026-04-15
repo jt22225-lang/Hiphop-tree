@@ -723,6 +723,11 @@ export default function GraphView({
         const tgt = edge.target().id();
         if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 400;
         if (LEGEND_IDS.has(src) || LEGEND_IDS.has(tgt)) return LEGEND_EDGE_LEN;
+        // member_of edges act as tight springs — they pull collective
+        // members into a cohesive cluster (half the normal collab length).
+        if (edge.data('subtype') === 'member_of') return 55;
+        // All other collective edges stay snug too
+        if (edge.data('type') === 'collective') return 70;
         return edge.data('type') === 'mentorship' ? MENTORSHIP_EDGE_LEN : COLLAB_EDGE_LEN;
       },
       nodeWeight:           node => LEGEND_IDS.has(node.id()) ? 8 : 1,
@@ -732,18 +737,34 @@ export default function GraphView({
       centerGraph:          true,
     });
 
+    // ── Collect TDE member IDs for cluster-fit helper ────────
+    const tdeMemberIds = new Set(
+      (data.collectives?.find(c => c.id === 'tde')?.members) || []
+    );
+
     // ── Unlock + fit once physics has fully settled ───────────
-    // layoutstop fires after the final animation frame, so the
-    // positions are stable and cy.fit() lands exactly right.
     layout.on('layoutstop', () => {
-      // Unlock all perimeter nodes — they are now freely draggable
+      // Unlock all perimeter nodes — freely draggable after layout
       if (perimeterCount > 0) {
         cy.nodes().forEach(node => {
           if (perimeterSet.has(node.id())) node.unlock();
         });
       }
-      // Fit the full graph into the viewport with comfortable padding
+      // Fit the whole graph
       cy.fit(undefined, 60);
+
+      // Expose a TDE cluster-fit helper on the window so you can
+      // call window.fitTDE() in the browser console to zoom in and
+      // verify the "Family Portrait" is complete.
+      window.fitTDE = () => {
+        const tdeNodes = cy.nodes().filter(n => tdeMemberIds.has(n.id()));
+        if (tdeNodes.length > 0) {
+          cy.animate(
+            { fit: { eles: tdeNodes, padding: 80 } },
+            { duration: 800, easing: 'ease-in-out' }
+          );
+        }
+      };
     });
 
     layout.run();
