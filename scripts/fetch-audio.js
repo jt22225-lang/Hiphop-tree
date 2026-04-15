@@ -101,12 +101,29 @@ async function searchItunes(songTitle, queryArtist, srcName, tgtName, country) {
   const withPreview  = artistHits.filter(r => r.previewUrl);
   if (!withPreview.length) return { regionRestricted: true };
 
-  withPreview.sort((a, b) => {
-    const score = r => r.trackName?.toLowerCase().includes(titleLower) ? 1 : 0;
-    return score(b) - score(a);
+  // Exact-match scoring: require the track name to contain the query title words,
+  // not just any artist match.  Prevents P.I.M.P.-style misfires where a different
+  // song by the same artist outranks the intended target.
+  const titleWords = titleLower.replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(t => t.length > 2);
+
+  const scored = withPreview.map(r => {
+    const tn = (r.trackName || '').toLowerCase();
+    // Exact title containment is the highest signal
+    const exactMatch  = tn.includes(titleLower) ? 4 : 0;
+    // Word-level overlap as secondary signal
+    const wordOverlap = titleWords.filter(w => tn.includes(w)).length;
+    return { r, score: exactMatch + wordOverlap };
   });
 
-  const best = withPreview[0];
+  // Require at least one title word to match — discard total misses
+  const titleMatches = scored.filter(s => s.score > 0);
+  if (!titleMatches.length) {
+    process.stdout.write('[no title match] ');
+    return null;
+  }
+
+  titleMatches.sort((a, b) => b.score - a.score);
+  const best = titleMatches[0].r;
   return {
     match: {
       track_name:    best.trackName,

@@ -47,6 +47,17 @@ const MIN_SIZE     = 30;
 const MAX_SIZE     = 80;
 const LEGEND_BOOST = 28;
 
+// ── Producer Perimeter ───────────────────────────────────────
+// All nodes that are Legends OR have role='producer' get locked
+// in a fixed decagon on the outer ring so they form an arc of
+// gravity wells around the rappers clustered at the centre.
+const PRODUCER_PERIMETER_IDS = new Set([
+  ...LEGEND_IDS,
+  // Additional producers in graph (non-legend but role=producer)
+  'havoc', 'q-tip', 'dj-quik', 'dj-muggs', 'daz-dillinger',
+  'dj-mustard', 'swizz-beatz', 'hit-boy', 'kal-banx', 'dj-paul',
+]);
+
 const LEGEND_EDGE_LEN      = 110;  // Legend nodes stay short — gravitational pull into orbit
 const MENTORSHIP_EDGE_LEN  = 150;  // Family/lineage links stretch for visual breathing room
 const COLLAB_EDGE_LEN      = 100;  // Collaboration edges stay tighter; repulsion handles spacing
@@ -314,6 +325,8 @@ export default function GraphView({
       const size       = getSize(a.id);
       const isLegend   = a.isLegend === true || LEGEND_IDS.has(a.id);
       const isDeepCut  = deepCutIds?.has(a.id) || false;
+      const isProducer = PRODUCER_PERIMETER_IDS.has(a.id);
+      const weight     = a.weight ?? 1;
       elements.push({
         data: {
           id:         a.id,
@@ -328,7 +341,12 @@ export default function GraphView({
           size,
           isLegend,
           isDeepCut,
+          isProducer,
+          weight,
           role:       a.role || 'artist',
+          // Font size scales with node weight so high-importance labels
+          // stay readable even when the graph is zoomed out far.
+          fontSize:   isLegend ? 15 : Math.max(9, 9 + Math.round((weight / 10) * 4)),
         }
       });
     });
@@ -364,6 +382,35 @@ export default function GraphView({
       cyInstance.current = null;
     }
 
+    // ── Pre-compute Producer Perimeter positions ───────────
+    // Positions are in Cytoscape MODEL space (not screen pixels).
+    // A large fixed radius keeps producers well outside the artist
+    // cluster regardless of viewport size. Cola's fit:true will
+    // zoom the camera out to show the full ring — so the bigger
+    // this number, the more the outer ring dominates the view.
+    //
+    // RADIUS_MODEL: 2200 units places the ring at roughly 85% of
+    // the visible area once Cola fits the combined bounding box of
+    // inner artists (~300–600 units) + outer producers (~2200 units).
+    const RADIUS_MODEL = 2200;
+
+    const perimeterIds  = elements
+      .filter(el => el.data?.isProducer && !el.data?.source)
+      .map(el => el.data.id);
+    const perimeterSet   = new Set(perimeterIds);
+    const perimeterCount = perimeterIds.length;
+
+    // Origin (0, 0) is the Cola centre of gravity — producers are
+    // evenly spaced around it, starting at the 12-o'clock position.
+    const perimeterPositions = {};
+    perimeterIds.forEach((id, i) => {
+      const angle = (2 * Math.PI * i) / perimeterCount - Math.PI / 2;
+      perimeterPositions[id] = {
+        x: RADIUS_MODEL * Math.cos(angle),
+        y: RADIUS_MODEL * Math.sin(angle),
+      };
+    });
+
     const cy = cytoscape({
       container: containerRef.current,
       elements,
@@ -372,42 +419,49 @@ export default function GraphView({
         {
           selector: 'node',
           style: {
-            'width':              'data(size)',
-            'height':             'data(size)',
-            'background-color':   'data(color)',
-            'background-opacity': 1,
-            'label':              'data(label)',
-            'color':              '#ffffff',
-            'font-size':          11,
-            'font-family':        'Segoe UI, system-ui, sans-serif',
-            'font-weight':        600,
-            'text-valign':        'bottom',
-            'text-halign':        'center',
-            'text-margin-y':      6,
-            'text-outline-color': '#000000',
-            'text-outline-width': 2,
-            'border-width':       2,
-            'border-color':       'data(color)',
-            'border-opacity':     0.6,
+            'width':                  'data(size)',
+            'height':                 'data(size)',
+            'background-color':       'data(color)',
+            'background-opacity':     1,
+            'label':                  'data(label)',
+            'color':                  '#ffffff',
+            // Weight-driven font size: high-importance nodes keep bigger labels
+            'font-size':              'data(fontSize)',
+            'font-family':            'Segoe UI, system-ui, sans-serif',
+            'font-weight':            600,
+            'text-valign':            'bottom',
+            'text-halign':            'center',
+            'text-margin-y':          6,
+            'text-outline-color':     '#000000',
+            'text-outline-width':     2,
+            'border-width':           2,
+            'border-color':           'data(color)',
+            'border-opacity':         0.6,
+            // Labels for lower-weight nodes disappear when zoomed far out;
+            // Legends and producers always remain readable.
+            'min-zoomed-font-size':   'data(fontSize)',
           }
         },
 
         // ── Legend / Verified Architect nodes ──────────────
         // Gold border + outer glow shadow. The "crown" effect
         // is achieved by the overlay-opacity pulse animation below.
+        // min-zoomed-font-size: 4 means Legend labels never hide —
+        // they're anchor points the eye needs at any zoom level.
         {
           selector: 'node[?isLegend]',
           style: {
-            'border-width':        4,
-            'border-color':        LEGEND_GOLD,
-            'border-opacity':      1,
-            'font-size':           13,
-            'font-weight':         700,
-            'text-outline-width':  3,
-            'overlay-color':       LEGEND_GOLD,
-            'overlay-padding':     4,
-            'overlay-opacity':     0,
-            'z-index':             10,
+            'border-width':          4,
+            'border-color':          LEGEND_GOLD,
+            'border-opacity':        1,
+            'font-size':             15,
+            'font-weight':           700,
+            'text-outline-width':    3,
+            'overlay-color':         LEGEND_GOLD,
+            'overlay-padding':       4,
+            'overlay-opacity':       0,
+            'z-index':               10,
+            'min-zoomed-font-size':  4,   // always visible regardless of zoom
           }
         },
 
@@ -601,46 +655,8 @@ export default function GraphView({
         },
       ],
 
-      layout: {
-        name:              'cola',
-        // ── Galaxy Expansion tuning for 350+ nodes ───────────
-        // Goal: a spacious "hip-hop galaxy" where crews cluster
-        // visibly but never clump into an unreadable mass.
-        //
-        // The key lever is nodeSpacing (cola's repulsion analogue).
-        // Doubling it from 28 → 60 pushes nodes apart aggressively,
-        // like cranking the charge in d3-force to -150.
-        //
-        // Edge lengths are now type-aware: mentorship links get
-        // more stretch (150) so lineage flows read as directional
-        // rivers across the galaxy, while collaboration edges stay
-        // tight (100) and nodeSpacing handles the macro spread.
-        //
-        // maxSimulationTime raised back to 6000 — the larger spread
-        // means the simulation needs more ticks to fully settle.
-        animate:              true,
-        animationDuration:    1200,
-        refresh:              4,
-        maxSimulationTime:    6000,  // raised from 4500 — spacious layout needs more settle time
-        convergenceThreshold: 0.004,
-        fit:                  true,
-        padding:              80,    // was 60 — more breathing room at the viewport edges
-        nodeSpacing:          60,    // was 28 — doubled repulsion for the "galaxy expansion" spread
-        edgeLength: edge => {
-          const src = edge.source().id();
-          const tgt = edge.target().id();
-          // Legend nodes act as gravity wells — keep their edges short
-          // so collaborators are pulled into tight orbit around them.
-          if (LEGEND_IDS.has(src) || LEGEND_IDS.has(tgt)) return LEGEND_EDGE_LEN;
-          // Type-aware stretch for non-legend edges
-          return edge.data('type') === 'mentorship' ? MENTORSHIP_EDGE_LEN : COLLAB_EDGE_LEN;
-        },
-        nodeWeight:           node => LEGEND_IDS.has(node.id()) ? 8 : 1,
-        randomize:            false,
-        avoidOverlap:         true,
-        handleDisconnected:   true,
-        centerGraph:          true,
-      },
+      // Layout is run separately below (after locking producer perimeter nodes)
+      layout: { name: 'preset', positions: {} },
 
       // ── Zoom range for the "Galaxy" scale ─────────────────
       // minZoom 0.05 lets users pull all the way back to see the
@@ -652,6 +668,82 @@ export default function GraphView({
       userZoomingEnabled: true,
       userPanningEnabled: true,
     });
+
+    // ── Producer Perimeter — pin during physics, release after ──
+    // Strategy: lock() before the layout so Cola treats these nodes
+    // as immovable anchors on the outer ring. Once the layout fires
+    // 'layoutstop', we unlock() every perimeter node — restoring full
+    // drag freedom — then fit the camera to the settled graph.
+    //
+    // This is different from permanent lock(): the node IS draggable
+    // after load. On dragstart we also null any residual fx/fy data
+    // so nothing fights the user's pointer.
+    if (perimeterCount > 0) {
+      cy.nodes().forEach(node => {
+        const id = node.id();
+        if (perimeterSet.has(id) && perimeterPositions[id]) {
+          node.position(perimeterPositions[id]);
+          node.lock();   // locked ONLY for the duration of Cola physics
+        }
+      });
+    }
+
+    // ── Draggability restore on drag-start ───────────────────
+    // Belt-and-suspenders: if any perimeter node is still locked
+    // when the user grabs it (e.g. layout still animating), unlock
+    // it immediately so the drag feels instant and natural.
+    cy.on('dragstart', 'node', evt => {
+      const node = evt.target;
+      if (node.locked()) node.unlock();
+      // Clear any fx/fy data cola may have stored so the node
+      // doesn't snap back to its original ring position.
+      node.removeData('fx');
+      node.removeData('fy');
+    });
+
+    // ── Run Cola physics layout ──────────────────────────────
+    const layout = cy.layout({
+      name:              'cola',
+      animate:              true,
+      animationDuration:    1200,
+      refresh:              4,
+      maxSimulationTime:    7000,
+      convergenceThreshold: 0.003,
+      fit:                  false,   // we call fit() manually on layoutstop
+      padding:              60,
+      nodeSpacing:          55,
+      // Strong centre-gravity keeps the artist cluster in the middle
+      // while the locked producers hold the outer ring. Default is 40.
+      gravity:              160,
+      edgeLength: edge => {
+        const src = edge.source().id();
+        const tgt = edge.target().id();
+        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 400;
+        if (LEGEND_IDS.has(src) || LEGEND_IDS.has(tgt)) return LEGEND_EDGE_LEN;
+        return edge.data('type') === 'mentorship' ? MENTORSHIP_EDGE_LEN : COLLAB_EDGE_LEN;
+      },
+      nodeWeight:           node => LEGEND_IDS.has(node.id()) ? 8 : 1,
+      randomize:            false,
+      avoidOverlap:         true,
+      handleDisconnected:   true,
+      centerGraph:          true,
+    });
+
+    // ── Unlock + fit once physics has fully settled ───────────
+    // layoutstop fires after the final animation frame, so the
+    // positions are stable and cy.fit() lands exactly right.
+    layout.on('layoutstop', () => {
+      // Unlock all perimeter nodes — they are now freely draggable
+      if (perimeterCount > 0) {
+        cy.nodes().forEach(node => {
+          if (perimeterSet.has(node.id())) node.unlock();
+        });
+      }
+      // Fit the full graph into the viewport with comfortable padding
+      cy.fit(undefined, 60);
+    });
+
+    layout.run();
 
     // ── Gold Pulse Animation (Legend nodes) ───────────────
     let pulseExpanding = true;
