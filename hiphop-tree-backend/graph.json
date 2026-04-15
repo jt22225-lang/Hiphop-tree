@@ -2591,6 +2591,97 @@
         "wikipediaUrl": "https://en.wikipedia.org/wiki/Young_Thug"
       },
       "bio": "Jeffery Lamar Williams (born August 16, 1991), known as Young Thug, is an Atlanta rapper whose melodic, idiosyncratic approach to flow \u2014 inspired by Lil Wayne's pitch experimentation but taken further into abstraction \u2014 redefined what an Atlanta MC could sound like. Gucci Mane's early co-sign launched him; Barter 6 (2015) and Beautiful Thugger Girls (2017) proved his range. He founded Young Stoner Life Records and signed Gunna, Lil Baby, and others, making him one of the most influential A&Rs of the 2010s. His stylistic DNA is audible in virtually every post-2014 Atlanta rapper."
+    },
+    {
+      "id": "lance-skiiiwalker",
+      "name": "Lance Skiiiwalker",
+      "era": "2010s",
+      "region": "West Coast",
+      "role": "rapper",
+      "weight": 2,
+      "metadata": {
+        "wikidataId": "Q28042020",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Lance_Skiiiwalker"
+      },
+      "bio": "Lance Skiiiwalker (Lance White) is a Chicago-born, Oakland-raised singer-rapper signed to Top Dawg Entertainment. His falsetto-driven alternative R&B/rap hybrid \u2014 raw emotion over hazy production \u2014 made him one of TDE's most artistically distinct voices. Introverted Intuition (2017) established his singular lane within the label."
+    },
+    {
+      "id": "devin-malik",
+      "name": "Devin Malik",
+      "era": "2020s",
+      "region": "West Coast",
+      "role": "rapper",
+      "weight": 1,
+      "metadata": {
+        "wikidataId": null,
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Devin_Malik"
+      },
+      "bio": "Devin Malik is a West Coast rapper and one of TDE's newest signees (2024\u20132026 wave), continuing the label's tradition of developing introspective, bars-forward talent from the California underground."
+    },
+    {
+      "id": "metro-boomin",
+      "name": "Metro Boomin",
+      "era": "2010s",
+      "region": "South",
+      "role": "producer",
+      "weight": 8,
+      "metadata": {
+        "wikidataId": "Q17027361",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Metro_Boomin"
+      },
+      "bio": "Leland Tyler Wayne (born October 16, 1993), known as Metro Boomin, is an Atlanta producer whose 808-heavy, horror-influenced trap sound defined the mid-2010s mainstream. His partnership with Future and 21 Savage \u2014 particularly on Monster (2014) and Without Warning (2017) \u2014 made him the most recognisable brand name in Atlanta trap production. Heroes & Villains (2022) and its sequel proved he could headline projects, not just back them. His tag 'If Young Metro don't trust you I'm gon shoot you' became one of hip-hop's most quoted phrases."
+    },
+    {
+      "id": "quavo",
+      "name": "Quavo",
+      "era": "2010s",
+      "region": "South",
+      "role": "rapper",
+      "weight": 4,
+      "metadata": {
+        "wikidataId": "Q19820968",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Quavo"
+      },
+      "bio": "Quavious Keyate Marshall (born April 2, 1991) is an Atlanta rapper and the de-facto leader of Migos. His melodic triplet flow \u2014 delivered in a slurred, pitch-climbing cadence \u2014 became one of the most imitated styles in hip-hop after 'Versace' (2013) and 'Bad and Boujee' (2016). As the most prominent Migos member in terms of solo output and cross-genre collaborations (including with Drake, Cardi B, and Travis Scott), Quavo was the public face of Atlanta's trap wave going global."
+    },
+    {
+      "id": "offset",
+      "name": "Offset",
+      "era": "2010s",
+      "region": "South",
+      "role": "rapper",
+      "weight": 4,
+      "metadata": {
+        "wikidataId": "Q19820969",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Offset_(rapper)"
+      },
+      "bio": "Kiari Kendrell Cephus (born December 14, 1991) is an Atlanta rapper and member of Migos. Considered by many critics to be the strongest pure lyricist in the group, his solo debut Father of 4 (2019) showcased a maturity and emotional range not always visible in Migos' trap maximalism. His marriage to Cardi B made him one of hip-hop's most high-profile figures beyond the music."
+    },
+    {
+      "id": "takeoff",
+      "name": "Takeoff",
+      "era": "2010s",
+      "region": "South",
+      "role": "rapper",
+      "weight": 3,
+      "metadata": {
+        "wikidataId": "Q19820970",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Takeoff_(rapper)"
+      },
+      "bio": "Kirsnick Khari Ball (June 18, 1994 \u2013 November 1, 2022), known as Takeoff, was an Atlanta rapper and the youngest and most lyrically precise member of Migos. Frequently cited by fans and critics as the most technically gifted of the three, his subtle melodic variations within the triplet flow distinguished him from Quavo and Offset. His death at 28 cut short a career that had only begun to fully realise his individual potential."
+    },
+    {
+      "id": "organized-noize",
+      "name": "Organized Noize",
+      "era": "90s",
+      "region": "South",
+      "role": "producer",
+      "weight": 8,
+      "metadata": {
+        "wikidataId": "Q3359059",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Organized_Noize"
+      },
+      "bio": "Organized Noize \u2014 Rico Wade, Ray Murray, and Sleepy Brown \u2014 are an Atlanta production trio who invented the sonic template of the Dungeon Family and Southern hip-hop's soul-influenced strain. Their production on Outkast's Southernplayalisticadillacmuzik (1994) and Goodie Mob's Soul Food (1995) established Atlanta as a creative capital years before it became the commercial centre of rap. Rico Wade's mentorship of his cousin Future in the Dungeon studio directly links the golden-era Dungeon Family sound to 2010s Atlanta trap."
     }
   ],
   "relationships": [
@@ -8419,6 +8510,221 @@
       "verified": true,
       "year": 1998,
       "label": "Black Star (1998) \u2014 Mos Def & Talib Kweli Are Black Star, a cornerstone of conscious hip-hop"
+    },
+    {
+      "id": "rel_079",
+      "source": "punch",
+      "target": "lance-skiiiwalker",
+      "type": "mentorship",
+      "subtype": "signed_to",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2015,
+      "label": "TDE signing \u2014 Punch A&R'd Lance Skiiiwalker's unique falsetto-rap hybrid"
+    },
+    {
+      "id": "rel_080",
+      "source": "punch",
+      "target": "devin-malik",
+      "type": "mentorship",
+      "subtype": "signed_to",
+      "strength": 0.82,
+      "verified": true,
+      "year": 2024,
+      "label": "TDE signing (2024) \u2014 part of TDE's new wave under Punch's continued A&R vision"
+    },
+    {
+      "id": "rel_081",
+      "source": "isaiah-rashad",
+      "target": "sza",
+      "type": "collaborative",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2016,
+      "label": "Pretty Little Birds (The Sun's Tirade, 2016) \u2014 TDE labelmates on Rashad's return album",
+      "audio_metadata": {
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/7f/7c/5b/7f7c5be4-3271-9985-084a-4afcd5687243/mzaf_8997076729385610883.plus.aac.p.m4a",
+        "track_name": "Pretty Little Birds (feat. Isaiah Rashad)",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/a2/bc/ad/a2bcad46-b389-4be1-8bac-5a0959b0b8e4/886446548449.jpg/100x100bb.jpg",
+        "itunes_track_id": 1239977725,
+        "release_year": 2017
+      }
+    },
+    {
+      "id": "rel_082",
+      "source": "isaiah-rashad",
+      "target": "jay-rock",
+      "type": "collaborative",
+      "strength": 0.83,
+      "verified": true,
+      "year": 2016,
+      "label": "Tity and Dolla (The Sun's Tirade, 2016) \u2014 Jay Rock verse anchors Rashad's most celebrated LP"
+    },
+    {
+      "id": "rel_083",
+      "source": "isaiah-rashad",
+      "target": "zacari",
+      "type": "collaborative",
+      "strength": 0.82,
+      "verified": true,
+      "year": 2016,
+      "label": "Wat's Wrong (The Sun's Tirade, 2016) \u2014 Zacari's breakout TDE feature before DAMN."
+    },
+    {
+      "id": "rel_084",
+      "source": "doechii",
+      "target": "sza",
+      "type": "collaborative",
+      "strength": 0.88,
+      "verified": true,
+      "year": 2023,
+      "label": "Anxiety / Persuasive era TDE cross-collab \u2014 SZA and Doechii as TDE's defining female voices"
+    },
+    {
+      "id": "rel_085",
+      "source": "the-alchemist",
+      "target": "earl-sweatshirt",
+      "type": "collaborative",
+      "strength": 0.88,
+      "verified": true,
+      "year": 2021,
+      "label": "Feet of Clay (2021) \u2014 Alchemist-produced Earl EP, peak of the new NYC underground"
+    },
+    {
+      "id": "rel_086",
+      "source": "organized-noize",
+      "target": "future",
+      "type": "mentorship",
+      "subtype": "influenced",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2011,
+      "label": "Dungeon Family lineage \u2014 Future grew up in Rico Wade's studio; ON DNA carries Dungeon soul forward"
+    },
+    {
+      "id": "rel_087",
+      "source": "future",
+      "target": "young-thug",
+      "type": "collaborative",
+      "strength": 0.88,
+      "verified": true,
+      "year": 2015,
+      "label": "Super Slimey (2017) \u2014 Future \u00d7 Young Thug mixtape, the definitive Atlanta melodic-trap joint project"
+    },
+    {
+      "id": "rel_088",
+      "source": "metro-boomin",
+      "target": "21-savage",
+      "type": "collaborative",
+      "strength": 0.95,
+      "verified": true,
+      "year": 2016,
+      "label": "Savage Mode (2016) & Without Warning (2017) \u2014 Metro's production defined 21's ominous aesthetic",
+      "audio_metadata": {
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/36/94/0c/36940cb0-8ee1-8381-e564-5f4c004b5012/mzaf_17834639626375554756.plus.aac.p.m4a",
+        "track_name": "Jimmy Cooks (feat. 21 Savage)",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/6d/31/ab/6d31abaf-7a07-05f1-13ad-72ec520b6bfb/22UMGIM67374.rgb.jpg/100x100bb.jpg",
+        "itunes_track_id": 1630221907,
+        "release_year": 2022
+      }
+    },
+    {
+      "id": "rel_089",
+      "source": "j-cole",
+      "target": "21-savage",
+      "type": "collaborative",
+      "strength": 0.82,
+      "verified": true,
+      "year": 2018,
+      "label": "A Lot (i am > i was, 2018) \u2014 Grammy-winning collab, Cole verse among his most celebrated",
+      "audio_metadata": {
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/2d/81/ab/2d81abff-5771-847e-f887-72704ea5feca/mzaf_17844188204827565393.plus.aac.p.m4a",
+        "track_name": "a lot",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/07/94/f7/0794f7c3-0042-6aa8-022e-ae008868eb75/886447365144.jpg/100x100bb.jpg",
+        "itunes_track_id": 1447452168,
+        "release_year": 2018,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c5/22/18/c52218da-d6cf-0499-2afa-6406b53dda92/mzaf_3559015239327050115.plus.aac.p.m4a"
+      }
+    },
+    {
+      "id": "rel_090",
+      "source": "metro-boomin",
+      "target": "future",
+      "type": "collaborative",
+      "strength": 0.92,
+      "verified": true,
+      "year": 2014,
+      "label": "Monster (2014) \u2014 Future \u00d7 Metro mixtape that launched both artists into the mainstream"
+    },
+    {
+      "id": "rel_091",
+      "source": "metro-boomin",
+      "target": "drake",
+      "type": "collaborative",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2015,
+      "label": "Jumpman (What a Time, 2015) \u2014 Metro's beat anchors one of Drake + Future's biggest records"
+    },
+    {
+      "id": "rel_092",
+      "source": "quavo",
+      "target": "offset",
+      "type": "collective",
+      "subtype": "co_founder",
+      "strength": 1.0,
+      "verified": true,
+      "year": 2008,
+      "label": "Migos \u2014 Versace (2013) and Culture (2017) redefined Atlanta trap for a global audience"
+    },
+    {
+      "id": "rel_093",
+      "source": "quavo",
+      "target": "takeoff",
+      "type": "collective",
+      "subtype": "co_founder",
+      "strength": 1.0,
+      "verified": true,
+      "year": 2008,
+      "label": "Migos \u2014 uncle/nephew duo, the group's familial core"
+    },
+    {
+      "id": "rel_094",
+      "source": "gucci-mane",
+      "target": "quavo",
+      "type": "mentorship",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2013,
+      "label": "Brick Squad / 1017 co-sign \u2014 Gucci's early platform launched Migos from Gwinnett County to global"
+    },
+    {
+      "id": "rel_095",
+      "source": "drake",
+      "target": "quavo",
+      "type": "collaborative",
+      "strength": 0.88,
+      "verified": true,
+      "year": 2017,
+      "label": "Portland (More Life, 2017) \u2014 defining OVO/Migos crossover; Quavo on Drake's most streamed playlist",
+      "audio_metadata": {
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/94/c3/e9/94c3e917-3b72-ad65-5826-e731cdb7e959/mzaf_7985417553886774594.plus.aac.p.m4a",
+        "track_name": "Portland (feat. Quavo & Travis Scott)",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/18/9d/b8/189db80b-bfa8-89d1-1514-5fcb7e5cf8f4/00602557611526.rgb.jpg/100x100bb.jpg",
+        "itunes_track_id": 1440892613,
+        "release_year": 2017,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/94/c3/e9/94c3e917-3b72-ad65-5826-e731cdb7e959/mzaf_7985417553886774594.plus.aac.p.m4a"
+      }
+    },
+    {
+      "id": "rel_096",
+      "source": "lance-skiiiwalker",
+      "target": "kendrick-lamar",
+      "type": "collaborative",
+      "strength": 0.78,
+      "verified": true,
+      "year": 2017,
+      "label": "TDE labelmates \u2014 both on the same label through the DAMN. era creative peak"
     }
   ],
   "collectives": [
@@ -8506,7 +8812,9 @@
         "kal-banx",
         "ray-vaughn",
         "zacari",
-        "punch"
+        "punch",
+        "lance-skiiiwalker",
+        "devin-malik"
       ]
     },
     {
@@ -8724,6 +9032,15 @@
       "name": "Young Stoner Life",
       "members": [
         "young-thug"
+      ]
+    },
+    {
+      "id": "migos",
+      "name": "Migos",
+      "members": [
+        "quavo",
+        "offset",
+        "takeoff"
       ]
     }
   ]

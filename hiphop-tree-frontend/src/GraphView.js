@@ -57,6 +57,7 @@ const PRODUCER_PERIMETER_IDS = new Set([
   // Additional producers in graph (non-legend but role=producer)
   'havoc', 'q-tip', 'dj-quik', 'dj-muggs', 'daz-dillinger',
   'dj-mustard', 'swizz-beatz', 'hit-boy', 'kal-banx', 'dj-paul',
+  'metro-boomin', 'organized-noize',
   // punch is already in LEGEND_IDS — listed here for clarity
 ]);
 
