@@ -62,8 +62,8 @@ const PRODUCER_PERIMETER_IDS = new Set([
 ]);
 
 const LEGEND_EDGE_LEN      = 110;  // Legend nodes stay short — gravitational pull into orbit
-const MENTORSHIP_EDGE_LEN  = 220;  // Family/lineage links — increased for wider dynasty spread
-const COLLAB_EDGE_LEN      = 180;  // Collaboration edges — increased to push clusters toward edges
+const MENTORSHIP_EDGE_LEN  = 400;  // Phase 6: galaxy-scale lineage chains
+const COLLAB_EDGE_LEN      = 320;  // Phase 6: galaxy-scale collab spread
 
 export default function GraphView({
   data,
@@ -714,9 +714,9 @@ export default function GraphView({
       convergenceThreshold: 0.003,
       fit:                  false,   // we call fit() manually on layoutstop
       padding:              60,
-      nodeSpacing:          110,  // 2× repulsion — pushes clusters toward canvas edges
-      // Reduced gravity lets the longer edge lengths actually spread dynasties apart.
-      gravity:              80,
+      nodeSpacing:          220,  // Phase 6: 4× repulsion force field around every node
+      // Near-zero gravity — clusters drift freely to far corners.
+      gravity:              30,
       edgeLength: edge => {
         const src = edge.source().id();
         const tgt = edge.target().id();
@@ -750,7 +750,7 @@ export default function GraphView({
         });
       }
       // Fit the whole graph
-      cy.fit(undefined, 40);
+      cy.fit(undefined, 20);
 
       // Expose a TDE cluster-fit helper on the window so you can
       // call window.fitTDE() in the browser console to zoom in and
