@@ -57,7 +57,7 @@ const PRODUCER_PERIMETER_IDS = new Set([
   // Additional producers in graph (non-legend but role=producer)
   'havoc', 'q-tip', 'dj-quik', 'dj-muggs', 'daz-dillinger',
   'dj-mustard', 'swizz-beatz', 'hit-boy', 'kal-banx', 'dj-paul',
-  'metro-boomin', 'organized-noize',
+  'metro-boomin', 'organized-noize', '9th-wonder',
   // punch is already in LEGEND_IDS — listed here for clarity
 ]);
 
@@ -751,7 +751,7 @@ export default function GraphView({
         });
       }
       // Fit the whole graph
-      cy.fit(undefined, 60);
+      cy.fit(undefined, 80);
 
       // Expose a TDE cluster-fit helper on the window so you can
       // call window.fitTDE() in the browser console to zoom in and

@@ -2813,6 +2813,20 @@
       },
       "bio": "Robert Barnett, known as T-Mo Goodie, is an American rapper and member of Goodie Mob and the Dungeon Family from Atlanta. He contributed to Goodie Mob's debut Soul Food (1995) and has collaborated widely within the Dungeon Family network.",
       "weight": 2
+    },
+    {
+      "id": "9th-wonder",
+      "name": "9th Wonder",
+      "era": "2000s",
+      "region": "South",
+      "label": "Independent",
+      "role": "producer",
+      "metadata": {
+        "wikidataId": "Q384710",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/9th_Wonder"
+      },
+      "bio": "Patrick Douthit (born November 15, 1975), known professionally as 9th Wonder, is an American record producer and DJ from Winston-Salem, North Carolina. A founding member of hip-hop group Little Brother, he is widely respected for his soulful, sample-based production and has worked with J. Cole, Kendrick Lamar, Jay-Z, Destiny's Child, and Nas.",
+      "weight": 6
     }
   ],
   "relationships": [
@@ -7075,8 +7089,8 @@
     },
     {
       "id": "rel_gu02",
-      "source": "tony-yayo",
-      "target": "50-cent",
+      "source": "50-cent",
+      "target": "tony-yayo",
       "type": "mentorship",
       "subtype": "signed_to",
       "strength": 0.95,
@@ -9547,6 +9561,105 @@
         "itunes_track_id": 1601319363,
         "release_year": 2021,
         "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/de/72/bb/de72bb45-bf5a-a0fe-72a5-0cb4763d3bf2/mzaf_6195180198020464502.plus.aac.p.m4a"
+      },
+      "has_audio": true
+    },
+    {
+      "id": "rel_gu09",
+      "source": "lloyd-banks",
+      "target": "50-cent",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2002,
+      "sources": [
+        "https://en.wikipedia.org/wiki/G-Unit"
+      ]
+    },
+    {
+      "id": "rel_gu10",
+      "source": "tony-yayo",
+      "target": "50-cent",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2002,
+      "sources": [
+        "https://en.wikipedia.org/wiki/G-Unit"
+      ]
+    },
+    {
+      "id": "rel_137",
+      "source": "nicki-minaj",
+      "target": "lil-wayne",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2009,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Young_Money_Entertainment"
+      ]
+    },
+    {
+      "id": "rel_138",
+      "source": "kanye-west",
+      "target": "nicki-minaj",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2010,
+      "label": "Monster (2010)",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Monster_(Kanye_West_song)"
+      ],
+      "audio_metadata": {
+        "track_name": "Monster (feat. JAŸ-Z, Rick Ross, Nicki Minaj & Bon Iver)",
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/40/92/fc/4092fce7-d6be-69e2-4e16-a1fd64426c88/mzaf_8948386197541827675.plus.aac.p.m4a",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/37/da/7c/37da7cc5-2b6f-9bb8-30ba-8a8c3be3e16a/00602527584973.rgb.jpg/100x100bb.jpg",
+        "itunes_track_id": 1445866454,
+        "release_year": 2010,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/40/92/fc/4092fce7-d6be-69e2-4e16-a1fd64426c88/mzaf_8948386197541827675.plus.aac.p.m4a"
+      },
+      "has_audio": true
+    },
+    {
+      "id": "rel_139",
+      "source": "9th-wonder",
+      "target": "j-cole",
+      "type": "mentorship",
+      "subtype": "influenced",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2007,
+      "label": "Soulful production mentorship — 9th Wonder inspired Cole's approach to sampling",
+      "sources": [
+        "https://en.wikipedia.org/wiki/J._Cole"
+      ]
+    },
+    {
+      "id": "rel_140",
+      "source": "9th-wonder",
+      "target": "jay-z",
+      "type": "collaborative",
+      "subtype": "produced_by",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2004,
+      "label": "Threat (2004)",
+      "sources": [
+        "https://en.wikipedia.org/wiki/The_Black_Album_(Jay-Z_album)"
+      ],
+      "audio_metadata": {
+        "track_name": "Threat",
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/08/bd/1a/08bd1ac0-4a53-a223-c426-130bd32876b2/mzaf_14650158811724375301.plus.aac.p.m4a",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/37/52/4a/37524afd-9ebf-2ff7-086c-845bd199aaa6/00602498611197.rgb.jpg/100x100bb.jpg",
+        "itunes_track_id": 1440632653,
+        "release_year": 2003,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/08/bd/1a/08bd1ac0-4a53-a223-c426-130bd32876b2/mzaf_14650158811724375301.plus.aac.p.m4a"
       },
       "has_audio": true
     }
