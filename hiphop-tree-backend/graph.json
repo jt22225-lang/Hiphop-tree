@@ -2827,6 +2827,250 @@
       },
       "bio": "Patrick Douthit (born November 15, 1975), known professionally as 9th Wonder, is an American record producer and DJ from Winston-Salem, North Carolina. A founding member of hip-hop group Little Brother, he is widely respected for his soulful, sample-based production and has worked with J. Cole, Kendrick Lamar, Jay-Z, Destiny's Child, and Nas.",
       "weight": 6
+    },
+    {
+      "id": "members-only",
+      "name": "Members Only",
+      "era": "2010s",
+      "region": "Florida",
+      "metadata": {
+        "culturalImpact": "Florida SoundCloud collective co-founded by XXXTentacion. Ground zero for the raw, lo-fi aesthetic that redefined hip-hop underground online.",
+        "wikidataId": "Q21507014",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Members_Only_(collective)"
+      },
+      "bio": "Members Only is a hip-hop collective founded in Pompano Beach, Florida by XXXTentacion. The group, which also included Ski Mask the Slump God and other Florida artists, became central to the SoundCloud rap movement of the mid-2010s.",
+      "weight": 4
+    },
+    {
+      "id": "g59-records",
+      "name": "G59 Records",
+      "era": "2010s",
+      "region": "New Orleans",
+      "metadata": {
+        "culturalImpact": "Record label co-founded by Ruby da Cherry and $crim of $uicideboy$. The dark aesthetic of G59 defined underground SoundCloud rap's most nihilistic corridor.",
+        "wikidataId": "Q56280165",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/G59_Records"
+      },
+      "bio": "G59 Records is an American record label founded by $uicideboy$ (Ruby da Cherry and $crim) in New Orleans. Known for their dark, lo-fi production and raw lyricism, G59 artists helped define underground SoundCloud rap.",
+      "weight": 4
+    },
+    {
+      "id": "sesh",
+      "name": "Sesh",
+      "era": "2010s",
+      "region": "East Coast",
+      "metadata": {
+        "culturalImpact": "Underground collective centered around Bones and producer TheGhostOfPop. Pioneered the aesthetic bridge between emo, cloud rap, and underground hip-hop.",
+        "wikidataId": "Q29953049",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Sesh_(collective)"
+      },
+      "bio": "Sesh is an underground hip-hop collective and record label centered around rapper Bones. Known for their DIY ethos and lo-fi aesthetic, Sesh blends elements of emo, cloud rap, and horror-influenced hip-hop.",
+      "weight": 3
+    },
+    {
+      "id": "raider-klan",
+      "name": "Raider Klan",
+      "era": "2010s",
+      "region": "Florida",
+      "metadata": {
+        "culturalImpact": "Florida collective co-founded by SpaceGhostPurrp that launched Denzel Curry's career. An early proving ground for the dark, trippy aesthetic of South Florida underground rap.",
+        "wikidataId": "Q7280893",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Raider_Klan"
+      },
+      "bio": "Raider Klan (also stylized RVIDXR KLVN) is a hip-hop collective from South Florida co-founded by SpaceGhostPurrp. Members included Denzel Curry, Chris Travis, and others who went on to define the underground SoundCloud rap aesthetic.",
+      "weight": 3
+    },
+    {
+      "id": "xxxtentacion",
+      "name": "XXXTentacion",
+      "era": "2010s",
+      "region": "Florida",
+      "metadata": {
+        "wikidataId": "Q30337666",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/XXXTentacion"
+      },
+      "bio": "Jahseh Dwayne Ricardo Onfroy (January 23, 1998 – June 18, 2018), known professionally as XXXTentacion, was an American rapper from Plantation, Florida. Co-founder of the Members Only collective, he became one of SoundCloud rap's most influential and controversial figures, blending hip-hop, emo, and punk on albums 17 (2017) and ? (2018).",
+      "weight": 8
+    },
+    {
+      "id": "ski-mask-the-slump-god",
+      "name": "Ski Mask the Slump God",
+      "era": "2010s",
+      "region": "Florida",
+      "metadata": {
+        "wikidataId": "Q30312782",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Ski_Mask_the_Slump_God"
+      },
+      "bio": "Stokeley Clevon Goulbourne (born April 18, 1996), known as Ski Mask the Slump God, is an American rapper from Pompano Beach, Florida. A co-founder of the Members Only collective alongside XXXTentacion, he is known for his energetic, rapid-fire flow.",
+      "weight": 5
+    },
+    {
+      "id": "wifisfuneral",
+      "name": "Wifisfuneral",
+      "era": "2010s",
+      "region": "Florida",
+      "metadata": {
+        "wikidataId": "Q30249116",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Wifisfuneral"
+      },
+      "bio": "Jordan Alexander Vidal (born December 31, 1996), known as Wifisfuneral, is an American rapper from West Palm Beach, Florida. A member of the Members Only collective, he blends emo rap and trap across projects like When Hell Falls (2018).",
+      "weight": 3
+    },
+    {
+      "id": "lil-peep",
+      "name": "Lil Peep",
+      "era": "2010s",
+      "region": "East Coast",
+      "metadata": {
+        "wikidataId": "Q29053484",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Lil_Peep"
+      },
+      "bio": "Gustav Elijah Åhr (November 1, 1996 – November 15, 2017), known as Lil Peep, was an American rapper and singer from Long Island, New York. A central figure in emo rap and cloud rap, he pioneered the fusion of punk, emo, and hip-hop on mixtapes Come Over When You're Sober (2017). He died at age 21 from a drug overdose.",
+      "weight": 7
+    },
+    {
+      "id": "juice-wrld",
+      "name": "Juice WRLD",
+      "era": "2010s",
+      "region": "Chicago",
+      "metadata": {
+        "wikidataId": "Q55836431",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Juice_Wrld"
+      },
+      "bio": "Jarad Higgins (December 2, 1998 – December 8, 2019), known as Juice WRLD, was an American rapper and singer from Chicago, Illinois. His hit 'Lucid Dreams' (2018) became one of the defining tracks of the SoundCloud era, blending emo melodic rap with pop songcraft. He died at age 21.",
+      "weight": 8
+    },
+    {
+      "id": "trippie-redd",
+      "name": "Trippie Redd",
+      "era": "2010s",
+      "region": "Ohio",
+      "metadata": {
+        "wikidataId": "Q41626165",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Trippie_Redd"
+      },
+      "bio": "Michael Lamar White IV (born June 18, 1999), known as Trippie Redd, is an American rapper and singer from Canton, Ohio. A close collaborator of XXXTentacion, he helped define the emotional, melodic direction of SoundCloud rap with albums A Love Letter to You (2017) and Life's a Trip (2018).",
+      "weight": 6
+    },
+    {
+      "id": "lil-pump",
+      "name": "Lil Pump",
+      "era": "2010s",
+      "region": "Florida",
+      "metadata": {
+        "wikidataId": "Q27622432",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Lil_Pump"
+      },
+      "bio": "Gazzy Garcia (born August 17, 2000), known as Lil Pump, is an American rapper from Miami, Florida. His viral single 'Gucci Gang' (2017) became one of the fastest-growing SoundCloud tracks ever, exemplifying the minimal, bass-heavy mumble rap aesthetic.",
+      "weight": 5
+    },
+    {
+      "id": "smokepurpp",
+      "name": "Smokepurpp",
+      "era": "2010s",
+      "region": "Florida",
+      "metadata": {
+        "wikidataId": "Q30337611",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Smokepurpp"
+      },
+      "bio": "Omar Jeffery Pineiro (born May 15, 1997), known as Smokepurpp, is an American rapper from Miami, Florida. A childhood friend and collaborator of Lil Pump, he rose alongside the SoundCloud movement with his debut single 'Audi' (2017).",
+      "weight": 4
+    },
+    {
+      "id": "lil-yachty",
+      "name": "Lil Yachty",
+      "era": "2010s",
+      "region": "Atlanta",
+      "metadata": {
+        "wikidataId": "Q24258800",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Lil_Yachty"
+      },
+      "bio": "Miles Parks McCollum (born August 23, 1997), known as Lil Yachty, is an American rapper from Atlanta, Georgia. A leading figure of the 2016 SoundCloud generation, he gained viral attention with 'One Night' before Drake and Quality Control amplified his profile.",
+      "weight": 5
+    },
+    {
+      "id": "suicideboys",
+      "name": "$uicideboy$",
+      "era": "2010s",
+      "region": "New Orleans",
+      "metadata": {
+        "wikidataId": "Q18635327",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/$uicideboy$"
+      },
+      "bio": "$uicideboy$ are an American hip-hop duo from New Orleans, consisting of cousins Ruby da Cherry and $crim. Co-founders of G59 Records, they are known for blending Memphis rap, Three 6 Mafia influences, and punk aesthetics in a dark, lo-fi style across prolific self-released projects.",
+      "weight": 6
+    },
+    {
+      "id": "bones",
+      "name": "Bones",
+      "era": "2010s",
+      "region": "East Coast",
+      "metadata": {
+        "wikidataId": "Q29954498",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Bones_(rapper)"
+      },
+      "bio": "Elmo Kennedy O'Connor (born January 22, 1994), known as Bones, is an American rapper and producer from Howell, Michigan. Founder and central figure of the Sesh collective, he pioneered cloud rap and dark emo hip-hop with an extraordinarily prolific output of self-produced mixtapes.",
+      "weight": 5
+    },
+    {
+      "id": "denzel-curry",
+      "name": "Denzel Curry",
+      "era": "2010s",
+      "region": "Florida",
+      "metadata": {
+        "wikidataId": "Q20820764",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Denzel_Curry"
+      },
+      "bio": "Denzel Rae Donald Curry (born February 16, 1995) is an American rapper from Carol City, Florida. An early member of Raider Klan alongside SpaceGhostPurrp and a childhood friend of XXXTentacion, he evolved from SoundCloud underground roots to critical acclaim with Taboo (2016), TA13OO (2018), and Melt My Eyez See Your Future (2022).",
+      "weight": 7
+    },
+    {
+      "id": "post-malone",
+      "name": "Post Malone",
+      "era": "2010s",
+      "region": "South",
+      "metadata": {
+        "wikidataId": "Q23835517",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Post_Malone"
+      },
+      "bio": "Austin Richard Post (born July 4, 1995), known as Post Malone, is an American rapper and singer from Syracuse, New York. His 2015 SoundCloud debut 'White Iverson' went viral and launched one of hip-hop's biggest crossover careers, leading to 'Rockstar' (2017, feat. 21 Savage) and 'Sunflower' (2018).",
+      "weight": 8
+    },
+    {
+      "id": "playboi-carti",
+      "name": "Playboi Carti",
+      "era": "2010s",
+      "region": "Atlanta",
+      "metadata": {
+        "wikidataId": "Q30338129",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Playboi_Carti"
+      },
+      "bio": "Jordan Terrell Carter (born September 13, 1996), known as Playboi Carti, is an American rapper from Atlanta. His self-titled debut and 'Magnolia' (2017) became touchstones of the SoundCloud rap movement; ASAP Rocky signed him to AWGE before his career exploded with Whole Lotta Red (2020).",
+      "weight": 7
+    },
+    {
+      "id": "lil-uzi-vert",
+      "name": "Lil Uzi Vert",
+      "era": "2010s",
+      "region": "East Coast",
+      "metadata": {
+        "wikidataId": "Q20837466",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Lil_Uzi_Vert"
+      },
+      "bio": "Symere Bysil Woods (born July 31, 1994), known as Lil Uzi Vert, is an American rapper from Philadelphia, Pennsylvania. 'XO Tour Llif3' (2017) became one of the fastest-certified Diamond songs in history, fusing emo rock influences with trap production and cementing the SoundCloud sound as the global pop standard.",
+      "weight": 8
+    },
+    {
+      "id": "kodak-black",
+      "name": "Kodak Black",
+      "era": "2010s",
+      "region": "Florida",
+      "metadata": {
+        "wikidataId": "Q21506918",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Kodak_Black"
+      },
+      "bio": "Bill Kahan Kapri (born June 11, 1997), known as Kodak Black, is an American rapper from Pompano Beach, Florida. He rose through Florida's regional trap scene with 'No Flockin' (2014) and 'Tunnel Vision' (2017), representing the same South Florida SoundCloud corridor as XXXTentacion and Ski Mask.",
+      "weight": 5
     }
   ],
   "relationships": [
@@ -9662,6 +9906,502 @@
         "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/08/bd/1a/08bd1ac0-4a53-a223-c426-130bd32876b2/mzaf_14650158811724375301.plus.aac.p.m4a"
       },
       "has_audio": true
+    },
+    {
+      "id": "rel_141",
+      "source": "xxxtentacion",
+      "target": "members-only",
+      "type": "collective",
+      "subtype": "co_founded",
+      "strength": 0.95,
+      "verified": true,
+      "year": 2013,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Members_Only_(collective)"
+      ]
+    },
+    {
+      "id": "rel_142",
+      "source": "ski-mask-the-slump-god",
+      "target": "members-only",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2014,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Members_Only_(collective)"
+      ]
+    },
+    {
+      "id": "rel_143",
+      "source": "wifisfuneral",
+      "target": "members-only",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2015,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Members_Only_(collective)"
+      ]
+    },
+    {
+      "id": "rel_144",
+      "source": "members-only",
+      "target": "xxxtentacion",
+      "type": "collective",
+      "subtype": "co_founded",
+      "strength": 0.95,
+      "verified": true,
+      "year": 2013,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Members_Only_(collective)"
+      ]
+    },
+    {
+      "id": "rel_145",
+      "source": "members-only",
+      "target": "ski-mask-the-slump-god",
+      "type": "collective",
+      "subtype": "signed_to",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2014,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Members_Only_(collective)"
+      ]
+    },
+    {
+      "id": "rel_146",
+      "source": "members-only",
+      "target": "wifisfuneral",
+      "type": "collective",
+      "subtype": "signed_to",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2015,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Members_Only_(collective)"
+      ]
+    },
+    {
+      "id": "rel_147",
+      "source": "xxxtentacion",
+      "target": "ski-mask-the-slump-god",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.95,
+      "verified": true,
+      "year": 2017,
+      "label": "Look At Me! (2017)",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Look_at_Me!_(song)"
+      ],
+      "audio_metadata": {
+        "track_name": "Look At Me!",
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/27/09/d3/2709d363-bb24-7f8f-6773-dafb414615e7/mzaf_7177098228200651352.plus.aac.p.m4a",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/70/aa/87/70aa8723-81da-ca48-c395-ab1cb19bbc9b/888915347232_cover.jpg/100x100bb.jpg",
+        "itunes_track_id": 1208724643,
+        "release_year": 2017,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/27/09/d3/2709d363-bb24-7f8f-6773-dafb414615e7/mzaf_7177098228200651352.plus.aac.p.m4a"
+      },
+      "has_audio": true
+    },
+    {
+      "id": "rel_148",
+      "source": "lil-peep",
+      "target": "xxxtentacion",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2018,
+      "label": "Falling Down (2018)",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Falling_Down_(Lil_Peep_and_XXXTENTACION_song)"
+      ]
+    },
+    {
+      "id": "rel_149",
+      "source": "juice-wrld",
+      "target": "xxxtentacion",
+      "type": "mentorship",
+      "subtype": "influenced",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2018,
+      "label": "Lucid Dreams (2018)",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Juice_Wrld"
+      ],
+      "audio_metadata": {
+        "track_name": "Lucid Dreams",
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/97/45/24/9745248c-c488-c47b-6f74-b9492d1fd807/mzaf_16311560952471221231.plus.aac.p.m4a",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/07/2b/a4/072ba4fa-7f4c-f478-6f22-13f9e62ac1be/21UMGIM53733.rgb.jpg/100x100bb.jpg",
+        "itunes_track_id": 1571797456,
+        "release_year": 2017,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d3/e0/f9/d3e0f9dd-3a1a-025f-2799-92553f3b14aa/mzaf_7527121542508428794.plus.aac.p.m4a"
+      },
+      "has_audio": true
+    },
+    {
+      "id": "rel_150",
+      "source": "juice-wrld",
+      "target": "lil-peep",
+      "type": "mentorship",
+      "subtype": "influenced",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2018,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Juice_Wrld"
+      ]
+    },
+    {
+      "id": "rel_151",
+      "source": "trippie-redd",
+      "target": "xxxtentacion",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2017,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Trippie_Redd"
+      ]
+    },
+    {
+      "id": "rel_152",
+      "source": "trippie-redd",
+      "target": "juice-wrld",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2018,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Trippie_Redd"
+      ]
+    },
+    {
+      "id": "rel_153",
+      "source": "lil-pump",
+      "target": "smokepurpp",
+      "type": "collaborative",
+      "subtype": "co_founded",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2016,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Smokepurpp"
+      ]
+    },
+    {
+      "id": "rel_154",
+      "source": "smokepurpp",
+      "target": "lil-pump",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2016,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Smokepurpp"
+      ]
+    },
+    {
+      "id": "rel_155",
+      "source": "lil-yachty",
+      "target": "lil-pump",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2017,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Lil_Yachty"
+      ]
+    },
+    {
+      "id": "rel_156",
+      "source": "lil-yachty",
+      "target": "drake",
+      "type": "mentorship",
+      "subtype": "discovered_by",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2016,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Lil_Yachty"
+      ]
+    },
+    {
+      "id": "rel_157",
+      "source": "kodak-black",
+      "target": "gucci-mane",
+      "type": "mentorship",
+      "subtype": "influenced",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2014,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Kodak_Black"
+      ]
+    },
+    {
+      "id": "rel_158",
+      "source": "xxxtentacion",
+      "target": "kodak-black",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.75,
+      "verified": true,
+      "year": 2016,
+      "sources": [
+        "https://en.wikipedia.org/wiki/XXXTentacion"
+      ]
+    },
+    {
+      "id": "rel_159",
+      "source": "suicideboys",
+      "target": "g59-records",
+      "type": "collective",
+      "subtype": "co_founded",
+      "strength": 0.95,
+      "verified": true,
+      "year": 2014,
+      "sources": [
+        "https://en.wikipedia.org/wiki/G59_Records"
+      ]
+    },
+    {
+      "id": "rel_160",
+      "source": "g59-records",
+      "target": "suicideboys",
+      "type": "collective",
+      "subtype": "co_founded",
+      "strength": 0.95,
+      "verified": true,
+      "year": 2014,
+      "sources": [
+        "https://en.wikipedia.org/wiki/G59_Records"
+      ]
+    },
+    {
+      "id": "rel_161",
+      "source": "bones",
+      "target": "sesh",
+      "type": "collective",
+      "subtype": "co_founded",
+      "strength": 0.95,
+      "verified": true,
+      "year": 2012,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Sesh_(collective)"
+      ]
+    },
+    {
+      "id": "rel_162",
+      "source": "sesh",
+      "target": "bones",
+      "type": "collective",
+      "subtype": "co_founded",
+      "strength": 0.95,
+      "verified": true,
+      "year": 2012,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Sesh_(collective)"
+      ]
+    },
+    {
+      "id": "rel_163",
+      "source": "denzel-curry",
+      "target": "raider-klan",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Denzel_Curry"
+      ]
+    },
+    {
+      "id": "rel_164",
+      "source": "raider-klan",
+      "target": "denzel-curry",
+      "type": "collective",
+      "subtype": "co_founded",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2012,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Raider_Klan"
+      ]
+    },
+    {
+      "id": "rel_165",
+      "source": "denzel-curry",
+      "target": "xxxtentacion",
+      "type": "mentorship",
+      "subtype": "influenced",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2013,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Denzel_Curry"
+      ]
+    },
+    {
+      "id": "rel_166",
+      "source": "suicideboys",
+      "target": "lil-peep",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.75,
+      "verified": true,
+      "year": 2017,
+      "sources": [
+        "https://en.wikipedia.org/wiki/$uicideboy$"
+      ]
+    },
+    {
+      "id": "rel_167",
+      "source": "lil-uzi-vert",
+      "target": "playboi-carti",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2017,
+      "label": "Magnolia (2017)",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Magnolia_(Playboi_Carti_song)"
+      ]
+    },
+    {
+      "id": "rel_168",
+      "source": "lil-uzi-vert",
+      "target": "asap-rocky",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2017,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Lil_Uzi_Vert"
+      ]
+    },
+    {
+      "id": "rel_169",
+      "source": "post-malone",
+      "target": "21-savage",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2017,
+      "label": "Rockstar (2017)",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Rockstar_(Post_Malone_song)"
+      ],
+      "audio_metadata": {
+        "track_name": "rockstar (feat. 21 Savage)",
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/22/37/94/223794d5-e415-e646-a1c6-a52f178f9c82/mzaf_4256851832513251175.plus.aac.p.m4a",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/55/9f/fb/559ffb75-3c00-abd6-7b1f-8b6b1518b173/18UMGIM22101.rgb.jpg/100x100bb.jpg",
+        "itunes_track_id": 1373506170,
+        "release_year": 2017,
+        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/22/37/94/223794d5-e415-e646-a1c6-a52f178f9c82/mzaf_4256851832513251175.plus.aac.p.m4a"
+      },
+      "has_audio": true
+    },
+    {
+      "id": "rel_170",
+      "source": "playboi-carti",
+      "target": "asap-rocky",
+      "type": "mentorship",
+      "subtype": "signed_to",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2017,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Playboi_Carti"
+      ]
+    },
+    {
+      "id": "rel_171",
+      "source": "lil-uzi-vert",
+      "target": "xxxtentacion",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2017,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Lil_Uzi_Vert"
+      ]
+    },
+    {
+      "id": "rel_172",
+      "source": "lil-uzi-vert",
+      "target": "young-thug",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2017,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Lil_Uzi_Vert"
+      ]
+    },
+    {
+      "id": "rel_173",
+      "source": "post-malone",
+      "target": "kanye-west",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.75,
+      "verified": true,
+      "year": 2018,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Post_Malone"
+      ]
+    },
+    {
+      "id": "rel_174",
+      "source": "juice-wrld",
+      "target": "future",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2019,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Juice_Wrld"
+      ],
+      "audio_metadata": {
+        "track_name": "Fine China",
+        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/7e/0f/f6/7e0ff6d5-7fa8-086a-6738-47d5bffa8e8e/mzaf_13193916020098007440.plus.aac.p.m4a",
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/75/9b/af/759baf5f-f3c9-b8c7-d3cf-55a3079914b9/18UMGIM24792.rgb.jpg/100x100bb.jpg",
+        "itunes_track_id": 1447177630,
+        "release_year": 2017
+      },
+      "has_audio": true,
+      "label": "Fine China (2019)"
+    },
+    {
+      "id": "rel_175",
+      "source": "denzel-curry",
+      "target": "kendrick-lamar",
+      "type": "mentorship",
+      "subtype": "influenced",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2016,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Denzel_Curry"
+      ]
     }
   ],
   "collectives": [
@@ -10012,6 +10752,36 @@
         "khujo",
         "t-mo",
         "killer-mike"
+      ]
+    },
+    {
+      "id": "members-only",
+      "name": "Members Only",
+      "members": [
+        "xxxtentacion",
+        "ski-mask-the-slump-god",
+        "wifisfuneral"
+      ]
+    },
+    {
+      "id": "g59-records",
+      "name": "G59 Records",
+      "members": [
+        "suicideboys"
+      ]
+    },
+    {
+      "id": "sesh",
+      "name": "Sesh",
+      "members": [
+        "bones"
+      ]
+    },
+    {
+      "id": "raider-klan",
+      "name": "Raider Klan",
+      "members": [
+        "denzel-curry"
       ]
     }
   ]
