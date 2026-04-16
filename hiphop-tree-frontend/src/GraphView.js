@@ -950,7 +950,8 @@ export default function GraphView({
 
       // Fit the full epoch ring system with 150px breathing room
       cy.fit(undefined, 150);
-      // Phase 24: final zoom re-arm after initial render completes
+      // Ensure the viewport isn't programmatically frozen after layout settles
+      cy.autolock(false);
       cy.userZoomingEnabled(true);
 
       // ── Console helpers ─────────────────────────────────────
