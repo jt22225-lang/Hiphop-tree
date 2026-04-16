@@ -44,9 +44,9 @@ const ERA_COLORS = {
   default: '#6b7280',
 };
 
-const MIN_SIZE     = 60;   // Phase 8: galaxy visibility floor
-const MAX_SIZE     = 90;   // slightly wider range to compensate for higher floor
-const LEGEND_BOOST = 20;   // legends = 80–110px; hubs = 120px (overridden in getSize)
+const MIN_SIZE     = 100;  // Phase 9: bolder nodes — 100px floor for all artists
+const MAX_SIZE     = 120;  // legends/top-degree nodes reach 140px (100+BOOST)
+const LEGEND_BOOST = 20;   // legends = 120–140px; hubs fixed at 120px in getSize
 
 // ── Producer Perimeter ───────────────────────────────────────
 // All nodes that are Legends OR have role='producer' get locked
@@ -372,17 +372,17 @@ export default function GraphView({
       // Year-based visibility on initial render
       const withinYear      = activeYear == null || !r.year || r.year <= activeYear;
 
-      // ── Phase 8: type-based edge widths ──────────────────
-      // member_of/mentorship: 6px — structural bonds need visible weight
-      // collaborative: 4px — creative links, slightly lighter
-      // collective/familial: scaled by strength
+      // ── Phase 9: type-based edge widths ──────────────────
+      // member_of/mentorship: 10px — structural bonds, heavy rope
+      // collaborative: 8px — creative links, still prominent
+      // collective/familial: scaled by strength, min 4px
       const edgeWidth = r.subtype === 'member_of'
-        ? 6
+        ? 10
         : r.type === 'mentorship'
-          ? 6
+          ? 10
           : r.type === 'collaborative'
-            ? 4
-            : Math.max(2, r.strength * (isLegendEdge ? 5 : 3));
+            ? 8
+            : Math.max(4, r.strength * (isLegendEdge ? 8 : 5));
 
       // Edge label: use explicit label field if present, otherwise derive from subtype
       const edgeLabel = r.label || r.subtype?.replace(/_/g, ' ');
@@ -519,7 +519,9 @@ export default function GraphView({
         {
           selector: 'node[?isHub]',
           style: {
-            'border-width':         4,
+            'border-width':         5,           // Phase 9: 5px gold border
+            'border-color':         LEGEND_GOLD, // gold frame = label identity
+            'border-opacity':       1,
             'border-style':         'solid',
             'font-weight':          700,
             'text-outline-width':   3,
@@ -661,16 +663,17 @@ export default function GraphView({
             'line-color':              'data(color)',
             'target-arrow-color':      'data(color)',
             'target-arrow-shape':      'triangle',
-            'arrow-scale':             0.8,
+            'arrow-scale':             1.2,
             'curve-style':             'bezier',
             'width':                   'data(width)',
             'opacity':                 0.55,
             'label':                   'data(label)',
-            'font-size':               9,
-            'color':                   '#999999',
-            'text-background-color':   '#0a0a0a',
-            'text-background-opacity': 0.7,
-            'text-background-padding': '2px',
+            'font-size':               24,  // Phase 9: legible at galaxy scale
+            'font-weight':             600,
+            'color':                   '#e0e0e0',
+            'text-background-color':   '#000000',
+            'text-background-opacity': 0.8,  // solid black box behind label text
+            'text-background-padding': '4px',
             'text-rotation':           'autorotate',
           }
         },
@@ -688,7 +691,7 @@ export default function GraphView({
         {
           selector: 'edge[?hasAudio]',
           style: {
-            'width':           6,
+            'width':           14,  // Phase 9: stays above 10px mentor baseline
             'line-style':      'solid',
             'shadow-blur':     15,
             'shadow-color':    '#FF8C00',
@@ -772,7 +775,15 @@ export default function GraphView({
         if (edge.data('type') === 'collective') return 70;
         return edge.data('type') === 'mentorship' ? MENTORSHIP_EDGE_LEN : COLLAB_EDGE_LEN;
       },
-      nodeWeight:           node => LEGEND_IDS.has(node.id()) ? 8 : 1,
+      // Hub nodes (collectiveIds) get mass=10 so they anchor their cluster.
+      // Perimeter nodes (PRODUCER_PERIMETER_IDS) get mass=8 — they're already
+      // locked in position, the high weight reinforces them as gravity wells.
+      nodeWeight: node => {
+        const id = node.id();
+        if (collectiveIds.has(id)) return 10;
+        if (PRODUCER_PERIMETER_IDS.has(id)) return 8;
+        return 1;
+      },
       randomize:            false,
       avoidOverlap:         true,
       handleDisconnected:   true,
@@ -784,16 +795,14 @@ export default function GraphView({
       (data.collectives?.find(c => c.id === 'tde')?.members) || []
     );
 
-    // ── Unlock + fit once physics has fully settled ───────────
+    // ── Lock + fit once physics has fully settled ────────────
+    // Phase 9: perimeter nodes STAY LOCKED after layout — they're
+    // permanently pinned to the outer ring. The dragstart handler
+    // unlocks any node the user explicitly grabs, giving full freedom
+    // when needed while keeping the decagon intact by default.
     layout.on('layoutstop', () => {
-      // Unlock all perimeter nodes — freely draggable after layout
-      if (perimeterCount > 0) {
-        cy.nodes().forEach(node => {
-          if (perimeterSet.has(node.id())) node.unlock();
-        });
-      }
-      // Fit the whole graph
-      cy.fit(undefined, 20);
+      // Fit the whole graph (padding: 30px for a tighter fill)
+      cy.fit(undefined, 30);
 
       // Expose a TDE cluster-fit helper on the window so you can
       // call window.fitTDE() in the browser console to zoom in and
@@ -926,26 +935,31 @@ export default function GraphView({
     });
 
     // ── Zoom-responsive node scaling ──────────────────────────
-    // At galaxy zoom (z < 0.5), model-space nodes shrink to tiny dots.
-    // This handler inflates model-space width to maintain a floor
-    // rendered screen size — like a label printer that compensates
-    // for distance: the further you pull back, the bigger the text.
+    // Phase 9 formula: target model-size = max(100, 150 / zoom)
     //
-    // Formula: modelSize = baseSize × max(1, 0.5 / zoom)
-    //   z=0.5 → factor=1.0 (no change, nodes at full model size)
-    //   z=0.2 → factor=2.5 (nodes 2.5× bigger in model = same screen px)
-    //   z=1.0 → factor=1.0 (zoomed in, no inflation needed)
+    // This means every node's model-space size is inflated so it
+    // RENDERS at a minimum of ~150px on-screen regardless of how far
+    // the user zooms out. Relative proportions (hubs > legends > artists)
+    // are preserved by scaling proportionally from each node's base size.
+    //
+    //   z=1.0  → target=150 → base-100 nodes appear ~150px  (1.5×)
+    //   z=0.5  → target=300 → base-100 nodes appear ~150px  (3×)
+    //   z=0.1  → target=1500 (capped at 10× base)           (floor: 100)
+    //   z=0.05 → floor: max(100, 3000) capped at 10× base
     let zoomRaf = null;
     cy.on('zoom', () => {
       if (zoomRaf) return;  // throttle to one pass per animation frame
       zoomRaf = requestAnimationFrame(() => {
         zoomRaf = null;
         const z = Math.max(0.05, cy.zoom());
-        const factor = Math.min(4, Math.max(1, 0.5 / z));
-        if (factor === 1) return;  // nothing to do when zoomed in
+        // targetSize = max(100, 150/z) model units
+        const targetSize = Math.max(100, 150 / z);
         cy.nodes().forEach(node => {
           const base = node.data('size');
-          node.style({ width: base * factor, height: base * factor });
+          // Scale proportionally: each node tracks the same target ratio
+          // Cap at 10× so absurdly deep zoom-out stays sane
+          const newSize = Math.min(base * 10, Math.max(base, targetSize * (base / 100)));
+          node.style({ width: newSize, height: newSize });
         });
       });
     });
