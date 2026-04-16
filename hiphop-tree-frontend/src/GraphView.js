@@ -418,13 +418,12 @@ export default function GraphView({
     // zoom the camera out to show the full ring — so the bigger
     // this number, the more the outer ring dominates the view.
     //
-    // ── Phase 13: Oval Warden Ring ───────────────────────────
-    // An ellipse instead of a circle: wide on X (4500px), compressed
-    // on Y (1500px) to match MacBook widescreen proportions.
-    // Total bounding box ≈ 9000×3000px — the cola flow+fit will zoom
-    // the camera to show the full oval comfortably.
-    const RING_X = 4500;
-    const RING_Y = 1500;
+    // ── Phase 15: Diamond Perimeter ──────────────────────────
+    // Tall ellipse: narrow on X (3000px), extended on Y (4500px).
+    // Bounding box ≈ 6000×9000px — portrait orientation forces the
+    // map to use vertical space and creates the diamond silhouette.
+    const RING_X = 3000;
+    const RING_Y = 4500;
 
     const perimeterIds  = elements
       .filter(el => el.data?.isProducer && !el.data?.source)
@@ -755,24 +754,21 @@ export default function GraphView({
       convergenceThreshold: 0.003,
       fit:                  false,   // we call fit() manually on layoutstop
       padding:              60,
-      // Phase 13: horizontal flow — engine prioritises X spreading.
-      // minSeparation:200 guarantees at least 200px between nodes on the x-axis.
-      flow:                 { axis: 'x', minSeparation: 200 },
-      // 350px repulsion pushes the stars apart to fill the full oval width.
-      nodeSpacing:          350,
-      // Near-zero gravity — clusters float freely, no huddling at origin.
-      gravity:              5,
+      // Phase 15: no flow axis — full 360° expansion in all directions.
+      // nodeSpacing=80 lets rappers huddle in the power core;
+      // gravity=45 pulls them tightly toward the centre of mass.
+      nodeSpacing:          80,
+      gravity:              45,
       edgeLength: edge => {
         const src = edge.source().id();
         const tgt = edge.target().id();
-        // Elastic tether to oval ring — 600px leash, producer stays locked.
-        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 600;
-        // Cluster cohesion — keep collective springs tight.
+        // Producer tether: long beam from inner core to outer diamond ring.
+        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 200;
+        // Cluster cohesion — member_of springs must stay tight.
         if (edge.data('subtype') === 'member_of') return 55;
         if (edge.data('type') === 'collective') return 70;
-        // Phase 13: all other inner edges at 150px — medium tether,
-        // enough separation for legible labels at full zoom-out.
-        return 150;
+        // All other inner edges: 200px — uniform arc tension.
+        return 200;
       },
       // Phase 11 nodeWeight — acts as mass in the Cola physics sim:
       //   Hub nodes (Griselda, Roc-A-Fella, TDE…) → mass 20: heaviest
@@ -821,12 +817,21 @@ export default function GraphView({
 
       // ── Console helpers ─────────────────────────────────────
       // window.resetLayout() — re-run cola from current positions
-      window.resetLayout = () => cy.layout({
-        name: 'cola', animate: true, animationDuration: 1200,
-        fit: false, nodeSpacing: 350, gravity: 5,
-        flow: { axis: 'x', minSeparation: 200 },
-        maxSimulationTime: 5000, avoidOverlap: true,
-      }).run();
+      window.resetLayout = () => {
+        cy.layout({
+          name: 'cola', animate: true, animationDuration: 1200,
+          fit: false, nodeSpacing: 80, gravity: 45,
+          maxSimulationTime: 5000, avoidOverlap: true,
+          edgeLength: e => {
+            const s = e.source().id(), t = e.target().id();
+            if (PRODUCER_PERIMETER_IDS.has(s) || PRODUCER_PERIMETER_IDS.has(t)) return 200;
+            if (e.data('subtype') === 'member_of') return 55;
+            if (e.data('type') === 'collective') return 70;
+            return 200;
+          },
+        }).run();
+        setTimeout(() => cy.fit(undefined, 100), 2000);
+      };
 
       window.fitTDE = () => {
         const tdeNodes = cy.nodes().filter(n => tdeMemberIds.has(n.id()));
