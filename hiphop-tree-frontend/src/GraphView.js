@@ -777,6 +777,11 @@ export default function GraphView({
 
       userZoomingEnabled: true,
       userPanningEnabled: true,
+
+      // Phase 21: smooth wheel zoom (0.15 prevents jitter at 240+ nodes)
+      wheelSensitivity: 0.15,
+      // Single-click selection — prevents ring proximity from triggering box-select
+      selectionType: 'single',
     });
 
     // ── Phase 12: Producer Perimeter Prison — initial stamp ──
@@ -934,12 +939,16 @@ export default function GraphView({
         });
       }
 
-      // Fit the 9000px-diameter circle with 120px breathing room
-      cy.fit(undefined, 120);
+      // Fit the full epoch ring system with 150px breathing room
+      cy.fit(undefined, 150);
 
       // ── Console helpers ─────────────────────────────────────
       // window.resetLayout() — re-run cola from current positions
       window.resetLayout = () => {
+        // Re-arm zoom/pan in case anything disabled them
+        cy.zoomingEnabled(true);
+        cy.userZoomingEnabled(true);
+        cy.userPanningEnabled(true);
         cy.layout({
           name: 'cola', animate: true, animationDuration: 1200,
           fit: false, nodeSpacing: 250, gravity: 60,
@@ -952,7 +961,7 @@ export default function GraphView({
             return 200;
           },
         }).run();
-        setTimeout(() => cy.fit(undefined, 120), 2000);
+        setTimeout(() => cy.fit(undefined, 150), 2000);
       };
 
       window.fitTDE = () => {

@@ -126,9 +126,10 @@ body {
   transition: padding-right 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ── Epoch Ring Overlay Canvas (Phase 20) ───────────────── */
-/* Sits above all Cytoscape canvas layers (z-index 10).      */
-/* pointer-events:none lets clicks fall through to the graph.*/
+/* ── Epoch Ring Background Canvas (Phase 20 / 21) ──────── */
+/* Sits BELOW all Cytoscape canvas layers (z-index 0).       */
+/* Cytoscape's internal canvases are transparent so the      */
+/* rings show through; mouse events hit Cytoscape directly.  */
 .epoch-rings-canvas {
   position: absolute;
   top: 0;
@@ -136,7 +137,7 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 10;
+  z-index: 0;
 }
 
 /* When sidebar is open, push the graph viewport left so edges stay visible */
