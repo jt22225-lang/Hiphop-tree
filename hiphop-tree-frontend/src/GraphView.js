@@ -1159,11 +1159,21 @@ export default function GraphView({
     const handleWheel = (e) => {
       e.preventDefault();
       e.stopPropagation();
-      const zoomFactor = e.deltaY > 0 ? 0.85 : 1.15;
-      cy.zoom({
-        level:            cy.zoom() * zoomFactor,
-        renderedPosition: { x: e.offsetX, y: e.offsetY },
-      });
+
+      // On Mac trackpads, pinch-to-zoom surfaces as a wheel event with ctrlKey=true.
+      // Two-finger scroll arrives with ctrlKey=false — pan instead of zoom.
+      if (e.ctrlKey || e.metaKey) {
+        // ZOOM — cursor-relative, natural-feel factor curve
+        const delta  = -e.deltaY;
+        const factor = Math.pow(1.2, delta * 0.005);
+        cy.zoom({
+          level:            cy.zoom() * factor,
+          renderedPosition: { x: e.offsetX, y: e.offsetY },
+        });
+      } else {
+        // PAN — two-finger scroll
+        cy.panBy({ x: -e.deltaX, y: -e.deltaY });
+      }
     };
 
     // capture:true → fires before Cytoscape's bubble-phase canvas listener
