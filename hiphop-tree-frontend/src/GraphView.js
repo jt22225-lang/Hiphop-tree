@@ -418,15 +418,14 @@ export default function GraphView({
     // zoom the camera out to show the full ring — so the bigger
     // this number, the more the outer ring dominates the view.
     //
-    // ── Phase 17: Void Perimeter — Four-Pole Mapping ─────────
-    // Producers cluster at four cardinal poles (±5000 on X, ±3500 on Y)
-    // with ±500px random jitter so they don't all stack on one point.
+    // ── Phase 18: Perfect Circular Ring ──────────────────────
+    // Full circle at radius 4500 — every producer gets a unique angle
+    // based on its index so they form a continuous, evenly-spaced ring
+    // with no stacking.
     //
-    //   Even index: x = sign·5000,  y = jitter  (East / West arms)
-    //   Odd  index: x = jitter,     y = sign·3500 (North / South arms)
-    //
-    // sign flips every two indices: ++−−++−− so producers spread
-    // across both poles of each arm rather than all on one side.
+    //   angle = (i / n) * 2π
+    //   x = 4500 · cos(angle)
+    //   y = 4500 · sin(angle)
 
     const perimeterIds  = elements
       .filter(el => el.data?.isProducer && !el.data?.source)
@@ -436,11 +435,11 @@ export default function GraphView({
 
     const perimeterPositions = {};
     perimeterIds.forEach((id, i) => {
-      const sign   = (Math.floor(i / 2) % 2 === 0) ? 1 : -1;
-      const jitter = () => (Math.random() - 0.5) * 1000;   // ±500px spread
-      perimeterPositions[id] = (i % 2 === 0)
-        ? { x: sign * 5000, y: jitter() }    // even → East/West pole + vertical spread
-        : { x: jitter(),    y: sign * 3500 }; // odd  → North/South pole + horizontal spread
+      const angle = (i / perimeterCount) * 2 * Math.PI;
+      perimeterPositions[id] = {
+        x: 4500 * Math.cos(angle),
+        y: 4500 * Math.sin(angle),
+      };
     });
 
     const cy = cytoscape({
@@ -809,8 +808,8 @@ export default function GraphView({
         });
       }
 
-      // Fit the void perimeter (±5000×±3500) with 200px breathing room
-      cy.fit(undefined, 200);
+      // Fit the 9000px-diameter circle with 120px breathing room
+      cy.fit(undefined, 120);
 
       // ── Console helpers ─────────────────────────────────────
       // window.resetLayout() — re-run cola from current positions
@@ -827,7 +826,7 @@ export default function GraphView({
             return 200;
           },
         }).run();
-        setTimeout(() => cy.fit(undefined, 200), 2000);
+        setTimeout(() => cy.fit(undefined, 120), 2000);
       };
 
       window.fitTDE = () => {
