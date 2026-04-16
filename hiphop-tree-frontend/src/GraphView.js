@@ -420,10 +420,11 @@ export default function GraphView({
     // zoom the camera out to show the full ring — so the bigger
     // this number, the more the outer ring dominates the view.
     //
-    // RADIUS_MODEL: 2500 units — Phase 11 wider orbit.
-    // Pushes producers further from the inner cluster so rapper nodes
-    // at edgeLength=400 from a producer sit comfortably mid-screen.
-    const RADIUS_MODEL = 2500;
+    // ── Phase 12: Producer Perimeter Prison ──────────────────
+    // RADIUS_MODEL = 3000: a 6000px-wide ring that places every
+    // producer far from the inner rapper cluster. Positions are
+    // calculated exactly as: x = R·cos(i·2π/n), y = R·sin(i·2π/n)
+    const RADIUS_MODEL = 3000;
 
     const perimeterIds  = elements
       .filter(el => el.data?.isProducer && !el.data?.source)
@@ -431,11 +432,10 @@ export default function GraphView({
     const perimeterSet   = new Set(perimeterIds);
     const perimeterCount = perimeterIds.length;
 
-    // Origin (0, 0) is the Cola centre of gravity — producers are
-    // evenly spaced around it, starting at the 12-o'clock position.
+    // Evenly space producers around the full circle starting at angle 0 (3-o'clock).
     const perimeterPositions = {};
     perimeterIds.forEach((id, i) => {
-      const angle = (2 * Math.PI * i) / perimeterCount - Math.PI / 2;
+      const angle = (2 * Math.PI * i) / perimeterCount;  // exact formula, no offset
       perimeterPositions[id] = {
         x: RADIUS_MODEL * Math.cos(angle),
         y: RADIUS_MODEL * Math.sin(angle),
@@ -718,34 +718,29 @@ export default function GraphView({
       userPanningEnabled: true,
     });
 
-    // ── Producer Perimeter — pin during physics, release after ──
-    // Strategy: lock() before the layout so Cola treats these nodes
-    // as immovable anchors on the outer ring. Once the layout fires
-    // 'layoutstop', we unlock() every perimeter node — restoring full
-    // drag freedom — then fit the camera to the settled graph.
-    //
-    // This is different from permanent lock(): the node IS draggable
-    // after load. On dragstart we also null any residual fx/fy data
-    // so nothing fights the user's pointer.
+    // ── Phase 12: Producer Perimeter Prison — initial stamp ──
+    // lock()      → Cola physics cannot move these nodes.
+    // ungrabify() → User pointer cannot grab or drag them.
+    // Both are required: lock() stops the engine; ungrabify() stops the hand.
     if (perimeterCount > 0) {
       cy.nodes().forEach(node => {
         const id = node.id();
         if (perimeterSet.has(id) && perimeterPositions[id]) {
           node.position(perimeterPositions[id]);
-          node.lock();   // Phase 9+: permanently locked on outer ring (dragstart unlocks for drag)
+          node.lock();
+          node.ungrabify();  // environmental anchor — not a draggable node
         }
       });
     }
 
-    // ── Draggability restore on drag-start ───────────────────
-    // Belt-and-suspenders: if any perimeter node is still locked
-    // when the user grabs it (e.g. layout still animating), unlock
-    // it immediately so the drag feels instant and natural.
+    // ── Drag-start handler for non-perimeter rapper nodes ────
+    // Perimeter nodes are ungrabified so dragstart never fires for them.
+    // For rapper nodes: clear any residual fx/fy Cola data so they
+    // move freely without snapping to a cached simulation position.
     cy.on('dragstart', 'node', evt => {
       const node = evt.target;
+      if (perimeterSet.has(node.id())) return;  // guard: should never reach here anyway
       if (node.locked()) node.unlock();
-      // Clear any fx/fy data cola may have stored so the node
-      // doesn't snap back to its original ring position.
       node.removeData('fx');
       node.removeData('fy');
     });
@@ -760,13 +755,20 @@ export default function GraphView({
       convergenceThreshold: 0.003,
       fit:                  false,   // we call fit() manually on layoutstop
       padding:              60,
-      nodeSpacing:          220,  // Phase 6: 4× repulsion force field around every node
+      // Phase 12: 150px rapper-rapper repulsion. Producers are on a fixed
+      // 3000px ring — the physical separation already acts as the outer
+      // force field. 150 keeps the inner cluster tight but not crushed.
+      nodeSpacing:          150,
       // Near-zero gravity — clusters drift freely to far corners.
       gravity:              30,
       edgeLength: edge => {
         const src = edge.source().id();
         const tgt = edge.target().id();
-        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 400;
+        // Phase 12: 600px elastic tether — a long, thin leash that lets
+        // the rapper node drift mid-screen while the producer anchor
+        // stays immovably on the 3000px ring. Since producers are locked,
+        // this spring only pulls the rapper outward, never the producer in.
+        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 600;
         if (LEGEND_IDS.has(src) || LEGEND_IDS.has(tgt)) return LEGEND_EDGE_LEN;
         // member_of edges act as tight springs — they pull collective
         // members into a cohesive cluster (half the normal collab length).
@@ -801,26 +803,24 @@ export default function GraphView({
       (data.collectives?.find(c => c.id === 'tde')?.members) || []
     );
 
-    // ── Absolute Perimeter Hard-Lock (Phase 11) ──────────────
-    // After Cola physics settles, re-stamp every perimeter node back
-    // to its exact ring position and re-lock it. This is the second
-    // enforcement pass — the first locked them BEFORE layout so Cola
-    // never moved them; this one ensures the post-animation state
-    // matches the intended ring even if animation jitter crept in.
-    // Dragstart still unlocks any node the user explicitly grabs.
+    // ── Phase 12: Prison Hard-Lock — second enforcement pass ─
+    // Re-stamp position + re-lock + re-ungrabify after Cola settles.
+    // Two-pass guarantee: before layout (engine can't move them) +
+    // after layout (camera-fit state confirmed, no animation drift).
     layout.on('layoutstop', () => {
       if (perimeterCount > 0) {
         cy.nodes().forEach(node => {
           const id = node.id();
           if (perimeterSet.has(id) && perimeterPositions[id]) {
-            node.position(perimeterPositions[id]);  // re-stamp to ring
-            node.lock();                             // re-assert lock
+            node.position(perimeterPositions[id]);
+            node.lock();
+            node.ungrabify();
           }
         });
       }
 
-      // Fit the whole map with a clean 60px border
-      cy.fit(undefined, 60);
+      // Fit the 6000px-wide prison into view with 100px breathing room
+      cy.fit(undefined, 100);
 
       // Expose a TDE cluster-fit helper on the window so you can
       // call window.fitTDE() in the browser console to zoom in and
