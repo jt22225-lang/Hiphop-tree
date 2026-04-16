@@ -420,10 +420,10 @@ export default function GraphView({
     // zoom the camera out to show the full ring — so the bigger
     // this number, the more the outer ring dominates the view.
     //
-    // RADIUS_MODEL: 2200 units places the ring at roughly 85% of
-    // the visible area once Cola fits the combined bounding box of
-    // inner artists (~300–600 units) + outer producers (~2200 units).
-    const RADIUS_MODEL = 2200;
+    // RADIUS_MODEL: 2500 units — Phase 11 wider orbit.
+    // Pushes producers further from the inner cluster so rapper nodes
+    // at edgeLength=400 from a producer sit comfortably mid-screen.
+    const RADIUS_MODEL = 2500;
 
     const perimeterIds  = elements
       .filter(el => el.data?.isProducer && !el.data?.source)
@@ -775,13 +775,19 @@ export default function GraphView({
         if (edge.data('type') === 'collective') return 70;
         return edge.data('type') === 'mentorship' ? MENTORSHIP_EDGE_LEN : COLLAB_EDGE_LEN;
       },
-      // Hub nodes (collectiveIds) get mass=10 so they anchor their cluster.
-      // Perimeter nodes (PRODUCER_PERIMETER_IDS) get mass=8 — they're already
-      // locked in position, the high weight reinforces them as gravity wells.
+      // Phase 11 nodeWeight — acts as mass in the Cola physics sim:
+      //   Hub nodes (Griselda, Roc-A-Fella, TDE…) → mass 20: heaviest
+      //     anchors in the graph; cluster members orbit around them.
+      //   Perimeter producers → mass 12: already locked to the ring,
+      //     high weight reinforces their role as outer gravity sinks.
+      //     Cola's "negative gravity" for producers is achieved by the
+      //     permanent lock + wide edgeLength=400 — the edge can stretch
+      //     freely outward without pulling the producer inward.
+      //   Rappers → mass 1: drift freely between their attractors.
       nodeWeight: node => {
         const id = node.id();
-        if (collectiveIds.has(id)) return 10;
-        if (PRODUCER_PERIMETER_IDS.has(id)) return 8;
+        if (collectiveIds.has(id)) return 20;
+        if (PRODUCER_PERIMETER_IDS.has(id)) return 12;
         return 1;
       },
       randomize:            false,
@@ -795,14 +801,26 @@ export default function GraphView({
       (data.collectives?.find(c => c.id === 'tde')?.members) || []
     );
 
-    // ── Lock + fit once physics has fully settled ────────────
-    // Phase 9: perimeter nodes STAY LOCKED after layout — they're
-    // permanently pinned to the outer ring. The dragstart handler
-    // unlocks any node the user explicitly grabs, giving full freedom
-    // when needed while keeping the decagon intact by default.
+    // ── Absolute Perimeter Hard-Lock (Phase 11) ──────────────
+    // After Cola physics settles, re-stamp every perimeter node back
+    // to its exact ring position and re-lock it. This is the second
+    // enforcement pass — the first locked them BEFORE layout so Cola
+    // never moved them; this one ensures the post-animation state
+    // matches the intended ring even if animation jitter crept in.
+    // Dragstart still unlocks any node the user explicitly grabs.
     layout.on('layoutstop', () => {
-      // Fit the whole map with a clean 50px border
-      cy.fit(undefined, 50);
+      if (perimeterCount > 0) {
+        cy.nodes().forEach(node => {
+          const id = node.id();
+          if (perimeterSet.has(id) && perimeterPositions[id]) {
+            node.position(perimeterPositions[id]);  // re-stamp to ring
+            node.lock();                             // re-assert lock
+          }
+        });
+      }
+
+      // Fit the whole map with a clean 60px border
+      cy.fit(undefined, 60);
 
       // Expose a TDE cluster-fit helper on the window so you can
       // call window.fitTDE() in the browser console to zoom in and
