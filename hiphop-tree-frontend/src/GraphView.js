@@ -44,9 +44,9 @@ const ERA_COLORS = {
   default: '#6b7280',
 };
 
-const MIN_SIZE     = 30;
-const MAX_SIZE     = 80;
-const LEGEND_BOOST = 28;
+const MIN_SIZE     = 60;   // Phase 8: galaxy visibility floor
+const MAX_SIZE     = 90;   // slightly wider range to compensate for higher floor
+const LEGEND_BOOST = 20;   // legends = 80–110px; hubs = 120px (overridden in getSize)
 
 // ── Producer Perimeter ───────────────────────────────────────
 // All nodes that are Legends OR have role='producer' get locked
@@ -58,6 +58,7 @@ const PRODUCER_PERIMETER_IDS = new Set([
   'havoc', 'q-tip', 'dj-quik', 'dj-muggs', 'daz-dillinger',
   'dj-mustard', 'swizz-beatz', 'hit-boy', 'kal-banx', 'dj-paul',
   'metro-boomin', 'organized-noize', '9th-wonder',
+  'daringer', 'beat-butcha',  // Griselda sonic architects
   // punch is already in LEGEND_IDS — listed here for clarity
 ]);
 
@@ -316,7 +317,15 @@ export default function GraphView({
       degrees[r.target] = (degrees[r.target] || 0) + 1;
     });
     const maxDeg = Math.max(...Object.values(degrees), 1);
+
+    // ── Collective hub identification ───────────────────────
+    // Any artist whose ID matches a collective ID is a hub node
+    // (e.g. 'griselda', 'tde', 'roc-a-fella') — rendered at 120px
+    // so the label cluster is instantly legible at any zoom level.
+    const collectiveIds = new Set((data.collectives || []).map(c => c.id));
+
     const getSize = id => {
+      if (collectiveIds.has(id)) return 120;   // collective hub: always big
       const base = Math.round(MIN_SIZE + ((degrees[id] || 0) / maxDeg) * (MAX_SIZE - MIN_SIZE));
       return LEGEND_IDS.has(id) ? base + LEGEND_BOOST : base;
     };
@@ -329,6 +338,7 @@ export default function GraphView({
       const isLegend   = a.isLegend === true || LEGEND_IDS.has(a.id);
       const isDeepCut  = deepCutIds?.has(a.id) || false;
       const isProducer = PRODUCER_PERIMETER_IDS.has(a.id);
+      const isHub      = collectiveIds.has(a.id);
       const weight     = a.weight ?? 1;
       elements.push({
         data: {
@@ -345,11 +355,12 @@ export default function GraphView({
           isLegend,
           isDeepCut,
           isProducer,
+          isHub,
           weight,
           role:       a.role || 'artist',
           // Font size scales with node weight so high-importance labels
           // stay readable even when the graph is zoomed out far.
-          fontSize:   isLegend ? 15 : Math.max(9, 9 + Math.round((weight / 10) * 4)),
+          fontSize:   isHub ? 14 : isLegend ? 15 : Math.max(9, 9 + Math.round((weight / 10) * 4)),
         }
       });
     });
@@ -360,16 +371,33 @@ export default function GraphView({
       const isMentorEdge    = r.type === 'mentorship';
       // Year-based visibility on initial render
       const withinYear      = activeYear == null || !r.year || r.year <= activeYear;
+
+      // ── Phase 8: type-based edge widths ──────────────────
+      // member_of/mentorship: 6px — structural bonds need visible weight
+      // collaborative: 4px — creative links, slightly lighter
+      // collective/familial: scaled by strength
+      const edgeWidth = r.subtype === 'member_of'
+        ? 6
+        : r.type === 'mentorship'
+          ? 6
+          : r.type === 'collaborative'
+            ? 4
+            : Math.max(2, r.strength * (isLegendEdge ? 5 : 3));
+
+      // Edge label: use explicit label field if present, otherwise derive from subtype
+      const edgeLabel = r.label || r.subtype?.replace(/_/g, ' ');
+
       elements.push({
         data: {
           id:            r.id,
           source:        r.source,
           target:        r.target,
           type:          r.type,
+          subtype:       r.subtype || null,
           year:          r.year || null,
-          label:         r.subtype?.replace(/_/g, ' '),
+          label:         edgeLabel,
           color:         TYPE_COLORS[r.type] || '#6b7280',
-          width:         Math.max(1.5, r.strength * (isLegendEdge ? 5 : 4)),
+          width:         edgeWidth,
           isLegendEdge,
           isMentorEdge,
           // Sonic Link: forward audio_metadata so tap handler can read it
@@ -436,7 +464,7 @@ export default function GraphView({
             'text-halign':            'center',
             'text-margin-y':          6,
             'text-outline-color':     '#000000',
-            'text-outline-width':     2,
+            'text-outline-width':     3,  // Phase 8: 3px stroke pops labels at galaxy zoom
             'border-width':           2,
             'border-color':           'data(color)',
             'border-opacity':         0.6,
@@ -482,6 +510,21 @@ export default function GraphView({
             'overlay-padding':     3,
             'overlay-opacity':     0,
             'z-index':             5,
+          }
+        },
+
+        // ── Collective Hub nodes — label plate for the cluster ─
+        // Larger disc (120px from data.size), bold label, always-visible
+        // text so the cluster name anchors the visual neighborhood.
+        {
+          selector: 'node[?isHub]',
+          style: {
+            'border-width':         4,
+            'border-style':         'solid',
+            'font-weight':          700,
+            'text-outline-width':   3,
+            'min-zoomed-font-size': 4,
+            'z-index':              8,
           }
         },
 
@@ -882,10 +925,36 @@ export default function GraphView({
       cy.elements().removeClass('hover-faded hover-highlighted');
     });
 
+    // ── Zoom-responsive node scaling ──────────────────────────
+    // At galaxy zoom (z < 0.5), model-space nodes shrink to tiny dots.
+    // This handler inflates model-space width to maintain a floor
+    // rendered screen size — like a label printer that compensates
+    // for distance: the further you pull back, the bigger the text.
+    //
+    // Formula: modelSize = baseSize × max(1, 0.5 / zoom)
+    //   z=0.5 → factor=1.0 (no change, nodes at full model size)
+    //   z=0.2 → factor=2.5 (nodes 2.5× bigger in model = same screen px)
+    //   z=1.0 → factor=1.0 (zoomed in, no inflation needed)
+    let zoomRaf = null;
+    cy.on('zoom', () => {
+      if (zoomRaf) return;  // throttle to one pass per animation frame
+      zoomRaf = requestAnimationFrame(() => {
+        zoomRaf = null;
+        const z = Math.max(0.05, cy.zoom());
+        const factor = Math.min(4, Math.max(1, 0.5 / z));
+        if (factor === 1) return;  // nothing to do when zoomed in
+        cy.nodes().forEach(node => {
+          const base = node.data('size');
+          node.style({ width: base * factor, height: base * factor });
+        });
+      });
+    });
+
     cyInstance.current = cy;
     cyRef.current      = cy;
 
     return () => {
+      if (zoomRaf) cancelAnimationFrame(zoomRaf);
       clearTimeout(firstPulseTimeout);
       if (pulseRef.current)      { clearInterval(pulseRef.current);           pulseRef.current      = null; }
       if (mentorFlowRef.current) { cancelAnimationFrame(mentorFlowRef.current); mentorFlowRef.current = null; }
