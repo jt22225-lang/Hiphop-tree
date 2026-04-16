@@ -136,7 +136,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
+  pointer-events: none !important;  /* browser ignores canvas entirely; Cytoscape gets all events */
   z-index: 0;
 }
 

@@ -108,6 +108,16 @@ export default function App() {
   // ── Deep Cut detection (memoized — only recalculates when graphData loads) ──
   const deepCutIds = useMemo(() => flagDeepCuts(graphData), [graphData]);
 
+  // ── Wheel passthrough — forces scroll events to the Cytoscape map ───
+  // Stops wheel events from bubbling up to the browser's native page-zoom
+  // handler.  passive:true keeps scroll performance optimal; stopPropagation
+  // prevents the event reaching any outer document/page zoom interceptors.
+  useEffect(() => {
+    const handler = (e) => e.stopPropagation();
+    window.addEventListener('wheel', handler, { passive: true });
+    return () => window.removeEventListener('wheel', handler);
+  }, []);
+
   // ── Graph fetch ──────────────────────────────────────────────
   useEffect(() => {
     axios.get(`${API}/graph`)
@@ -208,7 +218,13 @@ export default function App() {
       if (res.data.length > 0 && cyRef.current) {
         const node = cyRef.current.$(`#${res.data[0].id}`);
         if (node.length) {
-          cyRef.current.animate({ fit: { eles: node, padding: 150 }, duration: 600 });
+          // Kill any in-flight Cola simulation so the camera can move freely
+          window.stopCurrentLayout?.();
+          // Center + zoom to the result node (smooth 800ms ease)
+          cyRef.current.animate(
+            { center: { eles: node }, zoom: 1.5 },
+            { duration: 800, easing: 'ease-in-out' },
+          );
           node.trigger('tap');
         }
       }

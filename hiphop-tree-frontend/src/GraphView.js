@@ -975,6 +975,10 @@ export default function GraphView({
       };
     });
 
+    // Expose layout.stop() on window so the search handler (App.js) can
+    // terminate an in-flight Cola simulation before animating the camera.
+    // Calling stop() after layoutstop is a harmless no-op.
+    window.stopCurrentLayout = () => layout.stop();
     layout.run();
 
     // ── Gold Pulse Animation (Legend nodes) ───────────────
@@ -1127,6 +1131,7 @@ export default function GraphView({
       clearTimeout(firstPulseTimeout);
       if (pulseRef.current)      { clearInterval(pulseRef.current);           pulseRef.current      = null; }
       if (mentorFlowRef.current) { cancelAnimationFrame(mentorFlowRef.current); mentorFlowRef.current = null; }
+      window.stopCurrentLayout = null;
       cy.destroy();
       cyInstance.current = null;
     };
