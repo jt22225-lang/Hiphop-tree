@@ -418,12 +418,15 @@ export default function GraphView({
     // zoom the camera out to show the full ring — so the bigger
     // this number, the more the outer ring dominates the view.
     //
-    // ── Phase 15: Diamond Perimeter ──────────────────────────
-    // Tall ellipse: narrow on X (3000px), extended on Y (4500px).
-    // Bounding box ≈ 6000×9000px — portrait orientation forces the
-    // map to use vertical space and creates the diamond silhouette.
-    const RING_X = 3000;
-    const RING_Y = 4500;
+    // ── Phase 16: Absolute Diamond Mapping ───────────────────
+    // Producers are placed on two perpendicular axes forming a cross
+    // (the visual "rhombus" when you draw lines between extremes):
+    //
+    //   Even index → horizontal arm: x = (i/n)·10000 − 5000,  y = 0
+    //   Odd  index → vertical arm:   x = 0,  y = (i/n)·6000 − 3000
+    //
+    // The full bounding box is ±5000 on X and ±3000 on Y — producers
+    // cover the extreme North, South, East, and West poles of the map.
 
     const perimeterIds  = elements
       .filter(el => el.data?.isProducer && !el.data?.source)
@@ -431,14 +434,12 @@ export default function GraphView({
     const perimeterSet   = new Set(perimeterIds);
     const perimeterCount = perimeterIds.length;
 
-    // Evenly space producers around the oval: x=Rx·cos(θ), y=Ry·sin(θ)
     const perimeterPositions = {};
     perimeterIds.forEach((id, i) => {
-      const angle = (2 * Math.PI * i) / perimeterCount;
-      perimeterPositions[id] = {
-        x: RING_X * Math.cos(angle),
-        y: RING_Y * Math.sin(angle),
-      };
+      const t = i / perimeterCount;          // normalised position 0→1
+      perimeterPositions[id] = (i % 2 === 0)
+        ? { x: t * 10000 - 5000, y: 0 }     // even → horizontal arm
+        : { x: 0, y: t * 6000 - 3000 };     // odd  → vertical arm
     });
 
     const cy = cytoscape({
@@ -754,20 +755,25 @@ export default function GraphView({
       convergenceThreshold: 0.003,
       fit:                  false,   // we call fit() manually on layoutstop
       padding:              60,
-      // Phase 15: no flow axis — full 360° expansion in all directions.
-      // nodeSpacing=80 lets rappers huddle in the power core;
-      // gravity=45 pulls them tightly toward the centre of mass.
-      nodeSpacing:          80,
-      gravity:              45,
+      // Phase 16: gravity=20 lets rappers form a dense diamond core
+      // without being totally flattened; nodeSpacing=120 gives them
+      // enough personal space to stay legible.
+      nodeSpacing:          120,
+      gravity:              20,
       edgeLength: edge => {
         const src = edge.source().id();
         const tgt = edge.target().id();
-        // Producer tether: long beam from inner core to outer diamond ring.
-        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 200;
-        // Cluster cohesion — member_of springs must stay tight.
+        // Phase 16 — link weakening for producer edges.
+        // Cola has no per-edge strength param, so we approximate it:
+        // edgeLength=3500 is a large slack value close to the natural
+        // distance between the inner core and the ±5000/±3000 poles.
+        // Near-equilibrium ≈ near-zero spring tension → producers stay
+        // locked in place with no meaningful pull on the rapper nodes.
+        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 3500;
+        // Cluster cohesion — springs must stay tight.
         if (edge.data('subtype') === 'member_of') return 55;
         if (edge.data('type') === 'collective') return 70;
-        // All other inner edges: 200px — uniform arc tension.
+        // All other inner edges: 200px — medium arc tension.
         return 200;
       },
       // Phase 11 nodeWeight — acts as mass in the Cola physics sim:
@@ -812,25 +818,25 @@ export default function GraphView({
         });
       }
 
-      // Fit the 9000×3000px oval into view with 100px breathing room
-      cy.fit(undefined, 100);
+      // Fit the full ±5000/±3000 diamond map with 150px breathing room
+      cy.fit(undefined, 150);
 
       // ── Console helpers ─────────────────────────────────────
       // window.resetLayout() — re-run cola from current positions
       window.resetLayout = () => {
         cy.layout({
           name: 'cola', animate: true, animationDuration: 1200,
-          fit: false, nodeSpacing: 80, gravity: 45,
+          fit: false, nodeSpacing: 120, gravity: 20,
           maxSimulationTime: 5000, avoidOverlap: true,
           edgeLength: e => {
             const s = e.source().id(), t = e.target().id();
-            if (PRODUCER_PERIMETER_IDS.has(s) || PRODUCER_PERIMETER_IDS.has(t)) return 200;
+            if (PRODUCER_PERIMETER_IDS.has(s) || PRODUCER_PERIMETER_IDS.has(t)) return 3500;
             if (e.data('subtype') === 'member_of') return 55;
             if (e.data('type') === 'collective') return 70;
             return 200;
           },
         }).run();
-        setTimeout(() => cy.fit(undefined, 100), 2000);
+        setTimeout(() => cy.fit(undefined, 150), 2000);
       };
 
       window.fitTDE = () => {
