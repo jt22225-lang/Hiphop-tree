@@ -437,8 +437,8 @@ export default function GraphView({
     perimeterIds.forEach((id, i) => {
       const angle = (i / perimeterCount) * 2 * Math.PI;
       perimeterPositions[id] = {
-        x: 4500 * Math.cos(angle),
-        y: 4500 * Math.sin(angle),
+        x: 6000 * Math.cos(angle),
+        y: 6000 * Math.sin(angle),
       };
     });
 
@@ -763,9 +763,9 @@ export default function GraphView({
       edgeLength: edge => {
         const src = edge.source().id();
         const tgt = edge.target().id();
-        // 4500px tether: dramatic long beam from the inner star to the
+        // 6000px tether: dramatic long beam from the inner star to the
         // outer void guards. Producer is locked so only rapper is pulled.
-        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 4500;
+        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 6000;
         // Cluster cohesion — collective springs stay tight.
         if (edge.data('subtype') === 'member_of') return 55;
         if (edge.data('type') === 'collective') return 70;
@@ -820,7 +820,7 @@ export default function GraphView({
           maxSimulationTime: 5000, avoidOverlap: true,
           edgeLength: e => {
             const s = e.source().id(), t = e.target().id();
-            if (PRODUCER_PERIMETER_IDS.has(s) || PRODUCER_PERIMETER_IDS.has(t)) return 4500;
+            if (PRODUCER_PERIMETER_IDS.has(s) || PRODUCER_PERIMETER_IDS.has(t)) return 6000;
             if (e.data('subtype') === 'member_of') return 55;
             if (e.data('type') === 'collective') return 70;
             return 200;
