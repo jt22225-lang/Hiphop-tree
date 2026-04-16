@@ -44,9 +44,8 @@ const ERA_COLORS = {
   default: '#6b7280',
 };
 
-const MIN_SIZE     = 100;  // Phase 9: bolder nodes — 100px floor for all artists
-const MAX_SIZE     = 120;  // legends/top-degree nodes reach 140px (100+BOOST)
-const LEGEND_BOOST = 20;   // legends = 120–140px; hubs fixed at 120px in getSize
+const MIN_SIZE     = 50;   // Phase 10: proportional base — 50px floor for artists
+const LEGEND_BOOST = 20;   // legends = ~70px base + BOOST; hubs fixed at 80px in getSize
 
 // ── Producer Perimeter ───────────────────────────────────────
 // All nodes that are Legends OR have role='producer' get locked
@@ -325,8 +324,9 @@ export default function GraphView({
     const collectiveIds = new Set((data.collectives || []).map(c => c.id));
 
     const getSize = id => {
-      if (collectiveIds.has(id)) return 120;   // collective hub: always big
-      const base = Math.round(MIN_SIZE + ((degrees[id] || 0) / maxDeg) * (MAX_SIZE - MIN_SIZE));
+      if (collectiveIds.has(id)) return 80;   // collective hub: 80px fixed plate
+      // No MAX_SIZE cap — high-degree nodes breathe freely up to 40px above base
+      const base = Math.round(MIN_SIZE + ((degrees[id] || 0) / maxDeg) * 40);
       return LEGEND_IDS.has(id) ? base + LEGEND_BOOST : base;
     };
 
@@ -732,7 +732,7 @@ export default function GraphView({
         const id = node.id();
         if (perimeterSet.has(id) && perimeterPositions[id]) {
           node.position(perimeterPositions[id]);
-          node.lock();   // locked ONLY for the duration of Cola physics
+          node.lock();   // Phase 9+: permanently locked on outer ring (dragstart unlocks for drag)
         }
       });
     }
@@ -801,8 +801,8 @@ export default function GraphView({
     // unlocks any node the user explicitly grabs, giving full freedom
     // when needed while keeping the decagon intact by default.
     layout.on('layoutstop', () => {
-      // Fit the whole graph (padding: 30px for a tighter fill)
-      cy.fit(undefined, 30);
+      // Fit the whole map with a clean 50px border
+      cy.fit(undefined, 50);
 
       // Expose a TDE cluster-fit helper on the window so you can
       // call window.fitTDE() in the browser console to zoom in and
@@ -935,30 +935,28 @@ export default function GraphView({
     });
 
     // ── Zoom-responsive node scaling ──────────────────────────
-    // Phase 9 formula: target model-size = max(100, 150 / zoom)
+    // Phase 10 formula: target model-size = max(50, 80 / zoom)
     //
-    // This means every node's model-space size is inflated so it
-    // RENDERS at a minimum of ~150px on-screen regardless of how far
-    // the user zooms out. Relative proportions (hubs > legends > artists)
-    // are preserved by scaling proportionally from each node's base size.
+    // Calibrated for base=50px nodes. Every node inflates proportionally
+    // so it renders at a minimum ~80px on-screen. Nodes never get large
+    // enough to overlap neighbours — the 80/z ceiling grows gently.
     //
-    //   z=1.0  → target=150 → base-100 nodes appear ~150px  (1.5×)
-    //   z=0.5  → target=300 → base-100 nodes appear ~150px  (3×)
-    //   z=0.1  → target=1500 (capped at 10× base)           (floor: 100)
-    //   z=0.05 → floor: max(100, 3000) capped at 10× base
+    //   z=1.0 → target=80  → 50px nodes render at ~80px  (1.6×)
+    //   z=0.5 → target=160 → 50px nodes render at ~80px  (3.2×)
+    //   z=0.2 → target=400 → capped at 8× base (400px model)
+    //   z=0.05 → floor: max(50, 1600) capped at 8× base
     let zoomRaf = null;
     cy.on('zoom', () => {
       if (zoomRaf) return;  // throttle to one pass per animation frame
       zoomRaf = requestAnimationFrame(() => {
         zoomRaf = null;
         const z = Math.max(0.05, cy.zoom());
-        // targetSize = max(100, 150/z) model units
-        const targetSize = Math.max(100, 150 / z);
+        // targetSize for a 50px base node; all others scale proportionally
+        const targetSize = Math.max(50, 80 / z);
         cy.nodes().forEach(node => {
           const base = node.data('size');
-          // Scale proportionally: each node tracks the same target ratio
-          // Cap at 10× so absurdly deep zoom-out stays sane
-          const newSize = Math.min(base * 10, Math.max(base, targetSize * (base / 100)));
+          // Cap at 8× to prevent runaway overlap at extreme zoom-out
+          const newSize = Math.min(base * 8, Math.max(base, targetSize * (base / 50)));
           node.style({ width: newSize, height: newSize });
         });
       });
