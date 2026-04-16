@@ -1142,6 +1142,33 @@ export default function GraphView({
       });
     });
 
+    // ── Non-passive wheel zoom (Phase 25 follow-up) ──────────
+    // Cytoscape's built-in wheel handler is passive — it cannot call
+    // preventDefault(), so the browser's native page-scroll or page-zoom
+    // competes with map zoom and causes jitter/lag on high-DPR screens.
+    //
+    // Solution: attach our own CAPTURE-phase, non-passive wheel listener
+    // directly to the container BEFORE the event reaches Cytoscape's
+    // bubble-phase canvas listener.  We call:
+    //   • e.preventDefault()  — browser will not scroll/zoom the page
+    //   • e.stopPropagation() — event never reaches Cytoscape's handler
+    //                           (prevents double-zoom)
+    // Then we drive cy.zoom() manually with cursor-relative positioning.
+    const cyContainer = containerRef.current;
+
+    const handleWheel = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const zoomFactor = e.deltaY > 0 ? 0.85 : 1.15;
+      cy.zoom({
+        level:            cy.zoom() * zoomFactor,
+        renderedPosition: { x: e.offsetX, y: e.offsetY },
+      });
+    };
+
+    // capture:true → fires before Cytoscape's bubble-phase canvas listener
+    cyContainer.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+
     cyInstance.current = cy;
     cyRef.current      = cy;
 
@@ -1151,6 +1178,8 @@ export default function GraphView({
       if (pulseRef.current)      { clearInterval(pulseRef.current);           pulseRef.current      = null; }
       if (mentorFlowRef.current) { cancelAnimationFrame(mentorFlowRef.current); mentorFlowRef.current = null; }
       window.stopCurrentLayout = null;
+      // capture:true must match the addEventListener call or the listener won't be found
+      cyContainer.removeEventListener('wheel', handleWheel, { capture: true });
       cy.destroy();
       cyInstance.current = null;
     };
