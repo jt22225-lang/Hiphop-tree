@@ -63,6 +63,33 @@ const PRODUCER_PERIMETER_IDS = new Set([
 
 const LEGEND_EDGE_LEN      = 110;  // kept for reference — legend edges unified at 150px in Phase 13
 
+// ── Radial Timeline — Epoch System ──────────────────────────
+// Each era maps to a target radius band in model space.
+// Pre-positioning artists here gives Cola a timeline-aware
+// starting state; physics still runs to optimize clustering.
+//
+//   Genesis        0–800   (1979–89)
+//   Golden Era   801–1800  (1990–99)
+//   Blog Era    1801–2800  (2000–09)
+//   Streaming   2801–4500  (2010–)
+//
+const EPOCH_RADII = {
+  '80s':   500,
+  '90s':   1300,
+  '2000s': 2300,
+  '2010s': 3600,
+  '2020s': 3600,
+  default: 2300,
+};
+
+// Ring boundaries drawn as concentric dashed lines on the background canvas
+const EPOCH_RING_DEFS = [
+  { boundary: 800,  color: '#a855f7', label: 'The Genesis',    years: '1979–89' },
+  { boundary: 1800, color: '#e11d48', label: 'The Golden Era', years: '1990–99' },
+  { boundary: 2800, color: '#f97316', label: 'The Blog Era',   years: '2000–09' },
+  { boundary: 4500, color: '#22d3ee', label: 'Streaming Era',  years: '2010–' },
+];
+
 export default function GraphView({
   data,
   filter,
@@ -81,6 +108,7 @@ export default function GraphView({
   const mentorFlowRef        = useRef(null);   // rAF handle for marching ants
   const dashOffsetRef        = useRef(0);       // persists offset across restarts
   const activeMentorEdgesRef = useRef(null);    // which mentor edges are currently animated
+  const bgCanvasRef          = useRef(null);    // epoch ring background overlay canvas
 
   // ── Colored-initial canvas avatar ────────────────────────
   // Like a 45rpm label with the artist initial stamped on it —
@@ -442,6 +470,38 @@ export default function GraphView({
       };
     });
 
+    // ── Phase 20: Epoch pre-positioning ────────────────────────
+    // Group non-producer, non-edge elements by their era and place
+    // each group at the corresponding epoch radius so Cola starts
+    // from a timeline-aware initial state.  Artists are spread at
+    // equal angles within their ring, starting from the 12 o'clock
+    // position (angle = –π/2).
+    //
+    // Cola physics still runs on top of these positions — it handles
+    // collision resolution and edge-spring optimisation within each
+    // epoch band rather than fighting a random starting scatter.
+    const epochGroups = {};
+    elements
+      .filter(el => !el.data?.source && !perimeterSet.has(el.data?.id))
+      .forEach(el => {
+        const era = el.data?.era || 'default';
+        if (!epochGroups[era]) epochGroups[era] = [];
+        epochGroups[era].push(el.data.id);
+      });
+
+    const epochPositions = {};
+    Object.entries(epochGroups).forEach(([era, ids]) => {
+      if (!ids.length) return;
+      const r = EPOCH_RADII[era] ?? EPOCH_RADII.default;
+      ids.forEach((id, i) => {
+        const angle = (i / ids.length) * 2 * Math.PI - Math.PI / 2; // 12 o'clock
+        epochPositions[id] = {
+          x: r * Math.cos(angle),
+          y: r * Math.sin(angle),
+        };
+      });
+    });
+
     const cy = cytoscape({
       container: containerRef.current,
       elements,
@@ -704,8 +764,9 @@ export default function GraphView({
         },
       ],
 
-      // Layout is run separately below (after locking producer perimeter nodes)
-      layout: { name: 'preset', positions: {} },
+      // Layout is run separately below (after locking producer perimeter nodes).
+      // Epoch positions seed the initial placement — Cola refines from there.
+      layout: { name: 'preset', positions: epochPositions },
 
       // ── Zoom range for the "Galaxy" scale ─────────────────
       // minZoom 0.05 lets users pull all the way back to see the
@@ -745,6 +806,71 @@ export default function GraphView({
       node.removeData('fy');
     });
 
+    // ── Phase 20: Epoch Ring Canvas ──────────────────────────
+    // Draws four faint dashed concentric circles at each epoch
+    // boundary (800 / 1800 / 2800 / 4500 model px).  Runs on
+    // every Cytoscape `render` event so the rings track perfectly
+    // during pan and zoom without any coordinate hacks.
+    //
+    // The canvas sits on top of all Cytoscape layers (z-index 10)
+    // but has pointer-events: none — all mouse interactions pass
+    // straight through to the Cytoscape graph underneath.
+    const drawEpochRings = () => {
+      const canvas = bgCanvasRef.current;
+      if (!canvas) return;
+      const mountEl = containerRef.current;
+      const w = mountEl ? mountEl.offsetWidth  : 1200;
+      const h = mountEl ? mountEl.offsetHeight : 800;
+      if (w === 0 || h === 0) return;
+
+      const dpr = window.devicePixelRatio || 1;
+      if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
+        canvas.width  = w * dpr;
+        canvas.height = h * dpr;
+        canvas.style.width  = w + 'px';
+        canvas.style.height = h + 'px';
+      }
+
+      const ctx    = canvas.getContext('2d');
+      ctx.save();
+      ctx.scale(dpr, dpr);
+      ctx.clearRect(0, 0, w, h);
+
+      const center = cy.modelToRenderedPosition({ x: 0, y: 0 });
+      const zoom   = cy.zoom();
+
+      EPOCH_RING_DEFS.forEach(ring => {
+        const screenR = ring.boundary * zoom;
+        if (screenR < 4) return;
+
+        // Dashed ring stroke at opacity 0.2
+        ctx.beginPath();
+        ctx.arc(center.x, center.y, screenR, 0, Math.PI * 2);
+        ctx.strokeStyle = ring.color;
+        ctx.globalAlpha = 0.2;
+        ctx.lineWidth   = 1.5;
+        ctx.setLineDash([8, 6]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Era label pinned to top of each ring (fades in at >60px screen radius)
+        if (screenR > 60) {
+          ctx.globalAlpha = 0.35;
+          ctx.fillStyle   = ring.color;
+          const fontSize  = Math.max(10, Math.min(13, 11 * zoom));
+          ctx.font        = `600 ${fontSize}px 'Segoe UI', system-ui, sans-serif`;
+          ctx.textAlign   = 'center';
+          ctx.fillText(`${ring.label}  ${ring.years}`, center.x, center.y - screenR + 16);
+        }
+
+        ctx.globalAlpha = 1;
+      });
+
+      ctx.restore();
+    };
+
+    cy.on('render', drawEpochRings);
+
     // ── Run Cola physics layout ──────────────────────────────
     const layout = cy.layout({
       name:              'cola',
@@ -755,10 +881,10 @@ export default function GraphView({
       convergenceThreshold: 0.003,
       fit:                  false,   // we call fit() manually on layoutstop
       padding:              60,
-      // Phase 17 physics:
-      //   gravity=60 → strong centre pull, rappers form a dense star
-      //   nodeSpacing=120 → personal space so nodes stay legible
-      nodeSpacing:          120,
+      // Phase 20 physics:
+      //   gravity=60 → strong centre pull; epoch pre-positions seed the radius bands
+      //   nodeSpacing=250 → extra breathing room prevents inner-ring overlap
+      nodeSpacing:          250,
       gravity:              60,
       edgeLength: edge => {
         const src = edge.source().id();
@@ -816,7 +942,7 @@ export default function GraphView({
       window.resetLayout = () => {
         cy.layout({
           name: 'cola', animate: true, animationDuration: 1200,
-          fit: false, nodeSpacing: 120, gravity: 60,
+          fit: false, nodeSpacing: 250, gravity: 60,
           maxSimulationTime: 5000, avoidOverlap: true,
           edgeLength: e => {
             const s = e.source().id(), t = e.target().id();
@@ -997,5 +1123,11 @@ export default function GraphView({
     };
   }, [data, filter]); // eslint-disable-line
 
-  return <div ref={containerRef} className="graph-container" />;
+  return (
+    <div ref={containerRef} className="graph-container">
+      {/* Epoch ring overlay — drawn by drawEpochRings() on every cy render event.
+          pointer-events:none lets all mouse interactions pass to the Cytoscape canvas. */}
+      <canvas ref={bgCanvasRef} className="epoch-rings-canvas" />
+    </div>
+  );
 }
