@@ -768,11 +768,10 @@ export default function GraphView({
       layout: { name: 'preset', positions: epochPositions },
 
       // ── Zoom range for the "Galaxy" scale ─────────────────
-      // minZoom 0.05 lets users pull all the way back to see the
-      // full constellation. maxZoom 4 lets them punch in close
-      // enough to read the Vault badge detail on a single node.
-      minZoom: 0.05,
-      maxZoom: 4,
+      // Phase 24: wider zoom extents so 240 nodes at fit-zoom don't
+      // sit at the old 0.05 floor and prevent further zoom-out.
+      minZoom: 0.01,
+      maxZoom: 10,
 
       userZoomingEnabled: true,
       userPanningEnabled: true,
@@ -813,32 +812,42 @@ export default function GraphView({
       node.removeData('fy');
     });
 
-    // ── Phase 23: Native Cytoscape canvas ring injection ─────
-    // Instead of an overlay canvas (which can still intercept gesture
-    // events in some browsers), we draw directly onto Cytoscape's own
-    // lowest-z-index canvas layer (index 0 = Select/background layer).
+    // ── Epoch Rings — native canvas injection (Phase 23/24) ──
+    // Rings are drawn directly onto Cytoscape's own canvas[0]
+    // (lowest-z-index layer, visually behind drag/node canvases).
+    // No separate DOM element → zero event-blocking risk.
     //
-    // Why this works:
-    //   • Cytoscape exposes a `render` event that fires after every repaint.
-    //   • We draw AFTER Cytoscape clears + repaints its layers, so rings
-    //     appear on canvas[0] which sits visually behind canvas[1] (drag)
-    //     and canvas[2] (nodes/edges).  Rings are never on top of nodes.
-    //   • Cytoscape's own canvas handles all pointer events — there is no
-    //     separate DOM element to block gestures.
-    //   • DPR scaling is already applied by Cytoscape's canvas context,
-    //     so we draw in CSS pixel coordinates without extra transforms.
+    // Phase 24 throttle: cache the last rendered zoom + pan and
+    // skip the draw entirely when the viewport hasn't moved.  The
+    // render event fires on EVERY Cytoscape repaint (including node
+    // drags and layout ticks), so this prevents wasting CPU on 60
+    // identical ring draws per second while the map is idle.
+    // Drawing is synchronous (no rAF deferral) so rings appear in
+    // the same frame as the Cytoscape repaint — no visual lag.
+    let lastRingZoom = null;
+    let lastRingPanX = null;
+    let lastRingPanY = null;
+
     cy.on('render', () => {
+      const zoom = cy.zoom();
+      const pan  = cy.pan();
+
+      // Viewport unchanged → nothing to redraw
+      if (zoom === lastRingZoom && pan.x === lastRingPanX && pan.y === lastRingPanY) return;
+      lastRingZoom = zoom;
+      lastRingPanX = pan.x;
+      lastRingPanY = pan.y;
+
       const container = cy.container();
       if (!container) return;
       const canvases = container.querySelectorAll('canvas');
       if (canvases.length < 1) return;
 
-      // canvas[0] = Cytoscape's lowest layer (select/bg) — visually behind nodes
+      // canvas[0] = lowest Cytoscape layer — rings sit behind all nodes/edges
       const ctx = canvases[0].getContext('2d');
       if (!ctx) return;
 
       const center = cy.modelToRenderedPosition({ x: 0, y: 0 });
-      const zoom   = cy.zoom();
 
       ctx.save();
       EPOCH_RING_DEFS.forEach(ring => {
@@ -855,7 +864,7 @@ export default function GraphView({
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // Era label floats at the top of each ring once it is large enough to read
+        // Era label floats at top of ring once it is large enough to read
         if (screenR > 60) {
           ctx.globalAlpha = 0.35;
           ctx.fillStyle   = ring.color;
@@ -935,6 +944,8 @@ export default function GraphView({
 
       // Fit the full epoch ring system with 150px breathing room
       cy.fit(undefined, 150);
+      // Phase 24: final zoom re-arm after initial render completes
+      cy.userZoomingEnabled(true);
 
       // ── Console helpers ─────────────────────────────────────
       // window.resetLayout() — re-run cola from current positions
@@ -1042,6 +1053,10 @@ export default function GraphView({
       }
     });
 
+    // Phase 24: focus the container on every tap so the canvas receives
+    // subsequent keyboard and wheel events without requiring a page click first.
+    cy.on('tap', () => { cy.container()?.focus(); });
+
     // ── Sonic Link — edge tap handler ─────────────────────────
     // Like finding a hidden track on a vinyl record: click a line,
     // and if that relationship has a Spotify preview attached,
@@ -1131,5 +1146,7 @@ export default function GraphView({
     };
   }, [data, filter]); // eslint-disable-line
 
-  return <div ref={containerRef} className="graph-container" />;
+  {/* tabIndex={-1}: makes the div programmatically focusable (cy.container().focus() works)
+       without adding it to the keyboard tab order. */}
+  return <div ref={containerRef} className="graph-container" tabIndex={-1} />;
 }
