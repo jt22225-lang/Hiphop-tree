@@ -61,9 +61,7 @@ const PRODUCER_PERIMETER_IDS = new Set([
   // punch is already in LEGEND_IDS — listed here for clarity
 ]);
 
-const LEGEND_EDGE_LEN      = 110;  // Legend nodes stay short — gravitational pull into orbit
-const MENTORSHIP_EDGE_LEN  = 400;  // Phase 6: galaxy-scale lineage chains
-const COLLAB_EDGE_LEN      = 320;  // Phase 6: galaxy-scale collab spread
+const LEGEND_EDGE_LEN      = 110;  // kept for reference — legend edges unified at 150px in Phase 13
 
 export default function GraphView({
   data,
@@ -420,11 +418,13 @@ export default function GraphView({
     // zoom the camera out to show the full ring — so the bigger
     // this number, the more the outer ring dominates the view.
     //
-    // ── Phase 12: Producer Perimeter Prison ──────────────────
-    // RADIUS_MODEL = 3000: a 6000px-wide ring that places every
-    // producer far from the inner rapper cluster. Positions are
-    // calculated exactly as: x = R·cos(i·2π/n), y = R·sin(i·2π/n)
-    const RADIUS_MODEL = 3000;
+    // ── Phase 13: Oval Warden Ring ───────────────────────────
+    // An ellipse instead of a circle: wide on X (4500px), compressed
+    // on Y (1500px) to match MacBook widescreen proportions.
+    // Total bounding box ≈ 9000×3000px — the cola flow+fit will zoom
+    // the camera to show the full oval comfortably.
+    const RING_X = 4500;
+    const RING_Y = 1500;
 
     const perimeterIds  = elements
       .filter(el => el.data?.isProducer && !el.data?.source)
@@ -432,13 +432,13 @@ export default function GraphView({
     const perimeterSet   = new Set(perimeterIds);
     const perimeterCount = perimeterIds.length;
 
-    // Evenly space producers around the full circle starting at angle 0 (3-o'clock).
+    // Evenly space producers around the oval: x=Rx·cos(θ), y=Ry·sin(θ)
     const perimeterPositions = {};
     perimeterIds.forEach((id, i) => {
-      const angle = (2 * Math.PI * i) / perimeterCount;  // exact formula, no offset
+      const angle = (2 * Math.PI * i) / perimeterCount;
       perimeterPositions[id] = {
-        x: RADIUS_MODEL * Math.cos(angle),
-        y: RADIUS_MODEL * Math.sin(angle),
+        x: RING_X * Math.cos(angle),
+        y: RING_Y * Math.sin(angle),
       };
     });
 
@@ -755,27 +755,24 @@ export default function GraphView({
       convergenceThreshold: 0.003,
       fit:                  false,   // we call fit() manually on layoutstop
       padding:              60,
-      // Phase 12: 150px rapper-rapper repulsion. Producers are on a fixed
-      // 3000px ring — the physical separation already acts as the outer
-      // force field. 150 keeps the inner cluster tight but not crushed.
-      nodeSpacing:          150,
-      // Near-zero gravity — clusters drift freely to far corners.
-      gravity:              30,
+      // Phase 13: horizontal flow — engine prioritises X spreading.
+      // minSeparation:200 guarantees at least 200px between nodes on the x-axis.
+      flow:                 { axis: 'x', minSeparation: 200 },
+      // 350px repulsion pushes the stars apart to fill the full oval width.
+      nodeSpacing:          350,
+      // Near-zero gravity — clusters float freely, no huddling at origin.
+      gravity:              5,
       edgeLength: edge => {
         const src = edge.source().id();
         const tgt = edge.target().id();
-        // Phase 12: 600px elastic tether — a long, thin leash that lets
-        // the rapper node drift mid-screen while the producer anchor
-        // stays immovably on the 3000px ring. Since producers are locked,
-        // this spring only pulls the rapper outward, never the producer in.
+        // Elastic tether to oval ring — 600px leash, producer stays locked.
         if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 600;
-        if (LEGEND_IDS.has(src) || LEGEND_IDS.has(tgt)) return LEGEND_EDGE_LEN;
-        // member_of edges act as tight springs — they pull collective
-        // members into a cohesive cluster (half the normal collab length).
+        // Cluster cohesion — keep collective springs tight.
         if (edge.data('subtype') === 'member_of') return 55;
-        // All other collective edges stay snug too
         if (edge.data('type') === 'collective') return 70;
-        return edge.data('type') === 'mentorship' ? MENTORSHIP_EDGE_LEN : COLLAB_EDGE_LEN;
+        // Phase 13: all other inner edges at 150px — medium tether,
+        // enough separation for legible labels at full zoom-out.
+        return 150;
       },
       // Phase 11 nodeWeight — acts as mass in the Cola physics sim:
       //   Hub nodes (Griselda, Roc-A-Fella, TDE…) → mass 20: heaviest
@@ -819,12 +816,18 @@ export default function GraphView({
         });
       }
 
-      // Fit the 6000px-wide prison into view with 100px breathing room
+      // Fit the 9000×3000px oval into view with 100px breathing room
       cy.fit(undefined, 100);
 
-      // Expose a TDE cluster-fit helper on the window so you can
-      // call window.fitTDE() in the browser console to zoom in and
-      // verify the "Family Portrait" is complete.
+      // ── Console helpers ─────────────────────────────────────
+      // window.resetLayout() — re-run cola from current positions
+      window.resetLayout = () => cy.layout({
+        name: 'cola', animate: true, animationDuration: 1200,
+        fit: false, nodeSpacing: 350, gravity: 5,
+        flow: { axis: 'x', minSeparation: 200 },
+        maxSimulationTime: 5000, avoidOverlap: true,
+      }).run();
+
       window.fitTDE = () => {
         const tdeNodes = cy.nodes().filter(n => tdeMemberIds.has(n.id()));
         if (tdeNodes.length > 0) {
