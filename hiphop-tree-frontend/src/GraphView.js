@@ -776,8 +776,10 @@ export default function GraphView({
       userZoomingEnabled: true,
       userPanningEnabled: true,
 
-      // Phase 21: smooth wheel zoom (0.15 prevents jitter at 240+ nodes)
-      wheelSensitivity: 0.15,
+      // wheelSensitivity intentionally omitted — our capture-phase handleWheel
+      // owns all wheel events and calls stopPropagation(), so Cytoscape's built-in
+      // wheel handler never fires. Setting wheelSensitivity here would be dead config.
+
       // Single-click selection — prevents ring proximity from triggering box-select
       selectionType:        'single',
       // Phase 23: keep all 240 nodes fully interactive after layout runs
@@ -1161,6 +1163,10 @@ export default function GraphView({
       e.preventDefault();
       e.stopPropagation();
 
+      // DEBUG — confirms browser is delivering wheel events to the Cytoscape container.
+      // Remove once zoom is confirmed working.
+      console.log('[wheel]', { ctrlKey: e.ctrlKey, metaKey: e.metaKey, deltaY: e.deltaY, deltaX: e.deltaX, zoom: cy.zoom().toFixed(3) });
+
       // On Mac trackpads, pinch-to-zoom surfaces as a wheel event with ctrlKey=true.
       // Two-finger scroll arrives with ctrlKey=false — pan instead of zoom.
       if (e.ctrlKey || e.metaKey) {
@@ -1198,5 +1204,5 @@ export default function GraphView({
 
   {/* tabIndex={-1}: makes the div programmatically focusable (cy.container().focus() works)
        without adding it to the keyboard tab order. */}
-  return <div ref={containerRef} className="graph-container" tabIndex={-1} />;
+  return <div ref={containerRef} id="cy" className="graph-container" tabIndex={-1} />;
 }
