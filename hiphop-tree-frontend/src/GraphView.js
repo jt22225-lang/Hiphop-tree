@@ -779,10 +779,14 @@ export default function GraphView({
       // Phase 21: smooth wheel zoom (0.15 prevents jitter at 240+ nodes)
       wheelSensitivity: 0.15,
       // Single-click selection — prevents ring proximity from triggering box-select
-      selectionType: 'single',
+      selectionType:        'single',
       // Phase 23: keep all 240 nodes fully interactive after layout runs
-      autoungrabify:   false,   // layout must not strip grab-ability from nodes
-      autounselectify: false,   // layout must not strip select-ability from nodes
+      autoungrabify:        false,
+      autounselectify:      false,
+      // Phase 25 performance hard-caps:
+      boxSelectionEnabled:  false,  // eliminates click-vs-drag-select disambiguation lag
+      pixelRatio:           1.0,    // downscale from DPR (≈2 on Neo) → 4× less canvas work
+      hideEdgesOnViewport:  true,   // hide 571 edges while panning/zooming → buttery scroll
     });
 
     // ── Phase 12: Producer Perimeter Prison — initial stamp ──
@@ -885,7 +889,9 @@ export default function GraphView({
       animate:              true,
       animationDuration:    1200,
       refresh:              4,
-      maxSimulationTime:    7000,
+      // Phase 25: hard-cap physics at 3 s so CPU is fully free for input after load
+      infinite:             false,
+      maxSimulationTime:    3000,
       convergenceThreshold: 0.003,
       fit:                  false,   // we call fit() manually on layoutstop
       padding:              60,
@@ -957,7 +963,7 @@ export default function GraphView({
         cy.layout({
           name: 'cola', animate: true, animationDuration: 1200,
           fit: false, nodeSpacing: 250, gravity: 60,
-          maxSimulationTime: 5000, avoidOverlap: true,
+          infinite: false, maxSimulationTime: 3000, avoidOverlap: true,
           edgeLength: e => {
             const s = e.source().id(), t = e.target().id();
             if (PRODUCER_PERIMETER_IDS.has(s) || PRODUCER_PERIMETER_IDS.has(t)) return 6000;
@@ -1056,6 +1062,10 @@ export default function GraphView({
     // Phase 24: focus the container on every tap so the canvas receives
     // subsequent keyboard and wheel events without requiring a page click first.
     cy.on('tap', () => { cy.container()?.focus(); });
+
+    // Phase 25: the moment the user touches the viewport (pan/zoom), kill any
+    // still-running Cola simulation so physics can't fight the camera movement.
+    cy.on('viewport', () => { window.stopCurrentLayout?.(); });
 
     // ── Sonic Link — edge tap handler ─────────────────────────
     // Like finding a hidden track on a vinyl record: click a line,
