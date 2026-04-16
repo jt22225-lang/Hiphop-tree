@@ -216,14 +216,16 @@ export default function App() {
     try {
       const res = await axios.get(`${API}/search?q=${encodeURIComponent(query)}`);
       if (res.data.length > 0 && cyRef.current) {
-        const node = cyRef.current.$(`#${res.data[0].id}`);
+        const cy   = cyRef.current;
+        const node = cy.$(`#${res.data[0].id}`);
         if (node.length) {
-          // Kill any in-flight Cola simulation so the camera can move freely
-          window.stopCurrentLayout?.();
-          // Center + zoom to the result node (smooth 800ms ease)
-          cyRef.current.animate(
-            { center: { eles: node }, zoom: 1.5 },
-            { duration: 800, easing: 'ease-in-out' },
+          cy.resize();                      // realign coordinate system to container
+          cy.stop();                        // kill any running camera animation
+          window.stopCurrentLayout?.();     // kill physics so it can't fight the camera
+          cy.zoom(1).center(node);          // instant snap: zoom=1, node centred
+          cy.animate(
+            { zoom: 1.8, center: { eles: node } },
+            { duration: 500, easing: 'ease-in-out' },
           );
           node.trigger('tap');
         }

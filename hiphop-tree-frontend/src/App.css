@@ -118,27 +118,14 @@ body {
 /* ── Graph ─────────────────────────────────────────────── */
 .graph-container {
   flex: 1;
-  position: relative;   /* required: canvas overlay uses position:absolute */
   background: #0a0a0a;
   background-image:
     radial-gradient(circle at 25% 25%, #1a0a0022 0%, transparent 50%),
     radial-gradient(circle at 75% 75%, #0a001a22 0%, transparent 50%);
   transition: padding-right 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
-
-/* ── Epoch Ring Background Canvas (Phase 20 / 21) ──────── */
-/* Sits BELOW all Cytoscape canvas layers (z-index 0).       */
-/* Cytoscape's internal canvases are transparent so the      */
-/* rings show through; mouse events hit Cytoscape directly.  */
-.epoch-rings-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none !important;  /* browser ignores canvas entirely; Cytoscape gets all events */
-  z-index: 0;
-}
+/* No overlay canvas needed — epoch rings are drawn natively on
+   Cytoscape's own lowest canvas layer via cy.on('render'). */
 
 /* When sidebar is open, push the graph viewport left so edges stay visible */
 body.sidebar-open .graph-container {

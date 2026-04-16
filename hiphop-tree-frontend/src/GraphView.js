@@ -108,7 +108,6 @@ export default function GraphView({
   const mentorFlowRef        = useRef(null);   // rAF handle for marching ants
   const dashOffsetRef        = useRef(0);       // persists offset across restarts
   const activeMentorEdgesRef = useRef(null);    // which mentor edges are currently animated
-  const bgCanvasRef          = useRef(null);    // epoch ring background overlay canvas
 
   // ── Colored-initial canvas avatar ────────────────────────
   // Like a 45rpm label with the artist initial stamped on it —
@@ -782,6 +781,9 @@ export default function GraphView({
       wheelSensitivity: 0.15,
       // Single-click selection — prevents ring proximity from triggering box-select
       selectionType: 'single',
+      // Phase 23: keep all 240 nodes fully interactive after layout runs
+      autoungrabify:   false,   // layout must not strip grab-ability from nodes
+      autounselectify: false,   // layout must not strip select-ability from nodes
     });
 
     // ── Phase 12: Producer Perimeter Prison — initial stamp ──
@@ -811,39 +813,34 @@ export default function GraphView({
       node.removeData('fy');
     });
 
-    // ── Phase 20: Epoch Ring Canvas ──────────────────────────
-    // Draws four faint dashed concentric circles at each epoch
-    // boundary (800 / 1800 / 2800 / 4500 model px).  Runs on
-    // every Cytoscape `render` event so the rings track perfectly
-    // during pan and zoom without any coordinate hacks.
+    // ── Phase 23: Native Cytoscape canvas ring injection ─────
+    // Instead of an overlay canvas (which can still intercept gesture
+    // events in some browsers), we draw directly onto Cytoscape's own
+    // lowest-z-index canvas layer (index 0 = Select/background layer).
     //
-    // The canvas sits on top of all Cytoscape layers (z-index 10)
-    // but has pointer-events: none — all mouse interactions pass
-    // straight through to the Cytoscape graph underneath.
-    const drawEpochRings = () => {
-      const canvas = bgCanvasRef.current;
-      if (!canvas) return;
-      const mountEl = containerRef.current;
-      const w = mountEl ? mountEl.offsetWidth  : 1200;
-      const h = mountEl ? mountEl.offsetHeight : 800;
-      if (w === 0 || h === 0) return;
+    // Why this works:
+    //   • Cytoscape exposes a `render` event that fires after every repaint.
+    //   • We draw AFTER Cytoscape clears + repaints its layers, so rings
+    //     appear on canvas[0] which sits visually behind canvas[1] (drag)
+    //     and canvas[2] (nodes/edges).  Rings are never on top of nodes.
+    //   • Cytoscape's own canvas handles all pointer events — there is no
+    //     separate DOM element to block gestures.
+    //   • DPR scaling is already applied by Cytoscape's canvas context,
+    //     so we draw in CSS pixel coordinates without extra transforms.
+    cy.on('render', () => {
+      const container = cy.container();
+      if (!container) return;
+      const canvases = container.querySelectorAll('canvas');
+      if (canvases.length < 1) return;
 
-      const dpr = window.devicePixelRatio || 1;
-      if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
-        canvas.width  = w * dpr;
-        canvas.height = h * dpr;
-        canvas.style.width  = w + 'px';
-        canvas.style.height = h + 'px';
-      }
-
-      const ctx    = canvas.getContext('2d');
-      ctx.save();
-      ctx.scale(dpr, dpr);
-      ctx.clearRect(0, 0, w, h);
+      // canvas[0] = Cytoscape's lowest layer (select/bg) — visually behind nodes
+      const ctx = canvases[0].getContext('2d');
+      if (!ctx) return;
 
       const center = cy.modelToRenderedPosition({ x: 0, y: 0 });
       const zoom   = cy.zoom();
 
+      ctx.save();
       EPOCH_RING_DEFS.forEach(ring => {
         const screenR = ring.boundary * zoom;
         if (screenR < 4) return;
@@ -858,7 +855,7 @@ export default function GraphView({
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // Era label pinned to top of each ring (fades in at >60px screen radius)
+        // Era label floats at the top of each ring once it is large enough to read
         if (screenR > 60) {
           ctx.globalAlpha = 0.35;
           ctx.fillStyle   = ring.color;
@@ -870,11 +867,8 @@ export default function GraphView({
 
         ctx.globalAlpha = 1;
       });
-
       ctx.restore();
-    };
-
-    cy.on('render', drawEpochRings);
+    });
 
     // ── Run Cola physics layout ──────────────────────────────
     const layout = cy.layout({
@@ -1137,11 +1131,5 @@ export default function GraphView({
     };
   }, [data, filter]); // eslint-disable-line
 
-  return (
-    <div ref={containerRef} className="graph-container">
-      {/* Epoch ring overlay — drawn by drawEpochRings() on every cy render event.
-          pointer-events:none lets all mouse interactions pass to the Cytoscape canvas. */}
-      <canvas ref={bgCanvasRef} className="epoch-rings-canvas" />
-    </div>
-  );
+  return <div ref={containerRef} className="graph-container" />;
 }
