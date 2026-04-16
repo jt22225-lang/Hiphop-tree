@@ -418,15 +418,15 @@ export default function GraphView({
     // zoom the camera out to show the full ring — so the bigger
     // this number, the more the outer ring dominates the view.
     //
-    // ── Phase 16: Absolute Diamond Mapping ───────────────────
-    // Producers are placed on two perpendicular axes forming a cross
-    // (the visual "rhombus" when you draw lines between extremes):
+    // ── Phase 17: Void Perimeter — Four-Pole Mapping ─────────
+    // Producers cluster at four cardinal poles (±5000 on X, ±3500 on Y)
+    // with ±500px random jitter so they don't all stack on one point.
     //
-    //   Even index → horizontal arm: x = (i/n)·10000 − 5000,  y = 0
-    //   Odd  index → vertical arm:   x = 0,  y = (i/n)·6000 − 3000
+    //   Even index: x = sign·5000,  y = jitter  (East / West arms)
+    //   Odd  index: x = jitter,     y = sign·3500 (North / South arms)
     //
-    // The full bounding box is ±5000 on X and ±3000 on Y — producers
-    // cover the extreme North, South, East, and West poles of the map.
+    // sign flips every two indices: ++−−++−− so producers spread
+    // across both poles of each arm rather than all on one side.
 
     const perimeterIds  = elements
       .filter(el => el.data?.isProducer && !el.data?.source)
@@ -436,10 +436,11 @@ export default function GraphView({
 
     const perimeterPositions = {};
     perimeterIds.forEach((id, i) => {
-      const t = i / perimeterCount;          // normalised position 0→1
+      const sign   = (Math.floor(i / 2) % 2 === 0) ? 1 : -1;
+      const jitter = () => (Math.random() - 0.5) * 1000;   // ±500px spread
       perimeterPositions[id] = (i % 2 === 0)
-        ? { x: t * 10000 - 5000, y: 0 }     // even → horizontal arm
-        : { x: 0, y: t * 6000 - 3000 };     // odd  → vertical arm
+        ? { x: sign * 5000, y: jitter() }    // even → East/West pole + vertical spread
+        : { x: jitter(),    y: sign * 3500 }; // odd  → North/South pole + horizontal spread
     });
 
     const cy = cytoscape({
@@ -755,40 +756,30 @@ export default function GraphView({
       convergenceThreshold: 0.003,
       fit:                  false,   // we call fit() manually on layoutstop
       padding:              60,
-      // Phase 16: gravity=20 lets rappers form a dense diamond core
-      // without being totally flattened; nodeSpacing=120 gives them
-      // enough personal space to stay legible.
+      // Phase 17 physics:
+      //   gravity=60 → strong centre pull, rappers form a dense star
+      //   nodeSpacing=120 → personal space so nodes stay legible
       nodeSpacing:          120,
-      gravity:              20,
+      gravity:              60,
       edgeLength: edge => {
         const src = edge.source().id();
         const tgt = edge.target().id();
-        // Phase 16 — link weakening for producer edges.
-        // Cola has no per-edge strength param, so we approximate it:
-        // edgeLength=3500 is a large slack value close to the natural
-        // distance between the inner core and the ±5000/±3000 poles.
-        // Near-equilibrium ≈ near-zero spring tension → producers stay
-        // locked in place with no meaningful pull on the rapper nodes.
-        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 3500;
-        // Cluster cohesion — springs must stay tight.
+        // 4500px tether: dramatic long beam from the inner star to the
+        // outer void guards. Producer is locked so only rapper is pulled.
+        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 4500;
+        // Cluster cohesion — collective springs stay tight.
         if (edge.data('subtype') === 'member_of') return 55;
         if (edge.data('type') === 'collective') return 70;
-        // All other inner edges: 200px — medium arc tension.
         return 200;
       },
-      // Phase 11 nodeWeight — acts as mass in the Cola physics sim:
-      //   Hub nodes (Griselda, Roc-A-Fella, TDE…) → mass 20: heaviest
-      //     anchors in the graph; cluster members orbit around them.
-      //   Perimeter producers → mass 12: already locked to the ring,
-      //     high weight reinforces their role as outer gravity sinks.
-      //     Cola's "negative gravity" for producers is achieved by the
-      //     permanent lock + wide edgeLength=400 — the edge can stretch
-      //     freely outward without pulling the producer inward.
-      //   Rappers → mass 1: drift freely between their attractors.
+      // Phase 17 nodeWeight:
+      //   Producers → 50: even locked, high mass signals "stay away"
+      //   Hub nodes  → 20: cluster anchors
+      //   Rappers    → 1:  drift freely toward the gravity core
       nodeWeight: node => {
         const id = node.id();
+        if (PRODUCER_PERIMETER_IDS.has(id)) return 50;
         if (collectiveIds.has(id)) return 20;
-        if (PRODUCER_PERIMETER_IDS.has(id)) return 12;
         return 1;
       },
       randomize:            false,
@@ -818,25 +809,25 @@ export default function GraphView({
         });
       }
 
-      // Fit the full ±5000/±3000 diamond map with 150px breathing room
-      cy.fit(undefined, 150);
+      // Fit the void perimeter (±5000×±3500) with 200px breathing room
+      cy.fit(undefined, 200);
 
       // ── Console helpers ─────────────────────────────────────
       // window.resetLayout() — re-run cola from current positions
       window.resetLayout = () => {
         cy.layout({
           name: 'cola', animate: true, animationDuration: 1200,
-          fit: false, nodeSpacing: 120, gravity: 20,
+          fit: false, nodeSpacing: 120, gravity: 60,
           maxSimulationTime: 5000, avoidOverlap: true,
           edgeLength: e => {
             const s = e.source().id(), t = e.target().id();
-            if (PRODUCER_PERIMETER_IDS.has(s) || PRODUCER_PERIMETER_IDS.has(t)) return 3500;
+            if (PRODUCER_PERIMETER_IDS.has(s) || PRODUCER_PERIMETER_IDS.has(t)) return 4500;
             if (e.data('subtype') === 'member_of') return 55;
             if (e.data('type') === 'collective') return 70;
             return 200;
           },
         }).run();
-        setTimeout(() => cy.fit(undefined, 150), 2000);
+        setTimeout(() => cy.fit(undefined, 200), 2000);
       };
 
       window.fitTDE = () => {
