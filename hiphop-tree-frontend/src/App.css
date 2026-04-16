@@ -24,11 +24,48 @@ body {
   font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
-/* Critical for MacBook trackpads — hands all touch/gesture input to the
-   Cytoscape canvas rather than the browser's native scroll engine.
-   id="cy" is set directly on the GraphView container div. */
+/* Phase 28 — CSS Elevation & Event Path Clearance
+   #cy is absolutely positioned so it sits as a true layer in the stacking
+   context. z-index:1 keeps it above the default (0/auto) wrapper but below
+   all UI chrome (sidebar z:300, audio z:1200). pointer-events:all ensures
+   the canvas is always a hit target even when parent wrappers are transparent.
+   touch-action:none hands all trackpad gestures to our custom wheel handler. */
 #cy {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;   /* fill parent — needed once position:absolute
+                               removes the element from flex flow */
+  height: 100% !important;
+  z-index: 1 !important;
+  pointer-events: all !important;
   touch-action: none !important;
+}
+
+/* Phase 28 — Wrapper Transparency
+   Setting pointer-events:none on the wrappers means they are invisible to the
+   hit-test; events pass straight through to #cy beneath them. Every interactive
+   element (header, sidebar, legend, player, slider) explicitly re-enables events
+   so nothing functional is lost. */
+main,
+.main,
+.app {
+  pointer-events: none;
+}
+
+.header,
+#cy,
+.sidebar,
+.search-wrap,
+.search-form,
+.filter-btn,
+.legend,
+.slider-toggle-btn,
+.deep-cut-count-chip,
+.slider-overlay,
+.sonic-player,
+.splash-overlay {
+  pointer-events: all;
 }
 
 /* ── App layout ────────────────────────────────────────── */

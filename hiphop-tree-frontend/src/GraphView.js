@@ -1145,26 +1145,28 @@ export default function GraphView({
       });
     });
 
-    // ── Non-passive wheel zoom (Phase 25 follow-up) ──────────
-    // Cytoscape's built-in wheel handler is passive — it cannot call
-    // preventDefault(), so the browser's native page-scroll or page-zoom
-    // competes with map zoom and causes jitter/lag on high-DPR screens.
+    // ── Phase 28: Global Wheel Listener ──────────────────────
+    // Attaching to the container was reliable only when the container was
+    // the event target.  With pointer-events:none on wrapper divs the browser
+    // may route wheel events through a different path.  Moving the listener to
+    // window (capture phase) guarantees we intercept EVERY wheel event on the
+    // page first, then filter to only act when the gesture is over #cy.
     //
-    // Solution: attach our own CAPTURE-phase, non-passive wheel listener
-    // directly to the container BEFORE the event reaches Cytoscape's
-    // bubble-phase canvas listener.  We call:
-    //   • e.preventDefault()  — browser will not scroll/zoom the page
-    //   • e.stopPropagation() — event never reaches Cytoscape's handler
-    //                           (prevents double-zoom)
-    // Then we drive cy.zoom() manually with cursor-relative positioning.
-    const cyContainer = containerRef.current;
+    //   • capture:true  → fires at the top of the capture phase, before any
+    //                      element handler (including Cytoscape's canvas listener)
+    //   • passive:false → allows e.preventDefault() so browser won't scroll page
+    //   • closest('#cy') guard → no-ops for gestures outside the graph canvas
+    //   • e.stopPropagation() → event never reaches Cytoscape's own handler
+    //                           (prevents double-zoom after our manual cy.zoom())
 
     const handleWheel = (e) => {
+      // Only act on gestures that land on or inside the Cytoscape container
+      if (!e.target.closest('#cy')) return;
+
       e.preventDefault();
       e.stopPropagation();
 
-      // DEBUG — confirms browser is delivering wheel events to the Cytoscape container.
-      // Remove once zoom is confirmed working.
+      // DEBUG — remove once pinch-zoom and two-finger pan are confirmed working
       console.log('[wheel]', { ctrlKey: e.ctrlKey, metaKey: e.metaKey, deltaY: e.deltaY, deltaX: e.deltaX, zoom: cy.zoom().toFixed(3) });
 
       // On Mac trackpads, pinch-to-zoom surfaces as a wheel event with ctrlKey=true.
@@ -1183,8 +1185,8 @@ export default function GraphView({
       }
     };
 
-    // capture:true → fires before Cytoscape's bubble-phase canvas listener
-    cyContainer.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+    // Register on window so no parent wrapper can shadow the event path
+    window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
 
     cyInstance.current = cy;
     cyRef.current      = cy;
@@ -1195,8 +1197,8 @@ export default function GraphView({
       if (pulseRef.current)      { clearInterval(pulseRef.current);           pulseRef.current      = null; }
       if (mentorFlowRef.current) { cancelAnimationFrame(mentorFlowRef.current); mentorFlowRef.current = null; }
       window.stopCurrentLayout = null;
-      // capture:true must match the addEventListener call or the listener won't be found
-      cyContainer.removeEventListener('wheel', handleWheel, { capture: true });
+      // Must match the addEventListener signature exactly to find and remove the listener
+      window.removeEventListener('wheel', handleWheel, { capture: true });
       cy.destroy();
       cyInstance.current = null;
     };
