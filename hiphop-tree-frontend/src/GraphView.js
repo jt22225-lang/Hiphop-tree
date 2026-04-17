@@ -516,6 +516,13 @@ export default function GraphView({
             'height':                 'data(size)',
             'background-color':       'data(color)',
             'background-opacity':     1,
+            // Fallback image: a neutral dark-gray circle rendered as an inline SVG.
+            // This shows immediately on mount and whenever the Wikipedia proxy
+            // returns a 502/404 — prevents nodes from appearing as blank white
+            // circles while waiting for the real photo to load.
+            'background-image':       "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23374151'/%3E%3C/svg%3E",
+            'background-fit':         'cover',
+            'background-clip':        'node',
             'label':                  'data(label)',
             'color':                  '#ffffff',
             // Weight-driven font size: high-importance nodes keep bigger labels
@@ -953,11 +960,15 @@ export default function GraphView({
         });
       }
 
-      // Fit the full epoch ring system with 150px breathing room
+      // Re-measure container (position:absolute children can miss the initial
+      // paint — resize() forces Cytoscape to re-read the actual pixel dimensions)
+      cy.resize();
+      // Fit all nodes into view with 150px breathing room
       cy.fit(undefined, 150);
-      // Ensure the viewport isn't programmatically frozen after layout settles
+      // Unlock the viewport — both zoom and pan must be explicitly re-enabled
       cy.autolock(false);
       cy.userZoomingEnabled(true);
+      cy.userPanningEnabled(true);
 
       // ── Console helpers ─────────────────────────────────────
       // window.resetLayout() — re-run cola from current positions
@@ -996,6 +1007,12 @@ export default function GraphView({
     // terminate an in-flight Cola simulation before animating the camera.
     // Calling stop() after layoutstop is a harmless no-op.
     window.stopCurrentLayout = () => layout.stop();
+
+    // Force Cytoscape to re-measure the container dimensions before layout runs.
+    // Without this, if the DOM hasn't fully painted (common on first mount with
+    // position:absolute children), cy records a 0×0 canvas and fit() produces
+    // an invisible viewport.
+    cy.resize();
     layout.run();
 
     // ── Gold Pulse Animation (Legend nodes) ───────────────
