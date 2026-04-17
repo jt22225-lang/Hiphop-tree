@@ -2,7 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import cytoscape from 'cytoscape';
 import cola from 'cytoscape-cola';
 
-cytoscape.use(cola);
+// Guard against double-registration during React Strict Mode / HMR re-evaluation.
+// cytoscape throws internally if the same extension is registered twice, which
+// produces a cryptic TDZ error from inside the minified cytoscape-cola bundle.
+try { cytoscape.use(cola); } catch (_) { /* already registered — safe to ignore */ }
 
 // ── Legend / Verified Architects ────────────────────────────
 // These nodes are gravity wells in the simulation — all edges
@@ -1160,7 +1163,9 @@ export default function GraphView({
     //                           (prevents double-zoom after our manual cy.zoom())
 
     const handleWheel = (e) => {
-      // Only act on gestures that land on or inside the Cytoscape container
+      // Guard: SVG text nodes and shadow DOM targets may not be Elements
+      // and therefore lack .closest() — bail out safely for those cases.
+      if (!e.target || typeof e.target.closest !== 'function') return;
       if (!e.target.closest('#cy')) return;
 
       e.preventDefault();

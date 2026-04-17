@@ -118,21 +118,10 @@ export default function App() {
     return () => window.removeEventListener('wheel', handler);
   }, []);
 
-  // ── Graph fetch ──────────────────────────────────────────────
-  useEffect(() => {
-    axios.get(`${API}/graph`)
-      .then(res => {
-        setGraphData(res.data);
-        setLoading(false);
-        prefetchImages(res.data);
-      })
-      .catch(() => {
-        setError('Cannot reach backend. Make sure it is running.');
-        setLoading(false);
-      });
-  }, []);
-
   // ── Image prefetch — all artists, chunked batch requests ──
+  // Declared BEFORE the graph-fetch useEffect so the const binding is
+  // initialized before the closure that calls it is registered.
+  // (Referencing a const before its declaration is a TDZ violation.)
   const prefetchImages = async (data) => {
     // Build payload: include wikidataId from metadata when available
     const payload = data.artists.map(a => ({
@@ -163,6 +152,20 @@ export default function App() {
       }
     }
   };
+
+  // ── Graph fetch ──────────────────────────────────────────────
+  useEffect(() => {
+    axios.get(`${API}/graph`)
+      .then(res => {
+        setGraphData(res.data);
+        setLoading(false);
+        prefetchImages(res.data);
+      })
+      .catch(() => {
+        setError('Cannot reach backend. Make sure it is running.');
+        setLoading(false);
+      });
+  }, []); // eslint-disable-line
 
   const handleNodeSelect = useCallback((artist) => {
     setSelected(artist);
