@@ -4,6 +4,7 @@ const cors = require('cors');
 const axios = require('axios');
 const graphData = require('./graph.json');
 const { getCached, setCached, isStale } = require('./cache');
+const { fetchWikiImage } = require('./lib/image-resolver');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -86,107 +87,6 @@ app.get('/api/verify/genius', async (req, res) => {
   }
 });
 
-// ── Wikipedia image fetcher — multi-strategy ─────────────────
-
-// Low-level: try one Wikipedia title, return thumbnail or null
-async function fetchWikiImageByTitle(title) {
-  try {
-    const response = await axios.get('https://en.wikipedia.org/w/api.php', {
-      params: {
-        action:      'query',
-        titles:      title,
-        prop:        'pageimages',
-        format:      'json',
-        pithumbsize: 300,
-        redirects:   1,
-      },
-      headers: {
-        'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js',
-        'Accept':     'application/json',
-      },
-      timeout: 8000,
-    });
-    const pages = response.data?.query?.pages;
-    if (!pages) return null;
-    const page = Object.values(pages)[0];
-    if (page?.missing !== undefined) return null;
-    return page?.thumbnail?.source || null;
-  } catch (e) {
-    return null;
-  }
-}
-
-// Fetch image via Wikidata P18 property given a QID (e.g. "Q216952")
-async function fetchP18Image(wikidataId) {
-  try {
-    const res = await axios.get('https://www.wikidata.org/w/api.php', {
-      params: { action: 'wbgetclaims', entity: wikidataId, property: 'P18', format: 'json' },
-      headers: { 'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js' },
-      timeout: 8000,
-    });
-    const claims = res.data?.claims?.P18;
-    if (!claims || claims.length === 0) return null;
-    const filename = claims[0]?.mainsnak?.datavalue?.value;
-    if (!filename) return null;
-    const encoded = encodeURIComponent(filename.replace(/ /g, '_'));
-    return `https://commons.wikimedia.org/wiki/Special:FilePath/${encoded}?width=300`;
-  } catch (e) {
-    return null;
-  }
-}
-
-// Build Wikipedia title variants to try in sequence
-function nameVariants(name) {
-  const variants = [name];
-  // Strip stage symbols: Ty Dolla $ign → Ty Dolla Sign
-  const stripped = name.replace(/\$/g, 's').replace(/[^\w\s'.-]/g, '').trim();
-  if (stripped !== name) variants.push(stripped);
-  // Disambiguation suffixes common for rappers
-  variants.push(`${name} (rapper)`);
-  variants.push(`${name} (hip hop musician)`);
-  return [...new Set(variants)];
-}
-
-// Multi-strategy image resolver (used by both single-artist endpoint and batch)
-async function fetchWikiImage(name, wikidataId = null) {
-  // Strategy 1 & 2: Wikipedia with name variants
-  for (const variant of nameVariants(name)) {
-    const img = await fetchWikiImageByTitle(variant);
-    if (img) {
-      console.log(`[WIKI] ✅ "${name}" via Wikipedia title: "${variant}"`);
-      return img;
-    }
-  }
-
-  // Strategy 3: Wikidata P18 via known QID from graph.json
-  if (wikidataId) {
-    const img = await fetchP18Image(wikidataId);
-    if (img) {
-      console.log(`[WIKI] ✅ "${name}" via Wikidata P18 (${wikidataId})`);
-      return img;
-    }
-  }
-
-  // Strategy 4: Wikidata entity search → P18
-  try {
-    const searchRes = await axios.get('https://www.wikidata.org/w/api.php', {
-      params: { action: 'wbsearchentities', search: name, language: 'en', format: 'json', limit: 3, type: 'item' },
-      headers: { 'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js' },
-      timeout: 8000,
-    });
-    for (const result of (searchRes.data?.search || []).slice(0, 2)) {
-      const img = await fetchP18Image(result.id);
-      if (img) {
-        console.log(`[WIKI] ✅ "${name}" via Wikidata search → P18 (${result.id})`);
-        return img;
-      }
-    }
-  } catch (e) { /* silent */ }
-
-  console.log(`[WIKI] ❌ No image found for "${name}"`);
-  return null;
-}
-
 // ── GET /api/wiki-image/:name ───────────────────────────────
 // Stale-while-revalidate: serve cache instantly, refresh in background
 app.get('/api/wiki-image/:name', async (req, res) => {
@@ -265,6 +165,45 @@ app.post('/api/wiki-image-batch', async (req, res) => {
 
   console.log(`[BATCH] Resolved ${Object.keys(results).length}/${artists.length} images`);
   res.json({ results, count: Object.keys(results).length });
+});
+
+// ── POST /api/artist-images ─────────────────────────────────
+// Accepts { ids: ["artist-id-1", "artist-id-2", ...] }
+// Looks up name + wikidataId from graph, runs multi-strategy image
+// resolution (Wikipedia → Wikidata P18 → Google), caches results.
+// Returns { images: { [artistId]: url | null } }
+app.post('/api/artist-images', async (req, res) => {
+  const ids = req.body?.ids;
+  if (!Array.isArray(ids)) return res.status(400).json({ error: 'Expected { ids: [...] }' });
+
+  const images = {};
+
+  for (const id of ids) {
+    const artist = graphData.artists.find(a => a.id === id);
+    if (!artist) { images[id] = null; continue; }
+
+    const nameKey = artist.name.toLowerCase();
+    const cached  = await getCached(nameKey);
+    if (cached?.image_url) {
+      images[id] = cached.image_url;
+      continue;
+    }
+
+    try {
+      const img = await fetchWikiImage(artist.name, artist.metadata?.wikidataId || null);
+      images[id] = img || null;
+      if (img) setImmediate(() => setCached(nameKey, artist.name, { image_url: img }));
+    } catch (e) {
+      console.warn(`[ARTIST-IMAGES] Error for "${artist.name}":`, e.message);
+      images[id] = null;
+    }
+
+    await new Promise(r => setTimeout(r, 150));
+  }
+
+  const found = Object.values(images).filter(Boolean).length;
+  console.log(`[ARTIST-IMAGES] Resolved ${found}/${ids.length}`);
+  res.json({ images });
 });
 
 // ── Wikidata helpers ────────────────────────────────────────
