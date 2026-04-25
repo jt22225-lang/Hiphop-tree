@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "cache-artist-images": "node scripts/cache-artist-images.js"
+    "cache-artist-images": "node scripts/cache-artist-images.js",
+    "fetch-artist-images": "node artist-image-fetcher.js",
+    "fetch-artist-images:missing": "node artist-image-fetcher.js --missing"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.102.1",

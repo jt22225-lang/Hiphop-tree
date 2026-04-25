@@ -5,6 +5,7 @@ const axios = require('axios');
 const graphData = require('./graph.json');
 const { getCached, setCached, isStale } = require('./cache');
 const { fetchWikiImage } = require('./lib/image-resolver');
+const { fetchAndCacheArtistImages, getLocalCache } = require('./artist-image-fetcher');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -85,6 +86,36 @@ app.get('/api/verify/genius', async (req, res) => {
     console.error('Genius API error:', err.message);
     res.status(500).json({ error: 'Failed to reach Genius API' });
   }
+});
+
+// ── POST /api/cache-artist-images ───────────────────────────
+// Accepts { ids: ["artist-id-1", ...] } (or omit ids to process all artists).
+// Runs the full Wikipedia → Wikidata resolution chain per artist, caches
+// results in artist-images-cache.json and Supabase artist_images table.
+// Returns { results: { [id]: url|null }, missing: [...], found: N }
+app.post('/api/cache-artist-images', async (req, res) => {
+  const ids = Array.isArray(req.body?.ids)
+    ? req.body.ids
+    : graphData.artists.map(a => a.id);
+
+  if (ids.length === 0) return res.json({ results: {}, missing: [], found: 0 });
+
+  try {
+    const { results, missing } = await fetchAndCacheArtistImages(ids);
+    const found = Object.values(results).filter(Boolean).length;
+    console.log(`[CACHE-IMAGES] ${found}/${ids.length} resolved, ${missing.length} missing`);
+    res.json({ results, missing, found });
+  } catch (err) {
+    console.error('[CACHE-IMAGES] Fatal:', err.message);
+    res.status(500).json({ error: 'Image cache run failed', detail: err.message });
+  }
+});
+
+// ── GET /api/cache-artist-images ────────────────────────────
+// Returns the current local image cache so the frontend can
+// hydrate without a new fetch round-trip.
+app.get('/api/cache-artist-images', (req, res) => {
+  res.json(getLocalCache());
 });
 
 // ── GET /api/wiki-image/:name ───────────────────────────────
