@@ -169,7 +169,12 @@ export default function App() {
 
   const handleNodeSelect = useCallback((artist) => {
     setSelected(artist);
-    document.body.classList.add('sidebar-open');
+    if (artist) {
+      document.body.classList.add('sidebar-open');
+    } else {
+      document.body.classList.remove('sidebar-open');
+      cyRef.current?.elements().removeClass('faded highlighted');
+    }
   }, []);
 
   // ── Center & Zoom — "Google Maps" nav from sidebar ───────
@@ -324,7 +329,7 @@ export default function App() {
             artist={selected}
             graphData={graphData}
             apiUrl={API}
-            onClose={() => { setSelected(null); document.body.classList.remove('sidebar-open'); }}
+            onClose={() => { setSelected(null); document.body.classList.remove('sidebar-open'); cyRef.current?.elements().removeClass('faded highlighted'); }}
             deepCutIds={deepCutIds}
             activeYear={showSlider ? activeYear : null}
             artistImages={artistImages}
