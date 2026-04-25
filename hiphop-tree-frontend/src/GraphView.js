@@ -862,6 +862,7 @@ export default function GraphView({
       // canvas[0] = lowest Cytoscape layer — rings sit behind all nodes/edges
       const ctx = canvases[0].getContext('2d');
       if (!ctx) return;
+      if (typeof cy.modelToRenderedPosition !== 'function') return;
 
       const center = cy.modelToRenderedPosition({ x: 0, y: 0 });
 
