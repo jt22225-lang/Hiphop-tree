@@ -6,6 +6,13 @@ import SearchBar from './SearchBar';
 import HistorySlider from './HistorySlider';
 import LandingPage from './LandingPage';
 import AudioPreviewPlayer from './AudioPreviewPlayer';
+import {
+  generateEraMarkers,
+  getYearRange,
+  extractAllEras,
+  sortErasChronologically,
+  countArtistsPerEra,
+} from './timelineUtils';
 import './App.css';
 
 const API = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
@@ -82,6 +89,11 @@ export default function App() {
   const [showSlider, setShowSlider]       = useState(false);  // ← toggle slider open/closed
   const [focusedCollective, setFocusedCollective] = useState(null); // ← Label Focus
   const [currentAudioMeta, setCurrentAudioMeta]   = useState(null); // ← Sonic Link
+  // Dynamic timeline data (computed from graph)
+  const [eraMarkers, setEraMarkers]     = useState([]);
+  const [yearRange, setYearRange]       = useState({ minYear: 2020, maxYear: 2024 });
+  const [allEras, setAllEras]           = useState({});
+  const [eraArtistCounts, setEraArtistCounts] = useState({});
   const cyRef = useRef(null);
 
   // ── Sonic Link handler ───────────────────────────────────────
@@ -160,6 +172,21 @@ export default function App() {
         setGraphData(res.data);
         setLoading(false);
         prefetchImages(res.data);
+
+        // Compute dynamic timeline data from the loaded graph
+        const markers = generateEraMarkers(res.data);
+        const range = getYearRange(res.data);
+        const eras = extractAllEras(res.data);
+        const counts = countArtistsPerEra(res.data);
+
+        setEraMarkers(markers);
+        setYearRange(range);
+        setAllEras(eras);
+        setEraArtistCounts(counts);
+
+        // Set initial activeYear to the max year available
+        const maxYear = range.maxYear;
+        setActiveYear(maxYear);
       })
       .catch(() => {
         setError('Cannot reach backend. Make sure it is running.');
@@ -350,6 +377,9 @@ export default function App() {
             onChange={setActiveYear}
             activeCount={activeConnectionCount}
             totalCount={graphData?.relationships?.length || 0}
+            eraMarkers={eraMarkers}
+            minYear={yearRange.minYear}
+            maxYear={yearRange.maxYear}
           />
         </div>
       )}
@@ -368,10 +398,13 @@ export default function App() {
         <span className="legend-item"><span className="dot familial" /><span>Family</span><span className="legend-count">{counts.familial || 0}</span></span>
         <span className="legend-divider" />
         <span className="legend-title">Era:</span>
-        <span className="legend-item"><span className="dot era-80s" /><span>80s</span></span>
-        <span className="legend-item"><span className="dot era-90s" /><span>90s</span></span>
-        <span className="legend-item"><span className="dot era-2000s" /><span>2000s</span></span>
-        <span className="legend-item"><span className="dot era-2010s" /><span>2010s</span></span>
+        {sortErasChronologically(allEras).map(era => (
+          <span key={era} className="legend-item">
+            <span className={`dot ${era.toLowerCase()}`} />
+            <span>{era}</span>
+            {eraArtistCounts[era] && <span className="legend-count">{eraArtistCounts[era]}</span>}
+          </span>
+        ))}
         <span className="legend-divider" />
         <span className="legend-item"><span className="dot legend" /><span>♛ Verified Architect</span></span>
         <span className="legend-item"><span className="dot deep-cut" /><span>💿 Deep Cut</span></span>

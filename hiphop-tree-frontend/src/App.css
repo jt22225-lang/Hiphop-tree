@@ -811,10 +811,13 @@ body.sidebar-open .graph-container {
 .dot.mentorship    { background: #22d3ee; box-shadow: 0 0 6px #22d3ee80; }
 .dot.collective    { background: #a855f7; box-shadow: 0 0 6px #a855f780; }
 .dot.familial      { background: #4ade80; box-shadow: 0 0 6px #4ade8080; }
+.dot.era-70s       { background: #6d28d9; }
 .dot.era-80s       { background: #a855f7; }
 .dot.era-90s       { background: #e11d48; }
 .dot.era-2000s     { background: #f97316; }
 .dot.era-2010s     { background: #22d3ee; }
+.dot.era-2020s     { background: #ec4899; }
+.dot.era-2030s     { background: #10b981; }
 .dot.legend        { background: #FFD700; box-shadow: 0 0 8px #FFD70099; animation: va-glow-pulse 2.5s ease-in-out infinite; }
 
 /* ── Splash / error screens ────────────────────────────── */
