@@ -10,9 +10,17 @@ function parseEraString(era) {
   const match = era.match(/(\d{2,4})s/);
   if (!match) return null;
 
-  const year = match[1].length === 2
-    ? parseInt(match[1]) * 100
-    : parseInt(match[1]);
+  let year;
+  const digits = match[1];
+
+  if (digits.length === 2) {
+    // "90" → 1990, "80" → 1980, "20" → 2020, "30" → 2030
+    const twoDigit = parseInt(digits);
+    year = twoDigit >= 50 ? 1900 + twoDigit : 2000 + twoDigit;
+  } else {
+    // "2000" → 2000, "1990" → 1990
+    year = parseInt(digits);
+  }
 
   return { decade: year, label: `${year}s` };
 }
