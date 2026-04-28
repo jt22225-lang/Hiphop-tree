@@ -223,6 +223,7 @@ export default function App() {
     perfMonitor.mark('process-start');
 
     setGraphData(data);
+    setLoading(false);
     prefetchImages(data);
 
     // Compute dynamic timeline data from the loaded graph
