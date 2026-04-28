@@ -809,10 +809,14 @@ export default function GraphView({
       // Phase 23: keep all 240 nodes fully interactive after layout runs
       autoungrabify:        false,
       autounselectify:      false,
-      // Phase 25 performance hard-caps:
+      // Phase 27-28 performance optimizations:
       boxSelectionEnabled:  false,  // eliminates click-vs-drag-select disambiguation lag
-      pixelRatio:           1.0,    // downscale from DPR (≈2 on Neo) → 4× less canvas work
+      pixelRatio:           'auto', // auto-scale for device (better quality than fixed 1.0, still optimized)
       hideEdgesOnViewport:  true,   // hide 571 edges while panning/zooming → buttery scroll
+      // Render quality reduction during interaction
+      textureOnViewport:    true,   // use lower-quality textures while viewport is moving
+      motionBlur:           false,  // disable motion blur for performance
+      styleEnabled:         true,   // keep styling but optimize parsing
     });
 
     // ── Phase 12: Producer Perimeter Prison — initial stamp ──
@@ -987,8 +991,9 @@ export default function GraphView({
       // Re-measure container (position:absolute children can miss the initial
       // paint — resize() forces Cytoscape to re-read the actual pixel dimensions)
       cy.resize();
-      // Fit all nodes into view with extreme 300px breathing room for dramatically spread artists
-      cy.fit(undefined, 300);
+      // Phase 28: Fit with moderate padding for readable initial size
+      // Use 80px (not 300px) so graph isn't zoomed out to tiny
+      cy.fit(undefined, 80);
       // Unlock the viewport — both zoom and pan must be explicitly re-enabled
       cy.autolock(false);
       cy.userZoomingEnabled(true);
@@ -1014,7 +1019,7 @@ export default function GraphView({
             return 200;
           },
         }).run();
-        setTimeout(() => cy.fit(undefined, 300), 3000);
+        setTimeout(() => cy.fit(undefined, 80), 3000);
       };
 
       window.fitTDE = () => {
@@ -1204,6 +1209,8 @@ export default function GraphView({
     //   • e.stopPropagation() → event never reaches Cytoscape's own handler
     //                           (prevents double-zoom after our manual cy.zoom())
 
+    let wheelThrottleTimer = null;
+
     const handleWheel = (e) => {
       // Guard: SVG text nodes and shadow DOM targets may not be Elements
       // and therefore lack .closest() — bail out safely for those cases.
@@ -1213,22 +1220,24 @@ export default function GraphView({
       e.preventDefault();
       e.stopPropagation();
 
-      // DEBUG — remove once pinch-zoom and two-finger pan are confirmed working
-      console.log('[wheel]', { ctrlKey: e.ctrlKey, metaKey: e.metaKey, deltaY: e.deltaY, deltaX: e.deltaX, zoom: cy.zoom().toFixed(3) });
-
       // On Mac trackpads, pinch-to-zoom surfaces as a wheel event with ctrlKey=true.
       // Two-finger scroll arrives with ctrlKey=false — pan instead of zoom.
       if (e.ctrlKey || e.metaKey) {
-        // ZOOM — cursor-relative, natural-feel factor curve
+        // ZOOM — cursor-relative, much more sensitive for smooth pinching
+        // Phase 28: increased sensitivity from 0.005 to 0.03 (6x more responsive)
+        // Now ~50% zoom per wheel click instead of ~9.5% — feels natural
         const delta  = -e.deltaY;
-        const factor = Math.pow(1.2, delta * 0.005);
+        const factor = Math.pow(1.2, delta * 0.03);
         cy.zoom({
           level:            cy.zoom() * factor,
           renderedPosition: { x: e.offsetX, y: e.offsetY },
         });
       } else {
         // PAN — two-finger scroll
+        // Throttle pans to reduce render calls during fast scrolling
+        if (wheelThrottleTimer) return;
         cy.panBy({ x: -e.deltaX, y: -e.deltaY });
+        wheelThrottleTimer = setTimeout(() => { wheelThrottleTimer = null; }, 16); // ~60fps
       }
     };
 
