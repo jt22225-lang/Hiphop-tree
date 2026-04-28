@@ -13,6 +13,7 @@ import {
   sortErasChronologically,
   countArtistsPerEra,
 } from './timelineUtils';
+import { perfMonitor } from './performanceMonitor';
 import './App.css';
 
 const API = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
@@ -94,6 +95,8 @@ export default function App() {
   const [yearRange, setYearRange]       = useState({ minYear: 2020, maxYear: 2024 });
   const [allEras, setAllEras]           = useState({});
   const [eraArtistCounts, setEraArtistCounts] = useState({});
+  // Track when graph is fully rendered (not just data fetched)
+  const [graphReady, setGraphReady]      = useState(false);
   const cyRef = useRef(null);
 
   // ── Sonic Link handler ───────────────────────────────────────
@@ -165,34 +168,84 @@ export default function App() {
     }
   };
 
-  // ── Graph fetch ──────────────────────────────────────────────
+  // ── Graph fetch with caching and performance monitoring ─────
   useEffect(() => {
+    perfMonitor.mark('fetch-start');
+
+    // Try localStorage cache first (instant load for returning users)
+    const cachedGraph = localStorage.getItem('hiphoptree-graph-cache');
+    const cacheTimestamp = localStorage.getItem('hiphoptree-cache-timestamp');
+    const cacheMaxAge = 24 * 60 * 60 * 1000; // 24 hours
+
+    if (
+      cachedGraph &&
+      cacheTimestamp &&
+      Date.now() - parseInt(cacheTimestamp) < cacheMaxAge
+    ) {
+      // Use cached data
+      perfMonitor.mark('cache-load');
+      try {
+        const data = JSON.parse(cachedGraph);
+        processGraphData(data, true);
+        perfMonitor.measure('load-from-cache', 'page-start', 'cache-load');
+        return;
+      } catch (e) {
+        console.warn('[Cache] Failed to parse cached graph:', e.message);
+        localStorage.removeItem('hiphoptree-graph-cache');
+      }
+    }
+
+    // Fetch from API
     axios.get(`${API}/graph`)
       .then(res => {
-        setGraphData(res.data);
-        setLoading(false);
-        prefetchImages(res.data);
+        perfMonitor.mark('fetch-complete');
+        perfMonitor.measure('api-response-time', 'fetch-start', 'fetch-complete');
 
-        // Compute dynamic timeline data from the loaded graph
-        const markers = generateEraMarkers(res.data);
-        const range = getYearRange(res.data);
-        const eras = extractAllEras(res.data);
-        const counts = countArtistsPerEra(res.data);
+        // Cache the data for next visit
+        try {
+          localStorage.setItem('hiphoptree-graph-cache', JSON.stringify(res.data));
+          localStorage.setItem('hiphoptree-cache-timestamp', Date.now().toString());
+        } catch (e) {
+          console.warn('[Cache] Failed to cache graph:', e.message);
+        }
 
-        setEraMarkers(markers);
-        setYearRange(range);
-        setAllEras(eras);
-        setEraArtistCounts(counts);
-
-        // Set initial activeYear to the max year available
-        const maxYear = range.maxYear;
-        setActiveYear(maxYear);
+        processGraphData(res.data, false);
       })
       .catch(() => {
         setError('Cannot reach backend. Make sure it is running.');
         setLoading(false);
+        setGraphReady(false);
       });
   }, []); // eslint-disable-line
+
+  // ── Process graph data and compute derived state ─────────────
+  const processGraphData = (data, fromCache) => {
+    perfMonitor.mark('process-start');
+
+    setGraphData(data);
+    prefetchImages(data);
+
+    // Compute dynamic timeline data from the loaded graph
+    const markers = generateEraMarkers(data);
+    const range = getYearRange(data);
+    const eras = extractAllEras(data);
+    const counts = countArtistsPerEra(data);
+
+    setEraMarkers(markers);
+    setYearRange(range);
+    setAllEras(eras);
+    setEraArtistCounts(counts);
+
+    // Set initial activeYear to the max year available
+    const maxYear = range.maxYear;
+    setActiveYear(maxYear);
+
+    perfMonitor.mark('process-complete');
+    perfMonitor.measure('data-processing-time', 'process-start', 'process-complete');
+
+    // Keep loading state until graph actually renders
+    // (Cytoscape layout will set graphReady when done)
+  };
 
   const handleNodeSelect = useCallback((artist) => {
     setSelected(artist);
@@ -348,6 +401,13 @@ export default function App() {
           focusedCollective={focusedCollective}
           onCollectiveReset={() => setFocusedCollective(null)}
           onLinkAudio={handleLinkAudio}
+          onLayoutComplete={() => {
+            perfMonitor.mark('layout-complete');
+            perfMonitor.measure('graph-render-time', 'process-complete', 'layout-complete');
+            perfMonitor.measure('total-load-time', 'page-start', 'layout-complete');
+            setGraphReady(true);
+            perfMonitor.report();
+          }}
         />
         )}
 
@@ -411,10 +471,13 @@ export default function App() {
       </div>
 
       {/* ── Loading / error overlays (inside graph view) ── */}
-      {loading && (
+      {(loading || !graphReady) && !isLandingVisible && (
         <div className="splash splash-overlay">
           <div className="spinner" />
-          <p>Loading the tree…</p>
+          <p>Loading the constellation…</p>
+          <small style={{ marginTop: '16px', opacity: 0.7, fontSize: '12px' }}>
+            {loading ? 'Fetching data…' : 'Rendering graph layout…'}
+          </small>
         </div>
       )}
       {error && (

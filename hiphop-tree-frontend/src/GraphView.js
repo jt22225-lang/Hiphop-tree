@@ -113,6 +113,7 @@ export default function GraphView({
   focusedCollective,   // ← collective ID string | null  (Label Focus mode)
   onCollectiveReset,   // ← called when user taps the background to exit focus
   onLinkAudio,         // ← (audioMeta | null) => void — Sonic Link callback
+  onLayoutComplete,    // ← callback when Cola layout finishes
 }) {
   const containerRef         = useRef(null);
   const cyInstance           = useRef(null);
@@ -998,6 +999,11 @@ export default function GraphView({
       cy.autolock(false);
       cy.userZoomingEnabled(true);
       cy.userPanningEnabled(true);
+
+      // Signal that layout is complete for loading screen
+      if (onLayoutComplete) {
+        onLayoutComplete();
+      }
 
       // ── Console helpers ─────────────────────────────────────
       // window.resetLayout() — re-run cola from current positions with extreme spacing
