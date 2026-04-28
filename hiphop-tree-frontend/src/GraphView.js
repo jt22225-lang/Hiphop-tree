@@ -66,6 +66,15 @@ const PRODUCER_PERIMETER_IDS = new Set([
 
 const LEGEND_EDGE_LEN      = 110;  // kept for reference — legend edges unified at 150px in Phase 13
 
+// ── Hidden Artists ───────────────────────────────────────────
+// Temporary exclusions — artists not yet ready for display.
+// Modify this set to hide/show specific artists without data changes.
+// Example: UK artists pending additional region support.
+const HIDDEN_ARTIST_IDS = new Set([
+  'nines',   // UK grime artist — UK expansion planned for future
+  'knucks',  // UK artist — UK expansion planned for future
+]);
+
 // ── Radial Timeline — Epoch System ──────────────────────────
 // Each era maps to a target radius band in model space.
 // Pre-positioning artists here gives Cola a timeline-aware
@@ -362,6 +371,9 @@ export default function GraphView({
     const elements = [];
 
     data.artists.forEach(a => {
+      // Skip hidden artists (e.g., pending UK expansion)
+      if (HIDDEN_ARTIST_IDS.has(a.id)) return;
+
       const size       = getSize(a.id);
       const isLegend   = a.isLegend === true || LEGEND_IDS.has(a.id);
       const isDeepCut  = deepCutIds?.has(a.id) || false;
@@ -394,6 +406,8 @@ export default function GraphView({
     });
 
     data.relationships.forEach(r => {
+      // Skip relationships involving hidden artists
+      if (HIDDEN_ARTIST_IDS.has(r.source) || HIDDEN_ARTIST_IDS.has(r.target)) return;
       if (filter !== 'all' && r.type !== filter) return;
       const isLegendEdge    = LEGEND_IDS.has(r.source) || LEGEND_IDS.has(r.target);
       const isMentorEdge    = r.type === 'mentorship';
