@@ -778,9 +778,9 @@ export default function GraphView({
       layout: { name: 'preset', positions: epochPositions },
 
       // ── Zoom range for the "Galaxy" scale ─────────────────
-      // Phase 24: wider zoom extents so 240 nodes at fit-zoom don't
-      // sit at the old 0.05 floor and prevent further zoom-out.
-      minZoom: 0.01,
+      // Phase 26: ultra-wide zoom extents for 571 artists
+      // minZoom 0.005 allows seeing the full constellation at once
+      minZoom: 0.005,
       maxZoom: 10,
 
       userZoomingEnabled: true,
@@ -902,17 +902,18 @@ export default function GraphView({
       animate:              true,
       animationDuration:    1200,
       refresh:              4,
-      // Phase 25: hard-cap physics at 3 s so CPU is fully free for input after load
+      // Phase 25+: increase time for better settling with 571 artists & larger spacing
       infinite:             false,
-      maxSimulationTime:    3000,
+      maxSimulationTime:    5000,
       convergenceThreshold: 0.003,
       fit:                  false,   // we call fit() manually on layoutstop
-      padding:              60,
-      // Phase 20 physics:
-      //   gravity=60 → strong centre pull; epoch pre-positions seed the radius bands
-      //   nodeSpacing=250 → extra breathing room prevents inner-ring overlap
-      nodeSpacing:          250,
-      gravity:              60,
+      padding:              200,     // increased from 60 → 200 for canvas edge breathing
+      // Phase 26: Major spacing adjustments for 571-artist graphs
+      //   nodeSpacing=500 → 2x larger (was 250) prevents central clustering
+      //   gravity=35 → reduced from 60 to allow outward spread
+      //   Epoch pre-positions still seed the radius bands, but with more room
+      nodeSpacing:          500,
+      gravity:              35,
       edgeLength: edge => {
         const src = edge.source().id();
         const tgt = edge.target().id();
@@ -964,8 +965,8 @@ export default function GraphView({
       // Re-measure container (position:absolute children can miss the initial
       // paint — resize() forces Cytoscape to re-read the actual pixel dimensions)
       cy.resize();
-      // Fit all nodes into view with 150px breathing room
-      cy.fit(undefined, 150);
+      // Fit all nodes into view with generous 200px breathing room for 571 artists
+      cy.fit(undefined, 200);
       // Unlock the viewport — both zoom and pan must be explicitly re-enabled
       cy.autolock(false);
       cy.userZoomingEnabled(true);
@@ -980,8 +981,8 @@ export default function GraphView({
         cy.userPanningEnabled(true);
         cy.layout({
           name: 'cola', animate: true, animationDuration: 1200,
-          fit: false, nodeSpacing: 250, gravity: 60,
-          infinite: false, maxSimulationTime: 3000, avoidOverlap: true,
+          fit: false, padding: 200, nodeSpacing: 500, gravity: 35,
+          infinite: false, maxSimulationTime: 5000, avoidOverlap: true,
           edgeLength: e => {
             const s = e.source().id(), t = e.target().id();
             if (PRODUCER_PERIMETER_IDS.has(s) || PRODUCER_PERIMETER_IDS.has(t)) return 6000;
@@ -990,7 +991,7 @@ export default function GraphView({
             return 200;
           },
         }).run();
-        setTimeout(() => cy.fit(undefined, 150), 2000);
+        setTimeout(() => cy.fit(undefined, 150), 2500);
       };
 
       window.fitTDE = () => {
