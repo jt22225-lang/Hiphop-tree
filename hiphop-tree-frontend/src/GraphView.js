@@ -792,9 +792,9 @@ export default function GraphView({
       layout: { name: 'preset', positions: epochPositions },
 
       // ── Zoom range for the "Galaxy" scale ─────────────────
-      // Phase 26: ultra-wide zoom extents for 571 artists
-      // minZoom 0.005 allows seeing the full constellation at once
-      minZoom: 0.005,
+      // Phase 27: extreme zoom extents for dramatically spread 571 artists
+      // minZoom 0.001 allows seeing the full extreme-spacing constellation
+      minZoom: 0.001,
       maxZoom: 10,
 
       userZoomingEnabled: true,
@@ -913,21 +913,25 @@ export default function GraphView({
     // ── Run Cola physics layout ──────────────────────────────
     const layout = cy.layout({
       name:              'cola',
-      animate:              true,
-      animationDuration:    1200,
-      refresh:              4,
-      // Phase 25+: increase time for better settling with 571 artists & larger spacing
+      // Phase 27: EXTREME SPACING for dramatic 571-artist constellation
+      // No animation on initial load → instant spread across full canvas
+      animate:              false,
+      animationDuration:    0,
+      refresh:              1,
       infinite:             false,
-      maxSimulationTime:    5000,
-      convergenceThreshold: 0.003,
-      fit:                  false,   // we call fit() manually on layoutstop
-      padding:              200,     // increased from 60 → 200 for canvas edge breathing
-      // Phase 26: Major spacing adjustments for 571-artist graphs
-      //   nodeSpacing=500 → 2x larger (was 250) prevents central clustering
-      //   gravity=35 → reduced from 60 to allow outward spread
-      //   Epoch pre-positions still seed the radius bands, but with more room
-      nodeSpacing:          500,
-      gravity:              35,
+      // Extended settlement for extreme spacing parameters
+      maxSimulationTime:    10000,    // 10s for full settling
+      convergenceThreshold: 0.0001,   // very strict convergence
+      fit:                  false,    // we call fit() manually on layoutstop
+      padding:              400,      // 6.7x original (60 → 400) massive canvas breathing
+      // ── EXTREME SPACING PARAMETERS ──────────────────────────
+      //   nodeSpacing=1200 → 4.8x original, nodes push extremely far apart
+      //   gravity=10 → almost no center pull, allows full spread
+      //   linkDistance=2.0 → 2x edge length stretch
+      //   randomize=true → better initial dispersal across canvas
+      nodeSpacing:          1200,
+      gravity:              10,
+      linkDistance:         2.0,      // stretch edges 2x longer
       edgeLength: edge => {
         const src = edge.source().id();
         const tgt = edge.target().id();
@@ -949,10 +953,14 @@ export default function GraphView({
         if (collectiveIds.has(id)) return 20;
         return 1;
       },
-      randomize:            false,
+      // Phase 27: Aggressive iteration parameters
+      randomize:            true,     // randomize initial positions for dispersal
+      maxIterations:        200,      // 200 cycles to fully spread
+      unconstrainedIterations: 20,    // extra unconstrained phase for final spread
       avoidOverlap:         true,
       handleDisconnected:   true,
-      centerGraph:          true,
+      centerGraph:          false,    // don't center, let it sprawl
+      damping:              0.15,     // reduce damping for more energetic settling
     });
 
     // ── Collect TDE member IDs for cluster-fit helper ────────
@@ -979,24 +987,25 @@ export default function GraphView({
       // Re-measure container (position:absolute children can miss the initial
       // paint — resize() forces Cytoscape to re-read the actual pixel dimensions)
       cy.resize();
-      // Fit all nodes into view with generous 200px breathing room for 571 artists
-      cy.fit(undefined, 200);
+      // Fit all nodes into view with extreme 300px breathing room for dramatically spread artists
+      cy.fit(undefined, 300);
       // Unlock the viewport — both zoom and pan must be explicitly re-enabled
       cy.autolock(false);
       cy.userZoomingEnabled(true);
       cy.userPanningEnabled(true);
 
       // ── Console helpers ─────────────────────────────────────
-      // window.resetLayout() — re-run cola from current positions
+      // window.resetLayout() — re-run cola from current positions with extreme spacing
       window.resetLayout = () => {
         // Re-arm zoom/pan in case anything disabled them
         cy.zoomingEnabled(true);
         cy.userZoomingEnabled(true);
         cy.userPanningEnabled(true);
         cy.layout({
-          name: 'cola', animate: true, animationDuration: 1200,
-          fit: false, padding: 200, nodeSpacing: 500, gravity: 35,
-          infinite: false, maxSimulationTime: 5000, avoidOverlap: true,
+          name: 'cola', animate: false, animationDuration: 0,
+          fit: false, padding: 400, nodeSpacing: 1200, gravity: 10, linkDistance: 2.0,
+          infinite: false, maxSimulationTime: 10000, maxIterations: 200,
+          avoidOverlap: true, randomize: true, centerGraph: false,
           edgeLength: e => {
             const s = e.source().id(), t = e.target().id();
             if (PRODUCER_PERIMETER_IDS.has(s) || PRODUCER_PERIMETER_IDS.has(t)) return 6000;
@@ -1005,7 +1014,7 @@ export default function GraphView({
             return 200;
           },
         }).run();
-        setTimeout(() => cy.fit(undefined, 150), 2500);
+        setTimeout(() => cy.fit(undefined, 300), 3000);
       };
 
       window.fitTDE = () => {
