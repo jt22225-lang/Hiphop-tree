@@ -168,30 +168,38 @@ app.post('/api/wiki-image-batch', async (req, res) => {
 
   const results = {};
 
-  for (const { id, name, wikidataId } of artists) {
-    if (!id || !name) continue;
-    const nameKey = name.toLowerCase();
-
-    // Serve from cache instantly when available
-    const cached = await getCached(nameKey);
+  // Separate cached from uncached artists to avoid unnecessary fetches
+  const uncached = [];
+  await Promise.all(artists.map(async ({ id, name }) => {
+    if (!id || !name) return;
+    const cached = await getCached(name.toLowerCase());
     if (cached?.image_url) {
       results[id] = cached.image_url;
-      continue;
+    } else {
+      uncached.push({ id, name });
     }
+  }));
 
-    // Multi-strategy fetch
-    try {
-      const img = await fetchWikiImage(name, wikidataId || null);
-      if (img) {
-        results[id] = img;
-        setImmediate(() => setCached(nameKey, name, { image_url: img }));
+  // Fetch uncached artists in parallel with concurrency limit of 4
+  // This cuts batch time from ~3s (sequential 150ms×20) to ~500ms
+  const CONCURRENCY = 4;
+  for (let i = 0; i < uncached.length; i += CONCURRENCY) {
+    const slice = uncached.slice(i, i + CONCURRENCY);
+    await Promise.all(slice.map(async ({ id, name }) => {
+      try {
+        const img = await fetchWikiImage(name, null);
+        if (img) {
+          results[id] = img;
+          setImmediate(() => setCached(name.toLowerCase(), name, { image_url: img }));
+        }
+      } catch (e) {
+        console.warn(`[BATCH] Error for "${name}":`, e.message);
       }
-    } catch (e) {
-      console.warn(`[BATCH] Error for "${name}":`, e.message);
+    }));
+    // Brief pause between parallel groups to stay polite to Wikipedia
+    if (i + CONCURRENCY < uncached.length) {
+      await new Promise(r => setTimeout(r, 100));
     }
-
-    // Polite rate-limit between external API calls
-    await new Promise(r => setTimeout(r, 150));
   }
 
   console.log(`[BATCH] Resolved ${Object.keys(results).length}/${artists.length} images`);

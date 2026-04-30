@@ -918,54 +918,40 @@ export default function GraphView({
     // ── Run Cola physics layout ──────────────────────────────
     const layout = cy.layout({
       name:              'cola',
-      // Phase 27: EXTREME SPACING for dramatic 571-artist constellation
-      // No animation on initial load → instant spread across full canvas
-      animate:              false,
-      animationDuration:    0,
+      // animate:true runs each physics iteration via requestAnimationFrame,
+      // keeping the main thread free. animate:false blocked for up to 10s.
+      animate:              true,
+      animationDuration:    0,        // no per-step CSS transition — instant snapping
       refresh:              1,
       infinite:             false,
-      // Extended settlement for extreme spacing parameters
-      maxSimulationTime:    10000,    // 10s for full settling
-      convergenceThreshold: 0.0001,   // very strict convergence
+      maxSimulationTime:    4000,     // 4s cap; layout fires layoutstop even if not converged
+      convergenceThreshold: 0.001,    // relaxed — good enough layout, faster stop
       fit:                  false,    // we call fit() manually on layoutstop
-      padding:              400,      // 6.7x original (60 → 400) massive canvas breathing
-      // ── EXTREME SPACING PARAMETERS ──────────────────────────
-      //   nodeSpacing=1200 → 4.8x original, nodes push extremely far apart
-      //   gravity=10 → almost no center pull, allows full spread
-      //   linkDistance=2.0 → 2x edge length stretch
-      //   randomize=true → better initial dispersal across canvas
-      nodeSpacing:          1200,
+      padding:              400,
+      nodeSpacing:          800,      // reduced from 1200 — still spread, ~half the CPU cost
       gravity:              10,
-      linkDistance:         2.0,      // stretch edges 2x longer
+      linkDistance:         2.0,
       edgeLength: edge => {
         const src = edge.source().id();
         const tgt = edge.target().id();
-        // 6000px tether: dramatic long beam from the inner star to the
-        // outer void guards. Producer is locked so only rapper is pulled.
         if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 6000;
-        // Cluster cohesion — collective springs stay tight.
         if (edge.data('subtype') === 'member_of') return 55;
         if (edge.data('type') === 'collective') return 70;
         return 200;
       },
-      // Phase 17 nodeWeight:
-      //   Producers → 50: even locked, high mass signals "stay away"
-      //   Hub nodes  → 20: cluster anchors
-      //   Rappers    → 1:  drift freely toward the gravity core
       nodeWeight: node => {
         const id = node.id();
         if (PRODUCER_PERIMETER_IDS.has(id)) return 50;
         if (collectiveIds.has(id)) return 20;
         return 1;
       },
-      // Phase 27: Aggressive iteration parameters
-      randomize:            true,     // randomize initial positions for dispersal
-      maxIterations:        200,      // 200 cycles to fully spread
-      unconstrainedIterations: 20,    // extra unconstrained phase for final spread
+      randomize:            true,
+      maxIterations:        100,      // reduced from 200 — good layout in half the iterations
+      unconstrainedIterations: 10,
       avoidOverlap:         true,
       handleDisconnected:   true,
-      centerGraph:          false,    // don't center, let it sprawl
-      damping:              0.15,     // reduce damping for more energetic settling
+      centerGraph:          false,
+      damping:              0.15,
     });
 
     // ── Collect TDE member IDs for cluster-fit helper ────────
@@ -1013,9 +999,9 @@ export default function GraphView({
         cy.userZoomingEnabled(true);
         cy.userPanningEnabled(true);
         cy.layout({
-          name: 'cola', animate: false, animationDuration: 0,
-          fit: false, padding: 400, nodeSpacing: 1200, gravity: 10, linkDistance: 2.0,
-          infinite: false, maxSimulationTime: 10000, maxIterations: 200,
+          name: 'cola', animate: true, animationDuration: 0,
+          fit: false, padding: 400, nodeSpacing: 800, gravity: 10, linkDistance: 2.0,
+          infinite: false, maxSimulationTime: 4000, maxIterations: 100,
           avoidOverlap: true, randomize: true, centerGraph: false,
           edgeLength: e => {
             const s = e.source().id(), t = e.target().id();

@@ -200,8 +200,8 @@ export default function App() {
       }
     }
 
-    // Fetch from API
-    axios.get(`${API}/graph`)
+    // Fetch from API — 15s timeout so a cold-starting backend fails fast
+    axios.get(`${API}/graph`, { timeout: 15000 })
       .then(res => {
         perfMonitor.mark('fetch-complete');
         perfMonitor.measure('api-response-time', 'fetch-start', 'fetch-complete');
@@ -217,8 +217,11 @@ export default function App() {
 
         processGraphData(res.data, false);
       })
-      .catch(() => {
-        setError('Cannot reach backend. Make sure it is running.');
+      .catch((err) => {
+        const msg = err.code === 'ECONNABORTED'
+          ? 'Backend timed out. It may be starting up — refresh in a moment.'
+          : 'Cannot reach backend. Make sure it is running.';
+        setError(msg);
         setLoading(false);
         setGraphReady(false);
       });
