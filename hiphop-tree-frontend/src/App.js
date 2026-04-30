@@ -175,11 +175,14 @@ export default function App() {
     // Try localStorage cache first (instant load for returning users)
     const cachedGraph = localStorage.getItem('hiphoptree-graph-cache');
     const cacheTimestamp = localStorage.getItem('hiphoptree-cache-timestamp');
+    const cacheVersion = localStorage.getItem('hiphoptree-cache-version');
     const cacheMaxAge = 24 * 60 * 60 * 1000; // 24 hours
+    const EXPECTED_CACHE_VERSION = '2'; // Increment when data structure changes
 
     if (
       cachedGraph &&
       cacheTimestamp &&
+      cacheVersion === EXPECTED_CACHE_VERSION &&
       Date.now() - parseInt(cacheTimestamp) < cacheMaxAge
     ) {
       // Use cached data
@@ -192,6 +195,8 @@ export default function App() {
       } catch (e) {
         console.warn('[Cache] Failed to parse cached graph:', e.message);
         localStorage.removeItem('hiphoptree-graph-cache');
+        localStorage.removeItem('hiphoptree-cache-timestamp');
+        localStorage.removeItem('hiphoptree-cache-version');
       }
     }
 
@@ -205,6 +210,7 @@ export default function App() {
         try {
           localStorage.setItem('hiphoptree-graph-cache', JSON.stringify(res.data));
           localStorage.setItem('hiphoptree-cache-timestamp', Date.now().toString());
+          localStorage.setItem('hiphoptree-cache-version', '2');
         } catch (e) {
           console.warn('[Cache] Failed to cache graph:', e.message);
         }
