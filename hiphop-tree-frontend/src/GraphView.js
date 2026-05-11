@@ -980,7 +980,14 @@ export default function GraphView({
       cy.resize();
       // Phase 28: Fit with moderate padding for readable initial size
       // Use 80px (not 300px) so graph isn't zoomed out to tiny
-      cy.fit(undefined, 80);
+      // Fit only nodes (exclude edges) to avoid bounding box calculation issues
+      try {
+        cy.fit(cy.nodes(), 80);
+      } catch (e) {
+        // Fallback: fit all elements if nodes-only fit fails
+        console.warn('Node fit failed, attempting full fit:', e);
+        cy.fit(undefined, 80);
+      }
       // Unlock the viewport — both zoom and pan must be explicitly re-enabled
       cy.autolock(false);
       cy.userZoomingEnabled(true);
@@ -1011,7 +1018,14 @@ export default function GraphView({
             return 200;
           },
         }).run();
-        setTimeout(() => cy.fit(undefined, 80), 3000);
+        setTimeout(() => {
+          try {
+            cy.fit(cy.nodes(), 80);
+          } catch (e) {
+            console.warn('Reset layout fit failed:', e);
+            cy.fit(undefined, 80);
+          }
+        }, 3000);
       };
 
       window.fitTDE = () => {
