@@ -926,8 +926,8 @@ export default function GraphView({
       maxSimulationTime:    4000,     // 4s cap; layout fires layoutstop even if not converged
       convergenceThreshold: 0.001,    // relaxed — good enough layout, faster stop
       fit:                  false,    // we call fit() manually on layoutstop
-      padding:              400,
-      nodeSpacing:          800,      // reduced from 1200 — still spread, ~half the CPU cost
+      padding:              600,      // increased from 400 for more canvas area
+      nodeSpacing:          1400,     // increased from 800 for wider node separation
       gravity:              10,
       linkDistance:         2.0,
       edgeLength: edge => {
@@ -948,6 +948,7 @@ export default function GraphView({
       maxIterations:        100,      // reduced from 200 — good layout in half the iterations
       unconstrainedIterations: 10,
       avoidOverlap:         true,
+      avoidOverlapPadding:  300,      // increased padding distance between overlapping nodes
       handleDisconnected:   true,
       centerGraph:          false,
       damping:              0.15,
@@ -999,9 +1000,9 @@ export default function GraphView({
         cy.userPanningEnabled(true);
         cy.layout({
           name: 'cola', animate: true, animationDuration: 0,
-          fit: false, padding: 400, nodeSpacing: 800, gravity: 10, linkDistance: 2.0,
+          fit: false, padding: 600, nodeSpacing: 1400, gravity: 10, linkDistance: 2.0,
           infinite: false, maxSimulationTime: 4000, maxIterations: 100,
-          avoidOverlap: true, randomize: true, centerGraph: false,
+          avoidOverlap: true, avoidOverlapPadding: 300, randomize: true, centerGraph: false,
           edgeLength: e => {
             const s = e.source().id(), t = e.target().id();
             if (PRODUCER_PERIMETER_IDS.has(s) || PRODUCER_PERIMETER_IDS.has(t)) return 6000;
