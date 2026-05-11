@@ -51,9 +51,9 @@ const MIN_SIZE     = 50;   // Phase 10: proportional base — 50px floor for art
 const LEGEND_BOOST = 20;   // legends = ~70px base + BOOST; hubs fixed at 80px in getSize
 
 // ── Producer Perimeter ───────────────────────────────────────
-// All nodes that are Legends OR have role='producer' get locked
-// in a fixed decagon on the outer ring so they form an arc of
-// gravity wells around the rappers clustered at the centre.
+// All nodes that are Legends OR have role='producer' are initially
+// positioned on the outer ring as gravity wells around the central
+// rappers. All nodes are now freely draggable and can be repositioned.
 const PRODUCER_PERIMETER_IDS = new Set([
   ...LEGEND_IDS,
   // Additional producers in graph (non-legend but role=producer)
@@ -822,26 +822,25 @@ export default function GraphView({
 
     // ── Phase 12: Producer Perimeter Prison — initial stamp ──
     // lock()      → Cola physics cannot move these nodes.
-    // ungrabify() → User pointer cannot grab or drag them.
-    // Both are required: lock() stops the engine; ungrabify() stops the hand.
+    // Position perimeter nodes for initial layout visualization.
+    // Nodes remain draggable — removed lock() and ungrabify() to allow
+    // users to freely reposition all nodes including producers/legends.
     if (perimeterCount > 0) {
       cy.nodes().forEach(node => {
         const id = node.id();
         if (perimeterSet.has(id) && perimeterPositions[id]) {
           node.position(perimeterPositions[id]);
-          node.lock();
-          node.ungrabify();  // environmental anchor — not a draggable node
+          // Nodes are now draggable — removed node.lock() and node.ungrabify()
         }
       });
     }
 
-    // ── Drag-start handler for non-perimeter rapper nodes ────
-    // Perimeter nodes are ungrabified so dragstart never fires for them.
-    // For rapper nodes: clear any residual fx/fy Cola data so they
-    // move freely without snapping to a cached simulation position.
+    // ── Drag-start handler for all nodes ────
+    // When user starts dragging a node, clear any residual fx/fy Cola
+    // data so it moves freely without snapping to a cached simulation position.
+    // This applies to all nodes — artists, producers, and collectives.
     cy.on('dragstart', 'node', evt => {
       const node = evt.target;
-      if (perimeterSet.has(node.id())) return;  // guard: should never reach here anyway
       if (node.locked()) node.unlock();
       node.removeData('fx');
       node.removeData('fy');
@@ -969,8 +968,8 @@ export default function GraphView({
           const id = node.id();
           if (perimeterSet.has(id) && perimeterPositions[id]) {
             node.position(perimeterPositions[id]);
-            node.lock();
-            node.ungrabify();
+            // Nodes remain draggable — removed node.lock() and node.ungrabify()
+            // to allow users to freely reposition producers/legend nodes
           }
         });
       }
