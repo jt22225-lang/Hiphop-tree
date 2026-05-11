@@ -178,9 +178,10 @@ function FeatureCard({ icon, title, description, accentColor }) {
 export default function LandingPage({
   onEnter,
   isDissolving,
-  artistCount       = 123,
-  relationshipCount = 238,
-  deepCutCount      = 26,
+  artistCount       = 240,
+  relationshipCount = 571,
+  deepCutCount      = 27,
+  relationshipTypes = 4,
 }) {
   return (
     <div className={`landing-page ${isDissolving ? 'landing-page-dissolving' : ''}`}>
@@ -218,8 +219,7 @@ export default function LandingPage({
         </h1>
 
         <p className="lp-subheadline">
-          An interactive neural network mapping the mentorships, collaborations,
-          and architectural foundations of Hip-Hop.
+          An interactive knowledge graph visualizing every mentor-to-protégé pathway, collaboration, and family tie that shaped hip-hop culture from 1987 to now. Verified relationships sourced from Genius, Wikipedia, and music archives.
         </p>
 
         <button
@@ -237,6 +237,8 @@ export default function LandingPage({
           <AnimatedStat target={relationshipCount} label="Relationships" />
           <div className="lp-stats-divider" />
           <AnimatedStat target={deepCutCount}      label="Deep Cuts"     />
+          <div className="lp-stats-divider" />
+          <AnimatedStat target={relationshipTypes} label="Relationship Types" />
         </div>
 
         <div className="lp-features">
@@ -250,14 +252,57 @@ export default function LandingPage({
             icon="🖋️"
             title="Verified Vault"
             accentColor="#FFD700"
-            description="Hand-curated Legend nodes — The Alchemist, DJ Premier, J Dilla — with signed artifacts and physical archive provenance."
+            description="Every relationship cross-referenced across multiple sources. See what's confirmed vs. suggested."
           />
           <FeatureCard
             icon="🔍"
             title="Graph Intelligence"
             accentColor="#a855f7"
-            description="Jump navigation, center-zoom fly-to, Top Collaborator discovery, and Deep Cut detection — all without leaving the map."
+            description="Filter by era (1980s-2020s), relationship type, or search any artist. Discover hidden connections."
           />
+        </div>
+
+        <div className="lp-why-section">
+          <h2 className="lp-section-title">Why HipHopTree?</h2>
+          <div className="lp-why-cards">
+            <div className="lp-why-card">
+              <h3 className="lp-why-card-title">For Hip-Hop Fans</h3>
+              <p className="lp-why-card-desc">Stop reading 10 Wikipedia tabs. Visualize the entire ecosystem in one interactive map. Click Kendrick → see his crew → see their crew. Instant context.</p>
+            </div>
+            <div className="lp-why-card">
+              <h3 className="lp-why-card-title">For Music Historians</h3>
+              <p className="lp-why-card-desc">A verified, curated dataset of 571 relationships with sources. The most complete hip-hop lineage map ever built.</p>
+            </div>
+            <div className="lp-why-card">
+              <h3 className="lp-why-card-title">For Researchers & Creators</h3>
+              <p className="lp-why-card-desc">Understand how hip-hop was built. See which producers shaped eras. Trace mentorship chains from pioneers to modern artists.</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="lp-data-section">
+          <h2 className="lp-section-title">The Data</h2>
+          <div className="lp-data-grid">
+            <div className="lp-data-sources">
+              <h3 className="lp-data-subsection-title">Sourced From</h3>
+              <ul className="lp-data-list">
+                <li><span className="lp-check">✓</span> Genius API (artist credits, collaborations)</li>
+                <li><span className="lp-check">✓</span> Wikipedia (verified biographical data)</li>
+                <li><span className="lp-check">✓</span> AllMusic (production credits, discography)</li>
+                <li><span className="lp-check">✓</span> Primary interviews & liner notes</li>
+                <li><span className="lp-check">✓</span> Spotify artist relationships</li>
+              </ul>
+            </div>
+            <div className="lp-data-types">
+              <h3 className="lp-data-subsection-title">Relationship Types</h3>
+              <ul className="lp-data-list">
+                <li><span className="lp-type-icon">🎤</span> <strong>Collaborative</strong> — Featured on, Produced by, Wrote for</li>
+                <li><span className="lp-type-icon">👨‍👩‍👦</span> <strong>Familial</strong> — Blood relatives</li>
+                <li><span className="lp-type-icon">🎓</span> <strong>Mentorship</strong> — Signed to, Mentored by, Discovered by</li>
+                <li><span className="lp-type-icon">🎭</span> <strong>Collective</strong> — Wu-Tang, Griselda, Odd Future, etc.</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
         <p className="lp-curators-note">
