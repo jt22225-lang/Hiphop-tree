@@ -1844,6 +1844,9 @@ body.sidebar-open .graph-container {
   max-width: 780px;
   width: 100%;
   padding: 80px 24px 80px;  /* generous top + bottom so content is never clipped */
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 16px;
+  backdrop-filter: blur(2px);
 }
 
 /* ── Eyebrow ─────────────────────────────────────────────── */
@@ -1874,6 +1877,7 @@ body.sidebar-open .graph-container {
   letter-spacing: -1.5px;
   color: #ffffff;
   margin-bottom: 24px;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
 }
 .lp-headline-colon { color: #FFD700; }
 
@@ -1883,15 +1887,17 @@ body.sidebar-open .graph-container {
   font-weight: 700;
   color: #cccccc;
   letter-spacing: -1px;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
 }
 
 /* ── Sub-headline ────────────────────────────────────────── */
 .lp-subheadline {
   font-size: clamp(14px, 1.8vw, 17px);
   line-height: 1.7;
-  color: #777;
+  color: #888;
   max-width: 560px;
   margin-bottom: 40px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* ── Enter Archive button ─────────────────────────────────── */
@@ -1954,10 +1960,10 @@ body.sidebar-open .graph-container {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.07);
   border-radius: 8px;
-  padding: 18px 40px;
+  padding: 28px 24px;
   margin-bottom: 56px;
   width: 100%;
-  max-width: 520px;
+  max-width: 800px;
 }
 
 .lp-stat {
@@ -1965,7 +1971,8 @@ body.sidebar-open .graph-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  padding: 0 16px;
 }
 
 .lp-stat-number {
@@ -1991,9 +1998,10 @@ body.sidebar-open .graph-container {
 
 .lp-stats-divider {
   width: 1px;
-  height: 44px;
-  background: rgba(255,255,255,0.08);
+  height: 56px;
+  background: rgba(255,255,255,0.1);
   flex-shrink: 0;
+  margin: 0 12px;
 }
 
 /* ── Feature grid ────────────────────────────────────────── */
@@ -2195,12 +2203,17 @@ body.sidebar-open .graph-container {
   /* Stack stats vertically on small screens */
   .lp-stats-bar {
     flex-direction: column;
-    gap: 16px;
-    padding: 20px 24px;
+    gap: 24px;
+    padding: 24px 20px;
+    max-width: 100%;
   }
   .lp-stats-divider {
-    width: 40px;
+    width: 32px;
     height: 1px;
+    margin: 8px 0;
+  }
+  .lp-stat {
+    padding: 0;
   }
 
   /* Single column feature grid on mobile */
