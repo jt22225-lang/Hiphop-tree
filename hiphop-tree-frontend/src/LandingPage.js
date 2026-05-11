@@ -233,11 +233,8 @@ export default function LandingPage({
 
         <div className="lp-stats-bar">
           <AnimatedStat target={artistCount}       label="Artists"       />
-          <div className="lp-stats-divider" />
           <AnimatedStat target={relationshipCount} label="Relationships" />
-          <div className="lp-stats-divider" />
           <AnimatedStat target={deepCutCount}      label="Deep Cuts"     />
-          <div className="lp-stats-divider" />
           <AnimatedStat target={relationshipTypes} label="Relationship Types" />
         </div>
 
