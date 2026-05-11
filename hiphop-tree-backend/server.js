@@ -14,6 +14,27 @@ const PORT = process.env.PORT || 5001;
 app.use(cors());
 app.use(express.json());
 
+// ── Request Throttle for Wikidata ──────────────────────────
+// Limits concurrent requests to 1 per 500ms to avoid rate limiting
+class RequestThrottle {
+  constructor(minIntervalMs = 500) {
+    this.minIntervalMs = minIntervalMs;
+    this.lastRequestTime = 0;
+  }
+
+  async throttle() {
+    const now = Date.now();
+    const timeSinceLastRequest = now - this.lastRequestTime;
+    if (timeSinceLastRequest < this.minIntervalMs) {
+      const delay = this.minIntervalMs - timeSinceLastRequest;
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+    this.lastRequestTime = Date.now();
+  }
+}
+
+const wdThrottle = new RequestThrottle(500); // One request every 500ms
+
 // ── Health Check ────────────────────────────────────────────
 app.get('/health', (req, res) => {
   res.json({
@@ -252,22 +273,68 @@ const WD_HEADERS = {
   'Accept':     'application/sparql-results+json',
 };
 
-async function getWikidataId(name) {
-  const res = await axios.get('https://www.wikidata.org/w/api.php', {
-    params: { action:'wbsearchentities', search:name, language:'en', format:'json', limit:5, type:'item' },
-    headers: { 'User-Agent': 'HipHopTree/1.0' },
-    timeout: 8000,
-  });
-  return res.data.search?.[0]?.id || null;
+async function getWikidataId(name, retries = 3) {
+  try {
+    await wdThrottle.throttle();
+    const res = await axios.get('https://www.wikidata.org/w/api.php', {
+      params: { action:'wbsearchentities', search:name, language:'en', format:'json', limit:5, type:'item' },
+      headers: { 'User-Agent': 'HipHopTree/1.0' },
+      timeout: 8000,
+    });
+    return res.data.search?.[0]?.id || null;
+  } catch (err) {
+    // Handle rate limiting (429) with exponential backoff
+    if (err.response?.status === 429 && retries > 0) {
+      const retryAfter = parseInt(err.response.headers['retry-after'] || '3', 10);
+      const delay = Math.min(retryAfter * 1000, 15000); // Cap at 15 seconds
+      console.warn(`[WD] Rate limited (429) on ID lookup — retrying in ${delay}ms (${retries} retries left)`);
+
+      // Wait before retrying
+      await new Promise(resolve => setTimeout(resolve, delay));
+      return getWikidataId(name, retries - 1);
+    }
+
+    // Rate limited and out of retries — return null instead of erroring
+    if (err.response?.status === 429) {
+      console.warn('[WD] Rate limited (429) on ID lookup — giving up');
+      return null;
+    }
+
+    // Other errors — throw
+    throw err;
+  }
 }
 
-async function sparqlQuery(query) {
-  const res = await axios.get(SPARQL, {
-    params: { query, format:'json' },
-    headers: WD_HEADERS,
-    timeout: 12000,
-  });
-  return res.data.results.bindings;
+async function sparqlQuery(query, retries = 3) {
+  try {
+    await wdThrottle.throttle();
+    const res = await axios.get(SPARQL, {
+      params: { query, format:'json' },
+      headers: WD_HEADERS,
+      timeout: 12000,
+    });
+    return res.data.results.bindings;
+  } catch (err) {
+    // Handle rate limiting (429) with exponential backoff
+    if (err.response?.status === 429 && retries > 0) {
+      const retryAfter = parseInt(err.response.headers['retry-after'] || '3', 10);
+      const delay = Math.min(retryAfter * 1000, 15000); // Cap at 15 seconds
+      console.warn(`[WD] Rate limited (429) — retrying in ${delay}ms (${retries} retries left)`);
+
+      // Wait before retrying
+      await new Promise(resolve => setTimeout(resolve, delay));
+      return sparqlQuery(query, retries - 1);
+    }
+
+    // Rate limited and out of retries — return empty results instead of erroring
+    if (err.response?.status === 429) {
+      console.warn('[WD] Rate limited (429) — returning empty results');
+      return [];
+    }
+
+    // Other errors — throw
+    throw err;
+  }
 }
 
 // ── Wikidata artist fetcher (used by endpoint + background refresh) ─
@@ -347,7 +414,27 @@ app.get('/api/wikidata/artist/:name', async (req, res) => {
   // 2. Cache miss — fetch live
   try {
     const result = await fetchWikidataArtist(name);
-    if (!result) return res.status(404).json({ error: `No Wikidata entry for "${name}"` });
+
+    // Return empty but valid response if no data found (includes rate-limited case)
+    if (!result) {
+      console.log(`[WD] ⚠️  No data for "${name}" (may be rate-limited or not on Wikidata)`);
+      return res.json({
+        name,
+        qid: '',
+        wikidataUrl: '',
+        source: 'empty',
+        relative: [],
+        child: [],
+        father: [],
+        mother: [],
+        spouse: [],
+        influenced_by: [],
+        member_of: [],
+        hometown: [],
+        record_label: [],
+        genre: []
+      });
+    }
 
     const { qid, grouped } = result;
     console.log(`[WD] ✅ Fresh fetch "${name}" (${qid}):`, Object.keys(grouped).join(', ') || 'no data');
@@ -356,7 +443,23 @@ app.get('/api/wikidata/artist/:name', async (req, res) => {
 
   } catch (err) {
     console.error(`[WD] Error for "${name}":`, err.message);
-    res.status(500).json({ error: 'Wikidata query failed', detail: err.message });
+    // Return empty response on error instead of 500, so frontend doesn't show error message
+    res.json({
+      name,
+      qid: '',
+      wikidataUrl: '',
+      source: 'error',
+      relative: [],
+      child: [],
+      father: [],
+      mother: [],
+      spouse: [],
+      influenced_by: [],
+      member_of: [],
+      hometown: [],
+      record_label: [],
+      genre: []
+    });
   }
 });
 

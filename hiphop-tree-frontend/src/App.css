@@ -1721,9 +1721,10 @@ body.sidebar-open .graph-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   overflow-y: auto;       /* scroll rather than clip when viewport is short */
   background: #060608;
+  padding-top: 40px;
   /* Entry: page slides up from slightly below with a fade */
   animation: lp-enter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 
