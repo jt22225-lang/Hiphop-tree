@@ -36,8 +36,9 @@ export default function WikidataPanel({ artist, graphData, apiUrl }) {
     setLoading(true);
     setOpen(true);
     try {
+      // Pass artist ID to use stored Wikidata ID from graph.json
       const res = await axios.get(
-        `${apiUrl}/wikidata/artist/${encodeURIComponent(artist.name)}`
+        `${apiUrl}/wikidata/artist/${encodeURIComponent(artist.name)}?artistId=${encodeURIComponent(artist.id)}`
       );
       setData(res.data);
     } catch (e) {

@@ -351,8 +351,8 @@ const WD_PROPS = [
   { claim: 'P136',  key: 'genre'        },
 ];
 
-async function fetchWikidataArtist(name) {
-  const qid = await getWikidataId(name);
+// ── Fetch Wikidata using direct QID ──────────────────────
+async function fetchWikidataArtistByQid(qid) {
   if (!qid) return null;
 
   const claimList = WD_PROPS.map(p => `wdt:${p.claim}`).join(' ');
@@ -387,11 +387,31 @@ async function fetchWikidataArtist(name) {
   return { qid, grouped };
 }
 
+// ── Fetch Wikidata using artist name search ──────────────────────
+async function fetchWikidataArtist(name) {
+  const qid = await getWikidataId(name);
+  if (!qid) return null;
+
+  return fetchWikidataArtistByQid(qid);
+}
+
 // ── GET /api/wikidata/artist/:name ──────────────────────────
 // Returns family ties, influences, collective memberships, hometown
+// Accepts optional artistId query param to use stored Wikidata ID from graph.json
 app.get('/api/wikidata/artist/:name', async (req, res) => {
   const name    = decodeURIComponent(req.params.name);
-  const nameKey = name.toLowerCase();
+  const artistId = req.query.artistId ? decodeURIComponent(req.query.artistId) : null;
+  const nameKey = artistId || name.toLowerCase();
+
+  // Try to get Wikidata ID from graph.json if artistId provided
+  let qid = null;
+  if (artistId) {
+    const artist = graphData.artists.find(a => a.id === artistId);
+    if (artist?.metadata?.wikidataId) {
+      qid = artist.metadata.wikidataId;
+      console.log(`[WD] Using stored Wikidata ID for ${artistId}: ${qid}`);
+    }
+  }
 
   // 1. Check cache
   const cached = await getCached(nameKey);
@@ -400,28 +420,33 @@ app.get('/api/wikidata/artist/:name', async (req, res) => {
       console.log(`[WD] ♻️  Stale cache for "${name}" — refreshing in background`);
       setImmediate(async () => {
         try {
-          const result = await fetchWikidataArtist(name);
+          const result = qid
+            ? await fetchWikidataArtistByQid(qid)
+            : await fetchWikidataArtist(name);
           if (result) await setCached(nameKey, name, { wikidata: result.grouped, wikidata_id: result.qid });
         } catch (e) { console.warn('[WD] Background refresh failed:', e.message); }
       });
     } else {
       console.log(`[WD] ⚡ Cache hit for "${name}"`);
     }
-    const qid = cached.wikidata_id || '';
-    return res.json({ name, qid, wikidataUrl: `https://www.wikidata.org/wiki/${qid}`, source: 'cache', ...cached.wikidata });
+    const cachedQid = cached.wikidata_id || qid || '';
+    return res.json({ name, qid: cachedQid, wikidataUrl: `https://www.wikidata.org/wiki/${cachedQid}`, source: 'cache', ...cached.wikidata });
   }
 
   // 2. Cache miss — fetch live
   try {
-    const result = await fetchWikidataArtist(name);
+    // Use stored QID if available, otherwise search by name
+    const result = qid
+      ? await fetchWikidataArtistByQid(qid)
+      : await fetchWikidataArtist(name);
 
     // Return empty but valid response if no data found (includes rate-limited case)
     if (!result) {
-      console.log(`[WD] ⚠️  No data for "${name}" (may be rate-limited or not on Wikidata)`);
+      console.log(`[WD] ⚠️  No data for "${name}" (${qid || 'searched by name'}) (may be rate-limited or not on Wikidata)`);
       return res.json({
         name,
-        qid: '',
-        wikidataUrl: '',
+        qid: qid || '',
+        wikidataUrl: qid ? `https://www.wikidata.org/wiki/${qid}` : '',
         source: 'empty',
         relative: [],
         child: [],
@@ -436,18 +461,18 @@ app.get('/api/wikidata/artist/:name', async (req, res) => {
       });
     }
 
-    const { qid, grouped } = result;
-    console.log(`[WD] ✅ Fresh fetch "${name}" (${qid}):`, Object.keys(grouped).join(', ') || 'no data');
-    setImmediate(() => setCached(nameKey, name, { wikidata: grouped, wikidata_id: qid }));
-    res.json({ name, qid, wikidataUrl: `https://www.wikidata.org/wiki/${qid}`, source: 'fresh', ...grouped });
+    const resultQid = result.qid;
+    console.log(`[WD] ✅ Fresh fetch "${name}" (${resultQid}):`, Object.keys(result.grouped).join(', ') || 'no data');
+    setImmediate(() => setCached(nameKey, name, { wikidata: result.grouped, wikidata_id: resultQid }));
+    res.json({ name, qid: resultQid, wikidataUrl: `https://www.wikidata.org/wiki/${resultQid}`, source: 'fresh', ...result.grouped });
 
   } catch (err) {
     console.error(`[WD] Error for "${name}":`, err.message);
     // Return empty response on error instead of 500, so frontend doesn't show error message
     res.json({
       name,
-      qid: '',
-      wikidataUrl: '',
+      qid: qid || '',
+      wikidataUrl: qid ? `https://www.wikidata.org/wiki/${qid}` : '',
       source: 'error',
       relative: [],
       child: [],
@@ -515,32 +540,98 @@ app.get('/api/proxy-image', async (req, res) => {
 });
 
 // ── Wikipedia bio fetcher ───────────────────────────────────
-async function fetchWikiBio(name) {
-  const response = await axios.get('https://en.wikipedia.org/w/api.php', {
-    params: {
-      action:      'query',
-      titles:      name,
-      prop:        'extracts',
-      exintro:     true,
-      explaintext: true,
-      format:      'json',
-      origin:      '*',
-    },
-    headers: { 'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js' },
-    timeout: 10000,
-  });
-  const pages = response.data?.query?.pages;
-  const page  = pages ? Object.values(pages)[0] : null;
-  if (!page?.extract) return null;
-  // Strip any stray section headers and tidy whitespace
-  return page.extract.replace(/==+[^=]+==/g, '').replace(/\n{3,}/g, '\n\n').trim();
+async function fetchWikiBio(pageTitle) {
+  try {
+    const response = await axios.get('https://en.wikipedia.org/w/api.php', {
+      params: {
+        action:      'query',
+        titles:      pageTitle,
+        prop:        'extracts',
+        exintro:     true,
+        explaintext: true,
+        format:      'json',
+        origin:      '*',
+      },
+      headers: { 'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js' },
+      timeout: 10000,
+    });
+    const pages = response.data?.query?.pages;
+    const page  = pages ? Object.values(pages)[0] : null;
+
+    // If page not found via direct title match, try Wikipedia search
+    if (!page?.extract) {
+      console.log(`[WIKI-BIO] Direct title match failed for "${pageTitle}" — trying search API`);
+      const searchRes = await axios.get('https://en.wikipedia.org/w/api.php', {
+        params: {
+          action: 'query',
+          list: 'search',
+          srsearch: pageTitle,
+          format: 'json',
+          origin: '*',
+        },
+        headers: { 'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js' },
+        timeout: 10000,
+      });
+
+      const searchResults = searchRes.data?.query?.search || [];
+      if (searchResults.length === 0) return null;
+
+      // Retry with the first search result's title
+      const firstResultTitle = searchResults[0].title;
+      console.log(`[WIKI-BIO] Found via search: "${firstResultTitle}"`);
+
+      const retryRes = await axios.get('https://en.wikipedia.org/w/api.php', {
+        params: {
+          action: 'query',
+          titles: firstResultTitle,
+          prop: 'extracts',
+          exintro: true,
+          explaintext: true,
+          format: 'json',
+          origin: '*',
+        },
+        headers: { 'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js' },
+        timeout: 10000,
+      });
+
+      const retryPages = retryRes.data?.query?.pages;
+      const retryPage = retryPages ? Object.values(retryPages)[0] : null;
+      if (!retryPage?.extract) return null;
+      return retryPage.extract.replace(/==+[^=]+==/g, '').replace(/\n{3,}/g, '\n\n').trim();
+    }
+
+    // Strip any stray section headers and tidy whitespace
+    return page.extract.replace(/==+[^=]+==/g, '').replace(/\n{3,}/g, '\n\n').trim();
+  } catch (err) {
+    console.error(`[WIKI-BIO] Error fetching bio for "${pageTitle}":`, err.message);
+    return null;
+  }
 }
 
 // ── GET /api/wiki-bio/:name ─────────────────────────────────
 // Wikipedia intro extract — replaces broken Genius bio
+// Accepts optional artistId query param to use stored Wikipedia URL from graph.json
 app.get('/api/wiki-bio/:name', async (req, res) => {
   const name    = decodeURIComponent(req.params.name);
-  const nameKey = name.toLowerCase();
+  const artistId = req.query.artistId ? decodeURIComponent(req.query.artistId) : null;
+  const nameKey = artistId || name.toLowerCase();
+
+  // Try to get Wikipedia page title from graph.json if artistId provided
+  let pageTitle = name;
+  let wikiUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(name.replace(/ /g, '_'))}`;
+
+  if (artistId) {
+    const artist = graphData.artists.find(a => a.id === artistId);
+    if (artist?.metadata?.wikipediaUrl) {
+      // Extract page title from URL: https://en.wikipedia.org/wiki/Page_Title → Page_Title
+      const matches = artist.metadata.wikipediaUrl.match(/\/wiki\/(.+)$/);
+      if (matches && matches[1]) {
+        pageTitle = decodeURIComponent(matches[1]);
+        wikiUrl = artist.metadata.wikipediaUrl;
+        console.log(`[WIKI-BIO] Using stored Wikipedia URL for ${artistId}: "${pageTitle}"`);
+      }
+    }
+  }
 
   // 1. Check cache
   const cached = await getCached(nameKey);
@@ -548,7 +639,7 @@ app.get('/api/wiki-bio/:name', async (req, res) => {
     if (isStale(cached)) {
       setImmediate(async () => {
         try {
-          const bio = await fetchWikiBio(name);
+          const bio = await fetchWikiBio(pageTitle);
           if (bio) await setCached(nameKey, name, { bio });
         } catch (e) { console.warn('[WIKI-BIO] Background refresh failed:', e.message); }
       });
@@ -558,27 +649,43 @@ app.get('/api/wiki-bio/:name', async (req, res) => {
     return res.json({
       name,
       about:   cached.bio,
-      wikiUrl: `https://en.wikipedia.org/wiki/${encodeURIComponent(name.replace(/ /g, '_'))}`,
+      wikiUrl,
       source:  'cache',
     });
   }
 
   // 2. Cache miss — fetch live
   try {
-    const bio = await fetchWikiBio(name);
-    if (!bio) return res.status(404).json({ error: 'No Wikipedia biography found' });
+    const bio = await fetchWikiBio(pageTitle);
 
-    console.log(`[WIKI-BIO] ✅ Fresh fetch for "${name}"`);
+    // Return empty response instead of error so UI doesn't show error message
+    if (!bio) {
+      console.log(`[WIKI-BIO] No bio found for "${pageTitle}" (${artistId || name})`);
+      return res.json({
+        name,
+        about:   null,
+        wikiUrl,
+        source:  'empty',
+      });
+    }
+
+    console.log(`[WIKI-BIO] ✅ Fresh fetch for "${pageTitle}"`);
     setImmediate(() => setCached(nameKey, name, { bio }));
     res.json({
       name,
       about:   bio,
-      wikiUrl: `https://en.wikipedia.org/wiki/${encodeURIComponent(name.replace(/ /g, '_'))}`,
+      wikiUrl,
       source:  'fresh',
     });
   } catch (err) {
-    console.error(`[WIKI-BIO] Error for "${name}":`, err.message);
-    res.status(500).json({ error: 'Failed to fetch Wikipedia biography' });
+    console.error(`[WIKI-BIO] Error for "${pageTitle}":`, err.message);
+    // Return empty response on error instead of 500
+    res.json({
+      name,
+      about:   null,
+      wikiUrl,
+      source:  'error',
+    });
   }
 });
 

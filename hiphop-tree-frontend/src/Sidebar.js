@@ -205,13 +205,14 @@ export default function Sidebar({
     setGeniusResults(null);
     setBioLoading(true);
 
-    axios.get(`${apiUrl}/wiki-bio/${encodeURIComponent(artist.name)}`)
+    // Pass artist ID to use stored Wikipedia URL from graph.json
+    axios.get(`${apiUrl}/wiki-bio/${encodeURIComponent(artist.name)}?artistId=${encodeURIComponent(artist.id)}`)
       .then(res => { setBio(res.data); setBioLoading(false); })
       .catch(err => {
         setBioError(err.response?.data?.error || 'No biography found');
         setBioLoading(false);
       });
-  }, [artist.name, apiUrl]);
+  }, [artist.name, artist.id, apiUrl]);
 
   // Get ALL connections (not filtered by year — year filter is visual only)
   const connections = graphData.relationships.filter(
