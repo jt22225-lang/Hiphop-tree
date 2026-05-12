@@ -272,12 +272,6 @@ export default function LandingPage({
             accentColor="#a855f7"
             description="Filter by era (1980s-2020s), relationship type, or search any artist. Discover hidden connections."
           />
-          <FeatureCard
-            icon="🎮"
-            title="Shortest Path Challenge"
-            accentColor="#f97316"
-            description="Use Dijkstra's Algorithm to find the optimal connection between any two artists. Get scored on efficiency: 100 pts minus 25 per extra hop."
-          />
         </div>
 
         {/* ── Game Mode Spotlight ────────────────────────────── */}
