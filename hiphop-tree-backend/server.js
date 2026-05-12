@@ -33,7 +33,7 @@ class RequestThrottle {
   }
 }
 
-const wdThrottle = new RequestThrottle(500); // One request every 500ms
+const wdThrottle = new RequestThrottle(2000); // One request every 2 seconds (Wikidata is strict)
 
 // ── Health Check ────────────────────────────────────────────
 app.get('/health', (req, res) => {
@@ -269,8 +269,11 @@ app.post('/api/artist-images', async (req, res) => {
 // ── Wikidata helpers ────────────────────────────────────────
 const SPARQL = 'https://query.wikidata.org/sparql';
 const WD_HEADERS = {
-  'User-Agent': 'HipHopTree/1.0 (https://hiphoptree.com) Node.js',
-  'Accept':     'application/sparql-results+json',
+  'User-Agent':      'HipHopTree/1.0 (https://hiphoptree.com) Node.js',
+  'Accept':          'application/sparql-results+json',
+  'Accept-Language': 'en-US,en;q=0.9',
+  'Cache-Control':   'no-cache',
+  'Pragma':          'no-cache',
 };
 
 async function getWikidataId(name, retries = 3) {
@@ -305,7 +308,7 @@ async function getWikidataId(name, retries = 3) {
   }
 }
 
-async function sparqlQuery(query, retries = 3) {
+async function sparqlQuery(query, retries = 5, delayMultiplier = 1) {
   try {
     await wdThrottle.throttle();
     const res = await axios.get(SPARQL, {
@@ -317,18 +320,19 @@ async function sparqlQuery(query, retries = 3) {
   } catch (err) {
     // Handle rate limiting (429) with exponential backoff
     if (err.response?.status === 429 && retries > 0) {
-      const retryAfter = parseInt(err.response.headers['retry-after'] || '3', 10);
-      const delay = Math.min(retryAfter * 1000, 15000); // Cap at 15 seconds
-      console.warn(`[WD] Rate limited (429) — retrying in ${delay}ms (${retries} retries left)`);
+      const retryAfter = parseInt(err.response.headers['retry-after'] || '5', 10);
+      const baseDelay = retryAfter * 1000 * delayMultiplier;
+      const delay = Math.min(baseDelay, 30000); // Cap at 30 seconds
+      console.warn(`[WD] Rate limited (429) — retrying in ${delay}ms (${retries} retries left) with multiplier ${delayMultiplier}`);
 
-      // Wait before retrying
+      // Wait before retrying with exponential backoff
       await new Promise(resolve => setTimeout(resolve, delay));
-      return sparqlQuery(query, retries - 1);
+      return sparqlQuery(query, retries - 1, delayMultiplier * 1.5);
     }
 
     // Rate limited and out of retries — return empty results instead of erroring
     if (err.response?.status === 429) {
-      console.warn('[WD] Rate limited (429) — returning empty results');
+      console.warn('[WD] Rate limited (429) and out of retries — returning empty results');
       return [];
     }
 
@@ -359,34 +363,43 @@ async function fetchWikidataArtistByQid(qid) {
   }
 
   try {
-    const claimList = WD_PROPS.map(p => `wdt:${p.claim}`).join(' ');
+    // Build property list for VALUES clause
+    const propList = WD_PROPS.map(p => `wdt:${p.claim}`).join(' ');
+
     const query = `
-      SELECT ?claim ?value ?valueLabel WHERE {
-        VALUES ?claim { ${claimList} }
-        wd:${qid} ?claim ?value .
+      SELECT ?pred ?value ?valueLabel WHERE {
+        VALUES ?pred { ${propList} }
+        wd:${qid} ?pred ?value .
         SERVICE wikibase:label {
-          bd:serviceParam wikibase:language "en,en" .
+          bd:serviceParam wikibase:language "en" .
           ?value rdfs:label ?valueLabel .
         }
       }
+      LIMIT 500
     `;
 
     console.log(`[WD] Querying SPARQL for QID ${qid}...`);
     const bindings = await sparqlQuery(query);
     console.log(`[WD] SPARQL returned ${bindings.length} bindings for QID ${qid}`);
 
-    const claimToKey = {};
+    // Map predicate URIs to keys
+    const predToKey = {};
     WD_PROPS.forEach(p => {
-      claimToKey[`http://www.wikidata.org/prop/direct/${p.claim}`] = p.key;
+      predToKey[`http://www.wikidata.org/prop/direct/${p.claim}`] = p.key;
     });
 
     const grouped = {};
     bindings.forEach(b => {
-      const key = claimToKey[b.claim.value];
+      const predUri = b.pred.value;
+      const key = predToKey[predUri];
       if (!key) return;
+
       const val = b.valueLabel?.value || b.value.value;
       const uri = b.value.value;
+
+      // Skip if value is just a QID number (not resolved to a label)
       if (val.startsWith('Q') && /^Q\d+$/.test(val)) return;
+
       if (!grouped[key]) grouped[key] = [];
       if (!grouped[key].find(x => x.name === val)) grouped[key].push({ name: val, uri });
     });
