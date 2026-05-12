@@ -6,6 +6,7 @@ const graphData = require('./graph.json');
 const { getCached, setCached, isStale } = require('./cache');
 const { fetchWikiImage } = require('./lib/image-resolver');
 const { fetchAndCacheArtistImages, getLocalCache } = require('./artist-image-fetcher');
+const { dijkstra } = require('./algorithms/dijkstra');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -927,6 +928,26 @@ app.get('/api/path', (req, res) => {
   }
 
   res.json({ path: null, message: 'No connection found' });
+});
+
+// ── GET /api/dijkstra?from=X&to=Y&weighted=false ──────────────
+// Find shortest path using Dijkstra's algorithm
+// - unweighted (default): pure hop count
+// - weighted: uses relationship strength (0-1) as inverse weights
+app.get('/api/dijkstra', (req, res) => {
+  const { from, to, weighted } = req.query;
+  if (!from || !to) {
+    return res.status(400).json({ error: 'Provide from and to query params' });
+  }
+
+  const useWeights = weighted === 'true';
+  const result = dijkstra(graphData, from, to, useWeights);
+
+  if (result.error) {
+    return res.status(404).json({ error: result.error });
+  }
+
+  res.json(result);
 });
 
 // ── Start Server ────────────────────────────────────────────

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import axios from 'axios';
 import GraphView from './GraphView';
 import Sidebar from './Sidebar';
+import GameModeManager from './GameModeManager';
 import SearchBar from './SearchBar';
 import HistorySlider from './HistorySlider';
 import LandingPage from './LandingPage';
@@ -119,6 +120,9 @@ export default function App() {
   const [isLandingVisible, setIsLandingVisible] = useState(true);
   const [isDissolving, setIsDissolving]         = useState(false);
   const [isGraphVisible, setIsGraphVisible]     = useState(false);
+
+  // ── Game Mode state ───────────────────────────────────────────
+  const [gameActive, setGameActive] = useState(false);
 
   // ── Deep Cut detection (memoized — only recalculates when graphData loads) ──
   const deepCutIds = useMemo(() => flagDeepCuts(graphData), [graphData]);
@@ -380,6 +384,18 @@ export default function App() {
           ))}
         </div>
 
+        {/* ── Game Mode toggle button ── */}
+        <button
+          className={`game-toggle-btn ${gameActive ? 'game-toggle-active' : ''}`}
+          onClick={() => {
+            setGameActive(!gameActive);
+            if (selected) setSelected(null);
+          }}
+          title="Shortest Path Challenge"
+        >
+          🎮 {gameActive ? 'Exit Game' : 'Game Mode'}
+        </button>
+
         {/* ── History Slider toggle button ── */}
         <button
           className={`slider-toggle-btn ${showSlider ? 'slider-toggle-active' : ''}`}
@@ -421,7 +437,15 @@ export default function App() {
         />
         )}
 
-        {selected && graphData && (
+        {gameActive && graphData && (
+          <GameModeManager
+            graphData={graphData}
+            onGameExit={() => setGameActive(false)}
+            cyRef={cyRef}
+          />
+        )}
+
+        {!gameActive && selected && graphData && (
           <Sidebar
             artist={selected}
             graphData={graphData}

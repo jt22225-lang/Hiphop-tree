@@ -59,12 +59,14 @@ main,
 .search-wrap,
 .search-form,
 .filter-btn,
+.game-toggle-btn,
 .legend,
 .slider-toggle-btn,
 .deep-cut-count-chip,
 .slider-overlay,
 .sonic-player,
-.splash-overlay {
+.splash-overlay,
+.game-mode-container {
   pointer-events: all;
 }
 
@@ -1096,6 +1098,29 @@ body.sidebar-open .graph-container {
   font-weight: 700;
   padding: 0 6px;
   color: #22d3ee;
+}
+
+/* ── Game Mode toggle button ── */
+.game-toggle-btn {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 20px;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 4px 12px;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.game-toggle-btn:hover { border-color: #ffa500; color: #ffa500; }
+.game-toggle-active {
+  background: #2a1800;
+  border-color: #ffa500;
+  color: #ffa500;
+  box-shadow: 0 0 12px rgba(255, 165, 0, 0.2);
 }
 
 /* ── Deep Cut count chip in header ── */

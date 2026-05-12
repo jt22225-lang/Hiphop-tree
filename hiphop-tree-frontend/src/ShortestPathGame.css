@@ -1,0 +1,263 @@
+/* ─────────────────────────────────────────────────────────────
+   ShortestPathGame.css - Active Game Play
+   ───────────────────────────────────────────────────────────── */
+
+.game-play-panel {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* ─────── Artists Display ──────────────────────────────────── */
+.game-artists-display {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(255, 165, 0, 0.08);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 165, 0, 0.2);
+}
+
+.artist-node {
+  flex: 1;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 165, 0, 0.3);
+  border-radius: 6px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.artist-node.start {
+  border-color: rgba(100, 200, 100, 0.5);
+}
+
+.artist-node.start.active {
+  background: rgba(100, 200, 100, 0.15);
+  border-color: #64c864;
+  box-shadow: 0 0 8px rgba(100, 200, 100, 0.3);
+}
+
+.artist-node.target {
+  border-color: rgba(255, 165, 0, 0.3);
+}
+
+.artist-node.target.active {
+  background: rgba(255, 165, 0, 0.15);
+  border-color: #ffa500;
+  box-shadow: 0 0 8px rgba(255, 165, 0, 0.4);
+}
+
+.artist-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vs-badge {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffa500;
+  opacity: 0.7;
+}
+
+/* ─────── Hop Counter ──────────────────────────────────────── */
+.hop-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(255, 165, 0, 0.1), rgba(255, 140, 0, 0.05));
+  border-radius: 8px;
+  border: 2px solid rgba(255, 165, 0, 0.4);
+}
+
+.counter-label {
+  font-size: 12px;
+  color: #bbb;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.counter-value {
+  font-size: 48px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffa500, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─────── Current Path Display ──────────────────────────────── */
+.current-path {
+  padding: 12px;
+  background: rgba(255, 165, 0, 0.05);
+  border-left: 3px solid #ffa500;
+  border-radius: 4px;
+}
+
+.path-title {
+  font-size: 11px;
+  color: #ffa500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.path-nodes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+}
+
+.path-node {
+  padding: 4px 8px;
+  background: rgba(255, 165, 0, 0.15);
+  border-radius: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90px;
+}
+
+.path-arrow {
+  color: #ffa500;
+  font-weight: 700;
+}
+
+/* ─────── Next Artists ──────────────────────────────────────── */
+.next-artists {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.next-label {
+  font-size: 12px;
+  color: #bbb;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.next-artists-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  flex: 1;
+}
+
+.next-artist-btn {
+  padding: 10px 8px;
+  background: rgba(255, 165, 0, 0.08);
+  border: 1px solid rgba(255, 165, 0, 0.3);
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.next-artist-btn:hover {
+  background: rgba(255, 165, 0, 0.15);
+  border-color: #ffa500;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 165, 0, 0.2);
+}
+
+.next-artist-btn.target {
+  border-color: #64c864;
+  background: rgba(100, 200, 100, 0.15);
+}
+
+.next-artist-btn.target:hover {
+  background: rgba(100, 200, 100, 0.25);
+  border-color: #64c864;
+  box-shadow: 0 4px 8px rgba(100, 200, 100, 0.3);
+}
+
+.next-artist-btn .artist-name {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.next-artist-btn .rel-type {
+  font-size: 9px;
+  color: #aaa;
+  text-transform: capitalize;
+}
+
+.no-neighbors {
+  grid-column: 1 / -1;
+  padding: 16px;
+  text-align: center;
+  color: #777;
+  font-size: 12px;
+}
+
+/* ─────── Loading / Error ──────────────────────────────────── */
+.game-loading {
+  padding: 12px;
+  background: rgba(100, 150, 200, 0.1);
+  border-left: 3px solid #64b8ff;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #64b8ff;
+  text-align: center;
+}
+
+.game-error {
+  padding: 12px;
+  background: rgba(255, 100, 100, 0.1);
+  border-left: 3px solid #ff6464;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #ff8080;
+}
+
+/* ─────── Undo Button ──────────────────────────────────────– */
+.game-btn-secondary {
+  background: rgba(255, 165, 0, 0.1);
+  color: #ffa500;
+  border: 1px solid rgba(255, 165, 0, 0.3);
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.game-btn-secondary:hover {
+  background: rgba(255, 165, 0, 0.2);
+  border-color: #ffa500;
+}
+
+/* ─────── Responsive ──────────────────────────────────────── */
+@media (max-width: 480px) {
+  .next-artists-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .counter-value {
+    font-size: 36px;
+  }
+}
