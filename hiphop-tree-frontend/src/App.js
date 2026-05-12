@@ -368,7 +368,7 @@ export default function App() {
       {/* ── Main App — fades in as landing dissolves ──────── */}
       <div className={`app app-graph-fade ${isGraphVisible ? 'app-graph-visible' : ''}`}>
       <header className="header">
-        <div className="logo">🎤 <span>HipHopTree</span></div>
+        <div className="logo"><span>HipHopTree</span></div>
         <SearchBar onSearch={handleSearch} />
         <div className="filters">
           {['all','collaborative','mentorship','collective','familial'].map(f => (
