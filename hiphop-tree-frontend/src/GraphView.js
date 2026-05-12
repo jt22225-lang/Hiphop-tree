@@ -28,6 +28,7 @@ const LEGEND_IDS = new Set([
 ]);
 
 const LEGEND_GOLD    = '#FFD700';
+const PRODUCER_COLOR = '#FFD700';  // Yellow — marks producers who form the perimeter ring
 const DEEP_CUT_COLOR = '#a855f7';  // Vinyl purple — distinct from gold Legend status
 const DEEP_CUT_GLOW  = 'rgba(168, 85, 247, 0.4)';
 
@@ -389,9 +390,11 @@ export default function GraphView({
           region:     a.region,
           color:      isLegend
                         ? LEGEND_GOLD
-                        : isDeepCut
-                          ? DEEP_CUT_COLOR
-                          : (ERA_COLORS[a.era] || ERA_COLORS.default),
+                        : isProducer
+                          ? PRODUCER_COLOR
+                          : isDeepCut
+                            ? DEEP_CUT_COLOR
+                            : (ERA_COLORS[a.era] || ERA_COLORS.default),
           size,
           isLegend,
           isDeepCut,
