@@ -222,14 +222,29 @@ export default function LandingPage({
           An interactive knowledge graph visualizing every mentor-to-protégé pathway, collaboration, and family tie that shaped hip-hop culture from 1987 to now. Verified relationships sourced from Genius, Wikipedia, and music archives.
         </p>
 
-        <button
-          className="lp-enter-btn"
-          onClick={onEnter}
-          aria-label="Enter the Archive"
-        >
-          <span className="lp-enter-btn-text">Enter the Archive</span>
-          <span className="lp-enter-btn-arrow">→</span>
-        </button>
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginBottom: '24px' }}>
+          <button
+            className="lp-enter-btn"
+            onClick={onEnter}
+            aria-label="Enter the Archive"
+          >
+            <span className="lp-enter-btn-text">Enter the Archive</span>
+            <span className="lp-enter-btn-arrow">→</span>
+          </button>
+          <button
+            className="lp-enter-btn"
+            onClick={onEnter}
+            style={{
+              background: 'rgba(249, 115, 22, 0.08)',
+              borderColor: 'rgba(249, 115, 22, 0.5)',
+              color: '#f97316',
+            }}
+            aria-label="Play the Shortest Path Game"
+          >
+            <span className="lp-enter-btn-text">🎮 Play Game</span>
+            <span className="lp-enter-btn-arrow">→</span>
+          </button>
+        </div>
 
         <div className="lp-stats-bar">
           <AnimatedStat target={artistCount}       label="Artists"       />
@@ -257,22 +272,92 @@ export default function LandingPage({
             accentColor="#a855f7"
             description="Filter by era (1980s-2020s), relationship type, or search any artist. Discover hidden connections."
           />
+          <FeatureCard
+            icon="🎮"
+            title="Shortest Path Challenge"
+            accentColor="#f97316"
+            description="Use Dijkstra's Algorithm to find the optimal connection between any two artists. Get scored on efficiency: 100 pts minus 25 per extra hop."
+          />
+        </div>
+
+        {/* ── Game Mode Spotlight ────────────────────────────── */}
+        <div style={{
+          background: 'rgba(249, 115, 22, 0.05)',
+          border: '1px solid rgba(249, 115, 22, 0.2)',
+          borderRadius: '12px',
+          padding: '32px',
+          marginBottom: '48px',
+          textAlign: 'center',
+        }}>
+          <h2 style={{
+            fontSize: '28px',
+            fontWeight: 700,
+            marginBottom: '16px',
+            color: '#f97316',
+            letterSpacing: '-0.5px',
+          }}>
+            🎮 Shortest Path Challenge
+          </h2>
+          <p style={{
+            fontSize: '14px',
+            lineHeight: '1.6',
+            color: '#999',
+            marginBottom: '20px',
+            maxWidth: '500px',
+            margin: '0 auto 20px',
+          }}>
+            Turn graph exploration into a game. Click through relationships to find the shortest connection between two artists. Your score: 100 points minus 25 for every hop above optimal. See if you can match the algorithm's answer.
+          </p>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+            gap: '16px',
+            marginTop: '20px',
+          }}>
+            <div style={{
+              padding: '12px',
+              background: 'rgba(249, 115, 22, 0.1)',
+              borderRadius: '8px',
+              fontSize: '12px',
+            }}>
+              <div style={{ color: '#f97316', fontWeight: 700, marginBottom: '4px' }}>🎯 Challenge</div>
+              <div style={{ color: '#888', fontSize: '11px' }}>Find paths in minimum hops</div>
+            </div>
+            <div style={{
+              padding: '12px',
+              background: 'rgba(249, 115, 22, 0.1)',
+              borderRadius: '8px',
+              fontSize: '12px',
+            }}>
+              <div style={{ color: '#f97316', fontWeight: 700, marginBottom: '4px' }}>📊 Score</div>
+              <div style={{ color: '#888', fontSize: '11px' }}>100 pts - 25 per extra hop</div>
+            </div>
+            <div style={{
+              padding: '12px',
+              background: 'rgba(249, 115, 22, 0.1)',
+              borderRadius: '8px',
+              fontSize: '12px',
+            }}>
+              <div style={{ color: '#f97316', fontWeight: 700, marginBottom: '4px' }}>🧠 Learn</div>
+              <div style={{ color: '#888', fontSize: '11px' }}>Discover artist connections</div>
+            </div>
+          </div>
         </div>
 
         <div className="lp-why-section">
           <h2 className="lp-section-title">Why HipHopTree?</h2>
           <div className="lp-why-cards">
             <div className="lp-why-card">
-              <h3 className="lp-why-card-title">For Hip-Hop Fans</h3>
-              <p className="lp-why-card-desc">Stop reading 10 Wikipedia tabs. Visualize the entire ecosystem in one interactive map. Click Kendrick → see his crew → see their crew. Instant context.</p>
+              <h3 className="lp-why-card-title">Explore & Learn</h3>
+              <p className="lp-why-card-desc">Stop reading 10 Wikipedia tabs. Visualize the entire ecosystem in one interactive map. Click Kendrick → see his crew → see their crew. Discover how hip-hop was built through 571 verified relationships.</p>
             </div>
             <div className="lp-why-card">
-              <h3 className="lp-why-card-title">For Music Historians</h3>
-              <p className="lp-why-card-desc">A verified, curated dataset of 571 relationships with sources. The most complete hip-hop lineage map ever built.</p>
+              <h3 className="lp-why-card-title">Play & Challenge</h3>
+              <p className="lp-why-card-desc">Use the Shortest Path Challenge to test your knowledge. Find the minimum hops between any two artists using Dijkstra's Algorithm. Get a score based on efficiency—can you match the optimal path?</p>
             </div>
             <div className="lp-why-card">
-              <h3 className="lp-why-card-title">For Researchers & Creators</h3>
-              <p className="lp-why-card-desc">Understand how hip-hop was built. See which producers shaped eras. Trace mentorship chains from pioneers to modern artists.</p>
+              <h3 className="lp-why-card-title">Understand The Lineage</h3>
+              <p className="lp-why-card-desc">See the mentorship chains that shaped hip-hop. Understand how pioneers influenced modern artists. Trace producer credits, family ties, collectives, and collaborations across generations.</p>
             </div>
           </div>
         </div>
