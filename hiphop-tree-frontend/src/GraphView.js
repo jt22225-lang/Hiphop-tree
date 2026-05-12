@@ -485,8 +485,8 @@ export default function GraphView({
     perimeterIds.forEach((id, i) => {
       const angle = (i / perimeterCount) * 2 * Math.PI;
       perimeterPositions[id] = {
-        x: 8000 * Math.cos(angle),  // Increased from 6000 for larger protective ring
-        y: 8000 * Math.sin(angle),
+        x: 12000 * Math.cos(angle),  // Larger radius to ensure complete perimeter around all nodes
+        y: 12000 * Math.sin(angle),
       };
     });
 
@@ -932,19 +932,19 @@ export default function GraphView({
       fit:                  false,    // we call fit() manually on layoutstop
       padding:              600,      // increased from 400 for more canvas area
       nodeSpacing:          1400,     // increased from 800 for wider node separation
-      gravity:              50,       // Increased from 10 to tightly cluster center artists
+      gravity:              80,       // Increased to 80 for very tight central clustering (keeps producers on perimeter)
       linkDistance:         2.0,
       edgeLength: edge => {
         const src = edge.source().id();
         const tgt = edge.target().id();
-        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 8000;  // Match perimeter radius
+        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 12000;  // Match perimeter radius
         if (edge.data('subtype') === 'member_of') return 55;
         if (edge.data('type') === 'collective') return 70;
         return 200;
       },
       nodeWeight: node => {
         const id = node.id();
-        if (PRODUCER_PERIMETER_IDS.has(id)) return 50;
+        if (PRODUCER_PERIMETER_IDS.has(id)) return 100;  // Increased to 100 for stronger perimeter resistance
         if (collectiveIds.has(id)) return 20;
         return 1;
       },
