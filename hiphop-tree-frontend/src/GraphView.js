@@ -485,8 +485,8 @@ export default function GraphView({
     perimeterIds.forEach((id, i) => {
       const angle = (i / perimeterCount) * 2 * Math.PI;
       perimeterPositions[id] = {
-        x: 6000 * Math.cos(angle),
-        y: 6000 * Math.sin(angle),
+        x: 8000 * Math.cos(angle),  // Increased from 6000 for larger protective ring
+        y: 8000 * Math.sin(angle),
       };
     });
 
@@ -826,14 +826,15 @@ export default function GraphView({
     // ── Phase 12: Producer Perimeter Prison — initial stamp ──
     // lock()      → Cola physics cannot move these nodes.
     // Position perimeter nodes for initial layout visualization.
-    // Nodes remain draggable — removed lock() and ungrabify() to allow
-    // users to freely reposition all nodes including producers/legends.
+    // Nodes remain draggable via dragstart handler (line 845) which unlocks
+    // when user initiates drag, allowing free repositioning while maintaining
+    // ring topology during layout computation.
     if (perimeterCount > 0) {
       cy.nodes().forEach(node => {
         const id = node.id();
         if (perimeterSet.has(id) && perimeterPositions[id]) {
           node.position(perimeterPositions[id]);
-          // Nodes are now draggable — removed node.lock() and node.ungrabify()
+          node.lock();  // Lock producers in place so Cola can't pull them to center
         }
       });
     }
@@ -931,12 +932,12 @@ export default function GraphView({
       fit:                  false,    // we call fit() manually on layoutstop
       padding:              600,      // increased from 400 for more canvas area
       nodeSpacing:          1400,     // increased from 800 for wider node separation
-      gravity:              10,
+      gravity:              50,       // Increased from 10 to tightly cluster center artists
       linkDistance:         2.0,
       edgeLength: edge => {
         const src = edge.source().id();
         const tgt = edge.target().id();
-        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 6000;
+        if (PRODUCER_PERIMETER_IDS.has(src) || PRODUCER_PERIMETER_IDS.has(tgt)) return 8000;  // Match perimeter radius
         if (edge.data('subtype') === 'member_of') return 55;
         if (edge.data('type') === 'collective') return 70;
         return 200;
@@ -963,17 +964,17 @@ export default function GraphView({
     );
 
     // ── Phase 12: Prison Hard-Lock — second enforcement pass ─
-    // Re-stamp position + re-lock + re-ungrabify after Cola settles.
+    // Re-stamp position + re-lock after Cola settles.
     // Two-pass guarantee: before layout (engine can't move them) +
     // after layout (camera-fit state confirmed, no animation drift).
+    // Producers stay locked until user drags them (dragstart handler unlocks).
     layout.on('layoutstop', () => {
       if (perimeterCount > 0) {
         cy.nodes().forEach(node => {
           const id = node.id();
           if (perimeterSet.has(id) && perimeterPositions[id]) {
             node.position(perimeterPositions[id]);
-            // Nodes remain draggable — removed node.lock() and node.ungrabify()
-            // to allow users to freely reposition producers/legend nodes
+            node.lock();  // Re-lock producers to maintain ring topology
           }
         });
       }
