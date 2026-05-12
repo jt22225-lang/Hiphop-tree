@@ -24,25 +24,79 @@ export default function WikidataPanel({ artist, graphData, apiUrl }) {
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState(null);
   const [open, setOpen]       = useState(false);
+  const [fromCache, setFromCache] = useState(false);
+
+  // Cache key based on artist ID (indefinite storage, never expires)
+  const getCacheKey = () => `wikidata_${artist.id}`;
+
+  // Load from localStorage cache
+  const getCachedData = () => {
+    try {
+      const cached = localStorage.getItem(getCacheKey());
+      if (cached) {
+        console.log(`[WIKIDATA] Cache hit for ${artist.name} (${artist.id})`);
+        return JSON.parse(cached);
+      }
+    } catch (e) {
+      console.warn('[WIKIDATA] Cache read failed:', e.message);
+    }
+    return null;
+  };
+
+  // Save to localStorage cache (no expiration - indefinite storage)
+  const setCacheData = (dataToCache) => {
+    try {
+      localStorage.setItem(getCacheKey(), JSON.stringify(dataToCache));
+      console.log(`[WIKIDATA] Cached data for ${artist.name} (${artist.id})`);
+    } catch (e) {
+      console.warn('[WIKIDATA] Cache write failed:', e.message);
+    }
+  };
 
   useEffect(() => {
     setData(null);
     setError(null);
     setOpen(false);
-  }, [artist.name]);
+    setFromCache(false);
+  }, [artist.name, artist.id]);
 
   const discover = async () => {
-    if (data) { setOpen(o => !o); return; }
+    // If data already loaded, just toggle open state
+    if (data) {
+      setOpen(o => !o);
+      return;
+    }
+
+    // Try cache first
+    const cachedData = getCachedData();
+    if (cachedData) {
+      setData(cachedData);
+      setFromCache(true);
+      setOpen(true);
+      return;
+    }
+
+    // Cache miss — fetch from API
     setLoading(true);
     setOpen(true);
+    setFromCache(false);
     try {
+      console.log(`[WIKIDATA] Fetching for ${artist.name} (${artist.id})...`);
       // Pass artist ID to use stored Wikidata ID from graph.json
       const res = await axios.get(
         `${apiUrl}/wikidata/artist/${encodeURIComponent(artist.name)}?artistId=${encodeURIComponent(artist.id)}`
       );
-      setData(res.data);
+
+      if (res.data) {
+        setData(res.data);
+        // Cache the data with no expiration (indefinite storage)
+        setCacheData(res.data);
+        console.log(`[WIKIDATA] Fresh fetch for ${artist.name} (${artist.id})`);
+      }
     } catch (e) {
-      setError(e.response?.data?.error || 'Wikidata lookup failed');
+      const errorMsg = e.response?.data?.error || e.message || 'Wikidata lookup failed';
+      console.error(`[WIKIDATA] Error for ${artist.name} (${artist.id}):`, errorMsg);
+      setError(errorMsg);
     }
     setLoading(false);
   };
@@ -124,10 +178,16 @@ export default function WikidataPanel({ artist, graphData, apiUrl }) {
             </div>
           )}
 
-          {error && <p className="wd-error">{error}</p>}
+          {error && <p className="wd-error">⚠️ {error}</p>}
 
           {data && !loading && (
             <>
+              {fromCache && (
+                <div className="wd-cache-indicator">
+                  <span className="wd-cache-label">⚡ Cached</span>
+                </div>
+              )}
+
               <a
                 href={data.wikidataUrl}
                 target="_blank"

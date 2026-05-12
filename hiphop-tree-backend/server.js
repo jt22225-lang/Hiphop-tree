@@ -353,38 +353,52 @@ const WD_PROPS = [
 
 // ── Fetch Wikidata using direct QID ──────────────────────
 async function fetchWikidataArtistByQid(qid) {
-  if (!qid) return null;
+  if (!qid) {
+    console.log('[WD] ⚠️  No QID provided to fetchWikidataArtistByQid');
+    return null;
+  }
 
-  const claimList = WD_PROPS.map(p => `wdt:${p.claim}`).join(' ');
-  const query = `
-    SELECT ?claim ?value ?valueLabel WHERE {
-      VALUES ?claim { ${claimList} }
-      wd:${qid} ?claim ?value .
-      SERVICE wikibase:label {
-        bd:serviceParam wikibase:language "en,en" .
-        ?value rdfs:label ?valueLabel .
+  try {
+    const claimList = WD_PROPS.map(p => `wdt:${p.claim}`).join(' ');
+    const query = `
+      SELECT ?claim ?value ?valueLabel WHERE {
+        VALUES ?claim { ${claimList} }
+        wd:${qid} ?claim ?value .
+        SERVICE wikibase:label {
+          bd:serviceParam wikibase:language "en,en" .
+          ?value rdfs:label ?valueLabel .
+        }
       }
-    }
-  `;
+    `;
 
-  const bindings = await sparqlQuery(query);
-  const claimToKey = {};
-  WD_PROPS.forEach(p => {
-    claimToKey[`http://www.wikidata.org/prop/direct/${p.claim}`] = p.key;
-  });
+    console.log(`[WD] Querying SPARQL for QID ${qid}...`);
+    const bindings = await sparqlQuery(query);
+    console.log(`[WD] SPARQL returned ${bindings.length} bindings for QID ${qid}`);
 
-  const grouped = {};
-  bindings.forEach(b => {
-    const key = claimToKey[b.claim.value];
-    if (!key) return;
-    const val = b.valueLabel?.value || b.value.value;
-    const uri = b.value.value;
-    if (val.startsWith('Q') && /^Q\d+$/.test(val)) return;
-    if (!grouped[key]) grouped[key] = [];
-    if (!grouped[key].find(x => x.name === val)) grouped[key].push({ name: val, uri });
-  });
+    const claimToKey = {};
+    WD_PROPS.forEach(p => {
+      claimToKey[`http://www.wikidata.org/prop/direct/${p.claim}`] = p.key;
+    });
 
-  return { qid, grouped };
+    const grouped = {};
+    bindings.forEach(b => {
+      const key = claimToKey[b.claim.value];
+      if (!key) return;
+      const val = b.valueLabel?.value || b.value.value;
+      const uri = b.value.value;
+      if (val.startsWith('Q') && /^Q\d+$/.test(val)) return;
+      if (!grouped[key]) grouped[key] = [];
+      if (!grouped[key].find(x => x.name === val)) grouped[key].push({ name: val, uri });
+    });
+
+    const totalItems = Object.values(grouped).reduce((sum, arr) => sum + arr.length, 0);
+    console.log(`[WD] Grouped into ${Object.keys(grouped).length} categories with ${totalItems} total items for QID ${qid}`);
+
+    return { qid, grouped };
+  } catch (err) {
+    console.error(`[WD] Error fetching data for QID ${qid}:`, err.message);
+    throw err;
+  }
 }
 
 // ── Fetch Wikidata using artist name search ──────────────────────
