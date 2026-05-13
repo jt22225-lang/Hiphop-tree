@@ -5,6 +5,7 @@ import { useArtistImage, getAvatarColors } from './useArtistImage';
 
 // The same set as GraphView — determines who gets the crown treatment
 const LEGEND_IDS = new Set([
+  'dr-dre',       // Founding producer — Death Row & Aftermath founder, G-funk pioneer
   'dj-premier',
   'the-alchemist',
   'j-dilla',
@@ -18,6 +19,7 @@ const LEGEND_IDS = new Set([
   'asap-yams',
   'mannie-fresh', // The Architect of New Orleans — built Cash Money's entire sonic identity
   'snoop-dogg',   // G-Funk icon — co-defined the West Coast sound on The Chronic and Doggystyle
+  'punch',        // TDE President — A&R architect
 ]);
 
 // ── Verified Architect Badge ─────────────────────────────────

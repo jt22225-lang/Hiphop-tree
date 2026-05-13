@@ -11,6 +11,7 @@ try { cytoscape.use(cola); } catch (_) { /* already registered — safe to ignor
 // These nodes are gravity wells in the simulation — all edges
 // connecting to them are shorter, pulling collaborators into orbit.
 const LEGEND_IDS = new Set([
+  'dr-dre',       // Founding producer — Death Row & Aftermath founder, G-funk pioneer, mentor to Eminem, 50 Cent, Kendrick
   'dj-premier',
   'the-alchemist',
   'j-dilla',

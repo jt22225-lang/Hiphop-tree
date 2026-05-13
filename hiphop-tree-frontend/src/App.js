@@ -21,6 +21,7 @@ const API = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
 
 // ── Legend IDs (mirrored here for flagDeepCuts) ──────────────
 const LEGEND_IDS = new Set([
+  'dr-dre',      // Founding producer, Death Row & Aftermath founder, G-funk pioneer
   'dj-premier', 'the-alchemist', 'j-dilla', 'madlib',
   'kanye-west', 'pharrell-williams', 'pete-rock', 'sounwave', 'mf-doom',
   'rza', 'asap-yams', 'snoop-dogg',

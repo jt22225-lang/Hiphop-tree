@@ -75,11 +75,19 @@
       "era": "90s",
       "region": "West Coast",
       "label": "Aftermath",
+      "roles": [
+        "rapper",
+        "producer",
+        "songwriter",
+        "entrepreneur"
+      ],
+      "badge": "FOUNDING PRODUCER · HALL OF LEGEND",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Dr._Dre_2014_%28cropped%29.jpg/440px-Dr._Dre_2014_%28cropped%29.jpg",
       "metadata": {
         "wikidataId": "Q6078",
         "wikipediaUrl": "https://en.wikipedia.org/wiki/Dr._Dre"
       },
-      "bio": "Andre Romell  Young (born February 18, 1965), known professionally as Dr. Dre, is an American rapper, record producer, record executive, and actor. He is the founder and CEO of Aftermath Entertainment and Beats Electronics, and co-founder of Death Row Records.",
+      "bio": "Andre Romell Young (born February 18, 1965), known professionally as Dr. Dre, is an American rapper, record producer, record executive, and actor. He is the founder and CEO of Aftermath Entertainment and Beats Electronics, and co-founder of Death Row Records. Pioneer of West Coast G-funk and one of hip-hop's most influential architects, Dr. Dre shaped the sound of 90s and 2000s hip-hop through his production genius. His mentorship legacy includes Eminem, 50 Cent, Snoop Dogg, and Kendrick Lamar—artists who defined generations of hip-hop culture.",
       "weight": 4
     },
     {
