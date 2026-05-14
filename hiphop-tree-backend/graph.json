@@ -11243,6 +11243,40 @@
       "metadata": {},
       "subtype": "influenced",
       "label": "Def Jam elder — LL's crossover blueprint informed Jay's mainstream approach"
+    },
+    {
+      "id": "rel_235",
+      "source": "dr-dre",
+      "target": "kendrick-lamar",
+      "type": "collaborative",
+      "strength": 0.9,
+      "verified": true,
+      "sources": ["genius", "spotify"],
+      "metadata": {
+        "songs": ["Compton", "The Recipe"],
+        "count": 2,
+        "startYear": 2012
+      },
+      "subtype": "produced_by",
+      "year": 2012,
+      "label": "Aftermath architect — Dr. Dre produced Kendrick's early Compton features, marking his rise to prominence"
+    },
+    {
+      "id": "rel_236",
+      "source": "kendrick-lamar",
+      "target": "mac-miller",
+      "type": "collaborative",
+      "strength": 0.7,
+      "verified": true,
+      "sources": ["genius", "spotify"],
+      "metadata": {
+        "songs": ["Fight the Feeling", "God Is Fair, Sexy Nasty"],
+        "count": 2,
+        "startYear": 2012
+      },
+      "subtype": "featured_on",
+      "year": 2012,
+      "label": "Cross-coast collaboration — Kendrick and Mac Miller connected on West Coast experimental hip-hop"
     }
   ],
   "collectives": [
