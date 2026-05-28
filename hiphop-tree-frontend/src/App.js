@@ -17,7 +17,11 @@ import {
 import { perfMonitor } from './performanceMonitor';
 import './App.css';
 
-const API = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
+// Auto-detect API URL based on environment
+const API = process.env.REACT_APP_API_URL ||
+  (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:5001/api'
+    : 'https://hiphop-tree-pbxe.vercel.app/api');
 
 // ── Legend IDs (mirrored here for flagDeepCuts) ──────────────
 const LEGEND_IDS = new Set([
