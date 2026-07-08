@@ -142,6 +142,9 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-height: 150px;
+  max-height: 60%;
+  overflow: hidden;
 }
 
 .next-label {
@@ -159,11 +162,13 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: 4px;
+  padding-right: 8px;
+  min-height: 100px;
+  max-height: 500px;
 }
 
 .next-artist-btn {
-  padding: 10px 8px;
+  padding: 12px 10px;
   background: rgba(255, 165, 0, 0.08);
   border: 1px solid rgba(255, 165, 0, 0.3);
   border-radius: 6px;
@@ -173,10 +178,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  gap: 6px;
   text-align: center;
   font-size: 11px;
   font-weight: 600;
+  min-height: 60px;
+  word-break: break-word;
 }
 
 .next-artist-btn:hover {
@@ -203,9 +211,13 @@
 }
 
 .next-artist-btn .rel-type {
-  font-size: 9px;
-  color: #aaa;
+  font-size: 10px;
+  color: #bbb;
   text-transform: capitalize;
+  font-weight: 500;
+  line-height: 1.3;
+  max-height: 32px;
+  overflow: hidden;
 }
 
 .no-neighbors {
