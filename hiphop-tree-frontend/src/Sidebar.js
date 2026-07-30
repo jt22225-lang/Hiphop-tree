@@ -442,8 +442,8 @@ export default function Sidebar({
       {/* ── Personal Connection Note (meeting-inspired) ── */}
       {isLegend && (
         <>
-          <PersonalNoteCard note={metadata.personalNote} />
-          <CulturalImpactCard impact={metadata.culturalImpact} />
+          <PersonalNoteCard note={metadata?.personalNote} />
+          <CulturalImpactCard impact={metadata?.culturalImpact} />
         </>
       )}
 
