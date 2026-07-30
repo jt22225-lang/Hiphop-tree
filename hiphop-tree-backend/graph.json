@@ -2368,9 +2368,21 @@
       "era": "80s",
       "region": "East Coast",
       "role": "rapper",
+      "isLegend": true,
       "metadata": {
         "wikidataId": "Q205389",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/KRS-One"
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/KRS-One",
+        "culturalImpact": {
+          "title": "Cultural Impact: The Teacher of Hip-Hop",
+          "highlights": [
+            "Pioneer of conscious hip-hop and socially conscious rap",
+            "Founder of the Temple of Hip Hop and keeper of hip-hop culture",
+            "Known as 'The Teacher' - educated generations about hip-hop history, culture, and knowledge of self",
+            "Influenced the entire conscious rap movement (Common, Mos Def, Talib Kweli, Black Thought)",
+            "Champion of hip-hop as a culture, not just music",
+            "Dedicated to preserving and elevating hip-hop knowledge and consciousness"
+          ]
+        }
       },
       "bio": "Lawrence Krisna Parker (born August 20, 1965), known as KRS-One, is a Bronx rapper and one of hip-hop's most enduring philosophical voices. With DJ Scott La Rock he formed Boogie Down Productions, whose Criminal Minded (1987) and By All Means Necessary (1988) defined East Coast hardcore. The architect of the Stop the Violence Movement and a relentless propagator of 'edutainment,' he influenced every MC who followed with his blend of street knowledge and Afrocentric thought. He mentored Leaders of the New School — including Busta Rhymes.",
       "weight": 2

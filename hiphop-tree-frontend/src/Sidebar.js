@@ -20,6 +20,7 @@ const LEGEND_IDS = new Set([
   'mannie-fresh', // The Architect of New Orleans — built Cash Money's entire sonic identity
   'snoop-dogg',   // G-Funk icon — co-defined the West Coast sound on The Chronic and Doggystyle
   'punch',        // TDE President — A&R architect
+  'krs-one',      // The Teacher — Pioneer of conscious hip-hop and keeper of hip-hop culture
 ]);
 
 // ── Verified Architect Badge ─────────────────────────────────
@@ -144,15 +145,39 @@ function PersonalNoteCard({ note }) {
 // ── Cultural Impact Card ─────────────────────────────────────
 function CulturalImpactCard({ impact }) {
   if (!impact) return null;
-  return (
-    <div className="cultural-impact-card">
-      <div className="pn-header">
-        <span className="pn-icon">🏛️</span>
-        <span className="pn-label">Cultural Impact</span>
+
+  // Handle both string and object formats
+  if (typeof impact === 'string') {
+    return (
+      <div className="cultural-impact-card">
+        <div className="pn-header">
+          <span className="pn-icon">🎓</span>
+          <span className="pn-label">Cultural Impact</span>
+        </div>
+        <p className="pn-text">{impact}</p>
       </div>
-      <p className="pn-text">{impact}</p>
-    </div>
-  );
+    );
+  }
+
+  // Handle structured impact object with highlights
+  if (impact && impact.highlights && Array.isArray(impact.highlights)) {
+    return (
+      <div className="cultural-impact-card">
+        <div className="pn-header">
+          <span className="pn-icon">🎓</span>
+          <span className="pn-label">Cultural Impact</span>
+        </div>
+        {impact.title && <h4 className="ci-title">{impact.title}</h4>}
+        <ul className="ci-highlights">
+          {impact.highlights.map((highlight, idx) => (
+            <li key={idx} className="ci-highlight-item">{highlight}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+
+  return null;
 }
 
 export default function Sidebar({

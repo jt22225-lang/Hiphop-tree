@@ -30,6 +30,7 @@ const LEGEND_IDS = new Set([
   'kanye-west', 'pharrell-williams', 'pete-rock', 'sounwave', 'mf-doom',
   'rza', 'asap-yams', 'snoop-dogg',
   'punch',       // TDE President — architect of the entire TDE catalog
+  'krs-one',     // The Teacher — Pioneer of conscious hip-hop and keeper of hip-hop culture
 ]);
 
 // ── Deep Cut Detector ────────────────────────────────────────

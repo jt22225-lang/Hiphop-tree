@@ -735,6 +735,43 @@ body.sidebar-open .graph-container {
   color: #ccc;
 }
 
+/* ── Cultural Impact Card Highlights ────────────────────── */
+.ci-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #a855f7;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ci-highlights {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ci-highlight-item {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #bbb;
+  padding-left: 16px;
+  position: relative;
+  margin: 0;
+}
+
+.ci-highlight-item::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  color: #a855f7;
+  font-size: 10px;
+  font-weight: 700;
+}
+
 /* ── Legend connection item highlight ───────────────────── */
 .connection-item-legend {
   border: 1px solid rgba(255, 215, 0, 0.18) !important;

@@ -26,6 +26,7 @@ const LEGEND_IDS = new Set([
   'mannie-fresh', // The Architect of New Orleans — built Cash Money's entire sonic identity from the ground up
   'snoop-dogg',   // G-Funk icon — co-defined the West Coast sound on The Chronic and Doggystyle
   'punch',        // TDE President — A&R architect of Kendrick, SZA, Schoolboy Q, Isaiah Rashad, Doechii
+  'krs-one',      // The Teacher — Pioneer of conscious hip-hop and keeper of hip-hop culture
 ]);
 
 const LEGEND_GOLD    = '#FFD700';
