@@ -208,6 +208,17 @@ export default function Sidebar({
   const [loadingGenius, setLoadingGenius] = useState(false);
   const [expanded, setExpanded]     = useState(false);
 
+  // Debug logging for KRS-One
+  if (artist?.id === 'krs-one') {
+    console.log('[Sidebar] Rendering KRS-One', { isLegend: artist.isLegend, metadata: artist.metadata });
+  }
+
+  // Safety check - don't render if no artist
+  if (!artist || !artist.id) {
+    console.error('[Sidebar] Missing artist data');
+    return null;
+  }
+
   // Ref for scroll-to-top on artist jump
   const sidebarRef = useRef(null);
 
@@ -249,9 +260,9 @@ export default function Sidebar({
   }, [artist.name, artist.id, apiUrl]);
 
   // Get ALL connections (not filtered by year — year filter is visual only)
-  const connections = graphData.relationships.filter(
+  const connections = graphData?.relationships?.filter(
     r => r.source === artist.id || r.target === artist.id
-  );
+  ) || [];
 
   // Connections active at the current slider year
   const activeConnections = connections.filter(
