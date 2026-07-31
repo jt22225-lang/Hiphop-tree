@@ -93,14 +93,21 @@ async function fetchWikidataImage(wikidataId) {
  * probeImage — resolves when an image URL loads successfully,
  * rejects on 404 / network error. Like cueing up a record
  * before the drop to make sure it'll play.
+ *
+ * Includes 6s timeout to prevent hanging on slow/broken URLs
  */
 function probeImage(src) {
-  return new Promise((resolve, reject) => {
-    const img   = new Image();
-    img.onload  = () => resolve(src);
-    img.onerror = reject;
-    img.src     = src;
-  });
+  return Promise.race([
+    new Promise((resolve, reject) => {
+      const img   = new Image();
+      img.onload  = () => resolve(src);
+      img.onerror = () => reject(new Error('Image load failed'));
+      img.src     = src;
+    }),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Image load timeout')), 6000)
+    ),
+  ]);
 }
 
 // ── The hook ────────────────────────────────────────────────
