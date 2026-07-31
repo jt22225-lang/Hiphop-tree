@@ -548,6 +548,7 @@ app.get('/api/wikidata/collective/:name', async (req, res) => {
 app.get('/api/proxy-image', async (req, res) => {
   const { url } = req.query;
   if (!url) return res.status(400).json({ error: 'No url provided' });
+
   try {
     const response = await axios.get(url, {
       responseType: 'arraybuffer',
@@ -556,7 +557,8 @@ app.get('/api/proxy-image', async (req, res) => {
         'Referer':    'https://en.wikipedia.org/',
         'Accept':     'image/webp,image/apng,image/*,*/*;q=0.8',
       },
-      timeout: 10000,
+      timeout: 8000,
+      maxRedirects: 5,
     });
     const contentType = response.headers['content-type'] || 'image/jpeg';
     res.set('Content-Type', contentType);
@@ -564,7 +566,10 @@ app.get('/api/proxy-image', async (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     res.send(response.data);
   } catch (err) {
-    res.status(502).json({ error: 'Failed to fetch image' });
+    // Log error but don't return 502 — return 404 or 503 depending on error
+    const statusCode = err.response?.status || (err.code === 'ECONNABORTED' ? 504 : 503);
+    console.error(`[PROXY-IMAGE] Failed to fetch ${url}:`, err.message);
+    res.status(statusCode).json({ error: 'Failed to fetch image' });
   }
 });
 
