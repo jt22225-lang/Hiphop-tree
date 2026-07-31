@@ -161,20 +161,27 @@ function CulturalImpactCard({ impact }) {
 
   // Handle structured impact object with highlights
   if (impact && impact.highlights && Array.isArray(impact.highlights)) {
-    return (
-      <div className="cultural-impact-card">
-        <div className="pn-header">
-          <span className="pn-icon">🎓</span>
-          <span className="pn-label">Cultural Impact</span>
+    try {
+      return (
+        <div className="cultural-impact-card">
+          <div className="pn-header">
+            <span className="pn-icon">🎓</span>
+            <span className="pn-label">Cultural Impact</span>
+          </div>
+          {impact.title && <h4 className="ci-title">{impact.title}</h4>}
+          <ul className="ci-highlights">
+            {impact.highlights.map((highlight, idx) => (
+              <li key={`highlight-${idx}`} className="ci-highlight-item">
+                {String(highlight)}
+              </li>
+            ))}
+          </ul>
         </div>
-        {impact.title && <h4 className="ci-title">{impact.title}</h4>}
-        <ul className="ci-highlights">
-          {impact.highlights.map((highlight, idx) => (
-            <li key={idx} className="ci-highlight-item">{highlight}</li>
-          ))}
-        </ul>
-      </div>
-    );
+      );
+    } catch (err) {
+      console.error('[Sidebar] Error rendering cultural impact:', err);
+      return null;
+    }
   }
 
   return null;
