@@ -545,9 +545,13 @@ app.get('/api/wikidata/collective/:name', async (req, res) => {
 
 // ── GET /api/proxy-image?url=<encoded> ─────────────────────
 // Proxies external images through the backend to avoid CORS issues
+// Supports ETag validation for 304 Not Modified responses
 app.get('/api/proxy-image', async (req, res) => {
   const { url } = req.query;
   if (!url) return res.status(400).json({ error: 'No url provided' });
+
+  // Client sent If-None-Match header for validation
+  const clientETag = req.headers['if-none-match'];
 
   try {
     const response = await axios.get(url, {
@@ -556,14 +560,27 @@ app.get('/api/proxy-image', async (req, res) => {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Referer':    'https://en.wikipedia.org/',
         'Accept':     'image/webp,image/apng,image/*,*/*;q=0.8',
+        // Use existing ETag if client provided one (conditional request)
+        ...(clientETag ? { 'If-None-Match': clientETag } : {}),
       },
       timeout: 8000,
       maxRedirects: 5,
+      validateStatus: (status) => status === 200 || status === 304, // Accept both 200 and 304
     });
+
+    // If server returns 304 (not modified), return 304 to client
+    if (response.status === 304) {
+      res.status(304).end();
+      return;
+    }
+
     const contentType = response.headers['content-type'] || 'image/jpeg';
+    const etag = response.headers['etag'] || `"${Date.now()}"`;
+
     res.set('Content-Type', contentType);
     res.set('Cache-Control', 'public, max-age=86400');
     res.set('Access-Control-Allow-Origin', '*');
+    res.set('ETag', etag);
     res.send(response.data);
   } catch (err) {
     // Log error but don't return 502 — return 404 or 503 depending on error
