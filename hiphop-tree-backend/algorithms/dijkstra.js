@@ -8,34 +8,70 @@
  * Returns: { path, hops, totalWeight }
  */
 
+/**
+ * Binary Min-Heap Priority Queue
+ * O(log n) insertion and extraction for optimal Dijkstra performance
+ */
 class PriorityQueue {
   constructor() {
-    this.items = [];
+    this.heap = [];
   }
 
+  // O(log n) insertion with upheap operation
   enqueue(element, priority) {
-    const newItem = { element, priority };
-    let added = false;
-
-    for (let i = 0; i < this.items.length; i++) {
-      if (newItem.priority < this.items[i].priority) {
-        this.items.splice(i, 0, newItem);
-        added = true;
-        break;
-      }
-    }
-
-    if (!added) {
-      this.items.push(newItem);
-    }
+    this.heap.push({ element, priority });
+    this._bubbleUp(this.heap.length - 1);
   }
 
+  // O(log n) extraction with downheap operation
   dequeue() {
-    return this.items.shift();
+    if (this.heap.length === 0) return null;
+    if (this.heap.length === 1) return this.heap.pop();
+
+    const min = this.heap[0];
+    this.heap[0] = this.heap.pop();
+    this._bubbleDown(0);
+    return min;
   }
 
   isEmpty() {
-    return this.items.length === 0;
+    return this.heap.length === 0;
+  }
+
+  // Bubble up: restore heap property after insertion
+  _bubbleUp(index) {
+    while (index > 0) {
+      const parentIndex = Math.floor((index - 1) / 2);
+      if (this.heap[index].priority < this.heap[parentIndex].priority) {
+        [this.heap[index], this.heap[parentIndex]] = [this.heap[parentIndex], this.heap[index]];
+        index = parentIndex;
+      } else {
+        break;
+      }
+    }
+  }
+
+  // Bubble down: restore heap property after extraction
+  _bubbleDown(index) {
+    while (true) {
+      let minIndex = index;
+      const leftChild = 2 * index + 1;
+      const rightChild = 2 * index + 2;
+
+      if (leftChild < this.heap.length && this.heap[leftChild].priority < this.heap[minIndex].priority) {
+        minIndex = leftChild;
+      }
+      if (rightChild < this.heap.length && this.heap[rightChild].priority < this.heap[minIndex].priority) {
+        minIndex = rightChild;
+      }
+
+      if (minIndex !== index) {
+        [this.heap[index], this.heap[minIndex]] = [this.heap[minIndex], this.heap[index]];
+        index = minIndex;
+      } else {
+        break;
+      }
+    }
   }
 }
 
