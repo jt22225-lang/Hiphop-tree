@@ -862,22 +862,16 @@ export default function GraphView({
     // render event fires on EVERY Cytoscape repaint (including node
     // drags and layout ticks), so this prevents wasting CPU on 60
     // identical ring draws per second while the map is idle.
-    // Drawing is synchronous (no rAF deferral) so rings appear in
-    // the same frame as the Cytoscape repaint — no visual lag.
+    // requestAnimationFrame batching: coalesce multiple render events into 1 frame draw
     let lastRingZoom = null;
     let lastRingPanX = null;
     let lastRingPanY = null;
+    let ringRedrawScheduled = false;
+    let currentZoom = null;
+    let currentPan = null;
 
-    cy.on('render', () => {
-      const zoom = cy.zoom();
-      const pan  = cy.pan();
-
-      // Viewport unchanged → nothing to redraw
-      if (zoom === lastRingZoom && pan.x === lastRingPanX && pan.y === lastRingPanY) return;
-      lastRingZoom = zoom;
-      lastRingPanX = pan.x;
-      lastRingPanY = pan.y;
-
+    const drawEpochRings = () => {
+      ringRedrawScheduled = false;
       const container = cy.container();
       if (!container) return;
       const canvases = container.querySelectorAll('canvas');
@@ -892,7 +886,7 @@ export default function GraphView({
 
       ctx.save();
       EPOCH_RING_DEFS.forEach(ring => {
-        const screenR = ring.boundary * zoom;
+        const screenR = ring.boundary * currentZoom;
         if (screenR < 4) return;
 
         // Dashed ring stroke at opacity 0.2
@@ -909,7 +903,7 @@ export default function GraphView({
         if (screenR > 60) {
           ctx.globalAlpha = 0.35;
           ctx.fillStyle   = ring.color;
-          const fontSize  = Math.max(10, Math.min(13, 11 * zoom));
+          const fontSize  = Math.max(10, Math.min(13, 11 * currentZoom));
           ctx.font        = `600 ${fontSize}px 'Segoe UI', system-ui, sans-serif`;
           ctx.textAlign   = 'center';
           ctx.fillText(`${ring.label}  ${ring.years}`, center.x, center.y - screenR + 16);
@@ -918,6 +912,25 @@ export default function GraphView({
         ctx.globalAlpha = 1;
       });
       ctx.restore();
+    };
+
+    cy.on('render', () => {
+      const zoom = cy.zoom();
+      const pan  = cy.pan();
+
+      // Viewport unchanged → nothing to redraw
+      if (zoom === lastRingZoom && pan.x === lastRingPanX && pan.y === lastRingPanY) return;
+      lastRingZoom = zoom;
+      lastRingPanX = pan.x;
+      lastRingPanY = pan.y;
+      currentZoom = zoom;
+      currentPan = pan;
+
+      // Schedule redraw in next frame if not already scheduled
+      if (!ringRedrawScheduled) {
+        ringRedrawScheduled = true;
+        requestAnimationFrame(drawEpochRings);
+      }
     });
 
     // ── Run Cola physics layout ──────────────────────────────
@@ -933,8 +946,8 @@ export default function GraphView({
       convergenceThreshold: 0.001,    // relaxed — good enough layout, faster stop
       fit:                  false,    // we call fit() manually on layoutstop
       padding:              600,      // increased from 400 for more canvas area
-      nodeSpacing:          1400,     // increased from 800 for wider node separation
-      gravity:              80,       // Increased to 80 for very tight central clustering (keeps producers on perimeter)
+      nodeSpacing:          1000,     // reduced from 1400 for tighter clustering, faster convergence
+      gravity:              60,       // reduced from 80 for faster convergence (still tight central clustering)
       linkDistance:         2.0,
       edgeLength: edge => {
         const src = edge.source().id();
@@ -951,7 +964,7 @@ export default function GraphView({
         return 1;
       },
       randomize:            true,
-      maxIterations:        100,      // reduced from 200 — good layout in half the iterations
+      maxIterations:        90,       // reduced from 100 for faster convergence with tighter spacing
       unconstrainedIterations: 10,
       avoidOverlap:         true,
       avoidOverlapPadding:  300,      // increased padding distance between overlapping nodes
