@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo, Suspense, lazy } from 'react';
 import axios from 'axios';
 import GraphView from './GraphView';
 import Sidebar from './Sidebar';
-import GameModeManager from './GameModeManager';
 import SearchBar from './SearchBar';
 import HistorySlider from './HistorySlider';
 import LandingPage from './LandingPage';
 import AudioPreviewPlayer from './AudioPreviewPlayer';
+
+// Lazy-load GameModeManager (~245 lines) only when needed
+const GameModeManager = lazy(() => import('./GameModeManager'));
 import {
   generateEraMarkers,
   getYearRange,
@@ -444,11 +446,18 @@ export default function App() {
         )}
 
         {gameActive && graphData && (
-          <GameModeManager
-            graphData={graphData}
-            onGameExit={() => setGameActive(false)}
-            cyRef={cyRef}
-          />
+          <Suspense fallback={
+            <div className="game-mode-loading">
+              <div className="game-loading-spinner"></div>
+              <p>Loading Game Mode...</p>
+            </div>
+          }>
+            <GameModeManager
+              graphData={graphData}
+              onGameExit={() => setGameActive(false)}
+              cyRef={cyRef}
+            />
+          </Suspense>
         )}
 
         {!gameActive && selected && graphData && (
