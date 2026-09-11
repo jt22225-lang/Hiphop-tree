@@ -17,3 +17,5 @@ hiphop-tree-backend/.env
 *.pack
 *.pack.old
 *.eslintcache
+.vercel
+.env*
