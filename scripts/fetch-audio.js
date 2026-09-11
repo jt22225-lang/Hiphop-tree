@@ -28,9 +28,9 @@ const ARTWORK_ONLY  = process.argv.includes('--artwork-only');
 const RUN_US = !GB_ONLY && !ARTWORK_ONLY;
 const RUN_GB = !US_ONLY && !ARTWORK_ONLY;
 
-const BASE_DELAY_MS = 900;
-const MAX_RETRIES   = 3;
-const BACKOFF_BASE  = 2000;
+const BASE_DELAY_MS = 1500;  // Increased from 900ms to avoid rate limiting
+const MAX_RETRIES   = 5;     // More retries for rate-limit recovery
+const BACKOFF_BASE  = 3000;  // Start backoff at 3s for rate limits
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
@@ -48,11 +48,20 @@ function getRaw(url) {
   });
 }
 
+class RateLimitError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'RateLimitError';
+  }
+}
+
 async function getWithRetry(url, attempt = 0) {
   const { body, status } = await getRaw(url);
 
   if (status === 429 || status === 403) {
-    if (attempt >= MAX_RETRIES) throw new Error(`Rate limited (${status}) after ${MAX_RETRIES} retries`);
+    if (attempt >= MAX_RETRIES) {
+      throw new RateLimitError(`Rate limited (${status}) after ${MAX_RETRIES} retries — pausing before retry`);
+    }
     const wait = BACKOFF_BASE * Math.pow(2, attempt);
     process.stdout.write(`\n    ⏳ Rate limited (${status}) — waiting ${wait / 1000}s (retry ${attempt + 1}/${MAX_RETRIES})... `);
     await sleep(wait);
@@ -196,8 +205,15 @@ async function runPass(graph, artistMap, country, targetField, label) {
         if (!rel.audio_metadata.release_year)    rel.audio_metadata.release_year    = result.release_year;
       }
     } catch (err) {
-      console.log(`❌ error: ${err.message}`);
-      notFound++;
+      if (err instanceof RateLimitError) {
+        console.log(`\n⏸️  Rate limit hit — pausing 30s before continuing...`);
+        await sleep(30000);
+        console.log(`Resuming...`);
+        notFound++;  // Skip this entry, will need manual retry
+      } else {
+        console.log(`❌ error: ${err.message}`);
+        notFound++;
+      }
     }
   }
 
