@@ -185,7 +185,11 @@ async function runPass(graph, artistMap, country, targetField, label) {
 
       if (!DRY_RUN) {
         if (!rel.audio_metadata) rel.audio_metadata = {};
-        rel.audio_metadata.track_name  = rel.audio_metadata.track_name || result.track_name;
+        // CRITICAL FIX: Always update track_name when updating preview_url
+        // to prevent mismatch between displayed song and actual audio.
+        // The iTunes search may find a different song on subsequent passes,
+        // so we must ensure track_name matches the preview_url.
+        rel.audio_metadata.track_name  = result.track_name;
         rel.audio_metadata[targetField] = result.preview_url;
         if (!rel.audio_metadata.artwork_url)     rel.audio_metadata.artwork_url     = result.artwork_url;
         if (!rel.audio_metadata.itunes_track_id) rel.audio_metadata.itunes_track_id = result.track_id;
