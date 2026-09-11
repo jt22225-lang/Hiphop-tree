@@ -3294,7 +3294,8 @@
       "year": 1996,
       "label": "All Eyez on Me (1996)",
       "audio_metadata": {
-        "track_name": "All Eyez On Me"
+        "preview_not_available": true,
+        "reason": "iTunes search (US & GB storefronts) returned no results with artist match"
       }
     },
     {
@@ -4232,7 +4233,11 @@
       "strength": 0.9,
       "verified": true,
       "year": 1996,
-      "label": "D'evils / Reservoir Dogs (1996)"
+      "label": "D'evils / Reservoir Dogs (1996)",
+      "audio_metadata": {
+        "preview_not_available": true,
+        "reason": "iTunes search (US & GB storefronts) returned no results with artist match"
+      }
     },
     {
       "id": "rel_p03",
@@ -8035,7 +8040,11 @@
       "strength": 0.9,
       "verified": true,
       "year": 1999,
-      "label": "Chopper City in the Ghetto (1999)"
+      "label": "Chopper City in the Ghetto (1999)",
+      "audio_metadata": {
+        "preview_not_available": true,
+        "reason": "iTunes search (US & GB storefronts) returned no results with artist match"
+      }
     },
     {
       "id": "rel_ds07",
@@ -10266,7 +10275,11 @@
       "label": "Falling Down (2018)",
       "sources": [
         "https://en.wikipedia.org/wiki/Falling_Down_(Lil_Peep_and_XXXTENTACION_song)"
-      ]
+      ],
+      "audio_metadata": {
+        "preview_not_available": true,
+        "reason": "iTunes search (US & GB storefronts) returned no results with artist match"
+      }
     },
     {
       "id": "rel_149",
@@ -10318,11 +10331,8 @@
       ],
       "label": "Fuck Love (2017)",
       "audio_metadata": {
-        "track_name": "True Love",
-        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/bb/63/ec/bb63ec99-f97f-95f6-dc3b-d3b59968de3b/mzaf_14998948399451142152.plus.aac.p.m4a",
-        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/3a/c4/be/3ac4be92-f255-b735-605f-3d531bf7a487/dj.kvenstal.jpg/100x100bb.jpg",
-        "itunes_track_id": 1624803399,
-        "release_year": 2022
+        "preview_not_available": true,
+        "reason": "iTunes search (US & GB storefronts) returned no results with artist match"
       }
     },
     {
@@ -10532,7 +10542,11 @@
       "label": "Magnolia (2017)",
       "sources": [
         "https://en.wikipedia.org/wiki/Magnolia_(Playboi_Carti_song)"
-      ]
+      ],
+      "audio_metadata": {
+        "preview_not_available": true,
+        "reason": "iTunes search (US & GB storefronts) returned no results with artist match"
+      }
     },
     {
       "id": "rel_168",
@@ -10635,11 +10649,8 @@
         "https://en.wikipedia.org/wiki/Juice_Wrld"
       ],
       "audio_metadata": {
-        "track_name": "Fine China",
-        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/7e/0f/f6/7e0ff6d5-7fa8-086a-6738-47d5bffa8e8e/mzaf_13193916020098007440.plus.aac.p.m4a",
-        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/75/9b/af/759baf5f-f3c9-b8c7-d3cf-55a3079914b9/18UMGIM24792.rgb.jpg/100x100bb.jpg",
-        "itunes_track_id": 1447177630,
-        "release_year": 2017
+        "preview_not_available": true,
+        "reason": "iTunes search (US & GB storefronts) returned no results with artist match"
       },
       "has_audio": true,
       "label": "Fine China (2019)"
@@ -10926,6 +10937,10 @@
           "Pray for Haiti"
         ],
         "count": 1
+      },
+      "audio_metadata": {
+        "preview_not_available": true,
+        "reason": "iTunes search (US & GB storefronts) returned no results with artist match"
       }
     },
     {
@@ -10944,6 +10959,10 @@
           "Reasonable Drought"
         ],
         "count": 1
+      },
+      "audio_metadata": {
+        "preview_not_available": true,
+        "reason": "iTunes search (US & GB storefronts) returned no results with artist match"
       }
     },
     {

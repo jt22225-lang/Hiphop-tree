@@ -450,7 +450,7 @@ export default function GraphView({
           isMentorEdge,
           // Sonic Link: forward audio_metadata so tap handler can read it
           audioMeta:     r.audio_metadata || null,
-          hasAudio:      !!r.audio_metadata,
+          hasAudio:      !!(r.audio_metadata?.preview_url_us || r.audio_metadata?.preview_url_gb),
         },
         classes: withinYear ? 'year-active' : 'year-faded',
       });

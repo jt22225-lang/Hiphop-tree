@@ -9,11 +9,13 @@
 // Safety: edges with audio_metadata.manual_audio = true are never overwritten.
 //
 // Usage:
-//   node scripts/fetch-audio.js                — dual-pass (US + GB)
-//   node scripts/fetch-audio.js --us-only      — US pass only
-//   node scripts/fetch-audio.js --gb-only      — GB pass only
-//   node scripts/fetch-audio.js --artwork-only — backfill artwork_url for edges that already have audio
-//   node scripts/fetch-audio.js --dry-run      — print matches without writing
+//   node scripts/fetch-audio.js                      — dual-pass (US + GB)
+//   node scripts/fetch-audio.js --us-only            — US pass only
+//   node scripts/fetch-audio.js --gb-only            — GB pass only
+//   node scripts/fetch-audio.js --artwork-only       — backfill artwork_url for edges that already have audio
+//   node scripts/fetch-audio.js --dry-run            — print matches without writing
+//   node scripts/fetch-audio.js --classify-only      — show label classification (🎵 SONG vs 🏷️  DESCRIPTOR) without calling iTunes
+//   node scripts/fetch-audio.js --us-only --classify-only  — show US-pass classifications only
 
 const fs   = require('fs');
 const path = require('path');
@@ -24,6 +26,8 @@ const DRY_RUN       = process.argv.includes('--dry-run');
 const US_ONLY       = process.argv.includes('--us-only');
 const GB_ONLY       = process.argv.includes('--gb-only');
 const ARTWORK_ONLY  = process.argv.includes('--artwork-only');
+const CLASSIFY_ONLY = process.argv.includes('--classify-only');
+const LIST_SONGS_ONLY = process.argv.includes('--list-songs-only');
 
 const RUN_US = !GB_ONLY && !ARTWORK_ONLY;
 const RUN_GB = !US_ONLY && !ARTWORK_ONLY;
@@ -75,6 +79,46 @@ async function getWithRetry(url, attempt = 0) {
   } catch {
     throw new Error(`Parse error (status ${status})`);
   }
+}
+
+// Classifies relationship labels as "song" (searchable on iTunes) or "descriptor" (skip iTunes)
+// STRICT ALLOWLIST: Only classifies as "song" if it matches pattern: "Title (YYYY)"
+// with no narrative/explanatory text. This avoids mismatches on iTunes.
+function classifyLabel(label) {
+  if (!label) return 'descriptor';
+
+  // RULE 1: If there's a dash followed by explanatory text anywhere, it's a descriptor
+  if (/\s*—\s*./.test(label)) {
+    return 'descriptor';
+  }
+
+  // RULE 2: Must have a year in parentheses at the end
+  const hasYear = /\(\d{4}\)\s*$/.test(label);
+  if (!hasYear) return 'descriptor';
+
+  // RULE 3: Extract the title part (before the year)
+  const stripped = label.replace(/\s*\(\d{4}\)\s*$/, '').trim();
+
+  // RULE 4: Reject if contains narrative/relationship keywords that indicate a descriptor
+  const narrativeKeywords = /\b(era|collab|session|sessions|connection|feature|featuring|signed|produced|production|mentored|wrote|influenced|arranged|featured|performed|debuted|released|launched|executive|blueprint|lineage|generation|contemporary|ally|peer|influence|inspiration|legacy|torch|renaissance|wave|cycle|chapter|expansion|movement|alliance|crossover|introduced|managed|recruited|spotted|recognized|established|founded|rivalry|resolved)\b/i;
+
+  if (narrativeKeywords.test(stripped)) {
+    return 'descriptor';
+  }
+
+  // RULE 5: Reject if contains coordinating words like "and" or "&"
+  // These suggest multiple relationships/items, not a single song title
+  if (/\s+(and|&)\s+/.test(stripped)) {
+    return 'descriptor';
+  }
+
+  // RULE 6: Title should be reasonably short (real titles, not full sentences)
+  if (stripped.length > 80) {
+    return 'descriptor';
+  }
+
+  // If it passed all checks, it's likely a real song/album title
+  return 'song';
 }
 
 function extractSongTitle(label) {
@@ -153,17 +197,42 @@ async function runPass(graph, artistMap, country, targetField, label) {
   });
 
   console.log(`\n── ${label} pass (${country}) ──────────────────────────`);
-  console.log(`   Edges to process: ${targets.length}`);
+  console.log(`   Total to process: ${targets.length}`);
 
-  let found = 0, restricted = 0, notFound = 0;
+  let found = 0, genuinelyNotFound = 0, notApplicable = 0, restricted = 0;
 
   for (const rel of targets) {
     const src = artistMap[rel.source];
     const tgt = artistMap[rel.target];
     if (!src || !tgt) continue;
 
+    // Classify label FIRST before any processing
+    const classification = classifyLabel(rel.label);
+    if (classification === 'descriptor') {
+      if (CLASSIFY_ONLY || LIST_SONGS_ONLY) {
+        // Suppress descriptor output in list-songs mode; only show songs
+        if (!LIST_SONGS_ONLY) {
+          console.log(`  [${rel.id}] 🏷️  DESCRIPTOR  "${rel.label}"`);
+        }
+      }
+      notApplicable++;
+      continue;  // Skip iTunes search entirely for descriptors
+    }
+
+    // Only reach here if classification === 'song'
     const songTitle = extractSongTitle(rel.label);
-    if (!songTitle) { notFound++; continue; }
+    if (!songTitle) { genuinelyNotFound++; continue; }
+
+    if (CLASSIFY_ONLY) {
+      console.log(`  [${rel.id}] 🎵 SONG       "${rel.label}"`);
+    }
+
+    if (LIST_SONGS_ONLY) {
+      // Collect and output songs for review
+      console.log(`  [${rel.id}] "${rel.label}"`);
+    }
+
+    if (CLASSIFY_ONLY || LIST_SONGS_ONLY) continue;  // Skip iTunes if classifying/listing only
 
     process.stdout.write(`  [${rel.id}] "${songTitle}" (${src.name} + ${tgt.name})... `);
     await sleep(BASE_DELAY_MS);
@@ -178,7 +247,7 @@ async function runPass(graph, artistMap, country, targetField, label) {
 
       if (!response) {
         console.log('❌ not found');
-        notFound++;
+        genuinelyNotFound++;
         continue;
       }
 
@@ -209,16 +278,18 @@ async function runPass(graph, artistMap, country, targetField, label) {
         console.log(`\n⏸️  Rate limit hit — pausing 30s before continuing...`);
         await sleep(30000);
         console.log(`Resuming...`);
-        notFound++;  // Skip this entry, will need manual retry
+        genuinelyNotFound++;  // Skip this entry, will need manual retry
       } else {
         console.log(`❌ error: ${err.message}`);
-        notFound++;
+        genuinelyNotFound++;
       }
     }
   }
 
-  console.log(`   ✅ ${found}  🌐 ${restricted} restricted  ❌ ${notFound} not found`);
-  return { found, restricted, notFound };
+  if (!LIST_SONGS_ONLY) {
+    console.log(`   ✅ ${found}  🌐 ${restricted} restricted  ❌ ${genuinelyNotFound} not found  ⏭️  ${notApplicable} skipped (descriptor)`);
+  }
+  return { found, restricted, genuinelyNotFound, notApplicable };
 }
 
 // ── Artwork-only backfill ─────────────────────────────────────────────────────
@@ -288,7 +359,7 @@ async function main() {
   console.log(`Protected (manual_audio=true): ${manualCount}`);
   if (DRY_RUN) console.log('DRY RUN — no writes');
 
-  const totals = { found: 0, restricted: 0, notFound: 0 };
+  const totals = { found: 0, restricted: 0, genuinelyNotFound: 0, notApplicable: 0 };
 
   if (ARTWORK_ONLY) {
     await runArtworkPass(graph);
@@ -301,12 +372,22 @@ async function main() {
 
   if (RUN_US) {
     const r = await runPass(graph, artistMap, 'US', 'preview_url_us', 'US');
-    totals.found += r.found; totals.restricted += r.restricted; totals.notFound += r.notFound;
+    totals.found += r.found; totals.restricted += r.restricted;
+    totals.genuinelyNotFound += r.genuinelyNotFound; totals.notApplicable += r.notApplicable;
   }
 
   if (RUN_GB) {
     const r = await runPass(graph, artistMap, 'GB', 'preview_url_gb', 'GB');
-    totals.found += r.found; totals.restricted += r.restricted; totals.notFound += r.notFound;
+    totals.found += r.found; totals.restricted += r.restricted;
+    totals.genuinelyNotFound += r.genuinelyNotFound; totals.notApplicable += r.notApplicable;
+  }
+
+  if (LIST_SONGS_ONLY) {
+    console.log(`\n========================================`);
+    console.log(`Total songs that would be searched: ${558 - totals.notApplicable}`);
+    console.log(`Total descriptors skipped: ${totals.notApplicable}`);
+    console.log(`========================================`);
+    return;
   }
 
   if (!DRY_RUN) {
@@ -314,7 +395,7 @@ async function main() {
     console.log('\n✅ graph.json saved.');
   }
 
-  console.log(`\nTotal — ✅ ${totals.found} found  🌐 ${totals.restricted} restricted  ❌ ${totals.notFound} not found`);
+  console.log(`\nTotal — ✅ ${totals.found} found  🌐 ${totals.restricted} restricted  ❌ ${totals.genuinelyNotFound} not found  ⏭️  ${totals.notApplicable} skipped (descriptor)`);
 }
 
 main().catch(err => { console.error('Fatal:', err.message); process.exit(1); });
