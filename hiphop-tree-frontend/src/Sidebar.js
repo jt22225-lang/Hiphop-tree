@@ -567,13 +567,33 @@ export default function Sidebar({
                           src={rel.audio_metadata.artwork_url}
                           alt={rel.audio_metadata.track_name}
                           className="connection-artwork"
-                          onClick={() => onLinkAudio && onLinkAudio(rel.audio_metadata)}
+                          onClick={() => {
+                            console.log('[Sidebar] Play button clicked:', {
+                              relId: rel.id,
+                              source: rel.source,
+                              target: rel.target,
+                              label: rel.label,
+                              trackName: rel.audio_metadata.track_name,
+                              preview_url_us: rel.audio_metadata.preview_url_us ? 'present' : 'missing',
+                            });
+                            onLinkAudio && onLinkAudio(rel.audio_metadata);
+                          }}
                           title={`Play "${rel.audio_metadata.track_name}"`}
                         />
                       )}
                       <button
                         className="play-connection-btn"
-                        onClick={() => onLinkAudio && onLinkAudio(rel.audio_metadata)}
+                        onClick={() => {
+                          console.log('[Sidebar] Play button clicked:', {
+                            relId: rel.id,
+                            source: rel.source,
+                            target: rel.target,
+                            label: rel.label,
+                            trackName: rel.audio_metadata.track_name,
+                            preview_url_us: rel.audio_metadata.preview_url_us ? 'present' : 'missing',
+                          });
+                          onLinkAudio && onLinkAudio(rel.audio_metadata);
+                        }}
                         title={`Play "${rel.audio_metadata.track_name}"`}
                       >
                         ▶
