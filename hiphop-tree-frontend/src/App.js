@@ -189,7 +189,7 @@ export default function App() {
     const cacheTimestamp = localStorage.getItem('hiphoptree-cache-timestamp');
     const cacheVersion = localStorage.getItem('hiphoptree-cache-version');
     const cacheMaxAge = 24 * 60 * 60 * 1000; // 24 hours
-    const EXPECTED_CACHE_VERSION = '2'; // Increment when data structure changes
+    const EXPECTED_CACHE_VERSION = '3'; // Bumped to invalidate Eminem audio cache bug
 
     if (
       cachedGraph &&
