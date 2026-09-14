@@ -1151,7 +1151,22 @@ export default function GraphView({
     // the mini-player surfaces and starts spinning.
     cy.on('tap', 'edge', evt => {
       const edge      = evt.target;
+      const edgeId    = edge.data('id');
       const audioMeta = edge.data('audioMeta');
+      const source    = edge.data('source');
+      const target    = edge.data('target');
+      const label     = edge.data('label');
+
+      // DEBUG: Log the relationship being clicked and its audio
+      console.log('[Sonic Link] Edge clicked:', {
+        edgeId,
+        source,
+        target,
+        label,
+        audioMetaTrackName: audioMeta?.track_name || 'NO AUDIO',
+        audioMetaUrl_US: audioMeta?.preview_url_us ? 'present' : 'missing',
+        audioMetaUrl_GB: audioMeta?.preview_url_gb ? 'present' : 'missing',
+      });
 
       if (onLinkAudio) {
         // If this edge has audio → hand it to the player.

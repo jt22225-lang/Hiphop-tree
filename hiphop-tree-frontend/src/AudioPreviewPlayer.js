@@ -69,11 +69,19 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
     const audio = audioRef.current;
     if (!audio || !currentUrl) return;
 
+    // DEBUG: Log what's being loaded
+    console.log('[AudioPreviewPlayer] Loading track:', {
+      trackName: audioMeta?.track_name || 'UNKNOWN',
+      currentUrl: currentUrl.substring(0, 100) + '...',
+      urlIndex,
+    });
+
     audio.src    = currentUrl;
     audio.volume = volume;
 
     audio.play()
       .then(() => {
+        console.log('[AudioPreviewPlayer] Now playing:', audioMeta?.track_name);
         setIsPlaying(true);
         startProgressTracking(audio);
       })
