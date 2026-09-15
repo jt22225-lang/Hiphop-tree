@@ -123,6 +123,14 @@ function classifyLabel(label) {
 
 function extractSongTitle(label) {
   if (!label) return null;
+
+  // SAFETY: Only extract title if classifyLabel says it's a song, not a descriptor.
+  // This prevents searching for factual relationship labels like "Signed to Aftermath (1998)"
+  // which are not song titles and can lead to wrong audio being matched.
+  if (classifyLabel(label) !== 'song') {
+    return null;
+  }
+
   return label
     .replace(/\s*\(\d{4}\)\s*$/, '')
     .replace(/\s*\[.*?\]\s*/g, '')
