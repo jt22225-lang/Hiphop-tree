@@ -70,18 +70,18 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
     if (!audio || !currentUrl) return;
 
     // DEBUG: Log what's being loaded
-    console.log('[AudioPreviewPlayer] Loading track:', {
+    console.log('[AudioPreviewPlayer] Loading track:\n' + JSON.stringify({
       trackName: audioMeta?.track_name || 'UNKNOWN',
       currentUrl: currentUrl.substring(0, 100) + '...',
       urlIndex,
-    });
+    }, null, 2));
 
     audio.src    = currentUrl;
     audio.volume = volume;
 
     audio.play()
       .then(() => {
-        console.log('[AudioPreviewPlayer] Now playing:', audioMeta?.track_name);
+        console.log('[AudioPreviewPlayer] Now playing: ' + audioMeta?.track_name);
         setIsPlaying(true);
         startProgressTracking(audio);
       })
@@ -131,14 +131,13 @@ export default function AudioPreviewPlayer({ audioMeta, onDismiss }) {
     const nextIndex = urlIndex + 1;
     if (nextIndex < previewUrls.length) {
       const regionLabels = ['US', 'GB', 'legacy'];
-      console.warn(
-        `[AudioPreviewPlayer] URL[${urlIndex}] (${regionLabels[urlIndex] ?? 'fallback'}) failed — trying URL[${nextIndex}]`
-      );
+      console.warn(`[AudioPreviewPlayer] URL[${urlIndex}] (${regionLabels[urlIndex] ?? 'fallback'}) failed — trying URL[${nextIndex}]`);
       setIsPlaying(false);
       cancelAnimationFrame(progressRaf.current);
       setUrlIndex(nextIndex);  // triggers the useEffect above
     } else {
       console.warn('[AudioPreviewPlayer] All preview URLs failed — showing fallback buttons');
+      console.log('[AudioPreviewPlayer] URLs attempted:\n' + JSON.stringify(previewUrls.map(u => u.substring(0, 80) + '...'), null, 2));
       setIsPlaying(false);
       setAllFailed(true);
       cancelAnimationFrame(progressRaf.current);

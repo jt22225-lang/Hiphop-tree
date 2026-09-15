@@ -568,14 +568,15 @@ export default function Sidebar({
                           alt={rel.audio_metadata.track_name}
                           className="connection-artwork"
                           onClick={() => {
-                            console.log('[Sidebar] Play button clicked:', {
+                            console.log('[Sidebar] Play button clicked:\n' + JSON.stringify({
                               relId: rel.id,
                               source: rel.source,
                               target: rel.target,
                               label: rel.label,
                               trackName: rel.audio_metadata.track_name,
-                              preview_url_us: rel.audio_metadata.preview_url_us ? 'present' : 'missing',
-                            });
+                              preview_url_us: rel.audio_metadata.preview_url_us ? rel.audio_metadata.preview_url_us.substring(0, 100) + '...' : 'missing',
+                              preview_url_gb: rel.audio_metadata.preview_url_gb ? rel.audio_metadata.preview_url_gb.substring(0, 100) + '...' : 'missing',
+                            }, null, 2));
                             onLinkAudio && onLinkAudio(rel.audio_metadata);
                           }}
                           title={`Play "${rel.audio_metadata.track_name}"`}
@@ -584,14 +585,15 @@ export default function Sidebar({
                       <button
                         className="play-connection-btn"
                         onClick={() => {
-                          console.log('[Sidebar] Play button clicked:', {
+                          console.log('[Sidebar] Play button clicked:\n' + JSON.stringify({
                             relId: rel.id,
                             source: rel.source,
                             target: rel.target,
                             label: rel.label,
                             trackName: rel.audio_metadata.track_name,
-                            preview_url_us: rel.audio_metadata.preview_url_us ? 'present' : 'missing',
-                          });
+                            preview_url_us: rel.audio_metadata.preview_url_us ? rel.audio_metadata.preview_url_us.substring(0, 100) + '...' : 'missing',
+                            preview_url_gb: rel.audio_metadata.preview_url_gb ? rel.audio_metadata.preview_url_gb.substring(0, 100) + '...' : 'missing',
+                          }, null, 2));
                           onLinkAudio && onLinkAudio(rel.audio_metadata);
                         }}
                         title={`Play "${rel.audio_metadata.track_name}"`}
