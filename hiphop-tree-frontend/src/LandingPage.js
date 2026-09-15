@@ -214,7 +214,7 @@ export default function LandingPage({
           <span className="lp-headline-sub">
             The Visual Lineage
             <br />
-            of a Global Culture.
+            of Hip-Hop.
           </span>
         </h1>
 
