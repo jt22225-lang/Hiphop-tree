@@ -16,6 +16,7 @@ function GameModeManager({
   onGameExit,
   onPathUpdate,
   cyRef,
+  activeYear,
 }) {
   // Game lifecycle state
   const [gamePhase, setGamePhase] = useState('setup'); // 'setup' | 'playing' | 'results'
@@ -222,6 +223,7 @@ function GameModeManager({
           onGameComplete={handleGameComplete}
           onExit={handleExitGame}
           cyRef={cyRef}
+          activeYear={activeYear}
         />
       )}
 

@@ -456,6 +456,7 @@ export default function App() {
               graphData={graphData}
               onGameExit={() => setGameActive(false)}
               cyRef={cyRef}
+              activeYear={activeYear}
             />
           </Suspense>
         )}

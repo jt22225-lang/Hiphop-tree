@@ -77,9 +77,10 @@ class PriorityQueue {
 
 /**
  * Build adjacency map from graph data
+ * @param {Number} maxYear - (Optional) Only include relationships where year <= maxYear. If null, include all.
  * Returns: { [artistId]: [{ id, rel }, ...] }
  */
-function buildAdjacencyMap(graphData) {
+function buildAdjacencyMap(graphData, maxYear = null) {
   const adjMap = {};
 
   // Initialize all artists
@@ -87,8 +88,13 @@ function buildAdjacencyMap(graphData) {
     adjMap[a.id] = [];
   });
 
-  // Add bidirectional edges (undirected graph)
+  // Add bidirectional edges (undirected graph), filtering by maxYear if provided
   graphData.relationships.forEach(r => {
+    // Filter by year: include if no year is set, or if year <= maxYear
+    if (maxYear !== null && r.year && r.year > maxYear) {
+      return; // Skip relationships that haven't happened yet in this timeline
+    }
+
     if (adjMap[r.source] && adjMap[r.target]) {
       adjMap[r.source].push({ id: r.target, rel: r });
       adjMap[r.target].push({ id: r.source, rel: r });
@@ -105,9 +111,10 @@ function buildAdjacencyMap(graphData) {
  * @param {String} startId - Start artist ID
  * @param {String} endId - End artist ID
  * @param {Boolean} useWeights - If true, use relationship.strength as edge weight (1 - strength, inverted)
+ * @param {Number} maxYear - (Optional) Only use relationships where year <= maxYear. If null/undefined, use all relationships.
  * @returns {Object} { path: [{from, to, rel}, ...], hops: number, totalWeight?: number }
  */
-function dijkstra(graphData, startId, endId, useWeights = false) {
+function dijkstra(graphData, startId, endId, useWeights = false, maxYear = null) {
   // Validate input
   if (!startId || !endId) {
     return { path: null, hops: 0, error: 'Start and end IDs required' };
@@ -124,7 +131,7 @@ function dijkstra(graphData, startId, endId, useWeights = false) {
     return { path: null, hops: 0, error: 'Artist not found' };
   }
 
-  const adjMap = buildAdjacencyMap(graphData);
+  const adjMap = buildAdjacencyMap(graphData, maxYear);
 
   // Distance map and parent map for path reconstruction
   const distances = {};

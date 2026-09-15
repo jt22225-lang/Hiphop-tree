@@ -972,13 +972,14 @@ app.get('/api/path', (req, res) => {
 // - unweighted (default): pure hop count
 // - weighted: uses relationship strength (0-1) as inverse weights
 app.get('/api/dijkstra', (req, res) => {
-  const { from, to, weighted } = req.query;
+  const { from, to, weighted, maxYear } = req.query;
   if (!from || !to) {
     return res.status(400).json({ error: 'Provide from and to query params' });
   }
 
   const useWeights = weighted === 'true';
-  const result = dijkstra(graphData, from, to, useWeights);
+  const year = maxYear ? parseInt(maxYear, 10) : null;
+  const result = dijkstra(graphData, from, to, useWeights, year);
 
   if (result.error) {
     return res.status(404).json({ error: result.error });
