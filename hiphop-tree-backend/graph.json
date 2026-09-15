@@ -3278,9 +3278,8 @@
         "isrc": "USMO19200174",
         "itunes_track_id": 1444157225,
         "release_year": 1999,
-        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/fa/98/ad/fa98ad28-5aed-ef5b-6747-f7ef9ccab1e5/mzaf_10668902108723034119.plus.aac.p.m4a",
-        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/fa/98/ad/fa98ad28-5aed-ef5b-6747-f7ef9ccab1e5/mzaf_10668902108723034119.plus.aac.p.m4a",
-        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/27/6b/4c/276b4c69-99cb-6209-2fd8-3edd17ccfd06/00602517641228.rgb.jpg/100x100bb.jpg"
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/27/6b/4c/276b4c69-99cb-6209-2fd8-3edd17ccfd06/00602517641228.rgb.jpg/100x100bb.jpg",
+        "preview_not_available": true
       }
     },
     {
@@ -3309,8 +3308,8 @@
       "year": 2002,
       "label": "Signed to Aftermath (2002)",
       "audio_metadata": {
-        "track_name": "Still D.R.E.",
-        "itunes_track_id": 1440907557,
+        "track_name": "Still D.R.E. (feat. Snoop Dogg)",
+        "itunes_track_id": 1444156738,
         "release_year": 2003,
         "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/e9/6e/21/e96e21c7-3160-2896-ab10-8bf75bf2cbec/mzaf_11694417274233418108.plus.aac.p.m4a",
         "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/27/90/e3/2790e3a9-e59f-f29c-2120-c05fdaa962c0/mzaf_4100723799671175546.plus.aac.p.m4a",
@@ -3331,9 +3330,8 @@
         "track_name": "P.I.M.P.",
         "itunes_track_id": 1440907546,
         "release_year": 2003,
-        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/ca/f3/26/caf32619-1ced-6eb0-1cd2-58e54241cf68/mzaf_12998756644595464508.plus.aac.p.m4a",
-        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/3a/ff/68/3aff68fb-e3c5-5769-4e91-270cb09121b1/mzaf_8951500647542946140.plus.aac.p.m4a",
-        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/6e/56/af/6e56af83-bdff-56c2-7c6a-b30cd0d356ce/06UMGIM08757.rgb.jpg/100x100bb.jpg"
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/6e/56/af/6e56af83-bdff-56c2-7c6a-b30cd0d356ce/06UMGIM08757.rgb.jpg/100x100bb.jpg",
+        "preview_not_available": true
       }
     },
     {
@@ -3364,9 +3362,9 @@
       "year": 2009,
       "label": "Signed to Young Money (2009)",
       "audio_metadata": {
-        "track_name": "The Motto",
+        "track_name": "The Motto (Bonus Track) [feat. Lil Wayne]",
         "isrc": "USCM51100680",
-        "itunes_track_id": 1440738491,
+        "itunes_track_id": 1440746896,
         "release_year": 2008,
         "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f7/e7/83/f7e78318-65d9-7b8e-cbeb-f2e5ab80076c/mzaf_2797028050074940036.plus.aac.p.m4a",
         "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/88/bb/c6/88bbc6a4-7eed-9878-0f4d-c1425de88215/mzaf_8015177892513208474.plus.aac.p.m4a",
@@ -5418,9 +5416,8 @@
         "track_name": "Survival Tactics",
         "itunes_track_id": 1489860524,
         "release_year": 2012,
-        "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8b/68/78/8b687808-cae5-b0d2-13bc-40a9cdbf8a2c/mzaf_676300136178330754.plus.aac.p.m4a",
-        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8b/68/78/8b687808-cae5-b0d2-13bc-40a9cdbf8a2c/mzaf_676300136178330754.plus.aac.p.m4a",
-        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/c4/34/7c/c4347c0a-15aa-3982-bfae-db76b070507f/886447280683.jpg/100x100bb.jpg"
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/c4/34/7c/c4347c0a-15aa-3982-bfae-db76b070507f/886447280683.jpg/100x100bb.jpg",
+        "preview_not_available": true
       }
     },
     {
@@ -7847,10 +7844,10 @@
       "label": "Pro Era co-founders — Brooklyn boom-bap collective",
       "audio_metadata": {
         "track_name": "Don't Front",
-        "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/8b/68/78/8b687808-cae5-b0d2-13bc-40a9cdbf8a2c/mzaf_676300136178330754.plus.aac.p.m4a",
         "itunes_track_id": 1489860524,
         "release_year": 2012,
-        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/c4/34/7c/c4347c0a-15aa-3982-bfae-db76b070507f/886447280683.jpg/100x100bb.jpg"
+        "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/c4/34/7c/c4347c0a-15aa-3982-bfae-db76b070507f/886447280683.jpg/100x100bb.jpg",
+        "preview_not_available": true
       }
     },
     {
@@ -9015,7 +9012,7 @@
         "track_name": "Maybach Music VI (feat. John Legend & Lil Wayne)",
         "preview_url_us": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7a/31/1f/7a311f82-de41-38c6-c4ab-9e78d3078301/mzaf_9183612057117013100.plus.aac.p.m4a",
         "artwork_url": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/59/00/62/59006206-86c5-749c-cadc-da86bd2f53d9/08UMGIM02894.rgb.jpg/100x100bb.jpg",
-        "itunes_track_id": 1442816300,
+        "itunes_track_id": 1475712345,
         "release_year": 2008,
         "preview_url_gb": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/96/c2/d8/96c2d85a-3659-a9f3-051c-a0f4774eecd8/mzaf_1518805520175809742.plus.aac.p.m4a"
       }
