@@ -11474,6 +11474,52 @@
       "subtype": "featured_on",
       "year": 2012,
       "label": "Cross-coast collaboration — Kendrick and Mac Miller connected on West Coast experimental hip-hop"
+    },
+    {
+      "id": "rel_237",
+      "source": "busta-rhymes",
+      "target": "kendrick-lamar",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.75,
+      "verified": true,
+      "year": 2020,
+      "label": "Look Over Your Shoulder (2020)",
+      "sources": [
+        "spotify",
+        "genius"
+      ],
+      "metadata": {
+        "songs": [
+          "Look Over Your Shoulder"
+        ],
+        "count": 1,
+        "startYear": 2020,
+        "album": "Extinction Level Event 2: The Wrath of God"
+      }
+    },
+    {
+      "id": "rel_238",
+      "source": "lil-wayne",
+      "target": "kendrick-lamar",
+      "type": "collaborative",
+      "subtype": "featured_on",
+      "strength": 0.8,
+      "verified": true,
+      "year": 2018,
+      "label": "Mona Lisa (2018)",
+      "sources": [
+        "spotify",
+        "genius"
+      ],
+      "metadata": {
+        "songs": [
+          "Mona Lisa"
+        ],
+        "count": 1,
+        "startYear": 2018,
+        "album": "Tha Carter V"
+      }
     }
   ],
   "collectives": [
