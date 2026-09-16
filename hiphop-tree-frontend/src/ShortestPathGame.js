@@ -196,6 +196,7 @@ function ShortestPathGame({
                   key={artistId}
                   className={`next-artist-btn ${isTarget ? 'target' : ''}`}
                   onClick={() => handleSelectNextArtist(artistId, rel)}
+                  disabled={isComplete || loading}
                   title={`${rel.type}${rel.subtype ? ` - ${rel.subtype}` : ''}`}
                 >
                   <div className="artist-name">{nextArtist?.name}</div>

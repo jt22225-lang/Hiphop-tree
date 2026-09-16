@@ -185,11 +185,17 @@
   word-break: break-word;
 }
 
-.next-artist-btn:hover {
+.next-artist-btn:hover:not(:disabled) {
   background: rgba(255, 165, 0, 0.15);
   border-color: #ffa500;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(255, 165, 0, 0.2);
+}
+
+.next-artist-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .next-artist-btn.target {
