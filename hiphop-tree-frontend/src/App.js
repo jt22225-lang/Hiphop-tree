@@ -500,25 +500,27 @@ export default function App() {
         onDismiss={() => setCurrentAudioMeta(null)}
       />
 
-      <div className="legend">
-        <span className="legend-title">Relationships:</span>
-        <span className="legend-item"><span className="dot collaborative" /><span>Collaboration</span><span className="legend-count">{counts.collaborative || 0}</span></span>
-        <span className="legend-item"><span className="dot mentorship" /><span>Mentorship</span><span className="legend-count">{counts.mentorship || 0}</span></span>
-        <span className="legend-item"><span className="dot collective" /><span>Collective</span><span className="legend-count">{counts.collective || 0}</span></span>
-        <span className="legend-item"><span className="dot familial" /><span>Family</span><span className="legend-count">{counts.familial || 0}</span></span>
-        <span className="legend-divider" />
-        <span className="legend-title">Era:</span>
-        {sortErasChronologically(allEras).map(era => (
-          <span key={era} className="legend-item">
-            <span className={`dot ${era.toLowerCase()}`} />
-            <span>{era}</span>
-            {eraArtistCounts[era] && <span className="legend-count">{eraArtistCounts[era]}</span>}
-          </span>
-        ))}
-        <span className="legend-divider" />
-        <span className="legend-item"><span className="dot legend" /><span>♛ Verified Architect</span></span>
-        <span className="legend-item"><span className="dot deep-cut" /><span>💿 Deep Cut</span></span>
-      </div>
+      {!gameActive && (
+        <div className="legend">
+          <span className="legend-title">Relationships:</span>
+          <span className="legend-item"><span className="dot collaborative" /><span>Collaboration</span><span className="legend-count">{counts.collaborative || 0}</span></span>
+          <span className="legend-item"><span className="dot mentorship" /><span>Mentorship</span><span className="legend-count">{counts.mentorship || 0}</span></span>
+          <span className="legend-item"><span className="dot collective" /><span>Collective</span><span className="legend-count">{counts.collective || 0}</span></span>
+          <span className="legend-item"><span className="dot familial" /><span>Family</span><span className="legend-count">{counts.familial || 0}</span></span>
+          <span className="legend-divider" />
+          <span className="legend-title">Era:</span>
+          {sortErasChronologically(allEras).map(era => (
+            <span key={era} className="legend-item">
+              <span className={`dot ${era.toLowerCase()}`} />
+              <span>{era}</span>
+              {eraArtistCounts[era] && <span className="legend-count">{eraArtistCounts[era]}</span>}
+            </span>
+          ))}
+          <span className="legend-divider" />
+          <span className="legend-item"><span className="dot legend" /><span>♛ Verified Architect</span></span>
+          <span className="legend-item"><span className="dot deep-cut" /><span>💿 Deep Cut</span></span>
+        </div>
+      )}
 
       {/* ── Loading / error overlays (inside graph view) ── */}
       {(loading || !graphReady) && !isLandingVisible && (
