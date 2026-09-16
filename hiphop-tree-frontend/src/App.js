@@ -222,7 +222,7 @@ export default function App() {
         try {
           localStorage.setItem('hiphoptree-graph-cache', JSON.stringify(res.data));
           localStorage.setItem('hiphoptree-cache-timestamp', Date.now().toString());
-          localStorage.setItem('hiphoptree-cache-version', '2');
+          localStorage.setItem('hiphoptree-cache-version', '3');
         } catch (e) {
           console.warn('[Cache] Failed to cache graph:', e.message);
         }
