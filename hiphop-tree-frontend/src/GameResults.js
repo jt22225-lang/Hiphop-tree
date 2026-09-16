@@ -74,7 +74,7 @@ function GameResults({
           <h3>Your Path</h3>
           <div className="hops-display user-hops">{userHops} hops</div>
           <div className="path-preview">
-            {[artist1?.name, ...userPath.map(e => graphData?.artists.find(a => a.id === e.to)?.name), artist2?.name]
+            {[artist1?.name, ...userPath.map(e => graphData?.artists.find(a => a.id === e.to)?.name)]
               .filter(Boolean)
               .slice(0, 4)
               .join(' → ')}
@@ -89,7 +89,7 @@ function GameResults({
           <div className="hops-display optimal-hops">{optimalHops} hops</div>
           <div className="path-preview">
             {optimalPath?.path && optimalPath.path.length > 0
-              ? [artist1?.name, ...optimalPath.path.map(e => graphData?.artists.find(a => a.id === e.to)?.name), artist2?.name]
+              ? [artist1?.name, ...optimalPath.path.map(e => graphData?.artists.find(a => a.id === e.to)?.name)]
                   .filter(Boolean)
                   .slice(0, 4)
                   .join(' → ')
