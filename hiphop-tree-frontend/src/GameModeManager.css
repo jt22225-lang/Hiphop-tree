@@ -6,8 +6,8 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 380px;
-  height: 100vh;
+  width: 500px;
+  height: calc(100vh - 80px);
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   border-left: 1px solid rgba(255, 165, 0, 0.2);
   box-shadow: -2px 0 12px rgba(0, 0, 0, 0.4);

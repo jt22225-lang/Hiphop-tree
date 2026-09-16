@@ -69,7 +69,13 @@ function ShortestPathGame({
     });
 
     const result = Array.from(neighborsMap.values());
-    return result;
+
+    // Sort so target artist (if available) appears first
+    return result.sort((a, b) => {
+      if (a.artistId === artist2Id) return -1;
+      if (b.artistId === artist2Id) return 1;
+      return 0;
+    });
   }, [graphData, currentArtistId, userPath, artist2Id]);
 
   // Handle clicking a next artist
