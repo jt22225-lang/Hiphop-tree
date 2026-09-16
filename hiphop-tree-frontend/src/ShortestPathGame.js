@@ -54,6 +54,7 @@ function ShortestPathGame({
 
     // Convert to neighbors with metadata
     const neighborsMap = new Map();
+    const duplicates = []; // Track multiple relationships to same neighbor
     relationships.forEach(r => {
       const neighborId = r.source === currentArtistId ? r.target : r.source;
 
@@ -61,6 +62,11 @@ function ShortestPathGame({
       if (neighborId !== artist2Id && userPath.some(p => p.to === neighborId)) {
         console.log(`[Game] Skipping ${neighborId} (already visited)`);
         return;
+      }
+
+      // Track if we already have this neighbor
+      if (neighborsMap.has(neighborId)) {
+        duplicates.push({ neighborId, relId: r.id });
       }
 
       // Use first relationship found for this neighbor
@@ -72,8 +78,13 @@ function ShortestPathGame({
       }
     });
 
+    if (duplicates.length > 0) {
+      console.log('[Game] Multiple relationships to same neighbors:', duplicates.map(d => `${d.neighborId}(${d.relId})`).join(', '));
+    }
+
     const result = Array.from(neighborsMap.values());
     console.log('[Game] Available next artists:', result.map(n => `${n.artistId}(rel_${n.rel.id})`).join(', '));
+    console.log('[Game] Artist2 (target):', artist2Id, '| Current available includes target?', result.some(n => n.artistId === artist2Id));
     return result;
   }, [graphData, currentArtistId, userPath, artist2Id]);
 
@@ -114,6 +125,8 @@ function ShortestPathGame({
   useEffect(() => {
     if (!targetReached || isComplete) return;
 
+    let isMounted = true;
+
     const fetchOptimal = async () => {
       setLoading(true);
       try {
@@ -126,25 +139,32 @@ function ShortestPathGame({
         });
         const { path: optimalPath, hops: optimalHops } = response.data;
 
-        onGameComplete({
-          userPath,
-          optimalPath: {
-            path: optimalPath || [],
-            hops: optimalHops || 0,
-          },
-          userHops: hops,
-        });
-        setIsComplete(true);
+        if (isMounted) {
+          onGameComplete({
+            userPath,
+            optimalPath: {
+              path: optimalPath || [],
+              hops: optimalHops || 0,
+            },
+            userHops: hops,
+          });
+          setIsComplete(true);
+        }
       } catch (err) {
-        console.error('Error fetching optimal path:', err);
-        setError('Failed to fetch optimal path');
-      } finally {
-        setLoading(false);
+        if (isMounted) {
+          console.error('Error fetching optimal path:', err);
+          setError('Failed to fetch optimal path');
+          setLoading(false);
+        }
       }
     };
 
     fetchOptimal();
-  }, [targetReached, isComplete, userPath, hops, artist1Id, artist2Id, onGameComplete]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [targetReached, isComplete, artist1Id, artist2Id, userPath, hops, onGameComplete]);
 
   const nextArtists = availableNextArtists();
   const currentArtist = graphData?.artists.find(a => a.id === currentArtistId);
