@@ -88,12 +88,7 @@ function ShortestPathGame({
 
     const newPath = [...userPath, newEdge];
     setUserPath(newPath);
-
-    // If target reached, auto-complete
-    if (nextArtistId === artist2Id) {
-      setIsComplete(true);
-    }
-  }, [currentArtistId, artist2Id, userPath]);
+  }, [currentArtistId, userPath]);
 
   // When game completes, fetch optimal path and call onGameComplete
   useEffect(() => {
