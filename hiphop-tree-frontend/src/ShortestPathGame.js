@@ -122,7 +122,6 @@ function ShortestPathGame({
             from: artist1Id,
             to: artist2Id,
             weighted: false,
-            maxYear: activeYear,
           },
         });
         const { path: optimalPath, hops: optimalHops } = response.data;

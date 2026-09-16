@@ -88,13 +88,9 @@ function buildAdjacencyMap(graphData, maxYear = null) {
     adjMap[a.id] = [];
   });
 
-  // Add bidirectional edges (undirected graph), filtering by maxYear if provided
+  // Add bidirectional edges (undirected graph) - year filtering disabled
+  // The year slider is visual only; pathfinding always uses the full graph
   graphData.relationships.forEach(r => {
-    // Filter by year: include if no year is set, or if year <= maxYear
-    if (maxYear !== null && r.year && r.year > maxYear) {
-      return; // Skip relationships that haven't happened yet in this timeline
-    }
-
     if (adjMap[r.source] && adjMap[r.target]) {
       adjMap[r.source].push({ id: r.target, rel: r });
       adjMap[r.target].push({ id: r.source, rel: r });
