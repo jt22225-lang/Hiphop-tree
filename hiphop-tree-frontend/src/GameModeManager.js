@@ -45,11 +45,9 @@ function GameModeManager({
     const newSelection = [...selectedArtists, artist.id];
     setSelectedArtists(newSelection);
     setSearchInput('');
-    console.log('[Game] Artist selected:', artist.name, 'Total selected:', newSelection.length);
 
     // Auto-start game when 2 artists selected
     if (newSelection.length === 2) {
-      console.log('[Game] Auto-starting game with:', newSelection);
       setTimeout(() => {
         setGamePhase('playing');
         setUserPath([]);

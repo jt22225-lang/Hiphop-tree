@@ -41,7 +41,6 @@ function ShortestPathGame({
   // Get available next artists (neighbors of current artist)
   const availableNextArtists = useCallback(() => {
     if (!graphData || !currentArtistId) {
-      console.log('[Game] Cannot get neighbors: graphData=', !!graphData, 'currentArtistId=', currentArtistId);
       return [];
     }
 
@@ -50,23 +49,14 @@ function ShortestPathGame({
       r.source === currentArtistId || r.target === currentArtistId
     );
 
-    console.log(`[Game] Found ${relationships.length} relationships for ${currentArtistId}`);
-
     // Convert to neighbors with metadata
     const neighborsMap = new Map();
-    const duplicates = []; // Track multiple relationships to same neighbor
     relationships.forEach(r => {
       const neighborId = r.source === currentArtistId ? r.target : r.source;
 
       // Skip if already visited (except if it's the target)
       if (neighborId !== artist2Id && userPath.some(p => p.to === neighborId)) {
-        console.log(`[Game] Skipping ${neighborId} (already visited)`);
         return;
-      }
-
-      // Track if we already have this neighbor
-      if (neighborsMap.has(neighborId)) {
-        duplicates.push({ neighborId, relId: r.id });
       }
 
       // Use first relationship found for this neighbor
@@ -78,13 +68,7 @@ function ShortestPathGame({
       }
     });
 
-    if (duplicates.length > 0) {
-      console.log('[Game] Multiple relationships to same neighbors:', duplicates.map(d => `${d.neighborId}(${d.relId})`).join(', '));
-    }
-
     const result = Array.from(neighborsMap.values());
-    console.log('[Game] Available next artists:', result.map(n => `${n.artistId}(rel_${n.rel.id})`).join(', '));
-    console.log('[Game] Artist2 (target):', artist2Id, '| Current available includes target?', result.some(n => n.artistId === artist2Id));
     return result;
   }, [graphData, currentArtistId, userPath, artist2Id]);
 
@@ -95,31 +79,15 @@ function ShortestPathGame({
       to: nextArtistId,
       rel: relation,
     };
-    console.log('[Game] User clicked path:', {
-      from: currentArtistId,
-      to: nextArtistId,
-      targetReached: nextArtistId === artist2Id,
-    });
 
     const newPath = [...userPath, newEdge];
     setUserPath(newPath);
 
     // If target reached, auto-complete
     if (nextArtistId === artist2Id) {
-      console.log('[Game] Target reached! User hops:', newPath.length);
       setIsComplete(true);
     }
   }, [currentArtistId, artist2Id, userPath]);
-
-  // Debugging: Log initialization
-  useEffect(() => {
-    console.log('[Game] ShortestPathGame initialized', {
-      artist1: artist1?.name,
-      artist2: artist2?.name,
-      graphDataReady: !!graphData,
-      artistsCount: graphData?.artists.length,
-    });
-  }, [artist1, artist2, graphData]);
 
   // When game completes, fetch optimal path and call onGameComplete
   useEffect(() => {
@@ -168,15 +136,6 @@ function ShortestPathGame({
 
   const nextArtists = availableNextArtists();
   const currentArtist = graphData?.artists.find(a => a.id === currentArtistId);
-
-  // Log next artists updates
-  useEffect(() => {
-    console.log('[Game] Next artists available:', nextArtists.length, 'options', {
-      currentArtistId,
-      currentArtistName: currentArtist?.name,
-      options: nextArtists.map(n => n.artistId),
-    });
-  }, [nextArtists.length, currentArtistId, currentArtist]);
 
   return (
     <div className="game-play-panel">
