@@ -189,7 +189,7 @@ export default function App() {
     const cacheTimestamp = localStorage.getItem('hiphoptree-cache-timestamp');
     const cacheVersion = localStorage.getItem('hiphoptree-cache-version');
     const cacheMaxAge = 24 * 60 * 60 * 1000; // 24 hours
-    const EXPECTED_CACHE_VERSION = '3'; // Bumped to invalidate Eminem audio cache bug
+    const EXPECTED_CACHE_VERSION = '4'; // Bumped to invalidate cache, load new TDE labelmates
 
     if (
       cachedGraph &&
@@ -222,7 +222,7 @@ export default function App() {
         try {
           localStorage.setItem('hiphoptree-graph-cache', JSON.stringify(res.data));
           localStorage.setItem('hiphoptree-cache-timestamp', Date.now().toString());
-          localStorage.setItem('hiphoptree-cache-version', '3');
+          localStorage.setItem('hiphoptree-cache-version', '4');
         } catch (e) {
           console.warn('[Cache] Failed to cache graph:', e.message);
         }
