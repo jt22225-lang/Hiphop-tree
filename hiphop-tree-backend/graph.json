@@ -11520,6 +11520,72 @@
         "startYear": 2018,
         "album": "Tha Carter V"
       }
+    },
+    {
+      "id": "rel_239",
+      "source": "kendrick-lamar",
+      "target": "isaiah-rashad",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.95,
+      "verified": true,
+      "year": 2011,
+      "label": "TDE labelmates"
+    },
+    {
+      "id": "rel_240",
+      "source": "kendrick-lamar",
+      "target": "zacari",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2016,
+      "label": "TDE labelmates"
+    },
+    {
+      "id": "rel_241",
+      "source": "kendrick-lamar",
+      "target": "doechii",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.85,
+      "verified": true,
+      "year": 2021,
+      "label": "TDE labelmates"
+    },
+    {
+      "id": "rel_242",
+      "source": "kendrick-lamar",
+      "target": "lance-skiiiwalker",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.9,
+      "verified": true,
+      "year": 2016,
+      "label": "TDE labelmates"
+    },
+    {
+      "id": "rel_243",
+      "source": "kendrick-lamar",
+      "target": "sir",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.92,
+      "verified": true,
+      "year": 2016,
+      "label": "TDE labelmates"
+    },
+    {
+      "id": "rel_244",
+      "source": "kendrick-lamar",
+      "target": "ray-vaughn",
+      "type": "collective",
+      "subtype": "member_of",
+      "strength": 0.88,
+      "verified": true,
+      "year": 2016,
+      "label": "TDE labelmates"
     }
   ],
   "collectives": [
