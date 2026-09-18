@@ -132,10 +132,10 @@
       "region": "Toronto",
       "label": "OVO",
       "metadata": {
-        "wikidataId": "Q218812",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Drake"
+        "wikidataId": "Q5294",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Drake_(musician)"
       },
-      "bio": "Drake may refer to:",
+      "bio": "Aubrey Drake Graham (born October 24, 1986), known mononymously as Drake, is a Canadian rapper, singer, and record producer from Toronto. He is one of the most commercially successful and influential artists of the 21st century. His albums Take Care (2011), Nothing Was the Same (2013), and Views (2016) redefined hip-hop and pop crossover. As founder of OVO Sound and mentor to many artists, he has shaped modern rap culture.",
       "weight": 2
     },
     {
@@ -450,10 +450,10 @@
       "region": "Chicago",
       "label": "GOOD Music",
       "metadata": {
-        "wikidataId": "Q1208568",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Common"
+        "wikidataId": "Q336780",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Common_(rapper)"
       },
-      "bio": "Common may refer to:\nAs an Irish surname, it is anglicised from Irish Gaelic surname Ó Comáin.",
+      "bio": "Lonnie Rashid Lynn Jr. (born March 13, 1972), known mononymously as Common, is a Chicago rapper, actor, and producer. His introspective lyricism and jazz-influenced production helped define conscious hip-hop. Albums like Like Water for Chocolate (2000) and Finding Forever (2007) showcase his artistic depth. He has also acted in Wanted (2008), Selma (2014), and Mortal Kombat (2021).",
       "weight": 2
     },
     {
@@ -541,10 +541,10 @@
       "region": "Atlanta",
       "label": "Freebandz",
       "metadata": {
-        "wikidataId": "Q344",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Future"
+        "wikidataId": "Q12346039",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Future_(rapper)"
       },
-      "bio": "The future is the time after the past and present. Its arrival is considered inevitable due to the existence of time and the laws of physics. Due to the apparent nature of reality and the unavoidability of the future, everything that currently exists and will exist can be categorized as either permanent, meaning that it will exist forever, or temporary, meaning that it will end.",
+      "bio": "Nayvadius DeMar Wilburn (born 1983), known professionally as Future, is an Atlanta-based rapper, singer, and songwriter who pioneered the trap sound of the 2010s. His albums Pluto (2012), DS2 (2015), and HNDRXX (2017) showcase his distinctive vocal style and production sensibilities. Frequent collaborator with Drake, The Weeknd, Kendrick Lamar, and Rihanna, he remains one of hip-hop's most influential figures in trap music and production.",
       "weight": 2
     },
     {
@@ -1632,11 +1632,11 @@
       "role": "rapper",
       "year": 2017,
       "location": "London, UK",
-      "bio": "North West London rapper who fuses gritty UK street rap with classic boom-bap. His Alpha Place project is regarded as a landmark in British hip-hop.",
+      "bio": "North West London rapper who fuses gritty UK street rap with classic boom-bap. His Alpha Place project is regarded as a landmark in British hip-hop, with critical acclaim for his intricate lyricism and production selection. Collaborated with peers like Greentea Peng on the Knucks & Greentea Peng project.",
       "vault_status": "Signed Physical Copy",
       "metadata": {
-        "wikidataId": "Q459414",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Brass_knuckles"
+        "wikidataId": "Q28405370",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Knucks_(musician)"
       },
       "weight": 1
     },
@@ -1716,8 +1716,8 @@
       "label": "TDE",
       "bio": "Johnathan Kristopher Taylor — Carson, CA rapper signed to TDE in 2017. New Faces (2014) announced him; There You Have It (2019) delivered on the promise. A storyteller in the Kendrick mold — Carson-centric narratives, social conscience, and cinematic production sensibilities. Often called TDE's most underrated voice.",
       "metadata": {
-        "wikidataId": "Q298903",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Reason_(disambiguation)"
+        "wikidataId": "Q1753577",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Reason_(rapper)"
       },
       "weight": 1
     },
@@ -2098,10 +2098,10 @@
       "label": "Cash Money",
       "metadata": {
         "culturalImpact": "Hot Boys anchor and the voice of the 17th Ward. '400 Degreez' (1998) went 4x platinum and brought New Orleans rap to the mainstream.",
-        "wikidataId": "Q355488",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Juvenile"
+        "wikidataId": "Q353833",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Juvenile_(rapper)"
       },
-      "bio": "Juvenile may refer to:",
+      "bio": "Terius Gray (born March 25, 1975), known as Juvenile, is a New Orleans rapper and member of the Hot Boys collective. His 1998 album 400 Degreez, produced by Mannie Fresh, brought Southern rap to mainstream prominence and went 4x platinum. His energetic, syncopated delivery defined the New Orleans bounce sound alongside Cash Money Records co-founder Baby.",
       "weight": 2
     },
     {
@@ -2112,10 +2112,10 @@
       "label": "Cash Money",
       "metadata": {
         "culturalImpact": "One of the originators of the Hot Boys, B.G.'s 'Bling Bling' (1999) coined the term that defined an era of hip-hop aesthetics.",
-        "wikidataId": "Q218713",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/BG"
+        "wikidataId": "Q354181",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/B.G._(rapper)"
       },
-      "bio": "BG or bg may refer to:",
+      "bio": "Christopher Noel Dollas (born September 3, 1980), known as B.G., is a New Orleans rapper and original member of the Hot Boys collective on Cash Money Records. His baby-voiced, rapid-fire delivery contrasted perfectly with Juvenile and Lil Wayne. The single 'Bling Bling' (1999) coined the cultural term that defined late-90s hip-hop materialism and excess.",
       "weight": 2
     },
     {
