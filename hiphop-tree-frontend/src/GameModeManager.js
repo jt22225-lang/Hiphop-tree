@@ -121,6 +121,7 @@ function GameModeManager({
         <div className="game-setup-panel">
           <div className="game-header">
             <h1>🎮 Shortest Path Challenge</h1>
+            <div className="madvillainy-egg" title="Madvillainy (2004)"></div>
             <button className="close-btn" onClick={handleExitGame}>✕</button>
           </div>
 
