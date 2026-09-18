@@ -23,6 +23,7 @@
 .game-setup-panel,
 .game-play-panel,
 .game-results-panel {
+  position: relative;
   padding: 40px;
   display: flex;
   flex-direction: column;
@@ -60,19 +61,21 @@
 
 /* ─────── Madvillainy Easter Egg ──────────────────────────── */
 .madvillainy-egg {
-  width: 20px;
-  height: 20px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
   background-color: #ffa500;
   border-radius: 2px;
   cursor: pointer;
   transition: all 0.3s ease;
-  flex-shrink: 0;
 }
 
 .madvillainy-egg:hover {
   background-color: #ff8c00;
-  transform: scale(1.1);
-  box-shadow: 0 0 8px rgba(255, 165, 0, 0.6);
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(255, 165, 0, 0.7);
 }
 
 .close-btn {
