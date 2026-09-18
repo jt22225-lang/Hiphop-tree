@@ -560,23 +560,54 @@ export default function Sidebar({
                   {rel.sources && rel.sources.length > 0 && (
                     <div className="source-badges">
                       {rel.sources.map((sourceUrl, idx) => {
-                        // Extract source name from URL or use as-is if it's a plain string
                         const isUrl = typeof sourceUrl === 'string' && sourceUrl.startsWith('http');
-                        const sourceName = isUrl
-                          ? sourceUrl.includes('wikipedia') ? 'Wikipedia'
-                          : sourceUrl.includes('genius') ? 'Genius'
-                          : sourceUrl.includes('spotify') ? 'Spotify'
-                          : 'Source'
-                          : sourceUrl;
+
+                        // Determine source name and construct link
+                        let sourceName = 'Source';
+                        let href = '#';
+                        let isClickable = false;
+
+                        if (isUrl) {
+                          // Full URL — use directly
+                          isClickable = true;
+                          href = sourceUrl;
+                          sourceName = sourceUrl.includes('wikipedia') ? 'Wikipedia'
+                            : sourceUrl.includes('genius') ? 'Genius'
+                            : sourceUrl.includes('spotify') ? 'Spotify'
+                            : 'Source';
+                        } else if (typeof sourceUrl === 'string') {
+                          // Plain string platform name — construct search URL
+                          isClickable = true;
+                          const platformName = sourceUrl.toLowerCase();
+                          sourceName = platformName.charAt(0).toUpperCase() + platformName.slice(1);
+
+                          // Build search query from song name and/or relationship label
+                          let searchQuery = '';
+                          if (rel.metadata?.songs && rel.metadata.songs.length > 0) {
+                            searchQuery = rel.metadata.songs[0];
+                          } else if (rel.label) {
+                            // Extract song name from label if present
+                            const match = rel.label.match(/["']([^"']+)["']/);
+                            searchQuery = match ? match[1] : rel.label.substring(0, 50);
+                          }
+
+                          // Construct platform-specific search URL
+                          if (platformName === 'genius') {
+                            href = `https://genius.com/search?q=${encodeURIComponent(searchQuery)}`;
+                          } else if (platformName === 'spotify') {
+                            href = `https://open.spotify.com/search/${encodeURIComponent(searchQuery)}`;
+                          }
+                        }
 
                         return (
                           <a
                             key={idx}
-                            href={isUrl ? sourceUrl : '#'}
-                            target={isUrl ? '_blank' : undefined}
-                            rel={isUrl ? 'noopener noreferrer' : undefined}
+                            href={href}
+                            target={isClickable ? '_blank' : undefined}
+                            rel={isClickable ? 'noopener noreferrer' : undefined}
                             className="source-badge"
-                            title={isUrl ? sourceUrl : sourceName}
+                            style={isClickable ? {} : { cursor: 'default', opacity: 0.5 }}
+                            title={isClickable ? href : sourceName}
                           >
                             {sourceName}
                           </a>
