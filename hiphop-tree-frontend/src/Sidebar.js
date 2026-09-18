@@ -557,6 +557,33 @@ export default function Sidebar({
                     {rel.label && <span className="rel-label">{rel.label}</span>}
                     {rel.year  && <span className="rel-year">{rel.year}</span>}
                   </div>
+                  {rel.sources && rel.sources.length > 0 && (
+                    <div className="source-badges">
+                      {rel.sources.map((sourceUrl, idx) => {
+                        // Extract source name from URL or use as-is if it's a plain string
+                        const isUrl = typeof sourceUrl === 'string' && sourceUrl.startsWith('http');
+                        const sourceName = isUrl
+                          ? sourceUrl.includes('wikipedia') ? 'Wikipedia'
+                          : sourceUrl.includes('genius') ? 'Genius'
+                          : sourceUrl.includes('spotify') ? 'Spotify'
+                          : 'Source'
+                          : sourceUrl;
+
+                        return (
+                          <a
+                            key={idx}
+                            href={isUrl ? sourceUrl : '#'}
+                            target={isUrl ? '_blank' : undefined}
+                            rel={isUrl ? 'noopener noreferrer' : undefined}
+                            className="source-badge"
+                            title={isUrl ? sourceUrl : sourceName}
+                          >
+                            {sourceName}
+                          </a>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
                 <div className="connection-actions">
                   {/* ▶ — Play Connection Song: fires the Sonic Link player */}
