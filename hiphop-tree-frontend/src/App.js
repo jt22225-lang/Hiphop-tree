@@ -6,6 +6,7 @@ import SearchBar from './SearchBar';
 import HistorySlider from './HistorySlider';
 import LandingPage from './LandingPage';
 import AudioPreviewPlayer from './AudioPreviewPlayer';
+import Logo from './Logo';
 
 // Lazy-load GameModeManager (~245 lines) only when needed
 const GameModeManager = lazy(() => import('./GameModeManager'));
@@ -376,7 +377,7 @@ export default function App() {
       {/* ── Main App — fades in as landing dissolves ──────── */}
       <div className={`app app-graph-fade ${isGraphVisible ? 'app-graph-visible' : ''}`}>
       <header className="header">
-        <div className="logo"><span>HipHopTree</span></div>
+        <Logo />
         <SearchBar onSearch={handleSearch} />
         <div className="filters">
           {['all','collaborative','mentorship','collective','familial'].map(f => (
