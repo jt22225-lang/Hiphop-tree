@@ -6,13 +6,33 @@ const graphData = require('../graph.json');
 function fetchJson(url) {
   return new Promise((resolve, reject) => {
     const urlObj = new URL(url);
-    https.get(urlObj, (res) => {
+    const options = {
+      headers: {
+        'User-Agent': 'HipHopTree-audit/1.0 (https://hiphoptree.com)'
+      }
+    };
+    https.get(urlObj, options, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
+        // Handle rate limiting with Retry-After
+        if (res.statusCode === 429) {
+          const retryAfter = res.headers['retry-after'];
+          console.warn(`[RATE LIMITED] Status 429, Retry-After: ${retryAfter || 'not specified'}`);
+          resolve(null);
+          return;
+        }
+
+        if (res.statusCode !== 200) {
+          console.error(`[ERROR] Status ${res.statusCode}: ${data.substring(0, 200)}`);
+          resolve(null);
+          return;
+        }
+
         try {
           resolve(JSON.parse(data));
         } catch (e) {
+          console.error(`[PARSE ERROR] ${e.message}`);
           resolve(null);
         }
       });
@@ -33,7 +53,7 @@ async function auditWikipedia() {
   for (let i = 0; i < artistsWithWiki.length; i += 50) {
     const batch = artistsWithWiki.slice(i, i + 50);
 
-    // Extract page titles from URLs
+    // Extract page titles from URLs (decoded)
     const titles = batch
       .map(a => {
         const match = a.metadata.wikipediaUrl.match(/\/wiki\/(.+)$/);
@@ -56,17 +76,61 @@ async function auditWikipedia() {
       continue;
     }
 
-    // Check each page
-    for (let j = 0; j < batch.length; j++) {
-      const artist = batch[j];
-      const urlMatch = artist.metadata.wikipediaUrl.match(/\/wiki\/(.+)$/);
-      const pageTitle = urlMatch ? decodeURIComponent(urlMatch[1]) : null;
+    // Build a map of input titles to pages using normalized and redirects
+    const normalized = {};
+    const redirects = {};
 
-      // Find page in results
-      const page = Object.values(data.query.pages).find(p => p.title === pageTitle || p.redirect?.to === pageTitle);
+    if (data.query.normalized) {
+      data.query.normalized.forEach(n => {
+        normalized[n.from] = n.to;
+      });
+    }
+
+    if (data.query.redirects) {
+      data.query.redirects.forEach(r => {
+        redirects[r.from] = r.to;
+      });
+    }
+
+    // Check each artist in batch
+    for (const artist of batch) {
+      const urlMatch = artist.metadata.wikipediaUrl.match(/\/wiki\/(.+)$/);
+      const decodedTitle = urlMatch ? decodeURIComponent(urlMatch[1]) : null;
+
+      if (!decodedTitle) continue;
+
+      // Map the title through normalization and redirects
+      let actualTitle = decodedTitle;
+      if (normalized[actualTitle]) {
+        actualTitle = normalized[actualTitle];
+      }
+      if (redirects[decodedTitle]) {
+        actualTitle = redirects[decodedTitle];
+      }
+
+      // Find page using the mapped title
+      const pages = data.query.pages;
+      let page = null;
+
+      for (const p of Object.values(pages)) {
+        if (p.title === actualTitle && !p.missing) {
+          page = p;
+          break;
+        }
+      }
+
+      // If not found, check for redirect targets
+      if (!page) {
+        for (const p of Object.values(pages)) {
+          if (p.redirect && p.redirect.to === actualTitle) {
+            page = p;
+            break;
+          }
+        }
+      }
 
       if (!page) {
-        issues.push(`${artist.id}: Page not found in batch results`);
+        issues.push(`${artist.id} (${artist.name}): Page mapping failed - stored title: "${decodedTitle}"`);
         continue;
       }
 
