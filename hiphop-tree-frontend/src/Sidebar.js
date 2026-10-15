@@ -469,7 +469,7 @@ export default function Sidebar({
       <div className="bio-section">
         <div className="bio-title-row">
           <h4>📖 About</h4>
-          {bio?.wikiUrl && (
+          {artist.metadata?.wikipediaUrl && bio?.wikiUrl && (
             <a href={bio.wikiUrl} target="_blank" rel="noreferrer" className="genius-link">
               Wikipedia ↗
             </a>
