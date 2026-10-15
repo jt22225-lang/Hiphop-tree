@@ -266,8 +266,8 @@
       "region": "South",
       "label": "Rap-A-Lot",
       "metadata": {
-        "wikidataId": "Q227639",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Scarface"
+        "wikidataId": null,
+        "wikipediaUrl": null
       },
       "bio": "Brad Terrence Jordan (born November 9, 1969), known professionally as Scarface, is an American rapper and record executive from Houston, Texas. A founding member of the Geto Boys, his solo albums — particularly The World Is Yours (1993), The Diary (1994), and My Homies (1998) — are foundational texts of Southern rap. Widely regarded as one of the greatest storytellers in hip-hop history, his influence spans generations and coasts.",
       "weight": 2
@@ -850,8 +850,8 @@
       "role": "producer",
       "bio": "Kejuan Muchita — one half of Mobb Deep; primary producer of The Infamous (1995) and Hell on Earth (1996). His hollow-drum, bleak-sample palette influenced The Alchemist directly.",
       "metadata": {
-        "wikidataId": "Q400402",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Havoc"
+        "wikidataId": null,
+        "wikipediaUrl": null
       },
       "weight": 8
     },
@@ -863,8 +863,8 @@
       "label": "Loud / Jive",
       "bio": "Albert Johnson — one half of Mobb Deep. His opening lines on Shook Ones Pt. II are universally cited as one of the greatest sixteen bars ever recorded. Passed 2017.",
       "metadata": {
-        "wikidataId": "Q175474",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Prodigy"
+        "wikidataId": null,
+        "wikipediaUrl": null
       },
       "weight": 2
     },
@@ -1264,8 +1264,8 @@
       "label": "Def Jam",
       "bio": "Keenon Jackson — Compton's post-Kendrick flag-bearer. My Krazy Life (2014), produced by DJ Mustard, is a landmark gang-life concept album. Political voice of West Coast rap via FDT (2016).",
       "metadata": {
-        "wikidataId": "Q406882",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/YG"
+        "wikidataId": null,
+        "wikipediaUrl": null
       },
       "weight": 2
     },
@@ -1341,8 +1341,8 @@
       "region": "East Coast",
       "label": "EMI / Motown",
       "metadata": {
-        "wikidataId": "Q218112",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/AZ"
+        "wikidataId": null,
+        "wikipediaUrl": null
       },
       "bio": "Anthony Cruz — one of Nas's closest collaborators and a classic Queensbridge voice in his own right. His debut verse on Life's a Bitch (Illmatic, 1994) is considered one of the greatest guest appearances in rap history. His solo debut Doe or Die (1995) — produced largely by Pete Rock — is an East Coast classic.",
       "weight": 2
@@ -1406,8 +1406,8 @@
       "region": "East Coast",
       "label": "Maybach Music / Atlantic",
       "metadata": {
-        "wikidataId": "Q1205156",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Wale"
+        "wikidataId": null,
+        "wikipediaUrl": null
       },
       "bio": "Olubowale Victor Akintimehin — a DC rapper who bridged go-go music, East Coast lyrical tradition, and Rick Ross's Miami-rooted Maybach Music Group. Signed by Jay-Z early in his career and later became the most successful act on Rick Ross's MMG. Attention Deficit (2009) showed his lyrical range; The Album About Nothing (2015) with Jerry Seinfeld went #1.",
       "weight": 2
@@ -1963,8 +1963,8 @@
       "label": "Black Wall Street / Aftermath",
       "bio": "Jayceon Taylor — Compton rapper whose debut The Documentary (2005) is widely considered one of the greatest West Coast albums ever made. Dr. Dre and 50 Cent co-signed his ascent; his high-profile G-Unit departure and ensuing beef with 50 became one of the defining storylines of mid-2000s rap politics. His encyclopedic hip-hop knowledge — namedropping legends across every bar — made him a living museum of the culture.",
       "metadata": {
-        "wikidataId": "Q395641",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/The_Game"
+        "wikidataId": null,
+        "wikipediaUrl": null
       },
       "weight": 1
     },
@@ -2127,8 +2127,8 @@
       "label": "Cash Money",
       "metadata": {
         "culturalImpact": "The youngest Hot Boy, Turk's raw New Orleans street energy was a key thread in Cash Money's early 2000s fabric.",
-        "wikidataId": "Q1563530",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Turk"
+        "wikidataId": null,
+        "wikipediaUrl": null
       },
       "bio": "Tab Virgil Jr. (born February 8, 1981) better known by his stage name Turk (sometimes \"Young Turk\" or \"Hot Boy Turk\" or \"CFOTAB\"), is an American rapper from New Orleans, Louisiana. He is best known for his late 1990s run at Birdman's Cash Money Records with the group the Hot Boys.",
       "weight": 2
@@ -2258,8 +2258,8 @@
       "role": "producer",
       "metadata": {
         "culturalImpact": "Co-founded LaFace Records and is one of the most decorated R&B songwriters and producers in history. His partnership with L.A. Reid built the infrastructure that housed Outkast and Goodie Mob.",
-        "wikidataId": "Q342115",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Babyface"
+        "wikidataId": null,
+        "wikipediaUrl": null
       },
       "bio": "Kenneth Brian Edmonds (born April 10, 1959), better known by his stage name Babyface, is an American singer, songwriter, and record producer. He has written and produced 26 number-one R&B hit songs and \nwon 13 Grammy Awards. He was ranked number 20 on NME's 50 of The Greatest Producers Ever list.",
       "weight": 8
