@@ -250,22 +250,21 @@ export default function Sidebar({
     setGeniusResults(null);
     setBioLoading(false);
 
-    // Only fetch Wikipedia bio if artist has stored metadata.wikipediaUrl
-    // Don't guess by name to avoid false positives
-    if (!artist.metadata?.wikipediaUrl) {
-      return;
+    // If artist has stored Wikipedia URL, fetch from API
+    if (artist.metadata?.wikipediaUrl) {
+      setBioLoading(true);
+      // Pass artist ID to use stored Wikipedia URL from graph.json
+      axios.get(`${apiUrl}/wiki-bio/${encodeURIComponent(artist.name)}?artistId=${encodeURIComponent(artist.id)}`)
+        .then(res => { setBio(res.data); setBioLoading(false); })
+        .catch(err => {
+          setBioError(err.response?.data?.error || 'No biography found');
+          setBioLoading(false);
+        });
+    } else if (artist.bio) {
+      // Show stored bio from graph.json when no Wikipedia URL
+      setBio({ about: artist.bio });
     }
-
-    setBioLoading(true);
-
-    // Pass artist ID to use stored Wikipedia URL from graph.json
-    axios.get(`${apiUrl}/wiki-bio/${encodeURIComponent(artist.name)}?artistId=${encodeURIComponent(artist.id)}`)
-      .then(res => { setBio(res.data); setBioLoading(false); })
-      .catch(err => {
-        setBioError(err.response?.data?.error || 'No biography found');
-        setBioLoading(false);
-      });
-  }, [artist.name, artist.id, artist.metadata?.wikipediaUrl, apiUrl]);
+  }, [artist.name, artist.id, artist.metadata?.wikipediaUrl, artist.bio, apiUrl]);
 
   // Get ALL connections (not filtered by year — year filter is visual only)
   const connections = graphData?.relationships?.filter(
