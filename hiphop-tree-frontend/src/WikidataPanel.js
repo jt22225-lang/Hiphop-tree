@@ -26,6 +26,10 @@ export default function WikidataPanel({ artist, graphData, apiUrl }) {
   const [open, setOpen]       = useState(false);
   const [fromCache, setFromCache] = useState(false);
 
+  // Only show Wikidata panel if artist has a stored Wikidata ID
+  // Don't guess by name to avoid false positives
+  const hasStoredWikidataId = !!artist.metadata?.wikidataId;
+
   // Cache key based on artist ID (indefinite storage, never expires)
   const getCacheKey = () => `wikidata_${artist.id}`;
 
@@ -158,6 +162,11 @@ export default function WikidataPanel({ artist, graphData, apiUrl }) {
         .flatMap(k => data[k] || [])
         .filter(v => !inGraph(v.name)).length
     : 0;
+
+  // If no stored Wikidata ID, hide the panel entirely
+  if (!hasStoredWikidataId) {
+    return null;
+  }
 
   return (
     <div className="wd-panel">
