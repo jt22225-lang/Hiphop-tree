@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 
 const https = require('https');
-const graphData = require('../graph.json');
+const path = require('path');
+const fs = require('fs');
+
+// Allow optional file path argument for testing
+const graphPath = process.argv[2] ? path.resolve(process.argv[2]) : path.join(__dirname, '../graph.json');
+const graphData = JSON.parse(fs.readFileSync(graphPath, 'utf-8'));
 
 function fetchJson(url) {
   return new Promise((resolve, reject) => {
@@ -140,9 +145,10 @@ async function auditWikipedia() {
         continue;
       }
 
-      // Check for disambiguation page
-      if (page.pageprops?.disambiguation) {
-        issues.push(`${artist.id} (${artist.name}): Page is disambiguation - URL: ${artist.metadata.wikipediaUrl}`);
+      // Check for disambiguation page on FINAL page (after redirects)
+      if ('disambiguation' in (page.pageprops || {})) {
+        issues.push(`${artist.id} (${artist.name}): disambiguation - final page: "${page.title}"`);
+        continue;
       }
 
       // Check for redirect
@@ -150,7 +156,7 @@ async function auditWikipedia() {
         issues.push(`${artist.id} (${artist.name}): Page redirects to "${page.redirect.to}" - URL: ${artist.metadata.wikipediaUrl}`);
       }
 
-      // Check wikibase_item mismatch
+      // Check wikibase_item mismatch (only if artist has a stored ID)
       const storedWikidataId = artist.metadata?.wikidataId;
       const actualWikidataId = page.pageprops?.wikibase_item;
 
