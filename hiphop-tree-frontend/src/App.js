@@ -190,7 +190,7 @@ export default function App() {
     const cacheTimestamp = localStorage.getItem('hiphoptree-cache-timestamp');
     const cacheVersion = localStorage.getItem('hiphoptree-cache-version');
     const cacheMaxAge = 24 * 60 * 60 * 1000; // 24 hours
-    const EXPECTED_CACHE_VERSION = '6'; // Bumped to invalidate cache, fixed 8 Wikidata IDs
+    const EXPECTED_CACHE_VERSION = '7'; // Bumped to invalidate cache, fixed Reason/asap-ferg/young-jeezy/khujo metadata
 
     if (
       cachedGraph &&
@@ -223,7 +223,7 @@ export default function App() {
         try {
           localStorage.setItem('hiphoptree-graph-cache', JSON.stringify(res.data));
           localStorage.setItem('hiphoptree-cache-timestamp', Date.now().toString());
-          localStorage.setItem('hiphoptree-cache-version', '6');
+          localStorage.setItem('hiphoptree-cache-version', '7');
         } catch (e) {
           console.warn('[Cache] Failed to cache graph:', e.message);
         }
