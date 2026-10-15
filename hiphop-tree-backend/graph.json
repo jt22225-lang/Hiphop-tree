@@ -1716,8 +1716,8 @@
       "label": "TDE",
       "bio": "Johnathan Kristopher Taylor — Carson, CA rapper signed to TDE in 2017. New Faces (2014) announced him; There You Have It (2019) delivered on the promise. A storyteller in the Kendrick mold — Carson-centric narratives, social conscience, and cinematic production sensibilities. Often called TDE's most underrated voice.",
       "metadata": {
-        "wikidataId": "Q1753577",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Reason_(rapper)"
+        "wikidataId": null,
+        "wikipediaUrl": null
       },
       "weight": 1
     },
@@ -2591,8 +2591,8 @@
       "role": "rapper",
       "weight": 4,
       "metadata": {
-        "wikidataId": "Q15975596",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/A$AP_Ferg"
+        "wikidataId": "Q15648254",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/ASAP_Ferg"
       },
       "bio": "Darold Ferguson Jr. (born October 20, 1988), known as A$AP Ferg, is a Harlem rapper and co-founder of A$AP Mob. His debut Trap Lord (2013) introduced a harder, more industrial sound to the Mob's atmospheric template — raw Harlem aggression over chest-rattling beats. 'Plain Jane' (2017) became his biggest solo hit and confirmed his standing as the Mob's most commercially consistent member after A$AP Rocky. His relationship with A$AP Yams was foundational to the Mob's aesthetic before Yams' death in 2015."
     },
@@ -2734,8 +2734,8 @@
       "role": "rapper",
       "weight": 5,
       "metadata": {
-        "wikidataId": "Q183503",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Young_Jeezy"
+        "wikidataId": "Q342447",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Jeezy"
       },
       "bio": "Jay Wayne Jenkins (born September 28, 1977), known as Young Jeezy or Jeezy, is an Atlanta rapper whose gravelly baritone and trap-narrative lyrics on Let's Get It: Thug Motivation 101 (2005) made him one of the architects of mainstream trap music. His high-profile rivalry with Gucci Mane defined Atlanta's mid-2000s rap politics, while his collaboration with Jay-Z on 'Go Crazy' (2005) announced him as a national crossover force. He founded CTE World and has mentored a generation of Atlanta artists."
     },
@@ -2812,8 +2812,8 @@
       "region": "Atlanta",
       "label": "Dungeon Family",
       "metadata": {
-        "wikidataId": "Q6398424",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Khujo_Goodie"
+        "wikidataId": "Q6402888",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Khujo"
       },
       "bio": "Willie Knighton Jr., known as Khujo Goodie, is an American rapper and member of Goodie Mob and the Dungeon Family from Atlanta. Known for his gravelly delivery on Goodie Mob classics including 'Cell Therapy' (1995).",
       "weight": 2
