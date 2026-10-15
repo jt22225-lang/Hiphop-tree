@@ -248,6 +248,14 @@ export default function Sidebar({
     setBioError(null);
     setExpanded(false);
     setGeniusResults(null);
+    setBioLoading(false);
+
+    // Only fetch Wikipedia bio if artist has stored metadata.wikipediaUrl
+    // Don't guess by name to avoid false positives
+    if (!artist.metadata?.wikipediaUrl) {
+      return;
+    }
+
     setBioLoading(true);
 
     // Pass artist ID to use stored Wikipedia URL from graph.json
@@ -257,7 +265,7 @@ export default function Sidebar({
         setBioError(err.response?.data?.error || 'No biography found');
         setBioLoading(false);
       });
-  }, [artist.name, artist.id, apiUrl]);
+  }, [artist.name, artist.id, artist.metadata?.wikipediaUrl, apiUrl]);
 
   // Get ALL connections (not filtered by year — year filter is visual only)
   const connections = graphData?.relationships?.filter(
