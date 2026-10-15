@@ -30,16 +30,35 @@ export default function WikidataPanel({ artist, graphData, apiUrl }) {
   // Don't guess by name to avoid false positives
   const hasStoredWikidataId = !!artist.metadata?.wikidataId;
 
-  // Cache key based on artist ID (indefinite storage, never expires)
-  const getCacheKey = () => `wikidata_${artist.id}`;
+  // Cache key includes wikidataId to invalidate when ID changes
+  const getCacheKey = () => {
+    const wikidataId = artist.metadata?.wikidataId || 'none';
+    return `wikidata_${artist.id}_${wikidataId}`;
+  };
 
-  // Load from localStorage cache
+  // Load from localStorage cache with expiry check
   const getCachedData = () => {
     try {
+      // Clean up legacy keys without wikidataId suffix (old format: wikidata_<id>, new format: wikidata_<id>_Q...)
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('wikidata_') && !key.includes('_Q')) {
+          // Legacy key without Q-number suffix - remove it
+          localStorage.removeItem(key);
+        }
+      }
+
       const cached = localStorage.getItem(getCacheKey());
       if (cached) {
-        console.log(`[WIKIDATA] Cache hit for ${artist.name} (${artist.id})`);
-        return JSON.parse(cached);
+        const parsed = JSON.parse(cached);
+        // Check expiry (30 days = 2592000000 ms)
+        if (parsed.timestamp && Date.now() - parsed.timestamp < 30 * 24 * 60 * 60 * 1000) {
+          console.log(`[WIKIDATA] Cache hit for ${artist.name} (${artist.id})`);
+          return parsed.data;
+        } else {
+          localStorage.removeItem(getCacheKey());
+          console.log(`[WIKIDATA] Cache expired for ${artist.name} (${artist.id})`);
+        }
       }
     } catch (e) {
       console.warn('[WIKIDATA] Cache read failed:', e.message);
@@ -47,11 +66,15 @@ export default function WikidataPanel({ artist, graphData, apiUrl }) {
     return null;
   };
 
-  // Save to localStorage cache (no expiration - indefinite storage)
+  // Save to localStorage cache with 30-day expiry
   const setCacheData = (dataToCache) => {
     try {
-      localStorage.setItem(getCacheKey(), JSON.stringify(dataToCache));
-      console.log(`[WIKIDATA] Cached data for ${artist.name} (${artist.id})`);
+      const cacheWithExpiry = {
+        data: dataToCache,
+        timestamp: Date.now()
+      };
+      localStorage.setItem(getCacheKey(), JSON.stringify(cacheWithExpiry));
+      console.log(`[WIKIDATA] Cached data for ${artist.name} (${artist.id}), expires in 30 days`);
     } catch (e) {
       console.warn('[WIKIDATA] Cache write failed:', e.message);
     }
