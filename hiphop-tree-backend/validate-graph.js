@@ -3,7 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const graphPath = path.join(__dirname, 'graph.json');
+// Allow optional file path argument for testing
+const graphPath = process.argv[2] ? path.resolve(process.argv[2]) : path.join(__dirname, 'graph.json');
 let graphData = null;
 const errors = [];
 const warnings = [];
@@ -162,13 +163,21 @@ if (artistsWithZeroRelationships.length > 0) {
   warnings.push(`${artistsWithZeroRelationships.length} artists with zero relationships: ${artistsWithZeroRelationships.slice(0, 10).join(', ')}${artistsWithZeroRelationships.length > 10 ? '...' : ''}`);
 }
 
-// 5b. Artists with null wikipediaUrl
+// 5b. Artists with null/missing metadata.wikipediaUrl or metadata.wikidataId
 const artistsWithoutWiki = graphData.artists
-  .filter(a => a.wikipediaUrl === null || a.wikipediaUrl === undefined)
+  .filter(a => !a.metadata?.wikipediaUrl)
+  .map(a => a.id);
+
+const artistsWithoutWikidata = graphData.artists
+  .filter(a => !a.metadata?.wikidataId)
   .map(a => a.id);
 
 if (artistsWithoutWiki.length > 0) {
-  warnings.push(`${artistsWithoutWiki.length} artists with no wikipediaUrl`);
+  warnings.push(`${artistsWithoutWiki.length} artists with no metadata.wikipediaUrl`);
+}
+
+if (artistsWithoutWikidata.length > 0) {
+  warnings.push(`${artistsWithoutWikidata.length} artists with no metadata.wikidataId`);
 }
 
 function printResults() {
