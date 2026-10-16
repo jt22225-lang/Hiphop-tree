@@ -163,10 +163,48 @@ async function auditWikipedia() {
       if (storedWikidataId && actualWikidataId && storedWikidataId !== actualWikidataId) {
         issues.push(`${artist.id} (${artist.name}): Wikidata ID mismatch - stored: ${storedWikidataId}, actual: ${actualWikidataId}`);
       }
+
+      if (storedWikidataId && !actualWikidataId) {
+        issues.push(`${artist.id} (${artist.name}): stored wikidataId ${storedWikidataId} but Wikipedia page has no wikibase_item`);
+      }
     }
 
     // Small delay between batches to avoid rate limiting
     if (i + 50 < artistsWithWiki.length) {
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+  }
+
+  const artistsWithWikidata = graphData.artists.filter(a => a.metadata?.wikidataId);
+  const DESCRIPTION_KEYWORDS = /\b(rapper|singer|musician|producer|DJ|group|duo|label|record|executive|songwriter|band|collective)s?\b/i;
+
+  for (let i = 0; i < artistsWithWikidata.length; i += 50) {
+    const batch = artistsWithWikidata.slice(i, i + 50);
+    const ids = batch.map(a => a.metadata.wikidataId).join('|');
+    const url = `https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${ids}&props=labels|descriptions&languages=en&format=json`;
+    const data = await fetchJson(url);
+
+    if (!data?.entities) {
+      issues.push(`Wikidata wbgetentities failed for batch starting at ${batch[0].id}`);
+      continue;
+    }
+
+    for (const artist of batch) {
+      const id = artist.metadata.wikidataId;
+      const entity = data.entities[id];
+
+      if (!entity || entity.missing !== undefined) {
+        issues.push(`${artist.id} (${artist.name}): wikidataId ${id} does not exist on Wikidata`);
+        continue;
+      }
+
+      const description = entity.descriptions?.en?.value || '';
+      if (!DESCRIPTION_KEYWORDS.test(description)) {
+        issues.push(`${artist.id} (${artist.name}): wikidataId ${id} ("${entity.labels?.en?.value || 'no label'}") description has no music keyword: "${description || 'none'}"`);
+      }
+    }
+
+    if (i + 50 < artistsWithWikidata.length) {
       await new Promise(resolve => setTimeout(resolve, 500));
     }
   }
