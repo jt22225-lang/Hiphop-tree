@@ -2,8 +2,8 @@
 
 An interactive knowledge graph explorer that visualizes relationships between hip-hop artists across generations and regions.
 
-**Live Demo**: Coming soon to Vercel + Render  
-**MVP Status**: ✅ Fully functional prototype (1990-2010 East/West Coast, 20 core artists, 14 relationships)
+**Live Demo**: hiphoptree.com (frontend on Vercel, backend on Render)  
+**MVP Status**: ✅ Fully functional prototype (237 artists, 567 relationships in graph.json)
 
 ---
 
@@ -215,7 +215,8 @@ Users can export/order a personalized A3 poster of their explored graph for ~£1
 ### Tools to Use
 - **Genius API** – Featured artist credits
 - **MusicBrainz API** – Relationships, producer info
-- **Spotify API** – Metadata, images
+- **iTunes** – Track preview IDs and preview URLs, stored per track in `graph.json`
+- **Spotify** – Optional scripts only (`fetch-spotify-images.js`, `fetch-previews.js`); the app links to Spotify search and does not call its API
 - **Wikipedia** – Historical context, family connections
 
 ### Suggested Initial Focus (Fastest to Curate)
