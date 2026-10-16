@@ -215,7 +215,7 @@ Users can export/order a personalized A3 poster of their explored graph for ~£1
 ### Tools to Use
 - **Genius API** – Featured artist credits
 - **MusicBrainz API** – Relationships, producer info
-- **iTunes** – Track preview IDs and preview URLs, stored per track in `graph.json`
+- **iTunes Search API** – Finds preview tracks via `scripts/fetch-audio.js` and `scripts/fetch-audio-targeted.js`; results are stored per track in `graph.json`, and the app plays the stored URLs
 - **Spotify** – Optional scripts only (`fetch-spotify-images.js`, `fetch-previews.js`); the app links to Spotify search and does not call its API
 - **Wikipedia** – Historical context, family connections
 
