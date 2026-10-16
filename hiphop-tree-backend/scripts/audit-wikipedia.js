@@ -118,7 +118,7 @@ async function auditWikipedia() {
       let page = null;
 
       for (const p of Object.values(pages)) {
-        if (p.title === actualTitle && !p.missing) {
+        if (p.title === actualTitle) {
           page = p;
           break;
         }
@@ -140,7 +140,7 @@ async function auditWikipedia() {
       }
 
       // Check for missing page
-      if (page.missing) {
+      if ('missing' in page) {
         issues.push(`${artist.id} (${artist.name}): Wikipedia page missing - URL: ${artist.metadata.wikipediaUrl}`);
         continue;
       }
@@ -177,8 +177,13 @@ async function auditWikipedia() {
 
   const artistsWithWikidata = graphData.artists.filter(a => a.metadata?.wikidataId);
   const DESCRIPTION_KEYWORDS = /\b(rapper|singer|musician|producer|DJ|group|duo|label|record|executive|songwriter|band|collective|recording artist|hip[- ]hop|musical artist|production team)s?\b/i;
-  // Reviewed: Cash Money co-founder whose Wikidata description says "businessman"
-  const REVIEWED_DESCRIPTION_EXCEPTIONS = new Set(['slim-williams']);
+  // Reviewed: slim-williams is a Cash Money co-founder whose description says "businessman";
+  // the rest are group or label nodes whose descriptions are correct
+  const REVIEWED_DESCRIPTION_EXCEPTIONS = new Set([
+    'slim-williams',
+    'wu-tang-clan', 'flatbush-zombies', 'public-enemy', 'beastie-boys', 'goodie-mob',
+    'roc-a-fella', 'suicideboys', 'griselda', 'nwa', 'cypress-hill',
+  ]);
   const ORGANISATION_DESCRIPTION = /record label|company|group/i;
 
   for (let i = 0; i < artistsWithWikidata.length; i += 50) {
@@ -202,7 +207,7 @@ async function auditWikipedia() {
       }
 
       const description = entity.descriptions?.en?.value || '';
-      if (ORGANISATION_DESCRIPTION.test(description)) {
+      if (ORGANISATION_DESCRIPTION.test(description) && !REVIEWED_DESCRIPTION_EXCEPTIONS.has(artist.id)) {
         issues.push(`${artist.id} (${artist.name}, role ${artist.role || 'none'}): wikidataId ${id} describes an organisation - review: "${description}"`);
       }
       if (!DESCRIPTION_KEYWORDS.test(description) && !REVIEWED_DESCRIPTION_EXCEPTIONS.has(artist.id)) {
