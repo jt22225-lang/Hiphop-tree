@@ -190,7 +190,7 @@ export default function App() {
     const cacheTimestamp = localStorage.getItem('hiphoptree-cache-timestamp');
     const cacheVersion = localStorage.getItem('hiphoptree-cache-version');
     const cacheMaxAge = 24 * 60 * 60 * 1000; // 24 hours
-    const EXPECTED_CACHE_VERSION = '12'; // Bumped to invalidate cache, fixed 9 disambiguation artists with correct URLs and IDs
+    const EXPECTED_CACHE_VERSION = '13'; // Bumped to invalidate cache, fixed 9 disambiguation artists with correct URLs and IDs
 
     if (
       cachedGraph &&
@@ -223,7 +223,7 @@ export default function App() {
         try {
           localStorage.setItem('hiphoptree-graph-cache', JSON.stringify(res.data));
           localStorage.setItem('hiphoptree-cache-timestamp', Date.now().toString());
-          localStorage.setItem('hiphoptree-cache-version', '12');
+          localStorage.setItem('hiphoptree-cache-version', '13');
         } catch (e) {
           console.warn('[Cache] Failed to cache graph:', e.message);
         }
