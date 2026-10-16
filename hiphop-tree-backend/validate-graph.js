@@ -121,6 +121,29 @@ if (invalidRelationships.length > 0) {
   console.log('✓ All relationship references valid');
 }
 
+// 4b. Relationship types must be an allowed value; subtypes used only once are flagged
+const ALLOWED_RELATIONSHIP_TYPES = ['collaborative', 'mentorship', 'collective', 'familial'];
+const invalidRelationshipTypes = graphData.relationships
+  .filter(rel => !ALLOWED_RELATIONSHIP_TYPES.includes(rel.type))
+  .map(rel => `${rel.id}: type "${rel.type}" not in [${ALLOWED_RELATIONSHIP_TYPES.join(', ')}]`);
+
+if (invalidRelationshipTypes.length > 0) {
+  errors.push(`Invalid relationship types:\n  ${invalidRelationshipTypes.join('\n  ')}`);
+} else {
+  console.log('✓ All relationship types allowed');
+}
+
+const subtypeCounts = new Map();
+graphData.relationships.forEach(rel => {
+  if (rel.subtype) subtypeCounts.set(rel.subtype, (subtypeCounts.get(rel.subtype) || 0) + 1);
+});
+subtypeCounts.forEach((count, subtype) => {
+  if (count === 1) {
+    const rel = graphData.relationships.find(r => r.subtype === subtype);
+    warnings.push(`Subtype "${subtype}" is used only once (${rel.id}, type ${rel.type}) - check it is intended`);
+  }
+});
+
 // 5. Validate collectives
 const invalidCollectiveMembers = [];
 
