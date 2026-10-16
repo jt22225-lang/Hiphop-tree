@@ -126,7 +126,15 @@ app.get('/api/verify/genius', async (req, res) => {
 // Runs the full Wikipedia → Wikidata resolution chain per artist, caches
 // results in artist-images-cache.json and Supabase artist_images table.
 // Returns { results: { [id]: url|null }, missing: [...], found: N }
-app.post('/api/cache-artist-images', async (req, res) => {
+const requireAdminSecret = (req, res, next) => {
+  const secret = process.env.ADMIN_SECRET;
+  if (!secret || req.get('x-admin-secret') !== secret) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  next();
+};
+
+app.post('/api/cache-artist-images', requireAdminSecret, async (req, res) => {
   const ids = Array.isArray(req.body?.ids)
     ? req.body.ids
     : graphData.artists.map(a => a.id);
