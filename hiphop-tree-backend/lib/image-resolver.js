@@ -62,36 +62,21 @@ async function fetchP18Image(wikidataId) {
   return `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(filename.replace(/ /g, '_'))}?width=300`;
 }
 
-function nameVariants(name) {
-  const variants = [name];
-  const stripped = name.replace(/\$/g, 's').replace(/[^\w\s'.-]/g, '').trim();
-  if (stripped !== name) variants.push(stripped);
-  variants.push(`${name} (rapper)`);
-  variants.push(`${name} (hip hop musician)`);
-  return [...new Set(variants)];
-}
+// Resolves only from the artist's stored identity: never guesses by name.
+async function fetchWikiImage({ name, wikipediaUrl = null, wikidataId = null }) {
+  if (!wikipediaUrl) {
+    console.log(`[IMG] – "${name}" has no stored article; no image`);
+    return null;
+  }
+  const title = decodeURIComponent(wikipediaUrl.split('/wiki/')[1] || '');
+  if (!title) return null;
 
-async function fetchGoogleImage(name) {
-  const apiKey = process.env.GOOGLE_CUSTOM_SEARCH_API_KEY;
-  const cx     = process.env.GOOGLE_SEARCH_ENGINE_ID;
-  if (!apiKey || !cx) return null;
-  const res = await httpGet('https://www.googleapis.com/customsearch/v1', {
-    params: { key: apiKey, cx, q: `${name} rapper`, searchType: 'image', num: 1, safe: 'active', imgType: 'face', imgSize: 'medium' },
-  });
-  return res?.data?.items?.[0]?.link || null;
-}
-
-async function fetchWikiImage(name, wikidataId = null) {
-  // Strategy 1 & 2: Wikipedia with name variants
-  for (const variant of nameVariants(name)) {
-    const img = await fetchWikiImageByTitle(variant);
-    if (img) {
-      console.log(`[IMG] ✅ "${name}" via Wikipedia ("${variant}")`);
-      return img;
-    }
+  const thumb = await fetchWikiImageByTitle(title);
+  if (thumb) {
+    console.log(`[IMG] ✅ "${name}" via stored article ("${title}")`);
+    return thumb;
   }
 
-  // Strategy 3: Wikidata P18 via known QID
   if (wikidataId) {
     const img = await fetchP18Image(wikidataId);
     if (img) {
@@ -100,27 +85,8 @@ async function fetchWikiImage(name, wikidataId = null) {
     }
   }
 
-  // Strategy 4: Wikidata entity search → P18
-  const searchRes = await httpGet('https://www.wikidata.org/w/api.php', {
-    params: { action: 'wbsearchentities', search: name, language: 'en', format: 'json', limit: 3, type: 'item' },
-  });
-  for (const result of (searchRes?.data?.search || []).slice(0, 2)) {
-    const img = await fetchP18Image(result.id);
-    if (img) {
-      console.log(`[IMG] ✅ "${name}" via Wikidata search → P18 (${result.id})`);
-      return img;
-    }
-  }
-
-  // Strategy 5: Google Custom Search
-  const googleImg = await fetchGoogleImage(name);
-  if (googleImg) {
-    console.log(`[IMG] ✅ "${name}" via Google Custom Search`);
-    return googleImg;
-  }
-
-  console.log(`[IMG] ❌ No image found for "${name}"`);
+  console.log(`[IMG] ❌ No image for "${name}"`);
   return null;
 }
 
-module.exports = { fetchWikiImage, fetchGoogleImage, UpstreamError };
+module.exports = { fetchWikiImage, UpstreamError };

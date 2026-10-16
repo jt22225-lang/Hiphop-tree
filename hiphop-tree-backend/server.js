@@ -9,6 +9,16 @@ const { fetchWikiImage } = require('./lib/image-resolver');
 const { fetchAndCacheArtistImages, getLocalCache } = require('./artist-image-fetcher');
 const { dijkstra } = require('./algorithms/dijkstra');
 
+function identityFor(id, name) {
+  const artist = (id && graphData.artists.find(a => a.id === id))
+    || graphData.artists.find(a => a.name.toLowerCase() === String(name).toLowerCase());
+  return {
+    name,
+    wikipediaUrl: artist?.metadata?.wikipediaUrl || null,
+    wikidataId: artist?.metadata?.wikidataId || null,
+  };
+}
+
 const app = express();
 const PORT = process.env.PORT || 5001;
 
@@ -155,7 +165,7 @@ app.get('/api/wiki-image/:name', async (req, res) => {
       console.log(`[WIKI] ♻️  Stale cache for "${name}" — refreshing in background`);
       setImmediate(async () => {
         try {
-          const img = await fetchWikiImage(name);
+          const img = await fetchWikiImage(identityFor(null, name));
           if (img) await setCached(nameKey, name, { image_url: img });
         } catch (e) { console.warn('[WIKI] Background refresh failed:', e.message); }
       });
@@ -167,7 +177,7 @@ app.get('/api/wiki-image/:name', async (req, res) => {
 
   // 2. Cache miss — fetch live, save, respond
   try {
-    const img = await fetchWikiImage(name);
+    const img = await fetchWikiImage(identityFor(null, name));
     if (!img) {
       console.log(`[WIKI] No thumbnail for: ${name}`);
       return res.status(404).json({ error: 'No image found on Wikipedia' });
@@ -223,7 +233,7 @@ app.post('/api/wiki-image-batch', async (req, res) => {
       const slice = uncached.slice(i, i + CONCURRENCY);
       await Promise.all(slice.map(async ({ id, name }) => {
         try {
-          const img = await fetchWikiImage(name, null);
+          const img = await fetchWikiImage(identityFor(id, name));
           if (img) {
             results[id] = img;
             // Cache asynchronously without blocking
@@ -267,7 +277,7 @@ app.post('/api/artist-images', async (req, res) => {
     }
 
     try {
-      const img = await fetchWikiImage(artist.name, artist.metadata?.wikidataId || null);
+      const img = await fetchWikiImage(identityFor(id, artist.name));
       images[id] = img || null;
       if (img) setImmediate(() => setCached(nameKey, artist.name, { image_url: img }));
     } catch (e) {

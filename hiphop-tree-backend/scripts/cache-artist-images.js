@@ -26,7 +26,11 @@ async function processArtist(artist) {
     return 'cached';
   }
 
-  const img = await fetchWikiImage(artist.name, artist.metadata?.wikidataId || null);
+  const img = await fetchWikiImage({
+    name: artist.name,
+    wikipediaUrl: artist.metadata?.wikipediaUrl || null,
+    wikidataId: artist.metadata?.wikidataId || null,
+  });
 
   if (img) {
     await setCached(nameKey, artist.name, { image_url: img });
