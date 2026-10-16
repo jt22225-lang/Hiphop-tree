@@ -179,7 +179,6 @@ async function auditWikipedia() {
   const DESCRIPTION_KEYWORDS = /\b(rapper|singer|musician|producer|DJ|group|duo|label|record|executive|songwriter|band|collective|recording artist|hip[- ]hop|musical artist|production team)s?\b/i;
   // Reviewed: Cash Money co-founder whose Wikidata description says "businessman"
   const REVIEWED_DESCRIPTION_EXCEPTIONS = new Set(['slim-williams']);
-  const PERSON_ROLES = new Set(['rapper', 'producer', 'executive']);
   const ORGANISATION_DESCRIPTION = /record label|company|group/i;
 
   for (let i = 0; i < artistsWithWikidata.length; i += 50) {
@@ -203,8 +202,8 @@ async function auditWikipedia() {
       }
 
       const description = entity.descriptions?.en?.value || '';
-      if (PERSON_ROLES.has(artist.role) && ORGANISATION_DESCRIPTION.test(description)) {
-        issues.push(`${artist.id} (${artist.name}, role ${artist.role}): wikidataId ${id} describes an organisation: "${description}"`);
+      if (ORGANISATION_DESCRIPTION.test(description)) {
+        issues.push(`${artist.id} (${artist.name}, role ${artist.role || 'none'}): wikidataId ${id} describes an organisation - review: "${description}"`);
       }
       if (!DESCRIPTION_KEYWORDS.test(description) && !REVIEWED_DESCRIPTION_EXCEPTIONS.has(artist.id)) {
         issues.push(`${artist.id} (${artist.name}): wikidataId ${id} ("${entity.labels?.en?.value || 'no label'}") description has no music keyword: "${description || 'none'}"`);
