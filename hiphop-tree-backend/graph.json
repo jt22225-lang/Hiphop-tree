@@ -1792,8 +1792,8 @@
       "label": "Dreamville / Interscope",
       "bio": "Lute Howze — Charlotte, NC rapper signed to Dreamville in 2017. West 1996 (2016) introduced his blend of Southern rap geography and introspective pen; Gold Mouf (2021) delivered on every promise. Represents Dreamville's deep roots in the Carolinas alongside J. Cole himself, carrying the region's tradition of observational, life-as-text lyricism.",
       "metadata": {
-        "wikidataId": "Q180733",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Lute"
+        "wikidataId": "Q25189204",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Lute_(rapper)"
       },
       "weight": 1
     },
@@ -1897,8 +1897,8 @@
       "role": "producer",
       "bio": "Benjamin Giordano — Buffalo-born producer and the sonic architect of Griselda's in-house sound. His stripped-down, crate-dug aesthetic — minimal drums, dusty loops, maximum claustrophobia — is the foundation on which Westside Gunn's baroque world was built. Every Griselda core release features his fingerprints. His approach is the anti-trend: deliberately lo-fi, historically rooted in 1990s East Coast boom-bap, and entirely unconcerned with mainstream palatability.",
       "metadata": {
-        "wikidataId": "Q477207",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Derringer"
+        "wikidataId": "Q109229041",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Daringer_(producer)"
       },
       "weight": 8
     },
@@ -2343,8 +2343,8 @@
       "role": "producer",
       "metadata": {
         "culturalImpact": "Co-founder of Organized Noize and the Dungeon Family collective. Produced Outkast's debut 'Southernplayalisticadillacmuzik' (1994) and Goodie Mob's 'Soul Food' (1995) — the two records that invented the Atlanta sound.",
-        "wikidataId": "Q1636188",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Organized_Noize"
+        "wikidataId": null,
+        "wikipediaUrl": null
       },
       "bio": "Organized Noize is an American production duo from Atlanta, Georgia, currently composed of Ray Murray and Sleepy Brown. Initially a trio, the team included Dungeon Family co-founder Rico Wade until his death in 2024.",
       "weight": 8
@@ -2526,7 +2526,7 @@
       "role": "rapper",
       "weight": 2,
       "metadata": {
-        "wikidataId": "Q130211447",
+        "wikidataId": null,
         "wikipediaUrl": "https://en.wikipedia.org/wiki/Ray_Vaughn"
       },
       "bio": "Reuben Lawson, known as Ray Vaughn, is an Inglewood, California rapper signed to Top Dawg Entertainment. His debut TDE project On My Way (2022) introduced an urgent, percussive delivery that drew comparisons to early Kendrick Lamar and Isaiah Rashad. As one of TDE's newest wave of signings, he represents the label's continued investment in West Coast lyrical rap."
@@ -2825,8 +2825,8 @@
       "region": "Atlanta",
       "label": "Dungeon Family",
       "metadata": {
-        "wikidataId": "Q7671419",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/T-Mo_Goodie"
+        "wikidataId": "Q9081183",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/T-Mo"
       },
       "bio": "Robert Barnett, known as T-Mo Goodie, is an American rapper and member of Goodie Mob and the Dungeon Family from Atlanta. He contributed to Goodie Mob's debut Soul Food (1995) and has collaborated widely within the Dungeon Family network.",
       "weight": 2
@@ -2852,8 +2852,8 @@
       "region": "Florida",
       "metadata": {
         "culturalImpact": "Florida SoundCloud collective co-founded by XXXTentacion. Ground zero for the raw, lo-fi aesthetic that redefined hip-hop underground online.",
-        "wikidataId": "Q21507014",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/Members_Only_(collective)"
+        "wikidataId": "Q55641045",
+        "wikipediaUrl": "https://en.wikipedia.org/wiki/Members_Only_(hip-hop_collective)"
       },
       "bio": "Members Only is a hip-hop collective founded in Pompano Beach, Florida by XXXTentacion. The group, which also included Ski Mask the Slump God and other Florida artists, became central to the SoundCloud rap movement of the mid-2010s.",
       "weight": 4
@@ -2865,8 +2865,8 @@
       "region": "New Orleans",
       "metadata": {
         "culturalImpact": "Record label co-founded by Ruby da Cherry and $crim of $uicideboy$. The dark aesthetic of G59 defined underground SoundCloud rap's most nihilistic corridor.",
-        "wikidataId": "Q56280165",
-        "wikipediaUrl": "https://en.wikipedia.org/wiki/G59_Records"
+        "wikidataId": null,
+        "wikipediaUrl": null
       },
       "bio": "G59 Records is an American record label founded by $uicideboy$ (Ruby da Cherry and $crim) in New Orleans. Known for their dark, lo-fi production and raw lyricism, G59 artists helped define underground SoundCloud rap.",
       "weight": 4
