@@ -204,6 +204,7 @@ app.post('/api/wiki-image-batch', async (req, res) => {
 
   const cacheResults = await Promise.all(cacheCheckPromises);
   const uncached = [];
+  const errors = [];
 
   // Step 2: Separate cached from uncached (in-memory operation, O(n))
   cacheResults.forEach(({ id, name, cached }) => {
@@ -216,8 +217,8 @@ app.post('/api/wiki-image-batch', async (req, res) => {
 
   // Step 3: Only fetch uncached artists (reduce API load by 60-80%)
   if (uncached.length > 0) {
-    // Higher concurrency safe since we're only fetching uncached (fewer total requests)
-    const CONCURRENCY = 8;
+    // Wikipedia and Wikidata answer 429 above low concurrency
+    const CONCURRENCY = 2;
     for (let i = 0; i < uncached.length; i += CONCURRENCY) {
       const slice = uncached.slice(i, i + CONCURRENCY);
       await Promise.all(slice.map(async ({ id, name }) => {
@@ -231,16 +232,16 @@ app.post('/api/wiki-image-batch', async (req, res) => {
             );
           }
         } catch (e) {
-          console.warn(`[BATCH] Image fetch failed for "${name}":`, e.message);
+          console.warn(`[BATCH] Upstream error for "${name}":`, e.message);
+          errors.push(id);
         }
       }));
-      // No pause needed: concurrency limit (8) naturally throttles Wikipedia API
     }
   }
 
   const resolveCount = Object.keys(results).length;
-  console.log(`[BATCH] Resolved ${resolveCount}/${artists.length} images (${uncached.length} fetched, ${resolveCount - uncached.length} from cache)`);
-  res.json({ results, count: resolveCount });
+  console.log(`[BATCH] Resolved ${resolveCount}/${artists.length} images (${uncached.length} fetched, ${resolveCount - uncached.length} from cache, ${errors.length} upstream errors)`);
+  res.json({ results, count: resolveCount, errors });
 });
 
 // ── POST /api/artist-images ─────────────────────────────────
