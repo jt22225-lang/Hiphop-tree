@@ -176,7 +176,9 @@ async function auditWikipedia() {
   }
 
   const artistsWithWikidata = graphData.artists.filter(a => a.metadata?.wikidataId);
-  const DESCRIPTION_KEYWORDS = /\b(rapper|singer|musician|producer|DJ|group|duo|label|record|executive|songwriter|band|collective)s?\b/i;
+  const DESCRIPTION_KEYWORDS = /\b(rapper|singer|musician|producer|DJ|group|duo|label|record|executive|songwriter|band|collective|recording artist|hip[- ]hop|musical artist|production team)s?\b/i;
+  // Reviewed: Cash Money co-founder whose Wikidata description says "businessman"
+  const REVIEWED_DESCRIPTION_EXCEPTIONS = new Set(['slim-williams']);
 
   for (let i = 0; i < artistsWithWikidata.length; i += 50) {
     const batch = artistsWithWikidata.slice(i, i + 50);
@@ -199,7 +201,7 @@ async function auditWikipedia() {
       }
 
       const description = entity.descriptions?.en?.value || '';
-      if (!DESCRIPTION_KEYWORDS.test(description)) {
+      if (!DESCRIPTION_KEYWORDS.test(description) && !REVIEWED_DESCRIPTION_EXCEPTIONS.has(artist.id)) {
         issues.push(`${artist.id} (${artist.name}): wikidataId ${id} ("${entity.labels?.en?.value || 'no label'}") description has no music keyword: "${description || 'none'}"`);
       }
     }
