@@ -2,7 +2,7 @@
 
 An interactive knowledge graph explorer that visualizes relationships between hip-hop artists across generations and regions.
 
-**Live Demo**: Coming soon to Vercel + Railway  
+**Live Demo**: Coming soon to Vercel + Render  
 **MVP Status**: ✅ Fully functional prototype (1990-2010 East/West Coast, 20 core artists, 14 relationships)
 
 ---
@@ -36,7 +36,7 @@ This is a **general explorer** for anyone curious about hip-hop history. Explore
 ### Backend
 - **Node.js / Express** – REST API
 - **Genius API** – Artist data + verification
-- **Railway** – Deployment
+- **Render** – Deployment
 
 ### Data
 - **JSON** (graph.json) – Artist/relationship data
@@ -246,10 +246,10 @@ vercel deploy
 # Set env var: REACT_APP_API_URL=https://your-backend.com/api
 ```
 
-### Backend (Railway)
+### Backend (Render)
 ```bash
 cd hiphop-tree-backend
-railway deploy
+# Create a Web Service on Render pointing at this repo (root: hiphop-tree-backend); it auto-deploys on push to main
 # Add env vars:
 # GENIUS_API_KEY=...
 # NODE_ENV=production

@@ -120,10 +120,10 @@ const queryGenius = async (artist) => {
 ### **Week 4: Polish & Deploy**
 Once you've got 200+ verified relationships:
 
-1. **Deploy Backend to Railway**
+1. **Deploy Backend to Render**
    ```bash
    cd hiphop-tree-backend
-   vercel deploy  # (or railway deploy)
+   # Render auto-deploys the backend on push to main
    ```
 
 2. **Deploy Frontend to Vercel**
@@ -305,7 +305,7 @@ By building this, you're naturally learning:
 - **Data modeling** – How to structure complex relationships
 - **APIs** – Genius, Spotify, MusicBrainz
 - **Graph visualization** – Cytoscape patterns
-- **Web deployment** – Vercel + Railway (same as MockMate)
+- **Web deployment** – Vercel + Render (same as MockMate)
 - **Product thinking** – What features matter, what to cut
 
 This is *exactly* the portfolio work that impresses AI/tech companies.
